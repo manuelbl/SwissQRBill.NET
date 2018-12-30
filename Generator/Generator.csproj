@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <AssemblyName>Codecrete.SwissQRBill.Generator</AssemblyName>
+    <RootNamespace>Codecrete.SwissQRBill.Generator</RootNamespace>
+    <Authors>Manuel Bleichenbacher</Authors>
+    <Company>Codecrete</Company>
+    <Product>Swiss QR Bill</Product>
+    <Copyright>(c) Manuel Bleichenbacher</Copyright>
+    <PackageLicenseUrl>https://opensource.org/licenses/MIT</PackageLicenseUrl>
+  </PropertyGroup>
+
+</Project>
