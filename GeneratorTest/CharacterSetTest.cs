@@ -12,14 +12,14 @@ namespace Codecrete.SwissQRBill.GeneratorTest
 {
     public class CharacterSetTest : BillDataValidationBase
     {
-        private static readonly string TEXT_WITHOUT_COMBINING_ACCENTS = "àáâäçèéêëìíîïñòóôöùúûüýßÀÁÂÄÇÈÉÊËÌÍÎÏÒÓÔÖÙÚÛÜÑ";
-        private static readonly string TEXT_WITH_COMBINING_ACCENTS = "àáâäçèéêëìíîïñòóôöùúûüýßÀÁÂÄÇÈÉÊËÌÍÎÏÒÓÔÖÙÚÛÜÑ";
+        private static readonly string TextWithoutCombiningAccents = "àáâäçèéêëìíîïñòóôöùúûüýßÀÁÂÄÇÈÉÊËÌÍÎÏÒÓÔÖÙÚÛÜÑ";
+        private static readonly string TextWithCombiningAccents = "àáâäçèéêëìíîïñòóôöùúûüýßÀÁÂÄÇÈÉÊËÌÍÎÏÒÓÔÖÙÚÛÜÑ";
 
         [Fact]
         void VerifyTestData()
         {
-            Assert.Equal(46, TEXT_WITHOUT_COMBINING_ACCENTS.Length);
-            Assert.Equal(59, TEXT_WITH_COMBINING_ACCENTS.Length);
+            Assert.Equal(46, TextWithoutCombiningAccents.Length);
+            Assert.Equal(59, TextWithCombiningAccents.Length);
         }
 
         [Fact]
@@ -52,11 +52,11 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         {
             bill = SampleData.CreateExample1();
             Address address = CreateValidPerson();
-            address.Name = TEXT_WITHOUT_COMBINING_ACCENTS;
+            address.Name = TextWithoutCombiningAccents;
             bill.Creditor = address;
             Validate();
             AssertNoMessages();
-            Assert.Equal(TEXT_WITHOUT_COMBINING_ACCENTS, validatedBill.Creditor.Name);
+            Assert.Equal(TextWithoutCombiningAccents, validatedBill.Creditor.Name);
         }
 
         [Fact]
@@ -64,11 +64,11 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         {
             bill = SampleData.CreateExample1();
             Address address = CreateValidPerson();
-            address.Name = TEXT_WITH_COMBINING_ACCENTS;
+            address.Name = TextWithCombiningAccents;
             bill.Creditor = address;
             Validate();
             AssertNoMessages(); // silently normalized
-            Assert.Equal(TEXT_WITHOUT_COMBINING_ACCENTS, validatedBill.Creditor.Name);
+            Assert.Equal(TextWithoutCombiningAccents, validatedBill.Creditor.Name);
         }
 
         [Fact]

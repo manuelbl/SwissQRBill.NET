@@ -21,13 +21,12 @@ namespace Codecrete.SwissQRBill.Generator
         private Bill billOut;
         private ValidationResult validationResult;
 
-        /**
-         * Validates the QR bill data and returns the validation messages (if any) and
-         * the cleaned bill data.
-         *
-         * @param bill bill data to validate
-         * @return validation result
-         */
+        /// <summary>
+        /// Validates the QR bill data and returns the validation messages (if any) and
+        /// the cleaned bill data.
+        /// </summary>
+        /// <param name="bill">bill data to validate</param>
+        /// <returns>validation result</returns>
         internal static ValidationResult Validate(Bill bill)
         {
             Validator validator = new Validator(bill);

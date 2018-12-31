@@ -33,7 +33,7 @@ namespace Codecrete.SwissQRBill.Generator
         /// valid.
         /// </para>
         /// <para>
-        /// If the resulting strings is all white space, { @code null} is returned.
+        /// If the resulting strings is all white space, <c>null</c> is returned.
         /// </para>
         /// </remarks>
         /// <param name="value">string value to clean</param>

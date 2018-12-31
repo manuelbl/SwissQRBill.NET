@@ -15,7 +15,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
     /// </summary>
     public class FontMetrics
     {
-        private static readonly double PT_TO_MM = 25.4 / 72;
+        private static readonly double PtToMM = 25.4 / 72;
 
         private readonly ushort[] charWidthx20x7F;
         private readonly ushort[] charWidthxA0xFF;
@@ -106,7 +106,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         /// <returns>the distance (in mm)</returns>
         public double Ascender(int fontSize)
         {
-            return fontSize * 0.8 * PT_TO_MM;
+            return fontSize * 0.8 * PtToMM;
         }
 
         /// <summary>
@@ -116,7 +116,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         /// <returns>the distance (in mm)</returns>
         public double Descender(int fontSize)
         {
-            return fontSize * 0.2 * PT_TO_MM;
+            return fontSize * 0.2 * PtToMM;
         }
 
         /// <summary>
@@ -126,7 +126,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         /// <returns>the distance (in mm)</returns>
         public double LineHeight(int fontSize)
         {
-            return fontSize * PT_TO_MM;
+            return fontSize * PtToMM;
         }
 
         /// <summary>
@@ -277,11 +277,11 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         /// <param name="fontSize">font size (in pt)</param>
         /// <param name="isBold">indicates if the text is in bold or regular weight</param>
         /// <returns>width (in mm)</returns>
-        public double GetTextWidth(string text, int fontSize, bool isBold)
+        public double TextWidth(string text, int fontSize, bool isBold)
         {
             if (isBold)
             {
-                return boldMetrics.GetTextWidth(text, fontSize, false);
+                return boldMetrics.TextWidth(text, fontSize, false);
             }
 
             double width = 0;
@@ -291,7 +291,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
                 width += CharWidth(text[i]);
             }
 
-            return width * fontSize / 1000 * PT_TO_MM;
+            return width * fontSize / 1000 * PtToMM;
         }
 
         /// <summary>

@@ -5,6 +5,8 @@
 // https://opensource.org/licenses/MIT
 //
 
+using Codecrete.SwissQRBill.Generator.Canvas;
+using System;
 
 namespace Codecrete.SwissQRBill.Generator
 {
@@ -113,6 +115,88 @@ namespace Codecrete.SwissQRBill.Generator
         }
 
         /// <summary>
+        /// Generates a QR bill payment part.
+        /// </summary>
+        /// <remarks>
+        /// If the bill data does not validate, a <see cref="QRBillValidationError"/> is
+        /// thrown, which contains the validation result. For details about the
+        /// validation result, see <a href=
+        /// "https://github.com/manuelbl/SwissQRBill/wiki/Bill-data-validation">Bill data
+        /// validation</a>
+        /// </remarks>
+        /// <param name="bill">the bill data</param>
+        /// <returns>the generated QR bill (as a byte array)</returns>
+        /// <exception cref="QRBillValidationError">Thrown if the bill data does not validate</exception>
+        public static byte[] Generate(Bill bill)
+        {
+            using (ICanvas canvas = CreateCanvas(bill.Format.GraphicsFormat))
+            {
+                try
+                {
+                    return ValidateAndGenerate(bill, canvas);
+                }
+                catch (Exception e)
+                {
+                    throw new QRBillUnexpectedException("Failed to generate QR bill", e);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Generates a QR bill payment part using the specified canvas.
+        /// </summary>
+        /// <remarks>
+        /// <para>
+        /// If the bill data does not validate, a <see cref="QRBillValidationError"/> is
+        /// thrown, which contains the validation result. For details about the
+        /// validation result, see <a href=
+        /// "https://github.com/manuelbl/SwissQRBill/wiki/Bill-data-validation">Bill data
+        /// validation</a>
+        /// </para>
+        /// <para>
+        /// The canvas will be initialized with <see cref="ICanvas.SetupPage(double, double, string)"/> and it will be
+        /// closed before returning the generated QR bill
+        /// </para>
+        /// </remarks>
+        /// <param name="bill">the bill data</param>
+        /// <param name="canvas">the canvas to draw to</param>
+        /// <returns>the generated QR bill (as a byte array)</returns>
+        /// <exception cref="QRBillValidationError">Thrown if the bill data does not validate</exception>
+        public static byte[] Generate(Bill bill, ICanvas canvas)
+        {
+            using (ICanvas c = canvas)
+            {
+                try
+                {
+                    return ValidateAndGenerate(bill, c);
+                }
+                catch (Exception e)
+                {
+                    throw new QRBillUnexpectedException("Failed to generate QR bill", e);
+                }
+            }
+        }
+
+        private static byte[] ValidateAndGenerate(Bill bill, ICanvas canvas)
+        {
+            ValidationResult result = Validator.Validate(bill);
+            Bill cleanedBill = result.CleanedBill;
+            if (result.HasErrors)
+            {
+                throw new QRBillValidationError(result);
+            }
+
+            if (bill.Format.OutputSize == OutputSize.QRCodeOnly)
+            {
+                return GenerateQRCode(cleanedBill, canvas);
+            }
+            else
+            {
+                return GeneratePaymentPart(cleanedBill, canvas);
+            }
+        }
+
+        /// <summary>
         /// Encodes the text embedded in the QR code from the specified bill data.
         /// </summary>
         /// <remarks>
@@ -120,7 +204,7 @@ namespace Codecrete.SwissQRBill.Generator
         /// The specified bill data is first validated and cleaned.
         /// </para>
         /// <para>
-        /// If the bill data does not validate, a {@link QRBillValidationError} is
+        /// If the bill data does not validate, a <see cref="QRBillValidationError"/> is
         /// thrown, which contains the validation result.For details about the
         /// validation result, see
         /// <a href="https://github.com/manuelbl/SwissQRBill/wiki/Bill-data-validation">Bill data
@@ -147,7 +231,7 @@ namespace Codecrete.SwissQRBill.Generator
         /// </summary>
         /// <remarks>
         /// A subset of the validations related to embedded QR code text is run.It the
-        /// validation fails, a {@link QRBillValidationError} is thrown, which contains
+        /// validation fails, a <see cref="QRBillValidationError"/> is thrown, which contains
         /// the validation result.See the error messages marked with a dagger in
         /// <a href="https://github.com/manuelbl/SwissQRBill/wiki/Bill-data-validation">Bill data
         /// validation</a>.
@@ -158,6 +242,72 @@ namespace Codecrete.SwissQRBill.Generator
         public static Bill DecodeQrCodeText(string text)
         {
             return QRCodeText.Decode(text);
+        }
+
+        /// <summary>
+        /// Generates the payment part as a byte array
+        /// </summary>
+        /// <param name="bill">the cleaned bill data</param>
+        /// <param name="canvas">the canvas to draw to</param>
+        /// <returns>byte array containing the binary data in the selected format</returns>
+        private static byte[] GeneratePaymentPart(Bill bill, ICanvas canvas)
+        {
+
+            double drawingWidth;
+            double drawingHeight;
+
+            // define page size
+            switch (bill.Format.OutputSize)
+            {
+                case OutputSize.QRBillOnly:
+                    drawingWidth = 210;
+                    drawingHeight = 105;
+                    break;
+                case OutputSize.A4PortraitSheet:
+                default:
+                    drawingWidth = 210;
+                    drawingHeight = 297;
+                    break;
+            }
+
+            canvas.SetupPage(drawingWidth, drawingHeight, bill.Format.FontFamily);
+            BillLayout layout = new BillLayout(bill, canvas);
+            layout.Draw();
+            return canvas.Result;
+        }
+
+        /// <summary>
+        /// Generate the QR code only
+        /// </summary>
+        /// <param name="bill">the bill data</param>
+        /// <param name="canvas">the canvas to draw to</param>
+        /// <returns>byte array containing the binary data in the selected format</returns>
+        ////
+        private static byte[] GenerateQRCode(Bill bill, ICanvas canvas)
+        {
+
+            canvas.SetupPage(QRCode.SIZE, QRCode.SIZE, bill.Format.FontFamily);
+            QRCode qrCode = new QRCode(bill);
+            qrCode.Draw(canvas, 0, 0);
+            return canvas.Result;
+        }
+
+        private static ICanvas CreateCanvas(GraphicsFormat graphicsFormat)
+        {
+            ICanvas canvas;
+            switch (graphicsFormat)
+            {
+                case GraphicsFormat.SVG:
+                    canvas = new SVGCanvas();
+                    break;
+                case GraphicsFormat.PDF:
+                    // canvas = new PDFCanvas();
+                    canvas = null;
+                    break;
+                default:
+                    throw new QRBillUnexpectedException("Invalid graphics format specified");
+            }
+            return canvas;
         }
     }
 }

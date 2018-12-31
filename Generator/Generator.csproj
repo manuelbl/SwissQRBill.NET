@@ -11,4 +11,50 @@
     <PackageLicenseUrl>https://opensource.org/licenses/MIT</PackageLicenseUrl>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="QRCoder" Version="1.3.5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Resources\QRBillText-de.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>QRBillText-de.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\QRBillText-en.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>QRBillText-en.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\QRBillText-fr.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>QRBillText-fr.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\QRBillText-it.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>QRBillText-it.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Resources\QRBillText-de.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>QRBillText-de.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\QRBillText-en.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>QRBillText-en.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\QRBillText-fr.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>QRBillText-fr.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\QRBillText-it.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>QRBillText-it.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
 </Project>
