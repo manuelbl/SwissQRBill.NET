@@ -8,7 +8,6 @@
 using Codecrete.SwissQRBill.Generator;
 using Xunit;
 
-
 namespace Codecrete.SwissQRBill.GeneratorTest
 {
     public class FieldLengthTest : BillDataValidationBase
