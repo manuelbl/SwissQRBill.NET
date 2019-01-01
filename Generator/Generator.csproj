@@ -7,7 +7,7 @@
     <Authors>Manuel Bleichenbacher</Authors>
     <Company>Codecrete</Company>
     <Product>Swiss QR Bill</Product>
-    <Copyright>(c) Manuel Bleichenbacher</Copyright>
+    <Copyright>Open source published under MIT license</Copyright>
     <PackageLicenseUrl>https://opensource.org/licenses/MIT</PackageLicenseUrl>
   </PropertyGroup>
 

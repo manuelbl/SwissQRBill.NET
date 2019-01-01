@@ -15,7 +15,7 @@
 
     <Product>Swiss QR Bill</Product>
 
-    <Copyright>(c) 2018 Manuel Bleichenbacher</Copyright>
+    <Copyright>Open source published under MIT license</Copyright>
 
     <PackageLicenseUrl>https://opensource.org/licenses/MIT</PackageLicenseUrl>
   </PropertyGroup>
