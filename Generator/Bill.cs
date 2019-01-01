@@ -280,29 +280,37 @@ namespace Codecrete.SwissQRBill.Generator
 
         public override int GetHashCode()
         {
-            HashCode hash = new HashCode();
-            hash.Add(Version);
-            hash.Add(Amount);
-            hash.Add(Currency);
-            hash.Add(Account);
-            hash.Add(Creditor);
-            hash.Add(Reference);
-            hash.Add(Debtor);
-            hash.Add(UnstructuredMessage);
-            hash.Add(BillInformation);
-            hash.Add(AlternativeSchemes);
-            hash.Add(Format);
-            return hash.ToHashCode();
+            int hashCode = -765739998;
+            hashCode = hashCode * -1521134295 + Version.GetHashCode();
+            hashCode = hashCode * -1521134295 + EqualityComparer<decimal?>.Default.GetHashCode(Amount);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Currency);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Account);
+            hashCode = hashCode * -1521134295 + EqualityComparer<Address>.Default.GetHashCode(Creditor);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Reference);
+            hashCode = hashCode * -1521134295 + EqualityComparer<Address>.Default.GetHashCode(Debtor);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(UnstructuredMessage);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(BillInformation);
+            hashCode = hashCode * -1521134295 + EqualityComparer<List<AlternativeScheme>>.Default.GetHashCode(AlternativeSchemes);
+            hashCode = hashCode * -1521134295 + EqualityComparer<BillFormat>.Default.GetHashCode(Format);
+            return hashCode;
         }
 
         private static bool SequenceEqual<T>(List<T> list1, List<T> list2)
         {
             if (list1 == list2)
+            {
                 return true;
+            }
+
             if (list1 == null || list2 == null)
+            {
                 return false;
+            }
+
             if (list1.Count != list2.Count)
+            {
                 return false;
+            }
 
             return list1.SequenceEqual(list2);
         }

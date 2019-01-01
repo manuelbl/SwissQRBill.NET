@@ -7,6 +7,7 @@
 
 
 using System;
+using System.Collections.Generic;
 
 namespace Codecrete.SwissQRBill.Generator
 {
@@ -43,7 +44,11 @@ namespace Codecrete.SwissQRBill.Generator
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(Name, Instruction);
+            EqualityComparer<string> stringComparer = EqualityComparer<string>.Default;
+            int hashCode = -1893642763;
+            hashCode = hashCode * -1521134295 + stringComparer.GetHashCode(Name);
+            hashCode = hashCode * -1521134295 + stringComparer.GetHashCode(Instruction);
+            return hashCode;
         }
     }
 }

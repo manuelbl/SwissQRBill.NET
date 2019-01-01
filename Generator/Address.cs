@@ -7,6 +7,7 @@
 
 
 using System;
+using System.Collections.Generic;
 
 namespace Codecrete.SwissQRBill.Generator
 {
@@ -276,17 +277,18 @@ namespace Codecrete.SwissQRBill.Generator
 
         public override int GetHashCode()
         {
-            var hash = new HashCode();
-            hash.Add(Type);
-            hash.Add(Name);
-            hash.Add(AddressLine1);
-            hash.Add(AddressLine2);
-            hash.Add(Street);
-            hash.Add(HouseNo);
-            hash.Add(PostalCode);
-            hash.Add(Town);
-            hash.Add(CountryCode);
-            return hash.ToHashCode();
+            var comparer = EqualityComparer<string>.Default;
+            int hashCode = 1913794654;
+            hashCode = hashCode * -1521134295 + Type.GetHashCode();
+            hashCode = hashCode * -1521134295 + comparer.GetHashCode(Name);
+            hashCode = hashCode * -1521134295 + comparer.GetHashCode(AddressLine1);
+            hashCode = hashCode * -1521134295 + comparer.GetHashCode(AddressLine2);
+            hashCode = hashCode * -1521134295 + comparer.GetHashCode(Street);
+            hashCode = hashCode * -1521134295 + comparer.GetHashCode(HouseNo);
+            hashCode = hashCode * -1521134295 + comparer.GetHashCode(PostalCode);
+            hashCode = hashCode * -1521134295 + comparer.GetHashCode(Town);
+            hashCode = hashCode * -1521134295 + comparer.GetHashCode(CountryCode);
+            return hashCode;
         }
     }
 }

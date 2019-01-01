@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Codecrete.SwissQRBill.Generator
 {
@@ -85,7 +86,13 @@ namespace Codecrete.SwissQRBill.Generator
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(OutputSize, Language, SeparatorType, FontFamily, GraphicsFormat);
+            int hashCode = 43802783;
+            hashCode = hashCode * -1521134295 + OutputSize.GetHashCode();
+            hashCode = hashCode * -1521134295 + Language.GetHashCode();
+            hashCode = hashCode * -1521134295 + SeparatorType.GetHashCode();
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(FontFamily);
+            hashCode = hashCode * -1521134295 + GraphicsFormat.GetHashCode();
+            return hashCode;
         }
     }
 }
