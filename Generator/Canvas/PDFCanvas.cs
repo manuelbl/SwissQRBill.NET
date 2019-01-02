@@ -60,7 +60,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             matrix.Translate((float)translateX, (float)translateY);
             if (rotate != 0)
             {
-                matrix.Rotate((float)rotate);
+                matrix.Rotate((float)(rotate / Math.PI * 180));
             }
 
             if (scaleX != 1 || scaleY != 1)

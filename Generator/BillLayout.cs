@@ -430,7 +430,7 @@ namespace Codecrete.SwissQRBill.Generator
             double yOffset = -1.05 * size;
             Matrix matrix = new Matrix();
             matrix.Translate((float)x, (float)y);
-            matrix.Rotate((float)angle);
+            matrix.Rotate((float)(angle / Math.PI * 180));
             matrix.Translate(mirrored ? (float)xOffset : (float)-xOffset, (float)yOffset);
             matrix.Scale(mirrored ? (float)-scale : (float)scale, (float)scale);
             graphics.SetTransformation(matrix.OffsetX, matrix.OffsetY, angle, mirrored ? -scale : scale, scale);

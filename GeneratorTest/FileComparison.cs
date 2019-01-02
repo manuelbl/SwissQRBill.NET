@@ -41,13 +41,6 @@ namespace Codecrete.SwissQRBill.GeneratorTest
             try
             {
                 byte[] expectedContent = LoadReferenceFile(expectedFileName);
-                string fileExtension = Path.GetExtension(expectedFileName);
-
-                if (fileExtension == ".pdf")
-                {
-                    ClearPdfID(expectedContent);
-                    ClearPdfID(actualContent);
-                }
                 Assert.Equal(expectedContent, actualContent);
 
             }
@@ -120,28 +113,6 @@ namespace Codecrete.SwissQRBill.GeneratorTest
             {
                 File.Delete(actualFileName);
             }
-        }
-
-        private static void ClearPdfID(byte[] pdfData)
-        {
-            int len = pdfData.Length;
-            int offset = Math.Max(len - 128, 0);
-            while (offset < len - 74)
-            {
-                if (pdfData[offset] == '/' && pdfData[offset + 1] == 'I' && pdfData[offset + 2] == 'D'
-                        && pdfData[offset + 3] == ' ' && pdfData[offset + 4] == '[' && pdfData[offset + 5] == '<')
-                {
-                    for (int i = offset + 6; i < offset + 73; i++)
-                    {
-                        pdfData[i] = (byte)'0';
-                    }
-
-                    return;
-                }
-                offset++;
-            }
-
-            Assert.True(false, "PDF ID not found");
         }
     }
 }

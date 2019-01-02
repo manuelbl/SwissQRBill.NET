@@ -21,11 +21,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="ReferenceFiles\a4bill_ex1.pdf" />
     <None Remove="ReferenceFiles\a4bill_ex1.svg" />
+    <None Remove="ReferenceFiles\a4bill_ex2.pdf" />
     <None Remove="ReferenceFiles\a4bill_ex2.svg" />
+    <None Remove="ReferenceFiles\a4bill_ex3.pdf" />
     <None Remove="ReferenceFiles\a4bill_ex3.svg" />
+    <None Remove="ReferenceFiles\a4bill_ex4.pdf" />
     <None Remove="ReferenceFiles\a4bill_ex4.svg" />
+    <None Remove="ReferenceFiles\a4bill_ex5.pdf" />
     <None Remove="ReferenceFiles\a4bill_ex5.svg" />
+    <None Remove="ReferenceFiles\a4bill_ex6.pdf" />
     <None Remove="ReferenceFiles\a4bill_ex6.svg" />
     <None Remove="ReferenceFiles\qrbill_ex1.svg" />
     <None Remove="ReferenceFiles\qrbill_ex2.svg" />
@@ -34,11 +40,17 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="ReferenceFiles\a4bill_ex1.pdf" />
     <EmbeddedResource Include="ReferenceFiles\a4bill_ex1.svg" />
+    <EmbeddedResource Include="ReferenceFiles\a4bill_ex2.pdf" />
     <EmbeddedResource Include="ReferenceFiles\a4bill_ex2.svg" />
+    <EmbeddedResource Include="ReferenceFiles\a4bill_ex3.pdf" />
     <EmbeddedResource Include="ReferenceFiles\a4bill_ex3.svg" />
+    <EmbeddedResource Include="ReferenceFiles\a4bill_ex4.pdf" />
     <EmbeddedResource Include="ReferenceFiles\a4bill_ex4.svg" />
+    <EmbeddedResource Include="ReferenceFiles\a4bill_ex5.pdf" />
     <EmbeddedResource Include="ReferenceFiles\a4bill_ex5.svg" />
+    <EmbeddedResource Include="ReferenceFiles\a4bill_ex6.pdf" />
     <EmbeddedResource Include="ReferenceFiles\a4bill_ex6.svg" />
     <EmbeddedResource Include="ReferenceFiles\qrbill_ex1.svg" />
     <EmbeddedResource Include="ReferenceFiles\qrbill_ex2.svg" />
