@@ -301,8 +301,7 @@ namespace Codecrete.SwissQRBill.Generator
                     canvas = new SVGCanvas();
                     break;
                 case GraphicsFormat.PDF:
-                    // canvas = new PDFCanvas();
-                    canvas = null;
+                    canvas = new PDFCanvas();
                     break;
                 default:
                     throw new QRBillUnexpectedException("Invalid graphics format specified");

@@ -20,7 +20,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             fontMetrics = new FontMetrics(fontFamilyList);
         }
 
-        public void PutTextLines(string[] lines, double x, double y, int fontSize, double leading)
+        public virtual void PutTextLines(string[] lines, double x, double y, int fontSize, double leading)
         {
             foreach (string line in lines)
             {
