@@ -7,6 +7,7 @@
 
 using System.Drawing.Drawing2D;
 using System.IO;
+using System.IO.Compression;
 using static System.FormattableString;
 
 namespace Codecrete.SwissQRBill.Generator.PDF
@@ -25,7 +26,10 @@ namespace Codecrete.SwissQRBill.Generator.PDF
         {
             this.resources = resources;
             buffer = new MemoryStream();
-            contentWriter = new StreamWriter(buffer, Document.GetCodepage1252());
+            buffer.WriteByte(0x78);
+            buffer.WriteByte(0xDA);
+            DeflateStream deflateStream = new DeflateStream(buffer, CompressionMode.Compress, true);
+            contentWriter = new StreamWriter(deflateStream, Document.GetCodepage1252());
             dict = new GeneralDict();
         }
 
@@ -222,16 +226,17 @@ namespace Codecrete.SwissQRBill.Generator.PDF
 
         void IWritable.Write(StreamWriter writer)
         {
-            contentWriter.Flush();
+            contentWriter.Close();
 
             dict.Add("Length", buffer.Length);
+            dict.Add("Filter", new Name("FlateDecode"));
             ((IWritable)dict).Write(writer);
 
-            writer.Write("stream\n");
+            writer.Write("stream\r\n");
             writer.Flush();
             buffer.Seek(0, SeekOrigin.Begin);
             buffer.CopyTo(writer.BaseStream);
-            writer.Write("endstream\n");
+            writer.Write("\r\nendstream\n");
 
             contentWriter.Dispose();
             contentWriter = null;
