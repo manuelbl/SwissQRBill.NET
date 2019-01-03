@@ -204,6 +204,6 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         /// After this method was called, the page is no longer valid.
         /// </remarks>
         /// <returns>the byte array</returns>
-        byte[] Result { get; }
+        byte[] GetResult();
     }
 }

@@ -74,8 +74,6 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             }
         }
 
-        bool disposed = false;
-
         public override void Dispose()
         {
             Dispose(true);
@@ -84,16 +82,10 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
 
         protected virtual void Dispose(bool disposing)
         {
-            if (disposed)
-            {
-                return;
-            }
-
             if (disposing)
             {
                 Close();
             }
-            disposed = true;
         }
 
         public override void StartPath()
@@ -266,13 +258,10 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             }
         }
 
-        public override byte[] Result
+        public override byte[] GetResult()
         {
-            get
-            {
-                Close();
-                return buffer.ToArray();
-            }
+            Close();
+            return buffer.ToArray();
         }
 
         private static string FormatNumber(double value)

@@ -58,30 +58,28 @@ namespace Codecrete.SwissQRBill.GeneratorTest
             DeleteActualFile(expectedFileName);
         }
 
-        /*
-        static void AssertGrayscaleImageContentsEqual(byte[] actualContent, string expectedFileName)
+        internal static void AssertGrayscaleImageContentsEqual(byte[] actualContent, string expectedFileName)
         {
 
             try
             {
-                byte[] expectedContent = loadReferenceFile(expectedFileName);
-                ImageComparison.assertGrayscaleImageContentEquals(expectedContent, actualContent);
+                byte[] expectedContent = LoadReferenceFile(expectedFileName);
+                ImageComparison.AssertGrayscaleImageContentEquals(expectedContent, actualContent);
 
             }
-            catch (AssertionError e)
+            catch (XunitException e)
             {
-                saveActualFile(actualContent, expectedFileName);
+                SaveActualFile(actualContent, expectedFileName);
                 throw e;
             }
             catch (IOException e)
             {
-                saveActualFile(actualContent, expectedFileName);
-                throw new RuntimeException(e);
+                SaveActualFile(actualContent, expectedFileName);
+                throw new Exception("Failed to read reference file", e);
             }
 
-            deleteActualFile(expectedFileName);
+            DeleteActualFile(expectedFileName);
         }
-        */
 
         private static byte[] LoadReferenceFile(string filename)
         {

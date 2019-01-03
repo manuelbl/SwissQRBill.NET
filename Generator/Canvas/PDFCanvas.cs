@@ -196,16 +196,12 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             contentStream.Stroke();
         }
 
-        public override byte[] Result
+        public override byte[] GetResult()
         {
-            get
-            {
-                MemoryStream buffer = new MemoryStream();
-                document.Save(buffer);
-                Close();
-                return buffer.ToArray();
-
-            }
+            MemoryStream buffer = new MemoryStream();
+            document.Save(buffer);
+            Close();
+            return buffer.ToArray();
         }
 
         protected void Close()
@@ -213,8 +209,6 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             contentStream = null;
             document = null;
         }
-
-        bool disposed = false;
 
         public override void Dispose()
         {
@@ -224,16 +218,10 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
 
         protected virtual void Dispose(bool disposing)
         {
-            if (disposed)
-            {
-                return;
-            }
-
             if (disposing)
             {
                 Close();
             }
-            disposed = true;
         }
     }
 }

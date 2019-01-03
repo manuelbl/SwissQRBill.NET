@@ -273,7 +273,7 @@ namespace Codecrete.SwissQRBill.Generator
             canvas.SetupPage(drawingWidth, drawingHeight, bill.Format.FontFamily);
             BillLayout layout = new BillLayout(bill, canvas);
             layout.Draw();
-            return canvas.Result;
+            return canvas.GetResult();
         }
 
         /// <summary>
@@ -289,7 +289,7 @@ namespace Codecrete.SwissQRBill.Generator
             canvas.SetupPage(QRCode.SIZE, QRCode.SIZE, bill.Format.FontFamily);
             QRCode qrCode = new QRCode(bill);
             qrCode.Draw(canvas, 0, 0);
-            return canvas.Result;
+            return canvas.GetResult();
         }
 
         private static ICanvas CreateCanvas(GraphicsFormat graphicsFormat)

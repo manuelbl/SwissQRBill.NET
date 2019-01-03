@@ -13,8 +13,6 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
 
         protected FontMetrics fontMetrics;
 
-        public abstract byte[] Result { get; }
-
         protected void SetupFontMetrics(string fontFamilyList)
         {
             fontMetrics = new FontMetrics(fontFamilyList);
@@ -54,6 +52,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             return fontMetrics.SplitLines(text, maxLength, fontSize);
         }
 
+        public abstract byte[] GetResult();
         public abstract void SetupPage(double width, double height, string fontFamily);
         public abstract void SetTransformation(double translateX, double translateY, double rotate, double scaleX, double scaleY);
         public abstract void PutText(string text, double x, double y, int fontSize, bool isBold);
