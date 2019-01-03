@@ -11,13 +11,16 @@ namespace Codecrete.SwissQRBill.Generator
     /// <summary>
     /// Exception thrown if the bill could not be generated.
     /// </summary>
-    public class QRBillUnexpectedException : Exception
+    /// <remarks>
+    /// If the bill data is not valid, a <see cref="QRBillValidationError"/> exception is thrown instead.
+    /// </remarks>
+    public class QRBillGenerationException : Exception
     {
         /// <summary>
         /// Initializes a new instance with the specified error message
         /// </summary>
         /// <param name="message">error message</param>
-        public QRBillUnexpectedException(string message)
+        public QRBillGenerationException(string message)
             : base(message)
         {
 
@@ -28,7 +31,7 @@ namespace Codecrete.SwissQRBill.Generator
         /// </summary>
         /// <param name="message">error message</param>
         /// <param name="innerException">inner exception</param>
-        public QRBillUnexpectedException(string message, Exception innerException)
+        public QRBillGenerationException(string message, Exception innerException)
             : base(message, innerException)
         {
 

@@ -135,9 +135,13 @@ namespace Codecrete.SwissQRBill.Generator
                 {
                     return ValidateAndGenerate(bill, canvas);
                 }
+                catch (QRBillValidationError e)
+                {
+                    throw e;
+                }
                 catch (Exception e)
                 {
-                    throw new QRBillUnexpectedException("Failed to generate QR bill", e);
+                    throw new QRBillGenerationException("Failed to generate QR bill", e);
                 }
             }
         }
@@ -170,9 +174,13 @@ namespace Codecrete.SwissQRBill.Generator
                 {
                     return ValidateAndGenerate(bill, c);
                 }
+                catch (QRBillValidationError e)
+                {
+                    throw e;
+                }
                 catch (Exception e)
                 {
-                    throw new QRBillUnexpectedException("Failed to generate QR bill", e);
+                    throw new QRBillGenerationException("Failed to generate QR bill", e);
                 }
             }
         }
@@ -304,7 +312,7 @@ namespace Codecrete.SwissQRBill.Generator
                     canvas = new PDFCanvas();
                     break;
                 default:
-                    throw new QRBillUnexpectedException("Invalid graphics format specified");
+                    throw new QRBillGenerationException("Invalid graphics format specified");
             }
             return canvas;
         }
