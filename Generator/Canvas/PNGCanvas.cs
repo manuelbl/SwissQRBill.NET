@@ -96,6 +96,11 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
                 bitmap.Dispose();
                 bitmap = null;
             }
+            if (fontFamily != null)
+            {
+                fontFamily.Dispose();
+                fontFamily = null;
+            }
         }
 
         public override void Dispose()
@@ -204,28 +209,34 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
 
         public override void FillPath(int color)
         {
-            SolidBrush brush = new SolidBrush(Color.FromArgb(color - 16777216));
-            GraphicsPath path = new GraphicsPath(pathPoints.ToArray(), pathTypes.ToArray(), FillMode.Winding);
-            graphics.FillPath(brush, path);
+            using (SolidBrush brush = new SolidBrush(Color.FromArgb(color - 16777216)))
+            using (GraphicsPath path = new GraphicsPath(pathPoints.ToArray(), pathTypes.ToArray(), FillMode.Winding))
+            {
+                graphics.FillPath(brush, path);
+            }
         }
 
         public override void StrokePath(double strokeWidth, int color)
         {
-            Pen pen = new Pen(Color.FromArgb(color - 16777216), (float)strokeWidth);
-            GraphicsPath path = new GraphicsPath(pathPoints.ToArray(), pathTypes.ToArray());
-            graphics.DrawPath(pen, path);
+            using (Pen pen = new Pen(Color.FromArgb(color - 16777216), (float)strokeWidth))
+            using (GraphicsPath path = new GraphicsPath(pathPoints.ToArray(), pathTypes.ToArray()))
+            {
+                graphics.DrawPath(pen, path);
+            }
         }
 
         public override void PutText(string text, double x, double y, int fontSize, bool isBold)
         {
             FontStyle style = isBold ? FontStyle.Bold : FontStyle.Regular;
-            Font font = new Font(fontFamily, fontSize, style, GraphicsUnit.Point);
-            float ascent = fontFamily.GetCellAscent(style) / 2048.0f * fontSize / 72 * resolution;
-            x *= coordinateScale;
-            y *= -coordinateScale;
-            y -= ascent;
+            using (Font font = new Font(fontFamily, fontSize, style, GraphicsUnit.Point))
+            {
+                float ascent = fontFamily.GetCellAscent(style) / 2048.0f * fontSize / 72 * resolution;
+                x *= coordinateScale;
+                y *= -coordinateScale;
+                y -= ascent;
 
-            graphics.DrawString(text, font, Brushes.Black, (float)x, (float)y, StringFormat.GenericTypographic);
+                graphics.DrawString(text, font, Brushes.Black, (float)x, (float)y, StringFormat.GenericTypographic);
+            }
         }
     }
 }

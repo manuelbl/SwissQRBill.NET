@@ -13,7 +13,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
     public class CharacterSetTest : BillDataValidationBase
     {
         private static readonly string TextWithoutCombiningAccents = "àáâäçèéêëìíîïñòóôöùúûüýßÀÁÂÄÇÈÉÊËÌÍÎÏÒÓÔÖÙÚÛÜÑ";
-        private static readonly string TextWithCombiningAccents = "àáâäçèéêëìíîïñòóôöùúûüýßÀÁÂÄÇÈÉÊËÌÍÎÏÒÓÔÖÙÚÛÜÑ";
+        private static readonly string TextWithCombiningAccents    = "àáâäçèéêëìíîïñòóôöùúûüýßÀÁÂÄÇÈÉÊËÌÍÎÏÒÓÔÖÙÚÛÜÑ";
 
         [Fact]
         void VerifyTestData()
@@ -146,8 +146,8 @@ namespace Codecrete.SwissQRBill.GeneratorTest
 
         public static TheoryData<string> InvalidCharList = new TheoryData<string>
         {
-            "^", "\u007f", "\u0080", "\u00a0", "\u00A0", "¡", "¤", "©", "±", "µ", "¼", "Å", "Æ", "Ð",
-            "×", "Ø", "Ý", "Þ", "å", "æ", "ø", "€", "¿", "Ý", "Ą", "Ď", "ð", "õ", "ã", "Ã"
+            "^", "\u007f", "\u0080", "\u00a0", "\u00d0", "¡", "¤", "©", "±", "µ", "¼", "Å", "Æ",
+            "×", "Ø", "Ý", "Þ", "å", "æ", "ø", "€", "¿", "Ą", "Ď", "ð", "õ", "ã", "Ã"
         };
     }
 }

@@ -56,19 +56,22 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
 
             contentStream.SaveGraphicsState();
             hasSavedGraphicsState = true;
-            Matrix matrix = new Matrix();
-            matrix.Translate((float)translateX, (float)translateY);
-            if (rotate != 0)
-            {
-                matrix.Rotate((float)(rotate / Math.PI * 180));
-            }
 
-            if (scaleX != 1 || scaleY != 1)
+            using (Matrix matrix = new Matrix())
             {
-                matrix.Scale((float)scaleX, (float)scaleY);
-            }
+                matrix.Translate((float)translateX, (float)translateY);
+                if (rotate != 0)
+                {
+                    matrix.Rotate((float)(rotate / Math.PI * 180));
+                }
 
-            contentStream.Transform(matrix);
+                if (scaleX != 1 || scaleY != 1)
+                {
+                    matrix.Scale((float)scaleX, (float)scaleY);
+                }
+
+                contentStream.Transform(matrix);
+            }
         }
 
         private void SetFont(bool isBold, int fontSize)

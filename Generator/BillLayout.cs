@@ -428,12 +428,14 @@ namespace Codecrete.SwissQRBill.Generator
             double scale = size / 476.0;
             double xOffset = 0.36 * size;
             double yOffset = -1.05 * size;
-            Matrix matrix = new Matrix();
-            matrix.Translate((float)x, (float)y);
-            matrix.Rotate((float)(angle / Math.PI * 180));
-            matrix.Translate(mirrored ? (float)xOffset : (float)-xOffset, (float)yOffset);
-            matrix.Scale(mirrored ? (float)-scale : (float)scale, (float)scale);
-            graphics.SetTransformation(matrix.OffsetX, matrix.OffsetY, angle, mirrored ? -scale : scale, scale);
+            using (Matrix matrix = new Matrix())
+            {
+                matrix.Translate((float)x, (float)y);
+                matrix.Rotate((float)(angle / Math.PI * 180));
+                matrix.Translate(mirrored ? (float)xOffset : (float)-xOffset, (float)yOffset);
+                matrix.Scale(mirrored ? (float)-scale : (float)scale, (float)scale);
+                graphics.SetTransformation(matrix.OffsetX, matrix.OffsetY, angle, mirrored ? -scale : scale, scale);
+            }
 
             graphics.StartPath();
             graphics.MoveTo(46.48, 126.784);
