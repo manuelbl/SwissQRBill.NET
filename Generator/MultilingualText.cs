@@ -16,6 +16,8 @@ namespace Codecrete.SwissQRBill.Generator
     /// </summary>
     internal static class MultilingualText
     {
+        private static readonly object Lock = new object();
+
         private static Dictionary<Language, ResourceSet> allResourceSets = new Dictionary<Language, ResourceSet>();
 
         /// <summary>
@@ -66,17 +68,20 @@ namespace Codecrete.SwissQRBill.Generator
         /// <returns>resource set</returns>
         internal static ResourceSet GetResourceSet(Language language)
         {
-            if (allResourceSets.ContainsKey(language))
+            lock (Lock)
             {
-                return allResourceSets[language];
+                if (allResourceSets.ContainsKey(language))
+                {
+                    return allResourceSets[language];
+                }
+
+                string languageName = language.ToString().ToLowerInvariant();
+                Assembly assembly = Assembly.GetExecutingAssembly();
+                ResourceSet resourceSet = new ResourceSet(assembly.GetManifestResourceStream(typeof(MultilingualText), $"Resources.QRBillText-{languageName}.resources"));
+
+                allResourceSets[language] = resourceSet;
+                return resourceSet;
             }
-
-            string languageName = language.ToString().ToLowerInvariant();
-            Assembly assembly = Assembly.GetExecutingAssembly();
-            ResourceSet resourceSet = new ResourceSet(assembly.GetManifestResourceStream(typeof(MultilingualText), $"Resources.QRBillText-{languageName}.resources"));
-
-            allResourceSets[language] = resourceSet;
-            return resourceSet;
         }
     }
 }
