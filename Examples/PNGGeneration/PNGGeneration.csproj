@@ -3,13 +3,13 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp2.2</TargetFramework>
-    <AssemblyName>Codecrete.SwissQRBill.Examples.Basic</AssemblyName>
-    <RootNamespace>Codecrete.SwissQRBill.Examples.Basic</RootNamespace>
-    <Company>Codecrete</Company>
+    <AssemblyName>Codecrete.SwissQRBill.Examples.PNGGeneration</AssemblyName>
+    <RootNamespace>Codecrete.SwissQRBill.Examples.PNGGeneration</RootNamespace>
     <Authors>Manuel Bleichenbacher</Authors>
-    <Description>Sample program for Swiss QR Bill for .NET</Description>
-    <Copyright>Open source - published under MIT License</Copyright>
+    <Company>Codecrete</Company>
     <Product>Swiss QR Bill for .NET</Product>
+    <Description>Example showing how to generate a QR bill as a PNG file</Description>
+    <Copyright>Open source - published under MIT license</Copyright>
   </PropertyGroup>
 
   <ItemGroup>

@@ -6,10 +6,11 @@
 //
 
 using Codecrete.SwissQRBill.Generator;
+using Codecrete.SwissQRBill.Generator.Canvas;
 using System;
 using System.IO;
 
-namespace Codecrete.SwissQRBill.Examples.Basic
+namespace Codecrete.SwissQRBill.Examples.PNGGeneration
 {
     class Program
     {
@@ -47,12 +48,12 @@ namespace Codecrete.SwissQRBill.Examples.Basic
             };
 
             // Generate QR bill
-            byte[] svg = QRBill.Generate(bill);
+            PNGCanvas canvas = new PNGCanvas(144);
+            byte[] png = QRBill.Generate(bill, canvas);
 
-            // Save generated SVG file
-            const string path = "qrbill.svg";
-            File.WriteAllBytes(path, svg);
-            Console.WriteLine($"QR bill saved at { Path.GetFullPath(path) }");
+            string path = "qrbill.png";
+            File.WriteAllBytes(path, png);
+            Console.WriteLine($"QR bill saved at {Path.GetFullPath(path)}");
         }
     }
 }
