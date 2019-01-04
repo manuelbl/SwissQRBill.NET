@@ -36,7 +36,7 @@ To be added soon...
 
 ## API Documention
 
-To be added soon...
+See DocFX [API Documentation](https://codecrete.net/SwissQRBill.NET/api/index.html)
 
 ## More information
 
