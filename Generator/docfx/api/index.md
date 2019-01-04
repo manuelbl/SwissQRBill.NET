@@ -12,10 +12,10 @@
 
 ## Requirements
 
-Swiss QR Bill for .NET requires .NET Standard 2.0 or higher, i.e.:
+Swiss QR Bill for .NET requires .NET Standard 2.0 or higher, i.e. any of:
 
-- NET Core 2.0 or higher
--.NET Framework 4.6.1 or higher
+- .NET Core 2.0 or higher
+- .NET Framework 4.6.1 or higher
 - Mono 5.4 or higher
 - Universal Windows Platform 10.0.16299 or higher
 - Xamarin
