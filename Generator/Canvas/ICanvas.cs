@@ -181,7 +181,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         /// <param name="text">text</param>
         /// <param name="fontSize">font size (in pt)</param>
         /// <param name="isBold">indicates if the text is in bold or regular weight</param>
-        /// <returns>>width (in mm)</returns
+        /// <returns>width (in mm)</returns>
         double TextWidth(string text, int fontSize, bool isBold);
 
         /// <summary>
@@ -194,7 +194,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         /// <param name="text">the text</param>
         /// <param name="maxLength">the maximum line length (in pt)</param>
         /// <param name="fontSize">the font size (in pt)</param>
-        /// <returns>an array of text lines</returns
+        /// <returns>an array of text lines</returns>
         string[] SplitLines(string text, double maxLength, int fontSize);
 
         /// <summary>

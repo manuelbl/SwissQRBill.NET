@@ -10,6 +10,12 @@ using System;
 
 namespace Codecrete.SwissQRBill.Generator
 {
+    /// <summary>
+    /// Generates Swiss QR bill payment part.
+    /// </summary>
+    /// <remarks>
+    /// Can also validate the bill data and encode and decode the text embedded in the QR code.
+    /// </remarks>
     public class QRBill
     {
         /// <summary>
