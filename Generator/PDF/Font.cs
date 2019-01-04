@@ -10,7 +10,7 @@ using System.IO;
 namespace Codecrete.SwissQRBill.Generator.PDF
 {
     /// <summary>
-    /// Font
+    /// Font for PDF document
     /// </summary>
     public class Font : IWritable
     {

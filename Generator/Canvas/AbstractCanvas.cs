@@ -7,6 +7,12 @@
 
 namespace Codecrete.SwissQRBill.Generator.Canvas
 {
+    /// <summary>
+    /// Abstract base class for simplified implementation of classes implementing <see cref="ICanvas"/>
+    /// </summary>
+    /// <remarks>
+    /// The class mainly implements text measurement and a helper for multi-line text
+    /// </remarks>
     public abstract class AbstractCanvas : ICanvas
     {
         protected static readonly double MmToPt = 72 / 25.4;

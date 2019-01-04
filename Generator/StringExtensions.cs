@@ -9,6 +9,9 @@ using System.Text;
 
 namespace Codecrete.SwissQRBill.Generator
 {
+    /// <summary>
+    /// Helper class for <c>string</c> extension methods.
+    /// </summary>
     public static class StringExtensions
     {
         /// <summary>
