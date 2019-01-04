@@ -9,6 +9,12 @@
     <Copyright>Open source published under MIT license</Copyright>
     <PackageLicenseUrl>https://opensource.org/licenses/MIT</PackageLicenseUrl>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <RepositoryUrl>https://github.com/manuelbl/SwissQRBill.NET</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/manuelbl/SwissQRBill.NET</PackageProjectUrl>
+    <PackageTags>Swiss-QR-Bill, Payment, ISO-20022, QR-Code</PackageTags>
+    <PackageIconUrl>https://www.codecrete.net/qrbill/android-chrome-192x192.png</PackageIconUrl>
+    <PackageReleaseNotes>Initial release for .NET</PackageReleaseNotes>
+    <Version>0.9.0</Version>
   </PropertyGroup>
 
   <ItemGroup>
