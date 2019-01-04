@@ -28,11 +28,79 @@ The Swiss QR bill library:
 - is free – even for commecial use (MIT License)
 - is built for .NET Standard 2.0, i.e. it runs with .NET Core 2.0 or higher, .NET Framework 4.6.1 or higher, Mono 5.4 or higher, Universal Windows Platform 10.0.16299 or higher, Xamarin etc.
 - has a single dependency (QRCoder)
-- will be available as a NuGet package soon
+- available as a [NuGet package](https://www.nuget.org/packages/Codecrete.SwissQRBill.Generator/) (named *Codecrete.SwissQRBill.Generator*)
 
 ## Getting started
 
-To be added soon...
+1. Create a new Visual Studio project for .NET Core 2.x (*File > New > Project...* / *Visual C# > .NET Core > Console App (.NET Core)*)
+
+2. Add the library via NuGet:
+
+   Either via *Project > Manage NuGet Packages...* / *Browse* / search for *qrbill* / *Install*
+   
+   Or by running a command in the Package Manager Console
+
+```
+Install-Package Codecrete.SwissQRBill.Generator -Version 0.9.0	
+```
+
+3. Add the code:
+
+```c#
+using Codecrete.SwissQRBill.Generator;
+using System;
+using System.IO;
+
+namespace Codecrete.SwissQRBill.Examples.Basic
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            // Setup bill data
+            Bill bill = new Bill
+            {
+                // creditor data
+                Account = "CH4431999123000889012",
+                Creditor = new Address
+                {
+                    Name = "Robert Schneider AG",
+                    AddressLine1 = "Rue du Lac 1268/2/22",
+                    AddressLine2 = "2501 Biel",
+                    CountryCode = "CH"
+                },
+
+                // payment data
+                Amount = 199.95m,
+                Currency = "CHF",
+                
+                // debtor data
+                Debtor = new Address
+                {
+                    Name = "Pia-Maria Rutschmann-Schnyder",
+                    AddressLine1 = "Grosse Marktgasse 28",
+                    AddressLine2 = "9400 Rorschach",
+                    CountryCode = "CH"
+                },
+
+                // more payment data
+                Reference = "210000000003139471430009017",
+                UnstructuredMessage = "Abonnement für 2020"
+            };
+
+            // Generate QR bill
+            byte[] svg = QRBill.Generate(bill);
+
+            // Save generated SVG file
+            const string path = "qrbill.svg";
+            File.WriteAllBytes(path, svg);
+            Console.WriteLine($"QR bill saved at { Path.GetFullPath(path) }");
+        }
+    }
+}
+```
+
+4. Run it
 
 ## API Documention
 
