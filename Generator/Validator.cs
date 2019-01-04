@@ -207,11 +207,11 @@ namespace Codecrete.SwissQRBill.Generator
             string billInformation = billIn.BillInformation.Trimmed();
             if (billInformation != null)
             {
-                if (billInformation.Length > 140)
+                if (!ValidateLength(billInformation, 140, Bill.FieldBillInformation))
                 {
-                    validationResult.AddMessage(MessageType.Error, Bill.FieldBillInformation, QRBill.KeyFieldTooLong);
                     return;
                 }
+
                 if (!billInformation.StartsWith("//") || billInformation.Length < 4)
                 {
                     validationResult.AddMessage(MessageType.Error, Bill.FieldBillInformation, QRBill.KeyBillInfoInvalid);
@@ -240,11 +240,7 @@ namespace Codecrete.SwissQRBill.Generator
                     };
                     if (schemeOut.Name != null || schemeOut.Instruction != null)
                     {
-                        if (schemeOut.Instruction != null && schemeOut.Instruction.Length > 100)
-                        {
-                            validationResult.AddMessage(MessageType.Error, Bill.FieldAlternativeSchemes, QRBill.KeyFieldTooLong);
-                        }
-                        else
+                        if (ValidateLength(schemeOut.Instruction, 100, Bill.FieldAlternativeSchemes))
                         {
                             schemesOut.Add(schemeOut);
                         }
@@ -466,6 +462,20 @@ namespace Codecrete.SwissQRBill.Generator
             if (string.IsNullOrEmpty(value))
             {
                 validationResult.AddMessage(MessageType.Error, fieldRoot + subfield, QRBill.KeyFieldIsMandatory);
+            }
+        }
+
+        private bool ValidateLength(string value, int maxLength, string field)
+        {
+            if (value != null && value.Length > maxLength)
+            {
+                validationResult.AddMessage(MessageType.Error, field, QRBill.KeyFieldTooLong,
+                        new string[] { maxLength.ToString() });
+                return false;
+            }
+            else
+            {
+                return true;
             }
         }
 
