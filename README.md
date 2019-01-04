@@ -1,6 +1,6 @@
 # Swiss QR Bill for .NET
 
-Open-source .NET library to generate Swiss QR bills.
+Open-source .NET library to generate Swiss QR bills. (jointly developed with the [Java version](https://github.com/manuelbl/SwissQRBill)).
 
 Try it yourself and [create a QR bill](https://www.codecrete.net/qrbill). 
 
