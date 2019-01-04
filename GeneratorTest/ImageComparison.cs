@@ -37,6 +37,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
             Assert.Equal(expectedImage.Width, actualImage.Width);
             Assert.Equal(expectedImage.Height, actualImage.Height);
             Assert.Equal(expectedImage.PixelFormat, actualImage.PixelFormat);
+            Assert.True(expectedImage.PixelFormat == PixelFormat.Format32bppArgb || expectedImage.PixelFormat == PixelFormat.Format32bppRgb);
 
             // retrieve pixels
             int[] expectedPixels = RetrieveImageData(expectedImage, out int stride);
@@ -50,7 +51,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
             {
                 if (expectedPixels[i] != actualPixels[i])
                 {
-                    int d = Math.Abs(expectedPixels[i] - actualPixels[i]);
+                    int d = Math.Abs(PixelToGrayscale(expectedPixels[i]) - PixelToGrayscale(actualPixels[i]));
                     if (d >= 70)
                     {
                         Assert.True(d < 70, $"singe pixel difference at {i % stride},{i / stride}");
@@ -80,6 +81,15 @@ namespace Codecrete.SwissQRBill.GeneratorTest
             bitmap.UnlockBits(desc);
 
             return data;
+        }
+
+        static int PixelToGrayscale(int pixel)
+        {
+            int red = (pixel >> 16) & 0xff;
+            int green = (pixel >> 8) & 0xff;
+            int blue = pixel & 0xff;
+            double y = 0.2126 * red + 0.7152 * green + 0.0722 * blue;
+            return (int)(y + 0.5);
         }
     }
 }
