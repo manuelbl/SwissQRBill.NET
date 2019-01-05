@@ -38,6 +38,8 @@ namespace Codecrete.SwissQRBill.Generator
             return value;
         }
 
+#pragma warning disable S3776
+
         /// <summary>
         /// Returns a new string without white space
         /// </summary>
@@ -88,5 +90,8 @@ namespace Codecrete.SwissQRBill.Generator
 
             return sb.ToString();
         }
+
+#pragma warning restore S3776
+
     }
 }

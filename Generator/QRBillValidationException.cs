@@ -13,6 +13,7 @@ namespace Codecrete.SwissQRBill.Generator
     /// <summary>
     /// Exception thrown if the bill data is not valid.
     /// </summary>
+    [Serializable]
     public class QRBillValidationException : Exception
     {
         [NonSerialized]

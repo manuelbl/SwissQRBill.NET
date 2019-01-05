@@ -47,6 +47,8 @@ namespace Codecrete.SwissQRBill.Generator
             }
         }
 
+#pragma warning disable S3776
+
         private static void CleanValue(string value, out CleaningResult result, bool isNormalized)
         {
             result = new CleaningResult();
@@ -148,6 +150,8 @@ namespace Codecrete.SwissQRBill.Generator
             result.CleanedString = sb.ToString().Trim();
             result.ReplacedUnsupportedChars = true;
         }
+
+#pragma warning restore S3776
 
         /// <summary>
         /// Validates if the string is a valid IBAN number
@@ -445,6 +449,8 @@ namespace Codecrete.SwissQRBill.Generator
             return true;
         }
 
+#pragma warning disable S3776
+
         private static bool IsValidQRBillCharacter(char ch)
         {
             if (ch < 0x20)
@@ -499,6 +505,8 @@ namespace Codecrete.SwissQRBill.Generator
 
             return true;
         }
+
+#pragma warning restore S3776
 
         /// <summary>
         /// Result of cleaning a string

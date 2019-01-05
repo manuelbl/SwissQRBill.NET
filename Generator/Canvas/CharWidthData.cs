@@ -18,6 +18,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
     /// </remarks>
     public static class CharWidthData
     {
+#pragma warning disable S125
 
         /// <summary>
         /// Default character width for Helvetica Normal
@@ -1690,5 +1691,8 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             0, // unused
             0 // unused
         };
+
+#pragma warning restore S125
+
     }
 }
