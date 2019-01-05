@@ -33,9 +33,9 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             // no further initialization needed here
         }
 
-        public override void SetupPage(double width, double height, string fontFamilyList)
+        public override void SetupPage(double width, double height, string fontFamily)
         {
-            SetupFontMetrics(fontFamilyList);
+            SetupFontMetrics(fontFamily);
 
             buffer = new MemoryStream();
             stream = new StreamWriter(buffer, Encoding.UTF8, 1024);
@@ -74,18 +74,9 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             }
         }
 
-        public override void Dispose()
+        protected override void Dispose(bool disposing)
         {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                Close();
-            }
+            Close();
         }
 
         public override void StartPath()

@@ -21,7 +21,7 @@ namespace Codecrete.SwissQRBill.Generator
     /// If fields of both types are set, the address type becomes <i>conflicting</i>.
     /// Name and country code must always be set unless all fields are empty.
     /// </remarks>
-    public class Address : IEquatable<Address>
+    public sealed class Address : IEquatable<Address>
     {
 
         /// <summary>
@@ -277,7 +277,7 @@ namespace Codecrete.SwissQRBill.Generator
 
         public override int GetHashCode()
         {
-            var comparer = EqualityComparer<string>.Default;
+            EqualityComparer<string> comparer = EqualityComparer<string>.Default;
             int hashCode = 1913794654;
             hashCode = hashCode * -1521134295 + Type.GetHashCode();
             hashCode = hashCode * -1521134295 + comparer.GetHashCode(Name);

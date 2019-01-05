@@ -5,6 +5,8 @@
 // https://opensource.org/licenses/MIT
 //
 
+using System;
+
 namespace Codecrete.SwissQRBill.Generator.Canvas
 {
     /// <summary>
@@ -70,6 +72,13 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         public abstract void CloseSubpath();
         public abstract void FillPath(int color);
         public abstract void StrokePath(double strokeWidth, int color);
-        public abstract void Dispose();
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected abstract void Dispose(bool disposing);
     }
 }

@@ -30,7 +30,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         private Font lastFont = null;
         private float lastFontSize = 0;
 
-        public override void SetupPage(double width, double height, string fontFamilyList)
+        public override void SetupPage(double width, double height, string fontFamily)
         {
             SetupFontMetrics("Helvetica");
             document = new Document("Swiss QR Bill");
@@ -213,18 +213,9 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             document = null;
         }
 
-        public override void Dispose()
+        protected override void Dispose(bool disposing)
         {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                Close();
-            }
+            Close();
         }
     }
 }

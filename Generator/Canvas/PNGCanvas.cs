@@ -45,11 +45,11 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             coordinateScale = (float)(resolution / 25.4);
         }
 
-        public override void SetupPage(double width, double height, string fontFamilyList)
+        public override void SetupPage(double width, double height, string fontFamily)
         {
             // setup font metrics
-            SetupFontMetrics(fontFamilyList);
-            fontFamily = new FontFamily(fontMetrics.FirstFontFamily);
+            SetupFontMetrics(fontFamily);
+            this.fontFamily = new FontFamily(fontMetrics.FirstFontFamily);
 
             // create image
             int w = (int)(width * coordinateScale + 0.5);
@@ -103,18 +103,9 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             }
         }
 
-        public override void Dispose()
+        protected override void Dispose(bool disposing)
         {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                Close();
-            }
+            Close();
         }
 
         public override void SetTransformation(double translateX, double translateY, double rotate, double scaleX, double scaleY)
@@ -187,7 +178,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             pathPoints.Add(new PointF((float)x, (float)(y + height)));
             pathTypes.Add((byte)PathPointType.Line);
             pathPoints.Add(new PointF((float)x, (float)y));
-            pathTypes.Add((byte)(PathPointType.Line | PathPointType.CloseSubpath));
+            pathTypes.Add((byte)PathPointType.Line | (byte)PathPointType.CloseSubpath);
         }
 
         public override void CubicCurveTo(double x1, double y1, double x2, double y2, double x, double y)

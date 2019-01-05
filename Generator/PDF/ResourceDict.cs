@@ -15,8 +15,8 @@ namespace Codecrete.SwissQRBill.Generator.PDF
     /// </summary>
     internal class ResourceDict : IWritable
     {
-        private GeneralDict resources;
-        private Dictionary<Font, Name> fontNames;
+        private readonly GeneralDict resources;
+        private readonly Dictionary<Font, Name> fontNames;
         private readonly Document document;
 
         internal ResourceDict(Document document)

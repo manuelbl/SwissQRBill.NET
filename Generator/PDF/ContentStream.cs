@@ -17,9 +17,9 @@ namespace Codecrete.SwissQRBill.Generator.PDF
     /// </summary>
     public class ContentStream : IWritable
     {
-        private MemoryStream buffer;
+        private readonly MemoryStream buffer;
         private StreamWriter contentWriter;
-        private GeneralDict dict;
+        private readonly GeneralDict dict;
         private readonly ResourceDict resources;
 
         internal ContentStream(ResourceDict resources)

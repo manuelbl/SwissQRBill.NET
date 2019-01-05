@@ -5,6 +5,7 @@
 // https://opensource.org/licenses/MIT
 //
 using System;
+using System.Runtime.Serialization;
 
 namespace Codecrete.SwissQRBill.Generator
 {
@@ -12,8 +13,9 @@ namespace Codecrete.SwissQRBill.Generator
     /// Exception thrown if the bill could not be generated.
     /// </summary>
     /// <remarks>
-    /// If the bill data is not valid, a <see cref="QRBillValidationError"/> exception is thrown instead.
+    /// If the bill data is not valid, a <see cref="QRBillValidationException"/> exception is thrown instead.
     /// </remarks>
+    [Serializable]
     public class QRBillGenerationException : Exception
     {
         /// <summary>
@@ -35,6 +37,11 @@ namespace Codecrete.SwissQRBill.Generator
             : base(message, innerException)
         {
 
+        }
+
+        protected QRBillGenerationException(SerializationInfo info, StreamingContext context)
+            : base(info, context)
+        {
         }
     }
 }

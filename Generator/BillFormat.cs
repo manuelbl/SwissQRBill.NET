@@ -6,7 +6,7 @@ namespace Codecrete.SwissQRBill.Generator
     /// <summary>
     /// Formatting properties for QR bill
     /// </summary>
-    public class BillFormat : IEquatable<BillFormat>
+    public sealed class BillFormat : IEquatable<BillFormat>
     {
         /// <summary>
         /// Initializes a new instance with default values.

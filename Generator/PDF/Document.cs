@@ -17,10 +17,8 @@ namespace Codecrete.SwissQRBill.Generator.PDF
     /// </summary>
     public class Document
     {
-        private List<Reference> references;
-        private readonly GeneralDict catalog;
+        private readonly List<Reference> references;
         private readonly Reference catalogRef;
-        private readonly GeneralDict documentInfo;
         private readonly Reference documentInfoRef;
         private readonly PageCollection pages;
         private readonly Reference pagesRef;
@@ -31,11 +29,11 @@ namespace Codecrete.SwissQRBill.Generator.PDF
             references = new List<Reference>();
             CreateReference(null); // dummy reference with index 0
 
-            catalog = new GeneralDict("Catalog");
+            GeneralDict catalog = new GeneralDict("Catalog");
             catalog.Add("Version", new Name("1.4"));
             catalogRef = CreateReference(catalog);
 
-            documentInfo = new GeneralDict();
+            GeneralDict documentInfo = new GeneralDict();
             documentInfoRef = CreateReference(documentInfo);
             documentInfo.Add("Title", title);
 

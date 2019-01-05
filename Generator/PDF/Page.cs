@@ -15,27 +15,22 @@ namespace Codecrete.SwissQRBill.Generator.PDF
     /// </summary>
     public class Page : IWritable
     {
-        private readonly Document document;
-        private GeneralDict dict;
-        private readonly Reference contentsRef;
-        private readonly ResourceDict resources;
-        private readonly Reference resourcesRef;
+        private readonly GeneralDict dict;
 
         public ContentStream Contents { get; }
 
         internal Page(Document document, Reference parent, float width, float height)
         {
-            this.document = document;
             dict = new GeneralDict("Page");
             dict.Add("Parent", parent);
             dict.Add("MediaBox", new List<float> { 0, 0, width, height });
 
-            resources = new ResourceDict(document);
-            resourcesRef = document.CreateReference(resources);
+            ResourceDict resources = new ResourceDict(document);
+            Reference resourcesRef = document.CreateReference(resources);
             dict.Add("Resources", resourcesRef);
 
             Contents = new ContentStream(resources);
-            contentsRef = document.CreateReference(Contents);
+            Reference contentsRef = document.CreateReference(Contents);
             dict.Add("Contents", contentsRef);
         }
 

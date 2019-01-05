@@ -14,7 +14,7 @@ namespace Codecrete.SwissQRBill.Generator
     /// <summary>
     /// Alternative payment scheme instructions
     /// </summary>
-    public class AlternativeScheme : IEquatable<AlternativeScheme>
+    public sealed class AlternativeScheme : IEquatable<AlternativeScheme>
     {
         /// <summary>
         /// Gets or sets the payment scheme name.

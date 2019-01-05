@@ -34,7 +34,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         [Fact]
         void ThrowsValidationError()
         {
-            Assert.Throws<QRBillValidationError>(
+            Assert.Throws<QRBillValidationException>(
                 () => GenerateWithInvalidData()
             );
         }
@@ -65,7 +65,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
                 throw new NotImplementedException();
             }
 
-            public override void Dispose()
+            protected override void Dispose(bool disposing)
             {
                 // be nice
             }

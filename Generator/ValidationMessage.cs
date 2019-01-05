@@ -11,7 +11,7 @@ namespace Codecrete.SwissQRBill.Generator
     /// <summary>
     /// QR bill validation message
     /// </summary>
-    public class ValidationMessage
+    public sealed class ValidationMessage
     {
         /// <summary>
         /// Type of validatin message

@@ -53,10 +53,10 @@ namespace Codecrete.SwissQRBill.Generator
         private static readonly double EllipsisWidth = 0.3528; // mm * font size
 
 
-        private Bill bill;
-        private QRCode qrCode;
-        private ICanvas graphics;
-        private ResourceSet resourceSet;
+        private readonly Bill bill;
+        private readonly QRCode qrCode;
+        private readonly ICanvas graphics;
+        private readonly ResourceSet resourceSet;
 
         private string accountPayableTo;
         private string reference;
@@ -649,14 +649,15 @@ namespace Codecrete.SwissQRBill.Generator
             return resourceSet.GetString(name);
         }
 
-        private static NumberFormatInfo AmountNumberInfo;
+        private static readonly NumberFormatInfo AmountNumberInfo = CreateAmountNumberInfo();
 
-        static BillLayout()
+        private static NumberFormatInfo CreateAmountNumberInfo()
         {
-            AmountNumberInfo = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();
-            AmountNumberInfo.NumberDecimalDigits = 2;
-            AmountNumberInfo.NumberDecimalSeparator = ".";
-            AmountNumberInfo.NumberGroupSeparator = " ";
+            NumberFormatInfo numberInfo = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();
+            numberInfo.NumberDecimalDigits = 2;
+            numberInfo.NumberDecimalSeparator = ".";
+            numberInfo.NumberGroupSeparator = " ";
+            return numberInfo;
         }
     }
 }

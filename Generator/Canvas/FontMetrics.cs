@@ -20,7 +20,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         private readonly ushort[] charWidthx20x7F;
         private readonly ushort[] charWidthxA0xFF;
         private readonly ushort charDefaultWidth;
-        private FontMetrics boldMetrics;
+        private readonly FontMetrics boldMetrics;
 
         /// <summary>
         /// Initializes a new instance for the given list of font families.
@@ -128,6 +128,8 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         {
             return fontSize * PtToMM;
         }
+
+#pragma warning disable S3776
 
         /// <summary>
         /// Splits the text into lines.
@@ -249,6 +251,8 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
 
             return lines.ToArray();
         }
+
+#pragma warning restore S3776
 
         /// <summary>
         /// Add the specified text range to the resulting lines.

@@ -12,7 +12,7 @@ namespace Codecrete.SwissQRBill.Generator
     /// <summary>
     /// Container for validation results
     /// </summary>
-    public class ValidationResult
+    public sealed class ValidationResult
     {
         private static readonly List<ValidationMessage> EmptyList = new List<ValidationMessage>();
 

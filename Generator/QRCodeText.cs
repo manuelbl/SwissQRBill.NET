@@ -16,9 +16,9 @@ namespace Codecrete.SwissQRBill.Generator
     /// <summary>
     /// Internal class for encoding and decoding the text embedded in the QR code.
     /// </summary>
-    public class QRCodeText
+    internal class QRCodeText
     {
-        private Bill bill;
+        private readonly Bill bill;
         private StringBuilder textBuilder;
 
         private QRCodeText(Bill bill)
@@ -125,7 +125,7 @@ namespace Codecrete.SwissQRBill.Generator
 
         private static string FormatAmountForCode(decimal amount)
         {
-            return amount.ToString("n", AmountNumberInfo); ;
+            return amount.ToString("n", AmountNumberInfo);
         }
 
         /// <summary>
@@ -142,7 +142,7 @@ namespace Codecrete.SwissQRBill.Generator
         /// </remarks>
         /// <param name="text">the text to decode</param>
         /// <returns>bill data</returns>
-        /// <exception cref="QRBillValidationError">Trhown if a validationn error occurs</exception>
+        /// <exception cref="QRBillValidationException">Trhown if a validationn error occurs</exception>
         public static Bill Decode(string text)
         {
             string[] lines = SplitLines(text);
@@ -166,7 +166,7 @@ namespace Codecrete.SwissQRBill.Generator
                 ThrowSingleValidationError(Bill.FieldCodingType, QRBill.KeySupportedCodingType);
             }
 
-            Bill bill = new Bill
+            Bill billData = new Bill
             {
                 Version = Bill.StandardVersion.V2_0,
 
@@ -179,7 +179,7 @@ namespace Codecrete.SwissQRBill.Generator
             {
                 if (decimal.TryParse(lines[18], NumberStyles.Number, AmountNumberInfo, out decimal amount))
                 {
-                    bill.Amount = amount;
+                    billData.Amount = amount;
                 }
                 else
                 {
@@ -188,22 +188,22 @@ namespace Codecrete.SwissQRBill.Generator
             }
             else
             {
-                bill.Amount = null;
+                billData.Amount = null;
             }
 
-            bill.Currency = lines[19];
+            billData.Currency = lines[19];
 
-            bill.Debtor = DecodeAddress(lines, 20, true);
+            billData.Debtor = DecodeAddress(lines, 20, true);
 
             // reference type is ignored (line 27)
-            bill.Reference = lines[28];
-            bill.UnstructuredMessage = lines[29];
+            billData.Reference = lines[28];
+            billData.UnstructuredMessage = lines[29];
             if ("EPD" != lines[30])
             {
                 ThrowSingleValidationError(Bill.FieldTrailer, QRBill.KeyValidDataStructure);
             }
 
-            bill.BillInformation = lines[31];
+            billData.BillInformation = lines[31];
 
             List<AlternativeScheme> alternativeSchemes = null;
             int numSchemes = lines.Length - 32;
@@ -219,9 +219,9 @@ namespace Codecrete.SwissQRBill.Generator
                     alternativeSchemes.Add(scheme);
                 }
             }
-            bill.AlternativeSchemes = alternativeSchemes;
+            billData.AlternativeSchemes = alternativeSchemes;
 
-            return bill;
+            return billData;
         }
 
         /// <summary>
@@ -302,18 +302,19 @@ namespace Codecrete.SwissQRBill.Generator
         {
             ValidationResult result = new ValidationResult();
             result.AddMessage(MessageType.Error, field, messageKey);
-            throw new QRBillValidationError(result);
+            throw new QRBillValidationException(result);
         }
 
 
-        private static NumberFormatInfo AmountNumberInfo;
+        private static NumberFormatInfo AmountNumberInfo = CreateAmountNumberInfo();
 
-        static QRCodeText()
+        private static NumberFormatInfo CreateAmountNumberInfo()
         {
-            AmountNumberInfo = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();
-            AmountNumberInfo.NumberDecimalDigits = 2;
-            AmountNumberInfo.NumberDecimalSeparator = ".";
-            AmountNumberInfo.NumberGroupSeparator = "";
+            NumberFormatInfo numberInfo = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();
+            numberInfo.NumberDecimalDigits = 2;
+            numberInfo.NumberDecimalSeparator = ".";
+            numberInfo.NumberGroupSeparator = "";
+            return numberInfo;
         }
     }
 }

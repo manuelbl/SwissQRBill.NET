@@ -12,8 +12,8 @@ namespace Codecrete.SwissQRBill.Generator.PDF
 {
     internal class PageCollection : IWritable
     {
-        private List<Reference> pages;
-        private Document document;
+        private readonly List<Reference> pages;
+        private readonly Document document;
 
         internal PageCollection(Document document)
         {

@@ -16,7 +16,7 @@ namespace Codecrete.SwissQRBill.Generator
     /// <remarks>
     /// Can also validate the bill data and encode and decode the text embedded in the QR code.
     /// </remarks>
-    public class QRBill
+    public static class QRBill
     {
         /// <summary>
         /// Validation message key: currency must be "CHF" or "EUR"
@@ -124,7 +124,7 @@ namespace Codecrete.SwissQRBill.Generator
         /// Generates a QR bill payment part.
         /// </summary>
         /// <remarks>
-        /// If the bill data does not validate, a <see cref="QRBillValidationError"/> is
+        /// If the bill data does not validate, a <see cref="QRBillValidationException"/> is
         /// thrown, which contains the validation result. For details about the
         /// validation result, see <a href=
         /// "https://github.com/manuelbl/SwissQRBill/wiki/Bill-data-validation">Bill data
@@ -132,7 +132,7 @@ namespace Codecrete.SwissQRBill.Generator
         /// </remarks>
         /// <param name="bill">the bill data</param>
         /// <returns>the generated QR bill (as a byte array)</returns>
-        /// <exception cref="QRBillValidationError">Thrown if the bill data does not validate</exception>
+        /// <exception cref="QRBillValidationException">Thrown if the bill data does not validate</exception>
         public static byte[] Generate(Bill bill)
         {
             using (ICanvas canvas = CreateCanvas(bill.Format.GraphicsFormat))
@@ -141,9 +141,9 @@ namespace Codecrete.SwissQRBill.Generator
                 {
                     return ValidateAndGenerate(bill, canvas);
                 }
-                catch (QRBillValidationError e)
+                catch (QRBillValidationException)
                 {
-                    throw e;
+                    throw;
                 }
                 catch (Exception e)
                 {
@@ -157,7 +157,7 @@ namespace Codecrete.SwissQRBill.Generator
         /// </summary>
         /// <remarks>
         /// <para>
-        /// If the bill data does not validate, a <see cref="QRBillValidationError"/> is
+        /// If the bill data does not validate, a <see cref="QRBillValidationException"/> is
         /// thrown, which contains the validation result. For details about the
         /// validation result, see <a href=
         /// "https://github.com/manuelbl/SwissQRBill/wiki/Bill-data-validation">Bill data
@@ -171,7 +171,7 @@ namespace Codecrete.SwissQRBill.Generator
         /// <param name="bill">the bill data</param>
         /// <param name="canvas">the canvas to draw to</param>
         /// <returns>the generated QR bill (as a byte array)</returns>
-        /// <exception cref="QRBillValidationError">Thrown if the bill data does not validate</exception>
+        /// <exception cref="QRBillValidationException">Thrown if the bill data does not validate</exception>
         public static byte[] Generate(Bill bill, ICanvas canvas)
         {
             using (ICanvas c = canvas)
@@ -180,9 +180,9 @@ namespace Codecrete.SwissQRBill.Generator
                 {
                     return ValidateAndGenerate(bill, c);
                 }
-                catch (QRBillValidationError e)
+                catch (QRBillValidationException)
                 {
-                    throw e;
+                    throw;
                 }
                 catch (Exception e)
                 {
@@ -197,7 +197,7 @@ namespace Codecrete.SwissQRBill.Generator
             Bill cleanedBill = result.CleanedBill;
             if (result.HasErrors)
             {
-                throw new QRBillValidationError(result);
+                throw new QRBillValidationException(result);
             }
 
             if (bill.Format.OutputSize == OutputSize.QRCodeOnly)
@@ -218,7 +218,7 @@ namespace Codecrete.SwissQRBill.Generator
         /// The specified bill data is first validated and cleaned.
         /// </para>
         /// <para>
-        /// If the bill data does not validate, a <see cref="QRBillValidationError"/> is
+        /// If the bill data does not validate, a <see cref="QRBillValidationException"/> is
         /// thrown, which contains the validation result.For details about the
         /// validation result, see
         /// <a href="https://github.com/manuelbl/SwissQRBill/wiki/Bill-data-validation">Bill data
@@ -227,14 +227,14 @@ namespace Codecrete.SwissQRBill.Generator
         /// </remarks>
         /// <param name="bill">bill data to encode</param>
         /// <returns>QR code text</returns>
-        /// <exception cref="QRBillValidationError">Thrown if the bill data does not validate</exception>
+        /// <exception cref="QRBillValidationException">Thrown if the bill data does not validate</exception>
         public static string EncodeQrCodeText(Bill bill)
         {
             ValidationResult result = Validator.Validate(bill);
             Bill cleanedBill = result.CleanedBill;
             if (result.HasErrors)
             {
-                throw new QRBillValidationError(result);
+                throw new QRBillValidationException(result);
             }
 
             return QRCodeText.Create(cleanedBill);
@@ -245,14 +245,14 @@ namespace Codecrete.SwissQRBill.Generator
         /// </summary>
         /// <remarks>
         /// A subset of the validations related to embedded QR code text is run.It the
-        /// validation fails, a <see cref="QRBillValidationError"/> is thrown, which contains
+        /// validation fails, a <see cref="QRBillValidationException"/> is thrown, which contains
         /// the validation result.See the error messages marked with a dagger in
         /// <a href="https://github.com/manuelbl/SwissQRBill/wiki/Bill-data-validation">Bill data
         /// validation</a>.
         /// </remarks>
         /// <param name="text">text to decode</param>
         /// <returns>decoded bill data</returns>
-        /// <exception cref="QRBillValidationError">Thrown if the bill data does not validate</exception>
+        /// <exception cref="QRBillValidationException">Thrown if the bill data does not validate</exception>
         public static Bill DecodeQrCodeText(string text)
         {
             return QRCodeText.Decode(text);
@@ -273,14 +273,13 @@ namespace Codecrete.SwissQRBill.Generator
             // define page size
             switch (bill.Format.OutputSize)
             {
-                case OutputSize.QRBillOnly:
-                    drawingWidth = 210;
-                    drawingHeight = 105;
-                    break;
                 case OutputSize.A4PortraitSheet:
-                default:
                     drawingWidth = 210;
                     drawingHeight = 297;
+                    break;
+                default:
+                    drawingWidth = 210;
+                    drawingHeight = 105;
                     break;
             }
 

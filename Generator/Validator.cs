@@ -17,9 +17,9 @@ namespace Codecrete.SwissQRBill.Generator
     /// </summary>
     internal struct Validator
     {
-        private Bill billIn;
-        private Bill billOut;
-        private ValidationResult validationResult;
+        private readonly Bill billIn;
+        private readonly Bill billOut;
+        private readonly ValidationResult validationResult;
 
         /// <summary>
         /// Validates the QR bill data and returns the validation messages (if any) and
@@ -226,24 +226,19 @@ namespace Codecrete.SwissQRBill.Generator
             List<AlternativeScheme> schemesOut = null;
             if (billIn.AlternativeSchemes != null)
             {
-
-                int len = billIn.AlternativeSchemes.Count;
                 schemesOut = new List<AlternativeScheme>();
 
                 foreach (AlternativeScheme schemeIn in billIn.AlternativeSchemes)
                 {
-
                     AlternativeScheme schemeOut = new AlternativeScheme
                     {
                         Name = schemeIn.Name.Trimmed(),
                         Instruction = schemeIn.Instruction.Trimmed()
                     };
-                    if (schemeOut.Name != null || schemeOut.Instruction != null)
+                    if ((schemeOut.Name != null || schemeOut.Instruction != null)
+                        && ValidateLength(schemeOut.Instruction, 100, Bill.FieldAlternativeSchemes))
                     {
-                        if (ValidateLength(schemeOut.Instruction, 100, Bill.FieldAlternativeSchemes))
-                        {
-                            schemesOut.Add(schemeOut);
-                        }
+                        schemesOut.Add(schemeOut);
                     }
                 }
 

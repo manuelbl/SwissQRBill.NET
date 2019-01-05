@@ -12,7 +12,7 @@ namespace Codecrete.SwissQRBill.Generator.PDF
 {
     internal class GeneralDict : IWritable
     {
-        private Dictionary<string, object> dict;
+        private readonly Dictionary<string, object> dict;
 
         internal GeneralDict()
         {

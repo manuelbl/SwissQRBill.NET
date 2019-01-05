@@ -14,7 +14,7 @@ namespace Codecrete.SwissQRBill.Generator
     /// <summary>
     /// QR bill data
     /// </summary>
-    public class Bill : IEquatable<Bill>
+    public sealed class Bill : IEquatable<Bill>
     {
         /// <summary>
         /// QR bill version
@@ -250,7 +250,7 @@ namespace Codecrete.SwissQRBill.Generator
         /// <remarks>
         /// A maximum of two schemes with parameters are allowed.
         /// </remarks>
-        public List<AlternativeScheme> AlternativeSchemes;
+        public List<AlternativeScheme> AlternativeSchemes { get; set; }
 
         /// <summary>
         /// Gets or sets the bill format.
