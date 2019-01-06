@@ -17,6 +17,8 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
     /// </summary>
     public class SVGCanvas : AbstractCanvas
     {
+        private static readonly Encoding Utf8WithoutBOM = new UTF8Encoding(false);
+
         private MemoryStream buffer;
         private StreamWriter stream;
         private bool isInGroup;
@@ -38,7 +40,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             SetupFontMetrics(fontFamily);
 
             buffer = new MemoryStream();
-            stream = new StreamWriter(buffer, Encoding.UTF8, 1024);
+            stream = new StreamWriter(buffer, Utf8WithoutBOM, 1024);
             stream.Write("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>\n"
                     + "<!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\" \"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\">\n"
                     + "<svg width=\"");
