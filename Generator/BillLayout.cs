@@ -569,7 +569,7 @@ namespace Codecrete.SwissQRBill.Generator
         private static string FormatAmountForDisplay(decimal amount)
         {
 
-            return amount.ToString(AmountNumberInfo);
+            return amount.ToString("N", AmountNumberInfo);
         }
 
         private static string FormatPersonForDisplay(Address address)

@@ -386,7 +386,7 @@ m10,0h1v1h-1zm5,0h1v1h-1zm2,0h1v1h-1zm2,0h3v1h-3zm4,0h1v1h-1zm2,0h1v1h-1z" fill=
 </g>
 <g transform="translate(232.441 0)">
 <text x="0" y="-90.709" font-size="6" font-weight="bold">Amount</text>
-<text x="0" y="-81.109" font-size="8">987654321.50</text>
+<text x="0" y="-81.109" font-size="8">987 654 321.50</text>
 </g>
 <g transform="translate(351.496 0)">
 <text x="0" y="-278.665" font-size="6" font-weight="bold">Account / Payable to</text>
@@ -433,7 +433,7 @@ m10,0h1v1h-1zm5,0h1v1h-1zm2,0h1v1h-1zm2,0h3v1h-3zm4,0h1v1h-1zm2,0h1v1h-1z" fill=
 </g>
 <g transform="translate(51.024 0)">
 <text x="0" y="-90.709" font-size="6" font-weight="bold">Amount</text>
-<text x="0" y="-81.109" font-size="8">987654321.50</text>
+<text x="0" y="-81.109" font-size="8">987 654 321.50</text>
 </g>
 <text x="111.565" y="-59.528" font-size="6" font-weight="bold">Acceptance point</text>
 <path d="M175.748,0l0,-274.961m0,-8.504l0,-14.173m-175.748,0l14.173,0m8.504,0l572.598,0" stroke="#000000" stroke-width="0.5" fill="none"/>

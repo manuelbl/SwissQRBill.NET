@@ -157,7 +157,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
             {
                 Account = "CH44 3199 9123 0008  89012",
                 Creditor = creditor,
-                Amount = 987654321.50m,
+                Amount = 987654321.5m,
                 Currency = "CHF",
                 Debtor = debtor,
                 Reference = "210000 000 00313 9471430009017",
