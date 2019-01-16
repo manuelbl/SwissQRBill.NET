@@ -18,8 +18,6 @@ namespace Codecrete.SwissQRBill.Generator
     {
         /// <summary>
         /// Cleans a string value to make it viable for the Swiss Payment Standards 2018.
-        /// </summary>
-        /// <remarks>
         /// <para>
         /// Unsupported characters(according to Swiss Payment Standards 2018, ch. 2.4.1
         /// and appendix D) are replaced with spaces(unsupported whitespace) or dots
@@ -35,9 +33,9 @@ namespace Codecrete.SwissQRBill.Generator
         /// <para>
         /// If the resulting strings is all white space, <c>null</c> is returned.
         /// </para>
-        /// </remarks>
-        /// <param name="value">string value to clean</param>
-        /// <param name="result">result to be filled with cleaned string and flag</param>
+        /// </summary>
+        /// <param name="value">The string value to clean.</param>
+        /// <param name="result">The result to be filled with cleaned string and flag.</param>
         public static void CleanValue(string value, out CleaningResult result)
         {
             CleanValue(value, out result, false);
@@ -70,7 +68,7 @@ namespace Codecrete.SwissQRBill.Generator
             {
                 char ch = value[pos]; // current character
 
-                if (IsValidQRBillCharacter(ch))
+                if (IsValidQrBillCharacter(ch))
                 {
                     justProcessedSpace = ch == ' ';
                     pos++;
@@ -155,14 +153,14 @@ namespace Codecrete.SwissQRBill.Generator
 
         /// <summary>
         /// Validates if the string is a valid IBAN number
-        /// </summary>
-        /// <remarks>
+        /// <para>
         /// The string is checked for valid characters, valid length and for a valid
         /// check digit. White space is ignored.
-        /// </remarks>
-        /// <param name="iban">IBAN to validate</param>
-        /// <returns><c>true</c> if the IBAN is valid, <c>false</c> otherwise</returns>
-        public static bool IsValidIBAN(string iban)
+        /// </para>
+        /// </summary>
+        /// <param name="iban">The IBAN to validate.</param>
+        /// <returns><c>true</c> if the IBAN is valid, <c>false</c> otherwise.</returns>
+        public static bool IsValidIban(string iban)
         {
 
             iban = iban.WhiteSpaceRemoved();
@@ -201,14 +199,14 @@ namespace Codecrete.SwissQRBill.Generator
 
         /// <summary>
         /// Formats an IBAN or creditor reference by inserting spaces
-        /// </summary>
-        /// <remarks>
+        /// <para>
         /// Spaces are inserted to form groups of 4 letters/digits. If a group of less
         /// than 4 letters/digits is needed, it appears at the end.
-        /// </remarks>
-        /// <param name="iban">IBAN or creditor reference without spaces</param>
-        /// <returns>formatted IBAN or creditor reference</returns>
-        public static string FormatIBAN(string iban)
+        /// </para>
+        /// </summary>
+        /// <param name="iban">The IBAN or creditor reference without spaces.</param>
+        /// <returns>The formatted IBAN or creditor reference.</returns>
+        public static string FormatIban(string iban)
         {
             StringBuilder sb = new StringBuilder(25);
             int len = iban.Length;
@@ -232,14 +230,14 @@ namespace Codecrete.SwissQRBill.Generator
 
         /// <summary>
         /// Validates if the string is a valid ISO 11649 reference number
-        /// </summary>
-        /// <remarks>
+        /// <para>
         /// The string is checked for valid characters, valid length and a valid check
         /// digit. White space is ignored.
-        /// </remarks>
-        /// <param name="reference">ISO 11649 creditor reference to validate</param>
-        /// <returns><c>true</c> if the creditor reference is valid, <c>false</c></returns>
-        public static bool IsValidISO11649Reference(string reference)
+        /// </para>
+        /// </summary>
+        /// <param name="reference">The ISO 11649 creditor reference to validate.</param>
+        /// <returns><c>true</c> if the creditor reference is valid, <c>false</c> otherwise.</returns>
+        public static bool IsValidIso11649Reference(string reference)
         {
 
             reference = reference.WhiteSpaceRemoved();
@@ -270,14 +268,14 @@ namespace Codecrete.SwissQRBill.Generator
         /// <summary>
         /// Creates a ISO11649 creditor reference from a raw string by prefixing the
         /// string with "RF" and the modulo 97 checksum
+        /// <para>
+        /// Whitespace is removed from the reference.
+        /// </para>
         /// </summary>
-        /// <remarks>
-        /// Whitespace is removed from the reference
-        /// </remarks>
-        /// <param name="rawReference">The raw string</param>
-        /// <returns>creditor reference</returns>
-        /// <exception cref="ArgumentException">Thrown if <c>reference</c> contains invalid characters</exception>
-        public static string CreateISO11649Reference(string rawReference)
+        /// <param name="rawReference">The raw reference.</param>
+        /// <returns>The created creditor reference.</returns>
+        /// <exception cref="ArgumentException"><c>reference</c> contains invalid characters.</exception>
+        public static string CreateIso11649Reference(string rawReference)
         {
             string whiteSpaceRemoved = rawReference.WhiteSpaceRemoved();
             int modulo = CalculateMod97("RF00" + whiteSpaceRemoved);
@@ -290,15 +288,15 @@ namespace Codecrete.SwissQRBill.Generator
         }
 
         /// <summary>
-        /// Calculate the reference's modulo 97 checksum according to ISO11649 and IBAN standard.
-        /// </summary>
-        /// <remarks>
+        /// Calculates the reference's modulo 97 checksum according to ISO11649 and IBAN standard.
+        /// <para>
         /// The string may only contains digits, letters ('A' to 'Z' and 'a' to 'z', no
         /// accents). It must not contain white space.
-        /// </remarks>
-        /// <param name="reference">the reference</param>
-        /// <returns>the checksum (0 to 96)</returns>
-        /// <exception cref="ArgumentException">Thrown if the reference contains an invalid character</exception>
+        /// </para>
+        /// </summary>
+        /// <param name="reference">The reference.</param>
+        /// <returns>The calculated checksum (0 to 96).</returns>
+        /// <exception cref="ArgumentException">The reference contains an invalid character.</exception>
         private static int CalculateMod97(string reference)
         {
             int len = reference.Length;
@@ -338,12 +336,10 @@ namespace Codecrete.SwissQRBill.Generator
             return sum;
         }
 
-        private static readonly int[] MOD_10 = { 0, 9, 4, 6, 8, 2, 7, 1, 3, 5 };
+        private static readonly int[] Mod10 = { 0, 9, 4, 6, 8, 2, 7, 1, 3, 5 };
 
         /// <summary>
         /// Validates if the string is a valid QR reference.
-        /// </summary>
-        /// <remarks>
         /// <para>
         /// A valid QR reference is a valid ISR reference.
         /// </para>
@@ -351,10 +347,10 @@ namespace Codecrete.SwissQRBill.Generator
         /// The string is checked for valid characters, valid length and a valid check
         /// digit. White space is ignored.
         /// </para>
-        /// </remarks>
-        /// <param name="reference">QR reference number to validate</param>
-        /// <returns><c>true</c> if the reference number is valid, <c>false</c> otherwise</returns>
-        public static bool IsValidQRReference(string reference)
+        /// </summary>
+        /// <param name="reference">The QR reference number to validate.</param>
+        /// <returns><c>true</c> if the reference number is valid, <c>false</c> otherwise.</returns>
+        public static bool IsValidQrReference(string reference)
         {
 
             reference = reference.WhiteSpaceRemoved();
@@ -374,7 +370,7 @@ namespace Codecrete.SwissQRBill.Generator
             for (int i = 0; i < len; i++)
             {
                 int digit = reference[i] - '0';
-                carry = MOD_10[(carry + digit) % 10];
+                carry = Mod10[(carry + digit) % 10];
             }
 
             return carry == 0;
@@ -382,14 +378,14 @@ namespace Codecrete.SwissQRBill.Generator
 
         /// <summary>
         /// Formats a QR reference number by inserting spaces.
-        /// </summary>
-        /// <remarks>
+        /// <para>
         /// Spaces are inserted to create groups of 5 digits. If a group of less than 5
         /// digits is needed, it appears at the start of the formatted reference number.
-        /// </remarks>
-        /// <param name="refNo">reference number without white space</param>
-        /// <returns>reference number</returns>
-        public static string FormatQRReferenceNumber(string refNo)
+        /// </para>
+        /// </summary>
+        /// <param name="refNo">The reference number without white space.</param>
+        /// <returns>the formatted reference number.</returns>
+        public static string FormatQrReferenceNumber(string refNo)
         {
             int len = refNo.Length;
             StringBuilder sb = new StringBuilder();
@@ -451,7 +447,7 @@ namespace Codecrete.SwissQRBill.Generator
 
 #pragma warning disable S3776
 
-        private static bool IsValidQRBillCharacter(char ch)
+        private static bool IsValidQrBillCharacter(char ch)
         {
             if (ch < 0x20)
             {
@@ -514,13 +510,15 @@ namespace Codecrete.SwissQRBill.Generator
         public struct CleaningResult
         {
             /// <summary>
-            /// Cleaned string
+            /// Gets/sets the cleaned string.
             /// </summary>
+            /// <value>The cleaned string.</value>
             public string CleanedString { get; set; }
 
             /// <summary>
-            /// Flag indicating that unsupported characters have been replaced
+            /// Gets/sets the flag indicating if unsupported characters have been replaced.
             /// </summary>
+            /// <value>Flag indicating if unsspored characters have been replaced.</value>
             public bool ReplacedUnsupportedChars { get; set; }
         }
 

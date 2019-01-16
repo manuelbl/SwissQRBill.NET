@@ -14,7 +14,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
     public class ValidationMessageTest
     {
         [Fact]
-        void DefaultConstructor()
+        private void DefaultConstructor()
         {
             ValidationMessage msg = new ValidationMessage();
             Assert.Null(msg.Field);
@@ -23,7 +23,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        void ConstructorWithThreeParameters()
+        private void ConstructorWithThreeParameters()
         {
             ValidationMessage msg = new ValidationMessage(MessageType.Error, "fld", "msg3");
             Assert.Equal(MessageType.Error, msg.Type);
@@ -33,9 +33,9 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        void ConstructorWithFourParameters()
+        private void ConstructorWithFourParameters()
         {
-            ValidationMessage msg = new ValidationMessage(MessageType.Warning, "addInfo", "clipped", new string[] { "xxx" });
+            ValidationMessage msg = new ValidationMessage(MessageType.Warning, "addInfo", "clipped", new[] { "xxx" });
             Assert.Equal(MessageType.Warning, msg.Type);
             Assert.Equal("addInfo", msg.Field);
             Assert.Equal("clipped", msg.MessageKey);
@@ -45,7 +45,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        void SetType()
+        private void SetType()
         {
             ValidationMessage msg = new ValidationMessage
             {
@@ -55,7 +55,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        void SetField()
+        private void SetField()
         {
             ValidationMessage msg = new ValidationMessage
             {
@@ -65,7 +65,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        void SetMessageKey()
+        private void SetMessageKey()
         {
             ValidationMessage msg = new ValidationMessage
             {
@@ -75,13 +75,13 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        void SetMessageParameters()
+        private void SetMessageParameters()
         {
             ValidationMessage msg = new ValidationMessage
             {
-                MessageParameters = new string[] { "abc", "def", "ghi" }
+                MessageParameters = new[] { "abc", "def", "ghi" }
             };
-            Assert.Equal(new string[] { "abc", "def", "ghi" }, msg.MessageParameters);
+            Assert.Equal(new[] { "abc", "def", "ghi" }, msg.MessageParameters);
         }
     }
 }

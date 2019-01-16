@@ -10,7 +10,7 @@ using System.IO;
 namespace Codecrete.SwissQRBill.Generator.PDF
 {
     /// <summary>
-    /// Font for PDF document
+    /// Font for PDF document.
     /// </summary>
     public class Font : IWritable
     {
@@ -49,7 +49,7 @@ namespace Codecrete.SwissQRBill.Generator.PDF
             dict.Add("Subtype", new Name(Subtype));
             dict.Add("BaseFont", new Name(Name));
             dict.Add("Encoding", new Name(Encoding));
-            (dict as IWritable).Write(writer);
+            ((IWritable) dict).Write(writer);
         }
     }
 }

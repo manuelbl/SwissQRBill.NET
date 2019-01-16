@@ -10,18 +10,18 @@ using System.Text;
 namespace Codecrete.SwissQRBill.Generator
 {
     /// <summary>
-    /// Helper class for <c>string</c> extension methods.
+    /// Extension methods for <see cref="string"/>.
     /// </summary>
     public static class StringExtensions
     {
         /// <summary>
-        /// Returns a new string with leading and trailing whitespace removed
-        /// </summary>
-        /// <remarks>
+        /// Returns a new string with leading and trailing whitespace removed.
+        /// <para>
         /// For empty strings or <c>null</c>, <c>null</c> is returned.
-        /// </remarks>
-        /// <param name="value">value string to trim or <c>null</c></param>
-        /// <returns>trimmed string</returns>
+        /// </para>
+        /// </summary>
+        /// <param name="value">The string instance that this method extends or <c>null</c>.</param>
+        /// <returns>The trimmed string or <c>null</c>.</returns>
         public static string Trimmed(this string value)
         {
             if (value == null)
@@ -30,21 +30,16 @@ namespace Codecrete.SwissQRBill.Generator
             }
 
             value = value.Trim();
-            if (value.Length == 0)
-            {
-                return null;
-            }
-
-            return value;
+            return value.Length == 0 ? null : value;
         }
 
 #pragma warning disable S3776
 
         /// <summary>
-        /// Returns a new string without white space
+        /// Returns a new string without white space.
         /// </summary>
-        /// <param name="value">string to process (non null)</param>
-        /// <returns>resulting string with all whitespace removed</returns>
+        /// <param name="value">The string instance that this method extends</param>
+        /// <returns>The resulting string with all whitespace removed.</returns>
         public static string WhiteSpaceRemoved(this string value)
         {
             StringBuilder sb = null;
@@ -53,19 +48,21 @@ namespace Codecrete.SwissQRBill.Generator
             for (int i = 0; i < len; i++)
             {
                 char ch = value[i];
-                if (ch <= ' ')
+                if (ch > ' ')
                 {
-                    if (i > lastCopied)
-                    {
-                        if (sb == null)
-                        {
-                            sb = new StringBuilder();
-                        }
-
-                        sb.Append(value, lastCopied, i - lastCopied);
-                    }
-                    lastCopied = i + 1;
+                    continue;
                 }
+
+                if (i > lastCopied)
+                {
+                    if (sb == null)
+                    {
+                        sb = new StringBuilder();
+                    }
+
+                    sb.Append(value, lastCopied, i - lastCopied);
+                }
+                lastCopied = i + 1;
             }
 
             if (sb == null)
@@ -75,12 +72,7 @@ namespace Codecrete.SwissQRBill.Generator
                     return value;
                 }
 
-                if (lastCopied == len)
-                {
-                    return "";
-                }
-
-                return value.Substring(lastCopied, len - lastCopied);
+                return lastCopied == len ? "" : value.Substring(lastCopied, len - lastCopied);
             }
 
             if (lastCopied < len)

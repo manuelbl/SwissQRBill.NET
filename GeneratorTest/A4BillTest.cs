@@ -14,19 +14,19 @@ namespace Codecrete.SwissQRBill.GeneratorTest
     {
 
         [Fact]
-        void CreateA4SVGBill1()
+        private void CreateA4SvgBill1()
         {
             GenerateAndCompareBill(SampleData.CreateExample1(), OutputSize.A4PortraitSheet, GraphicsFormat.SVG, "a4bill_ex1.svg");
         }
 
         [Fact]
-        void CreateA4PDFBill1()
+        private void CreateA4PdfBill1()
         {
             GenerateAndCompareBill(SampleData.CreateExample1(), OutputSize.A4PortraitSheet, GraphicsFormat.PDF, "a4bill_ex1.pdf");
         }
 
         [Fact]
-        void CreateA4SVGBill2()
+        private void CreateA4SvgBill2()
         {
             Bill bill = SampleData.CreateExample2();
             bill.Format.FontFamily = "Liberation Sans, Arial, Helvetica";
@@ -34,19 +34,19 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        void CreateA4PDFBill2()
+        private void CreateA4PdfBill2()
         {
             GenerateAndCompareBill(SampleData.CreateExample2(), OutputSize.A4PortraitSheet, GraphicsFormat.PDF, "a4bill_ex2.pdf");
         }
 
         [Fact]
-        void CreateA4SVGBill3()
+        private void CreateA4SvgBill3()
         {
             GenerateAndCompareBill(SampleData.CreateExample3(), OutputSize.A4PortraitSheet, GraphicsFormat.SVG, "a4bill_ex3.svg");
         }
 
         [Fact]
-        void CreateA4PDFBill3()
+        private void CreateA4PdfBill3()
         {
             Bill bill = SampleData.CreateExample3();
             bill.Format.FontFamily = "Arial";
@@ -54,7 +54,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        void CreateA4SVGBill4()
+        private void CreateA4SvgBill4()
         {
             Bill bill = SampleData.CreateExample4();
             bill.Format.FontFamily = "Frutiger";
@@ -62,31 +62,31 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        void CreateA4PDFBill4()
+        private void CreateA4PdfBill4()
         {
             GenerateAndCompareBill(SampleData.CreateExample4(), OutputSize.A4PortraitSheet, GraphicsFormat.PDF, "a4bill_ex4.pdf");
         }
 
         [Fact]
-        void CreateA4SVGBill5()
+        private void CreateA4SvgBill5()
         {
             GenerateAndCompareBill(SampleData.CreateExample5(), OutputSize.A4PortraitSheet, GraphicsFormat.SVG, "a4bill_ex5.svg");
         }
 
         [Fact]
-        void CreateA4PDFBill5()
+        private void CreateA4PdfBill5()
         {
             GenerateAndCompareBill(SampleData.CreateExample5(), OutputSize.A4PortraitSheet, GraphicsFormat.PDF, "a4bill_ex5.pdf");
         }
 
         [Fact]
-        void CreateA4SVGBill6()
+        private void CreateA4SvgBill6()
         {
             GenerateAndCompareBill(SampleData.CreateExample6(), OutputSize.A4PortraitSheet, GraphicsFormat.SVG, "a4bill_ex6.svg");
         }
 
         [Fact]
-        void CreateA4PDFBill6()
+        private void CreateA4PdfBill6()
         {
             GenerateAndCompareBill(SampleData.CreateExample6(), OutputSize.A4PortraitSheet, GraphicsFormat.PDF, "a4bill_ex6.pdf");
         }

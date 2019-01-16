@@ -14,12 +14,14 @@ namespace Codecrete.SwissQRBill.Generator
     public enum GraphicsFormat
     {
         /// <summary>
-        /// SVG
+        /// SVG graphics format.
         /// </summary>
+        // ReSharper disable once InconsistentNaming
         SVG,
         /// <summary>
-        /// PDF
+        /// PDF graphics format.
         /// </summary>
+        // ReSharper disable once InconsistentNaming
         PDF
     }
 }

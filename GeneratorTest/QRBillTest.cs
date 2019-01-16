@@ -14,40 +14,40 @@ namespace Codecrete.SwissQRBill.GeneratorTest
     public class QRBillTest
     {
         [Fact]
-        void CreateQRBill1()
+        private void CreateQrBill1()
         {
             Bill bill = SampleData.CreateExample1();
-            bill.Format.OutputSize = OutputSize.QRBillOnly;
+            bill.Format.OutputSize = OutputSize.QrBillOnly;
             bill.Format.GraphicsFormat = GraphicsFormat.SVG;
             byte[] svg = QRBill.Generate(bill);
             FileComparison.AssertFileContentsEqual(svg, "qrbill_ex1.svg");
         }
 
         [Fact]
-        void CreateQRBill2()
+        private void CreateQrBill2()
         {
             Bill bill = SampleData.CreateExample2();
-            bill.Format.OutputSize = OutputSize.QRBillOnly;
+            bill.Format.OutputSize = OutputSize.QrBillOnly;
             bill.Format.GraphicsFormat = GraphicsFormat.SVG;
             byte[] svg = QRBill.Generate(bill);
             FileComparison.AssertFileContentsEqual(svg, "qrbill_ex2.svg");
         }
 
         [Fact]
-        void CreateQRBill3()
+        private void CreateQrBill3()
         {
             Bill bill = SampleData.CreateExample3();
-            bill.Format.OutputSize = OutputSize.QRBillOnly;
+            bill.Format.OutputSize = OutputSize.QrBillOnly;
             bill.Format.GraphicsFormat = GraphicsFormat.SVG;
             byte[] svg = QRBill.Generate(bill);
             FileComparison.AssertFileContentsEqual(svg, "qrbill_ex3.svg");
         }
 
         [Fact]
-        void CreateQRBill4()
+        private void CreateQrBill4()
         {
             Bill bill = SampleData.CreateExample4();
-            bill.Format.OutputSize = OutputSize.QRBillOnly;
+            bill.Format.OutputSize = OutputSize.QrBillOnly;
             bill.Format.GraphicsFormat = GraphicsFormat.SVG;
             byte[] svg = QRBill.Generate(bill);
             FileComparison.AssertFileContentsEqual(svg, "qrbill_ex4.svg");

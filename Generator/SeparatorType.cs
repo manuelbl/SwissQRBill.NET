@@ -14,15 +14,15 @@ namespace Codecrete.SwissQRBill.Generator
     public enum SeparatorType
     {
         /// <summary>
-        /// No separators are drawn (for paper with perforation)
+        /// No separators are drawn (for paper with perforation).
         /// </summary>
         None,
         /// <summary>
-        /// Solid lines are drawn
+        /// Solid lines are drawn.
         /// </summary>
         SolidLine,
         /// <summary>
-        /// Solid lines with a scissor symbol are drawn
+        /// Solid lines with a scissor symbol are drawn.
         /// </summary>
         SolidLineWithScissors
     }

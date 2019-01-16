@@ -14,219 +14,219 @@ namespace Codecrete.SwissQRBill.GeneratorTest
     public class BasicBillValidationTest : BillDataValidationBase
     {
         [Fact]
-        void ValidCurrency()
+        private void ValidCurrency()
         {
-            bill = SampleData.CreateExample1();
-            bill.Currency = "CHF";
+            SourceBill = SampleData.CreateExample1();
+            SourceBill.Currency = "CHF";
             Validate();
             AssertNoMessages();
-            Assert.Equal("CHF", validatedBill.Currency);
+            Assert.Equal("CHF", ValidatedBill.Currency);
         }
 
         [Fact]
-        void MissingCurrency()
+        private void MissingCurrency()
         {
-            bill = SampleData.CreateExample1();
-            bill.Currency = null;
+            SourceBill = SampleData.CreateExample1();
+            SourceBill.Currency = null;
             Validate();
-            AssertSingleErrorMessage(Bill.FieldCurrency, "field_is_mandatory");
+            AssertSingleErrorMessage(ValidationConstants.FieldCurrency, "field_is_mandatory");
         }
 
         [Fact]
-        void InvalidCurrency()
+        private void InvalidCurrency()
         {
-            bill = SampleData.CreateExample1();
-            bill.Currency = "USD";
+            SourceBill = SampleData.CreateExample1();
+            SourceBill.Currency = "USD";
             Validate();
-            AssertSingleErrorMessage(Bill.FieldCurrency, "currency_is_chf_or_eur");
+            AssertSingleErrorMessage(ValidationConstants.FieldCurrency, "currency_is_chf_or_eur");
         }
 
         [Fact]
-        void OpenAmount()
+        private void OpenAmount()
         {
-            bill = SampleData.CreateExample1();
-            bill.Amount = null;
-            Validate();
-            AssertNoMessages();
-            Assert.Null(validatedBill.Amount);
-        }
-
-        [Fact]
-        void ValidAmount()
-        {
-            bill = SampleData.CreateExample1();
-            bill.Amount = 100.15m;
+            SourceBill = SampleData.CreateExample1();
+            SourceBill.Amount = null;
             Validate();
             AssertNoMessages();
-            Assert.Equal(100.15m, validatedBill.Amount);
+            Assert.Null(ValidatedBill.Amount);
         }
 
         [Fact]
-        void AmountTooLow()
+        private void ValidAmount()
         {
-            bill = SampleData.CreateExample1();
-            bill.Amount = 0m;
-            Validate();
-            AssertSingleErrorMessage(Bill.FieldAmount, "amount_in_valid_range");
-        }
-
-        [Fact]
-        void AmountTooHigh2()
-        {
-            bill = SampleData.CreateExample1();
-            bill.Amount = 1000000000.0m;
-            Validate();
-            AssertSingleErrorMessage(Bill.FieldAmount, "amount_in_valid_range");
-        }
-
-        [Fact]
-        void ValidCHAccount()
-        {
-            bill = SampleData.CreateExample1();
-            bill.Account = "CH4431999123000889012";
+            SourceBill = SampleData.CreateExample1();
+            SourceBill.Amount = 100.15m;
             Validate();
             AssertNoMessages();
-            Assert.Equal("CH4431999123000889012", validatedBill.Account);
+            Assert.Equal(100.15m, ValidatedBill.Amount);
         }
 
         [Fact]
-        void ValidLIAccount()
+        private void AmountTooLow()
         {
-            bill = SampleData.CreateExample3();
-            bill.Account = "LI56 0880 0000 0209 4080 8";
+            SourceBill = SampleData.CreateExample1();
+            SourceBill.Amount = 0m;
+            Validate();
+            AssertSingleErrorMessage(ValidationConstants.FieldAmount, "amount_in_valid_range");
+        }
+
+        [Fact]
+        private void AmountTooHigh2()
+        {
+            SourceBill = SampleData.CreateExample1();
+            SourceBill.Amount = 1000000000.0m;
+            Validate();
+            AssertSingleErrorMessage(ValidationConstants.FieldAmount, "amount_in_valid_range");
+        }
+
+        [Fact]
+        private void ValidChAccount()
+        {
+            SourceBill = SampleData.CreateExample1();
+            SourceBill.Account = "CH4431999123000889012";
             Validate();
             AssertNoMessages();
-            Assert.Equal("LI5608800000020940808", validatedBill.Account);
+            Assert.Equal("CH4431999123000889012", ValidatedBill.Account);
         }
 
         [Fact]
-        void ValidAccountWithSpaces()
+        private void ValidLiAccount()
         {
-            bill = SampleData.CreateExample1();
-            bill.Account = " CH44 3199 9123 0008 89012";
+            SourceBill = SampleData.CreateExample3();
+            SourceBill.Account = "LI56 0880 0000 0209 4080 8";
             Validate();
             AssertNoMessages();
-            Assert.Equal("CH4431999123000889012", validatedBill.Account);
+            Assert.Equal("LI5608800000020940808", ValidatedBill.Account);
         }
 
         [Fact]
-        void MissingAccount()
+        private void ValidAccountWithSpaces()
         {
-            bill = SampleData.CreateExample1();
-            bill.Account = null;
-            Validate();
-            AssertSingleErrorMessage(Bill.FieldAccount, "field_is_mandatory");
-        }
-
-        [Fact]
-        void ForeignAccount()
-        {
-            bill = SampleData.CreateExample1();
-            bill.Account = "DE68 2012 0700 3100 7555 55";
-            Validate();
-            AssertSingleErrorMessage(Bill.FieldAccount, "account_is_ch_li_iban");
-        }
-
-        [Fact]
-        void InvalidIBAN1()
-        {
-            bill = SampleData.CreateExample1();
-            bill.Account = "CH0031999123000889012";
-            Validate();
-            AssertSingleErrorMessage(Bill.FieldAccount, "account_is_valid_iban");
-        }
-
-        [Fact]
-        void InvalidIBAN2()
-        {
-            bill = SampleData.CreateExample1();
-            bill.Account = "CH503199912300088333339012";
-            Validate();
-            AssertSingleErrorMessage(Bill.FieldAccount, "account_is_valid_iban");
-        }
-
-        [Fact]
-        void ValidUnstructuredMessage()
-        {
-            bill = SampleData.CreateExample1();
-
-            bill.UnstructuredMessage = "Bill no 39133";
+            SourceBill = SampleData.CreateExample1();
+            SourceBill.Account = " CH44 3199 9123 0008 89012";
             Validate();
             AssertNoMessages();
-            Assert.Equal("Bill no 39133", validatedBill.UnstructuredMessage);
+            Assert.Equal("CH4431999123000889012", ValidatedBill.Account);
         }
 
         [Fact]
-        void EmptyUnstructureMessage()
+        private void MissingAccount()
         {
-            bill = SampleData.CreateExample1();
-            bill.UnstructuredMessage = "   ";
+            SourceBill = SampleData.CreateExample1();
+            SourceBill.Account = null;
+            Validate();
+            AssertSingleErrorMessage(ValidationConstants.FieldAccount, "field_is_mandatory");
+        }
+
+        [Fact]
+        private void ForeignAccount()
+        {
+            SourceBill = SampleData.CreateExample1();
+            SourceBill.Account = "DE68 2012 0700 3100 7555 55";
+            Validate();
+            AssertSingleErrorMessage(ValidationConstants.FieldAccount, "account_is_ch_li_iban");
+        }
+
+        [Fact]
+        private void InvalidIban1()
+        {
+            SourceBill = SampleData.CreateExample1();
+            SourceBill.Account = "CH0031999123000889012";
+            Validate();
+            AssertSingleErrorMessage(ValidationConstants.FieldAccount, "account_is_valid_iban");
+        }
+
+        [Fact]
+        private void InvalidIban2()
+        {
+            SourceBill = SampleData.CreateExample1();
+            SourceBill.Account = "CH503199912300088333339012";
+            Validate();
+            AssertSingleErrorMessage(ValidationConstants.FieldAccount, "account_is_valid_iban");
+        }
+
+        [Fact]
+        private void ValidUnstructuredMessage()
+        {
+            SourceBill = SampleData.CreateExample1();
+
+            SourceBill.UnstructuredMessage = "Bill no 39133";
             Validate();
             AssertNoMessages();
-            Assert.Null(validatedBill.UnstructuredMessage);
+            Assert.Equal("Bill no 39133", ValidatedBill.UnstructuredMessage);
         }
 
         [Fact]
-        void UnstructuredMessageWithLeadingAndTrailingWhitespace()
+        private void EmptyUnstructureMessage()
         {
-            bill = SampleData.CreateExample1();
-            bill.UnstructuredMessage = "  Bill no 39133 ";
+            SourceBill = SampleData.CreateExample1();
+            SourceBill.UnstructuredMessage = "   ";
             Validate();
             AssertNoMessages();
-            Assert.Equal("Bill no 39133", validatedBill.UnstructuredMessage);
+            Assert.Null(ValidatedBill.UnstructuredMessage);
         }
 
         [Fact]
-        void TooLongBillInformation()
+        private void UnstructuredMessageWithLeadingAndTrailingWhitespace()
         {
-            bill = SampleData.CreateExample1();
-            bill.BillInformation = "//AA4567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789x";
+            SourceBill = SampleData.CreateExample1();
+            SourceBill.UnstructuredMessage = "  Bill no 39133 ";
             Validate();
-            AssertSingleErrorMessage(Bill.FieldBillInformation, "field_value_too_long");
+            AssertNoMessages();
+            Assert.Equal("Bill no 39133", ValidatedBill.UnstructuredMessage);
         }
 
         [Fact]
-        void InvalidBillInformation1()
+        private void TooLongBillInformation()
         {
-            bill = SampleData.CreateExample1();
-            bill.BillInformation = "ABCD";
+            SourceBill = SampleData.CreateExample1();
+            SourceBill.BillInformation = "//AA4567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789x";
             Validate();
-            AssertSingleErrorMessage(Bill.FieldBillInformation, "bill_info_invalid");
+            AssertSingleErrorMessage(ValidationConstants.FieldBillInformation, "field_value_too_long");
         }
 
         [Fact]
-        void InvalidBillInformation2()
+        private void InvalidBillInformation1()
         {
-            bill = SampleData.CreateExample1();
-            bill.BillInformation = "//A";
+            SourceBill = SampleData.CreateExample1();
+            SourceBill.BillInformation = "ABCD";
             Validate();
-            AssertSingleErrorMessage(Bill.FieldBillInformation, "bill_info_invalid");
+            AssertSingleErrorMessage(ValidationConstants.FieldBillInformation, "bill_info_invalid");
         }
 
         [Fact]
-        void TooManyAltSchemes()
+        private void InvalidBillInformation2()
         {
-            bill = SampleData.CreateExample1();
-            bill.AlternativeSchemes = new List<AlternativeScheme> {
+            SourceBill = SampleData.CreateExample1();
+            SourceBill.BillInformation = "//A";
+            Validate();
+            AssertSingleErrorMessage(ValidationConstants.FieldBillInformation, "bill_info_invalid");
+        }
+
+        [Fact]
+        private void TooManyAltSchemes()
+        {
+            SourceBill = SampleData.CreateExample1();
+            SourceBill.AlternativeSchemes = new List<AlternativeScheme> {
                 new AlternativeScheme{ Name = "Ultraviolet", Instruction = "UV;UltraPay005;12345" },
                 new AlternativeScheme{ Name = "Xing Yong", Instruction = "XY;XYService;54321" },
                 new AlternativeScheme{ Name = "Too Much", Instruction = "TM/asdfa/asdfa/" }
             };
             Validate();
-            AssertSingleErrorMessage(Bill.FieldAlternativeSchemes, "alt_scheme_max_exceed");
+            AssertSingleErrorMessage(ValidationConstants.FieldAlternativeSchemes, "alt_scheme_max_exceed");
         }
 
         [Fact]
-        void TooLongAltSchemeInstructions()
+        private void TooLongAltSchemeInstructions()
         {
-            bill = SampleData.CreateExample1();
-            bill.AlternativeSchemes = new List<AlternativeScheme> {
+            SourceBill = SampleData.CreateExample1();
+            SourceBill.AlternativeSchemes = new List<AlternativeScheme> {
                 new AlternativeScheme{ Name = "Ultraviolet", Instruction =
                         "UV;UltraPay005;12345;xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" },
                 new AlternativeScheme{ Name = "Xing Yong", Instruction = "XY;XYService;54321" }
             };
             Validate();
-            AssertSingleErrorMessage(Bill.FieldAlternativeSchemes, "field_value_too_long");
+            AssertSingleErrorMessage(ValidationConstants.FieldAlternativeSchemes, "field_value_too_long");
         }
     }
 }

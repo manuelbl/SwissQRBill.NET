@@ -17,16 +17,16 @@ namespace Codecrete.SwissQRBill.Generator
     /// </summary>
     internal struct Validator
     {
-        private readonly Bill billIn;
-        private readonly Bill billOut;
-        private readonly ValidationResult validationResult;
+        private readonly Bill _billIn;
+        private readonly Bill _billOut;
+        private readonly ValidationResult _validationResult;
 
         /// <summary>
         /// Validates the QR bill data and returns the validation messages (if any) and
         /// the cleaned bill data.
         /// </summary>
-        /// <param name="bill">bill data to validate</param>
-        /// <returns>validation result</returns>
+        /// <param name="bill">The bill data to validate.</param>
+        /// <returns>The validation result.</returns>
         internal static ValidationResult Validate(Bill bill)
         {
             Validator validator = new Validator(bill);
@@ -35,16 +35,16 @@ namespace Codecrete.SwissQRBill.Generator
 
         private Validator(Bill bill)
         {
-            billIn = bill;
-            billOut = new Bill();
-            validationResult = new ValidationResult();
+            _billIn = bill;
+            _billOut = new Bill();
+            _validationResult = new ValidationResult();
         }
 
         private ValidationResult ValidateBill()
         {
 
-            billOut.Format = billIn.Format != null ? new BillFormat(billIn.Format) : null;
-            billOut.Version = billIn.Version;
+            _billOut.Format = _billIn.Format != null ? new BillFormat(_billIn.Format) : null;
+            _billOut.Version = _billIn.Version;
 
             ValidateAccountNumber();
             ValidateCreditor();
@@ -56,33 +56,35 @@ namespace Codecrete.SwissQRBill.Generator
             ValidateBillInformation();
             ValidateAlternativeSchemes();
 
-            validationResult.CleanedBill = billOut;
-            return validationResult;
+            _validationResult.CleanedBill = _billOut;
+            return _validationResult;
         }
 
         private void ValidateCurrency()
         {
-            string currency = billIn.Currency.Trimmed();
-            if (ValidateMandatory(currency, Bill.FieldCurrency))
+            string currency = _billIn.Currency.Trimmed();
+            if (!ValidateMandatory(currency, ValidationConstants.FieldCurrency))
             {
-                currency = currency.ToUpperInvariant();
-                if (currency != "CHF" && currency != "EUR")
-                {
-                    validationResult.AddMessage(MessageType.Error, Bill.FieldCurrency, QRBill.KeyCurrencyIsCHFOrEUR);
-                }
-                else
-                {
-                    billOut.Currency = currency;
-                }
+                return;
+            }
+
+            currency = currency.ToUpperInvariant();
+            if (currency != "CHF" && currency != "EUR")
+            {
+                _validationResult.AddMessage(MessageType.Error, ValidationConstants.FieldCurrency, ValidationConstants.KeyCurrencyIsCHFOrEUR);
+            }
+            else
+            {
+                _billOut.Currency = currency;
             }
         }
 
         private void ValidateAmount()
         {
-            decimal? amount = billIn.Amount;
+            decimal? amount = _billIn.Amount;
             if (amount == null)
             {
-                billOut.Amount = null;
+                _billOut.Amount = null;
             }
             else
             {
@@ -90,81 +92,78 @@ namespace Codecrete.SwissQRBill.Generator
                 amt = Math.Round(amt, 2, MidpointRounding.AwayFromZero); // round to multiple of 0.01
                 if (amt < 0.01m || amt > 999999999.99m)
                 {
-                    validationResult.AddMessage(MessageType.Error, Bill.FieldAmount, QRBill.KeyAmountIsInValidRange);
+                    _validationResult.AddMessage(MessageType.Error, ValidationConstants.FieldAmount, ValidationConstants.KeyAmountIsInValidRange);
                 }
                 else
                 {
-                    billOut.Amount = amt;
+                    _billOut.Amount = amt;
                 }
             }
         }
 
         private void ValidateAccountNumber()
         {
-            string account = billIn.Account.Trimmed();
-            if (ValidateMandatory(account, Bill.FieldAccount))
+            string account = _billIn.Account.Trimmed();
+            if (!ValidateMandatory(account, ValidationConstants.FieldAccount))
             {
-                account = account.WhiteSpaceRemoved().ToUpperInvariant();
-                if (ValidateIBAN(account))
-                {
-                    if (!account.StartsWith("CH") && !account.StartsWith("LI"))
-                    {
-                        validationResult.AddMessage(MessageType.Error, Bill.FieldAccount, QRBill.KeyAccountIsCH_LI_IBAN);
-                    }
-                    else if (account.Length != 21)
-                    {
-                        validationResult.AddMessage(MessageType.Error, Bill.FieldAccount, QRBill.KeyAccountIsValidIBAN);
-                    }
-                    else
-                    {
-                        billOut.Account = account;
-                    }
-                }
+                return;
+            }
+
+            account = account.WhiteSpaceRemoved().ToUpperInvariant();
+            if (!ValidateIban(account))
+            {
+                return;
+            }
+
+            if (!account.StartsWith("CH") && !account.StartsWith("LI"))
+            {
+                _validationResult.AddMessage(MessageType.Error, ValidationConstants.FieldAccount, ValidationConstants.KeyAccountIsCH_LI_IBAN);
+            }
+            else if (account.Length != 21)
+            {
+                _validationResult.AddMessage(MessageType.Error, ValidationConstants.FieldAccount, ValidationConstants.KeyAccountIsValidIBAN);
+            }
+            else
+            {
+                _billOut.Account = account;
             }
         }
 
         private void ValidateCreditor()
         {
-            Address creditor = ValidateAddress(billIn.Creditor, Bill.FieldRootCreditor, true);
-            billOut.Creditor = creditor;
+            Address creditor = ValidateAddress(_billIn.Creditor, ValidationConstants.FieldRootCreditor, true);
+            _billOut.Creditor = creditor;
         }
 
         private void ValidateReference()
         {
-            string account = billOut.Account;
+            string account = _billOut.Account;
             bool isValidAccount = account != null;
-            bool isQRBillIBAN = account != null && account[4] == '3'
+            bool isQrBillIban = account != null && account[4] == '3'
                     && (account[5] == '0' || account[5] == '1');
 
-            string reference = billIn.Reference.Trimmed();
-            if (reference != null)
+            string reference = _billIn.Reference.Trimmed();
+            reference = reference?.WhiteSpaceRemoved();
+
+            if (isQrBillIban)
             {
-                reference = reference.WhiteSpaceRemoved();
-            }
-
-            if (isQRBillIBAN)
-            {
-
-                ValidateQRReference(reference);
-
+                ValidateQrReference(reference);
             }
             else if (isValidAccount && reference != null)
             {
-
-                ValidateISOReference(reference);
-
+                ValidateIsoReference(reference);
             }
             else
             {
-                billOut.Reference = null;
+                _billOut.Reference = null;
             }
         }
 
-        private void ValidateQRReference(string cleanedReference)
+        private void ValidateQrReference(string cleanedReference)
         {
             if (cleanedReference == null)
             {
-                validationResult.AddMessage(MessageType.Error, Bill.FieldReference, QRBill.KeyMandatoryForQRIBAN);
+                _validationResult.AddMessage(MessageType.Error, ValidationConstants.FieldReference, ValidationConstants.KeyMandatoryForQRIBAN);
                 return;
             }
 
@@ -173,62 +172,62 @@ namespace Codecrete.SwissQRBill.Generator
                 cleanedReference = "00000000000000000000000000".Substring(0, 27 - cleanedReference.Length) + cleanedReference;
             }
 
-            if (!Payments.IsValidQRReference(cleanedReference))
+            if (!Payments.IsValidQrReference(cleanedReference))
             {
-                validationResult.AddMessage(MessageType.Error, Bill.FieldReference, QRBill.KeyValidQRRefNo);
+                _validationResult.AddMessage(MessageType.Error, ValidationConstants.FieldReference, ValidationConstants.KeyValidQRRefNo);
             }
             else
             {
-                billOut.Reference = cleanedReference;
+                _billOut.Reference = cleanedReference;
             }
         }
 
-        private void ValidateISOReference(string cleanedReference)
+        private void ValidateIsoReference(string cleanedReference)
         {
-            if (!Payments.IsValidISO11649Reference(cleanedReference))
+            if (!Payments.IsValidIso11649Reference(cleanedReference))
             {
-                validationResult.AddMessage(MessageType.Error, Bill.FieldReference, QRBill.KeyValidISO11649CreditorRef);
+                _validationResult.AddMessage(MessageType.Error, ValidationConstants.FieldReference, ValidationConstants.KeyValidISO11649CreditorRef);
             }
             else
             {
-                billOut.Reference = cleanedReference;
+                _billOut.Reference = cleanedReference;
             }
         }
 
         private void ValidateUnstructuredMessage()
         {
-            string unstructuredMessage = billIn.UnstructuredMessage.Trimmed();
-            unstructuredMessage = ClippedValue(unstructuredMessage, 140, Bill.FieldUnstructuredMessage);
-            billOut.UnstructuredMessage = unstructuredMessage;
+            string unstructuredMessage = _billIn.UnstructuredMessage.Trimmed();
+            unstructuredMessage = ClippedValue(unstructuredMessage, 140, ValidationConstants.FieldUnstructuredMessage);
+            _billOut.UnstructuredMessage = unstructuredMessage;
         }
 
         private void ValidateBillInformation()
         {
-            string billInformation = billIn.BillInformation.Trimmed();
+            string billInformation = _billIn.BillInformation.Trimmed();
             if (billInformation != null)
             {
-                if (!ValidateLength(billInformation, 140, Bill.FieldBillInformation))
+                if (!ValidateLength(billInformation, 140, ValidationConstants.FieldBillInformation))
                 {
                     return;
                 }
 
                 if (!billInformation.StartsWith("//") || billInformation.Length < 4)
                 {
-                    validationResult.AddMessage(MessageType.Error, Bill.FieldBillInformation, QRBill.KeyBillInfoInvalid);
+                    _validationResult.AddMessage(MessageType.Error, ValidationConstants.FieldBillInformation, ValidationConstants.KeyBillInfoInvalid);
                     return;
                 }
             }
-            billOut.BillInformation = billInformation;
+            _billOut.BillInformation = billInformation;
         }
 
         private void ValidateAlternativeSchemes()
         {
             List<AlternativeScheme> schemesOut = null;
-            if (billIn.AlternativeSchemes != null)
+            if (_billIn.AlternativeSchemes != null)
             {
                 schemesOut = new List<AlternativeScheme>();
 
-                foreach (AlternativeScheme schemeIn in billIn.AlternativeSchemes)
+                foreach (AlternativeScheme schemeIn in _billIn.AlternativeSchemes)
                 {
                     AlternativeScheme schemeOut = new AlternativeScheme
                     {
@@ -236,7 +235,7 @@ namespace Codecrete.SwissQRBill.Generator
                         Instruction = schemeIn.Instruction.Trimmed()
                     };
                     if ((schemeOut.Name != null || schemeOut.Instruction != null)
-                        && ValidateLength(schemeOut.Instruction, 100, Bill.FieldAlternativeSchemes))
+                        && ValidateLength(schemeOut.Instruction, 100, ValidationConstants.FieldAlternativeSchemes))
                     {
                         schemesOut.Add(schemeOut);
                     }
@@ -246,7 +245,7 @@ namespace Codecrete.SwissQRBill.Generator
                 {
                     if (schemesOut.Count > 2)
                     {
-                        validationResult.AddMessage(MessageType.Error, Bill.FieldAlternativeSchemes, QRBill.KeyAltSchemeExceeded);
+                        _validationResult.AddMessage(MessageType.Error, ValidationConstants.FieldAlternativeSchemes, ValidationConstants.KeyAltSchemeExceeded);
                         schemesOut = schemesOut.GetRange(0, 2);
                     }
                 }
@@ -255,13 +254,13 @@ namespace Codecrete.SwissQRBill.Generator
                     schemesOut = null;
                 }
             }
-            billOut.AlternativeSchemes = schemesOut;
+            _billOut.AlternativeSchemes = schemesOut;
         }
 
         private void ValidateDebtor()
         {
-            Address debtor = ValidateAddress(billIn.Debtor, Bill.FieldRootDebtor, false);
-            billOut.Debtor = debtor;
+            Address debtor = ValidateAddress(_billIn.Debtor, ValidationConstants.FieldRootDebtor, false);
+            _billOut.Debtor = debtor;
         }
 
         private Address ValidateAddress(Address addressIn, string fieldRoot, bool mandatory)
@@ -283,8 +282,8 @@ namespace Codecrete.SwissQRBill.Generator
             if (addressOut.CountryCode != null
                     && (addressOut.CountryCode.Length != 2 || !Payments.IsAlphaNumeric(addressOut.CountryCode)))
             {
-                validationResult.AddMessage(MessageType.Error, fieldRoot + Bill.SubFieldCountryCode,
-                        QRBill.KeyValidCountryCode);
+                _validationResult.AddMessage(MessageType.Error, fieldRoot + ValidationConstants.SubFieldCountryCode,
+                        ValidationConstants.KeyValidCountryCode);
             }
 
             CleanAddressFields(addressOut, fieldRoot);
@@ -296,11 +295,11 @@ namespace Codecrete.SwissQRBill.Generator
         {
             if (mandatory)
             {
-                validationResult.AddMessage(MessageType.Error, fieldRoot + Bill.SubFieldName, QRBill.KeyFieldIsMandatory);
-                validationResult.AddMessage(MessageType.Error, fieldRoot + Bill.SubFieldPostalCode, QRBill.KeyFieldIsMandatory);
-                validationResult.AddMessage(MessageType.Error, fieldRoot + Bill.SubFieldAddressLine2, QRBill.KeyFieldIsMandatory);
-                validationResult.AddMessage(MessageType.Error, fieldRoot + Bill.SubFieldTown, QRBill.KeyFieldIsMandatory);
-                validationResult.AddMessage(MessageType.Error, fieldRoot + Bill.SubFieldCountryCode, QRBill.KeyFieldIsMandatory);
+                _validationResult.AddMessage(MessageType.Error, fieldRoot + ValidationConstants.SubFieldName, ValidationConstants.KeyFieldIsMandatory);
+                _validationResult.AddMessage(MessageType.Error, fieldRoot + ValidationConstants.SubFieldPostalCode, ValidationConstants.KeyFieldIsMandatory);
+                _validationResult.AddMessage(MessageType.Error, fieldRoot + ValidationConstants.SubFieldAddressLine2, ValidationConstants.KeyFieldIsMandatory);
+                _validationResult.AddMessage(MessageType.Error, fieldRoot + ValidationConstants.SubFieldTown, ValidationConstants.KeyFieldIsMandatory);
+                _validationResult.AddMessage(MessageType.Error, fieldRoot + ValidationConstants.SubFieldCountryCode, ValidationConstants.KeyFieldIsMandatory);
             }
         }
 
@@ -308,64 +307,64 @@ namespace Codecrete.SwissQRBill.Generator
         {
             if (addressOut.AddressLine1 != null)
             {
-                validationResult.AddMessage(MessageType.Error, fieldRoot + Bill.SubFieldAddressLine1, QRBill.KeyAddressTypeConflict);
+                _validationResult.AddMessage(MessageType.Error, fieldRoot + ValidationConstants.SubFieldAddressLine1, ValidationConstants.KeyAddressTypeConflict);
             }
 
             if (addressOut.AddressLine2 != null)
             {
-                validationResult.AddMessage(MessageType.Error, fieldRoot + Bill.SubFieldAddressLine2, QRBill.KeyAddressTypeConflict);
+                _validationResult.AddMessage(MessageType.Error, fieldRoot + ValidationConstants.SubFieldAddressLine2, ValidationConstants.KeyAddressTypeConflict);
             }
 
             if (addressOut.Street != null)
             {
-                validationResult.AddMessage(MessageType.Error, fieldRoot + Bill.SubFieldStreet, QRBill.KeyAddressTypeConflict);
+                _validationResult.AddMessage(MessageType.Error, fieldRoot + ValidationConstants.SubFieldStreet, ValidationConstants.KeyAddressTypeConflict);
             }
 
             if (addressOut.HouseNo != null)
             {
-                validationResult.AddMessage(MessageType.Error, fieldRoot + Bill.SubFieldHouseNo, QRBill.KeyAddressTypeConflict);
+                _validationResult.AddMessage(MessageType.Error, fieldRoot + ValidationConstants.SubFieldHouseNo, ValidationConstants.KeyAddressTypeConflict);
             }
 
             if (addressOut.PostalCode != null)
             {
-                validationResult.AddMessage(MessageType.Error, fieldRoot + Bill.SubFieldPostalCode, QRBill.KeyAddressTypeConflict);
+                _validationResult.AddMessage(MessageType.Error, fieldRoot + ValidationConstants.SubFieldPostalCode, ValidationConstants.KeyAddressTypeConflict);
             }
 
             if (addressOut.Town != null)
             {
-                validationResult.AddMessage(MessageType.Error, fieldRoot + Bill.SubFieldTown, QRBill.KeyAddressTypeConflict);
+                _validationResult.AddMessage(MessageType.Error, fieldRoot + ValidationConstants.SubFieldTown, ValidationConstants.KeyAddressTypeConflict);
             }
         }
 
         private void CheckMandatoryAddressFields(Address addressOut, string fieldRoot)
         {
-            ValidateMandatory(addressOut.Name, fieldRoot, Bill.SubFieldName);
+            ValidateMandatory(addressOut.Name, fieldRoot, ValidationConstants.SubFieldName);
             if (addressOut.Type == AddressType.Structured || addressOut.Type == AddressType.Undetermined)
             {
-                ValidateMandatory(addressOut.PostalCode, fieldRoot, Bill.SubFieldPostalCode);
-                ValidateMandatory(addressOut.Town, fieldRoot, Bill.SubFieldTown);
+                ValidateMandatory(addressOut.PostalCode, fieldRoot, ValidationConstants.SubFieldPostalCode);
+                ValidateMandatory(addressOut.Town, fieldRoot, ValidationConstants.SubFieldTown);
             }
             if (addressOut.Type == AddressType.CombinedElements || addressOut.Type == AddressType.Undetermined)
             {
-                ValidateMandatory(addressOut.AddressLine2, fieldRoot, Bill.SubFieldAddressLine2);
+                ValidateMandatory(addressOut.AddressLine2, fieldRoot, ValidationConstants.SubFieldAddressLine2);
             }
-            ValidateMandatory(addressOut.CountryCode, fieldRoot, Bill.SubFieldCountryCode);
+            ValidateMandatory(addressOut.CountryCode, fieldRoot, ValidationConstants.SubFieldCountryCode);
         }
 
         private void CleanAddressFields(Address addressOut, string fieldRoot)
         {
-            addressOut.Name = ClippedValue(addressOut.Name, 70, fieldRoot, Bill.SubFieldName);
+            addressOut.Name = ClippedValue(addressOut.Name, 70, fieldRoot, ValidationConstants.SubFieldName);
             if (addressOut.Type == AddressType.Structured)
             {
-                addressOut.Street = ClippedValue(addressOut.Street, 70, fieldRoot, Bill.SubFieldStreet);
-                addressOut.HouseNo = ClippedValue(addressOut.HouseNo, 16, fieldRoot, Bill.SubFieldHouseNo);
-                addressOut.PostalCode = ClippedValue(addressOut.PostalCode, 16, fieldRoot, Bill.SubFieldPostalCode);
-                addressOut.Town = ClippedValue(addressOut.Town, 35, fieldRoot, Bill.SubFieldTown);
+                addressOut.Street = ClippedValue(addressOut.Street, 70, fieldRoot, ValidationConstants.SubFieldStreet);
+                addressOut.HouseNo = ClippedValue(addressOut.HouseNo, 16, fieldRoot, ValidationConstants.SubFieldHouseNo);
+                addressOut.PostalCode = ClippedValue(addressOut.PostalCode, 16, fieldRoot, ValidationConstants.SubFieldPostalCode);
+                addressOut.Town = ClippedValue(addressOut.Town, 35, fieldRoot, ValidationConstants.SubFieldTown);
             }
             if (addressOut.Type == AddressType.CombinedElements)
             {
-                addressOut.AddressLine1 = ClippedValue(addressOut.AddressLine1, 70, fieldRoot, Bill.SubFieldAddressLine1);
-                addressOut.AddressLine2 = ClippedValue(addressOut.AddressLine2, 70, fieldRoot, Bill.SubFieldAddressLine2);
+                addressOut.AddressLine1 = ClippedValue(addressOut.AddressLine1, 70, fieldRoot, ValidationConstants.SubFieldAddressLine1);
+                addressOut.AddressLine2 = ClippedValue(addressOut.AddressLine2, 70, fieldRoot, ValidationConstants.SubFieldAddressLine2);
             }
             if (addressOut.CountryCode != null)
             {
@@ -373,14 +372,15 @@ namespace Codecrete.SwissQRBill.Generator
             }
         }
 
-        private bool ValidateIBAN(string iban)
+        private bool ValidateIban(string iban)
         {
-            if (!Payments.IsValidIBAN(iban))
+            if (Payments.IsValidIban(iban))
             {
-                validationResult.AddMessage(MessageType.Error, Bill.FieldAccount, QRBill.KeyAccountIsValidIBAN);
-                return false;
+                return true;
             }
-            return true;
+
+            _validationResult.AddMessage(MessageType.Error, ValidationConstants.FieldAccount, ValidationConstants.KeyAccountIsValidIBAN);
+            return false;
         }
 
         private Address CleanedPerson(Address addressIn, string fieldRoot)
@@ -392,39 +392,39 @@ namespace Codecrete.SwissQRBill.Generator
 
             Address addressOut = new Address
             {
-                Name = CleanedValue(addressIn.Name, fieldRoot, Bill.SubFieldName)
+                Name = CleanedValue(addressIn.Name, fieldRoot, ValidationConstants.SubFieldName)
             };
-            string value = CleanedValue(addressIn.AddressLine1, fieldRoot, Bill.SubFieldAddressLine1);
+            string value = CleanedValue(addressIn.AddressLine1, fieldRoot, ValidationConstants.SubFieldAddressLine1);
             if (value != null)
             {
                 addressOut.AddressLine1 = value;
             }
 
-            value = CleanedValue(addressIn.AddressLine2, fieldRoot, Bill.SubFieldAddressLine2);
+            value = CleanedValue(addressIn.AddressLine2, fieldRoot, ValidationConstants.SubFieldAddressLine2);
             if (value != null)
             {
                 addressOut.AddressLine2 = value;
             }
 
-            value = CleanedValue(addressIn.Street, fieldRoot, Bill.SubFieldStreet);
+            value = CleanedValue(addressIn.Street, fieldRoot, ValidationConstants.SubFieldStreet);
             if (value != null)
             {
                 addressOut.Street = value;
             }
 
-            value = CleanedValue(addressIn.HouseNo, fieldRoot, Bill.SubFieldHouseNo);
+            value = CleanedValue(addressIn.HouseNo, fieldRoot, ValidationConstants.SubFieldHouseNo);
             if (value != null)
             {
                 addressOut.HouseNo = value;
             }
 
-            value = CleanedValue(addressIn.PostalCode, fieldRoot, Bill.SubFieldPostalCode);
+            value = CleanedValue(addressIn.PostalCode, fieldRoot, ValidationConstants.SubFieldPostalCode);
             if (value != null)
             {
                 addressOut.PostalCode = value;
             }
 
-            value = CleanedValue(addressIn.Town, fieldRoot, Bill.SubFieldTown);
+            value = CleanedValue(addressIn.Town, fieldRoot, ValidationConstants.SubFieldTown);
             if (value != null)
             {
                 addressOut.Town = value;
@@ -443,59 +443,61 @@ namespace Codecrete.SwissQRBill.Generator
 
         private bool ValidateMandatory(string value, string field)
         {
-            if (string.IsNullOrEmpty(value))
+            if (!string.IsNullOrEmpty(value))
             {
-                validationResult.AddMessage(MessageType.Error, field, QRBill.KeyFieldIsMandatory);
-                return false;
+                return true;
             }
 
-            return true;
+            _validationResult.AddMessage(MessageType.Error, field, ValidationConstants.KeyFieldIsMandatory);
+            return false;
+
         }
 
         private void ValidateMandatory(string value, string fieldRoot, string subfield)
         {
             if (string.IsNullOrEmpty(value))
             {
-                validationResult.AddMessage(MessageType.Error, fieldRoot + subfield, QRBill.KeyFieldIsMandatory);
+                _validationResult.AddMessage(MessageType.Error, fieldRoot + subfield, ValidationConstants.KeyFieldIsMandatory);
             }
         }
 
         private bool ValidateLength(string value, int maxLength, string field)
         {
-            if (value != null && value.Length > maxLength)
-            {
-                validationResult.AddMessage(MessageType.Error, field, QRBill.KeyFieldTooLong,
-                        new string[] { maxLength.ToString() });
-                return false;
-            }
-            else
+            if (value == null || value.Length <= maxLength)
             {
                 return true;
             }
+
+            _validationResult.AddMessage(MessageType.Error, field, ValidationConstants.KeyFieldTooLong,
+                new[] { maxLength.ToString() });
+            return false;
+
         }
 
         private string ClippedValue(string value, int maxLength, string field)
         {
-            if (value != null && value.Length > maxLength)
+            if (value == null || value.Length <= maxLength)
             {
-                validationResult.AddMessage(MessageType.Warning, field, QRBill.KeyFieldClipped,
-                        new string[] { maxLength.ToString() });
-                return value.Substring(0, maxLength);
+                return value;
             }
 
-            return value;
+            _validationResult.AddMessage(MessageType.Warning, field, ValidationConstants.KeyFieldClipped,
+                new[] { maxLength.ToString() });
+            return value.Substring(0, maxLength);
+
         }
 
         private string ClippedValue(string value, int maxLength, string fieldRoot, string subfield)
         {
-            if (value != null && value.Length > maxLength)
+            if (value == null || value.Length <= maxLength)
             {
-                validationResult.AddMessage(MessageType.Warning, fieldRoot + subfield, QRBill.KeyFieldClipped,
-                        new string[] { maxLength.ToString() });
-                return value.Substring(0, maxLength);
+                return value;
             }
 
-            return value;
+            _validationResult.AddMessage(MessageType.Warning, fieldRoot + subfield, ValidationConstants.KeyFieldClipped,
+                new[] { maxLength.ToString() });
+            return value.Substring(0, maxLength);
+
         }
 
         private string CleanedValue(string value, string fieldRoot, string subfield)
@@ -503,7 +505,7 @@ namespace Codecrete.SwissQRBill.Generator
             Payments.CleanValue(value, out Payments.CleaningResult result);
             if (result.ReplacedUnsupportedChars)
             {
-                validationResult.AddMessage(MessageType.Warning, fieldRoot + subfield, QRBill.KeyReplacedUnsupportedCharacters);
+                _validationResult.AddMessage(MessageType.Warning, fieldRoot + subfield, ValidationConstants.KeyReplacedUnsupportedCharacters);
             }
 
             return result.CleanedString;

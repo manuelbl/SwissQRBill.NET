@@ -14,79 +14,79 @@ namespace Codecrete.SwissQRBill.GeneratorTest
     public class DebtorValidationTest : BillDataValidationBase
     {
         [Fact]
-        void ValidDebtor()
+        private void ValidDebtor()
         {
-            bill = SampleData.CreateExample1();
+            SourceBill = SampleData.CreateExample1();
 
             Address address = CreateValidPerson();
-            bill.Debtor = address;
+            SourceBill.Debtor = address;
             Validate();
             AssertNoMessages();
-            Assert.NotNull(validatedBill.Debtor);
-            Assert.Equal("Zuppinger AG", validatedBill.Debtor.Name);
-            Assert.Equal("Industriestrasse", validatedBill.Debtor.Street);
-            Assert.Equal("34a", validatedBill.Debtor.HouseNo);
-            Assert.Equal("9548", validatedBill.Debtor.PostalCode);
-            Assert.Equal("Matzingen", validatedBill.Debtor.Town);
-            Assert.Equal("CH", validatedBill.Debtor.CountryCode);
+            Assert.NotNull(ValidatedBill.Debtor);
+            Assert.Equal("Zuppinger AG", ValidatedBill.Debtor.Name);
+            Assert.Equal("Industriestrasse", ValidatedBill.Debtor.Street);
+            Assert.Equal("34a", ValidatedBill.Debtor.HouseNo);
+            Assert.Equal("9548", ValidatedBill.Debtor.PostalCode);
+            Assert.Equal("Matzingen", ValidatedBill.Debtor.Town);
+            Assert.Equal("CH", ValidatedBill.Debtor.CountryCode);
         }
 
         [Fact]
-        void EmptyDebtor()
+        private void EmptyDebtor()
         {
-            bill = SampleData.CreateExample1();
+            SourceBill = SampleData.CreateExample1();
             Address emptyAddress = new Address();
-            bill.Debtor = emptyAddress;
+            SourceBill.Debtor = emptyAddress;
             Validate();
             AssertNoMessages();
-            Assert.Null(validatedBill.Debtor);
+            Assert.Null(ValidatedBill.Debtor);
         }
 
         [Fact]
-        void EmptyDebtorWithSpaces()
+        private void EmptyDebtorWithSpaces()
         {
-            bill = SampleData.CreateExample1();
+            SourceBill = SampleData.CreateExample1();
             Address emptyAddress = new Address
             {
                 Name = "  "
             };
-            bill.Debtor = emptyAddress;
+            SourceBill.Debtor = emptyAddress;
             Validate();
             AssertNoMessages();
-            Assert.Null(validatedBill.Debtor);
+            Assert.Null(ValidatedBill.Debtor);
         }
 
         [Fact]
-        void MissingName()
+        private void MissingName()
         {
-            bill = SampleData.CreateExample1();
+            SourceBill = SampleData.CreateExample1();
             Address address = CreateValidPerson();
             address.Name = "  ";
-            bill.Debtor = address;
+            SourceBill.Debtor = address;
             Validate();
-            AssertSingleErrorMessage(Bill.FieldDebtorName, "field_is_mandatory");
+            AssertSingleErrorMessage(ValidationConstants.FieldDebtorName, "field_is_mandatory");
         }
 
         [Fact]
-        void MissingTown()
+        private void MissingTown()
         {
-            bill = SampleData.CreateExample1();
+            SourceBill = SampleData.CreateExample1();
             Address address = CreateValidPerson();
             address.Town = null;
-            bill.Debtor = address;
+            SourceBill.Debtor = address;
             Validate();
-            AssertSingleErrorMessage(Bill.FieldDebtorTown, "field_is_mandatory");
+            AssertSingleErrorMessage(ValidationConstants.FieldDebtorTown, "field_is_mandatory");
         }
 
         [Fact]
-        void OpenDebtor()
+        private void OpenDebtor()
         {
-            bill = SampleData.CreateExample1();
+            SourceBill = SampleData.CreateExample1();
 
-            bill.Debtor = null;
+            SourceBill.Debtor = null;
             Validate();
             AssertNoMessages();
-            Assert.Null(validatedBill.Debtor);
+            Assert.Null(ValidatedBill.Debtor);
         }
     }
 }

@@ -17,16 +17,16 @@ namespace Codecrete.SwissQRBill.Generator
     public class QRBillValidationException : Exception
     {
         [NonSerialized]
-        private readonly ValidationResult result;
+        private readonly ValidationResult _result;
 
         /// <summary>
-        /// Initializes a new instance with the specified validation result
+        /// Initializes a new instance with the specified validation result.
         /// </summary>
-        /// <param name="result">validation result</param>
+        /// <param name="result">The validation result.</param>
         public QRBillValidationException(ValidationResult result)
             : base("QR bill data is invalid")
         {
-            this.result = result;
+            _result = result;
         }
 
         protected QRBillValidationException(SerializationInfo info, StreamingContext context)
@@ -37,6 +37,7 @@ namespace Codecrete.SwissQRBill.Generator
         /// <summary>
         /// Gets the validation result with the error messages.
         /// </summary>
-        public ValidationResult Result => result;
+        /// <value>The validation result.</value>
+        public ValidationResult Result => _result;
     }
 }

@@ -44,10 +44,10 @@ namespace Codecrete.SwissQRBill.GeneratorTest
                 Assert.Equal(expectedContent, actualContent);
 
             }
-            catch (XunitException e)
+            catch (XunitException)
             {
                 SaveActualFile(actualContent, expectedFileName);
-                throw e;
+                throw;
             }
             catch (IOException e)
             {
@@ -67,10 +67,10 @@ namespace Codecrete.SwissQRBill.GeneratorTest
                 ImageComparison.AssertGrayscaleImageContentEquals(expectedContent, actualContent);
 
             }
-            catch (XunitException e)
+            catch (XunitException)
             {
                 SaveActualFile(actualContent, expectedFileName);
-                throw e;
+                throw;
             }
             catch (IOException e)
             {

@@ -9,53 +9,64 @@
 namespace Codecrete.SwissQRBill.Generator
 {
     /// <summary>
-    /// QR bill validation message
+    /// QR bill validation message.
     /// </summary>
     public sealed class ValidationMessage
     {
         /// <summary>
-        /// Type of validatin message
+        /// The type of validatin message.
         /// </summary>
         public enum MessageType
         {
             /// <summary>
             /// Warning.
-            /// </summary>
-            /// <remarks>
+            /// <para>
             /// A warning does not prevent the QR bill from being generated. Warnings usually
             /// indicate that data was truncated or otherwise modified.
-            /// </remarks>
+            /// </para>
+            /// </summary>
             Warning,
             /// <summary>
-            /// Error
-            /// </summary>
-            /// <remarks>
+            /// Error.
+            /// <para>
             /// Errors prevent the QR bill from being generated.
-            /// </remarks>
+            /// </para>
+            /// </summary>
             Error
         }
 
         /// <summary>
         /// Gets or sets the type of message.
         /// </summary>
+        /// <value>The message type.</value>
         public MessageType Type { get; set; }
 
         /// <summary>
         /// Gets or sets the name of the affected field.
+        /// <para>
+        /// All field names are available as constants of the <see cref="ValidationConstants"/> class.
+        /// Fields nested in data structures are given like a path using the dot as a separator,
+        /// e.g. <c>creditor.name</c> for the creditor name.
+        /// </para>
         /// </summary>
-        /// <remarks>
-        /// All field names are available as constants of the <see cref="Bill"/> class.
-        /// </remarks>
+        /// <value>The name of the affected field.</value>
+        /// <seealso cref="ValidationConstants"/>
         public string Field { get; set; }
 
         /// <summary>
         /// Gets or sets the language neutral key of the message.
+        /// <para>
+        /// All message keys are available as constants of the <see cref="ValidationConstants"/> class.
+        /// </para>
         /// </summary>
+        /// <value>The message key.</value>
+        /// <seealso cref="ValidationConstants"/>
         public string MessageKey { get; set; }
 
         /// <summary>
         /// Gets additional message parameters (text) that are inserted into the localized message.
         /// </summary>
+        /// <value>The message parameters (if any) or <c>null</c>.</value>
         public string[] MessageParameters { get; set; }
 
         /// <summary>
@@ -65,25 +76,16 @@ namespace Codecrete.SwissQRBill.Generator
 
         /// <summary>
         /// Initializes a new instance with the given values.
+        /// <para>
+        /// For valid field names and message keys, see the constants in the <see cref="ValidationConstants"/> class.
+        /// </para>
         /// </summary>
-        /// <param name="type">Message type</param>
-        /// <param name="field">Affected field</param>
-        /// <param name="messageKey">Language-neutral message key</param>
-        public ValidationMessage(MessageType type, string field, string messageKey)
-        {
-            Type = type;
-            Field = field;
-            MessageKey = messageKey;
-        }
-
-        /// <summary>
-        /// Initializes a new instance with the given values.
-        /// </summary>
-        /// <param name="type">Message type</param>
-        /// <param name="field">Affected field</param>
-        /// <param name="messageKey">Language-neutral message key</param>
-        /// <param name="messageParameters">variable text parts to be inserted into localized message</param>
-        public ValidationMessage(MessageType type, string field, string messageKey, string[] messageParameters)
+        /// <param name="type">The message type.</param>
+        /// <param name="field">The name of the affected field.</param>
+        /// <param name="messageKey">The language-neutral message key.</param>
+        /// <param name="messageParameters">The optional variable text parts to be inserted into localized message.</param>
+        /// <seealso cref="ValidationConstants"/>
+        public ValidationMessage(MessageType type, string field, string messageKey, string[] messageParameters = null)
         {
             Type = type;
             Field = field;

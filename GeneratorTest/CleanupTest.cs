@@ -15,21 +15,21 @@ namespace Codecrete.SwissQRBill.GeneratorTest
     public class CleanupTest
     {
         [Fact]
-        void ClosePNGFreesResources()
+        private void ClosePngFreesResources()
         {
             Type type = typeof(PNGCanvas);
-            FieldInfo bitmap = type.GetField("bitmap", BindingFlags.NonPublic | BindingFlags.Instance);
-            Assert.NotNull(bitmap);
+            FieldInfo bitmapField = type.GetField("_bitmap", BindingFlags.NonPublic | BindingFlags.Instance);
+            Assert.NotNull(bitmapField);
 
             PNGCanvas pngCanvas;
             using (PNGCanvas canvas = new PNGCanvas(300))
             {
                 canvas.SetupPage(200, 100, "Arial");
                 pngCanvas = canvas;
-                Assert.NotNull(bitmap.GetValue(pngCanvas));
+                Assert.NotNull(bitmapField.GetValue(pngCanvas));
             }
 
-            Assert.Null(bitmap.GetValue(pngCanvas));
+            Assert.Null(bitmapField.GetValue(pngCanvas));
         }
     }
 }

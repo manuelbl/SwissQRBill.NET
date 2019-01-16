@@ -16,145 +16,145 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         [Fact]
         public void Valid()
         {
-            Assert.True(Payments.IsValidISO11649Reference("RF49N73GBST73AKL38ZX"));
+            Assert.True(Payments.IsValidIso11649Reference("RF49N73GBST73AKL38ZX"));
         }
 
         [Fact]
-        void ValidWithSpaces()
+        private void ValidWithSpaces()
         {
-            Assert.True(Payments.IsValidISO11649Reference("RF08 B370 0321"));
+            Assert.True(Payments.IsValidIso11649Reference("RF08 B370 0321"));
         }
 
         [Fact]
-        void ValidWithLowercaseLetters()
+        private void ValidWithLowercaseLetters()
         {
-            Assert.True(Payments.IsValidISO11649Reference("RF 44 alll ower case"));
+            Assert.True(Payments.IsValidIso11649Reference("RF 44 alll ower case"));
         }
 
         [Fact]
-        void ValidWithTrailingAndLeadingSpaces()
+        private void ValidWithTrailingAndLeadingSpaces()
         {
-            Assert.True(Payments.IsValidISO11649Reference(" RF19N8BG33KQ9HSS7BG "));
+            Assert.True(Payments.IsValidIso11649Reference(" RF19N8BG33KQ9HSS7BG "));
         }
 
         [Fact]
-        void ValidWithLowercase()
+        private void ValidWithLowercase()
         {
-            Assert.True(Payments.IsValidISO11649Reference("RF66qs9H7NJ4fvs99SPO"));
+            Assert.True(Payments.IsValidIso11649Reference("RF66qs9H7NJ4fvs99SPO"));
         }
 
         [Fact]
-        void ValidShort()
+        private void ValidShort()
         {
-            Assert.True(Payments.IsValidISO11649Reference("RF040"));
+            Assert.True(Payments.IsValidIso11649Reference("RF040"));
         }
 
         [Fact]
-        void TooShort()
+        private void TooShort()
         {
-            Assert.False(Payments.IsValidISO11649Reference("RF04"));
+            Assert.False(Payments.IsValidIso11649Reference("RF04"));
         }
 
         [Fact]
-        void TooShortWithSpaces()
+        private void TooShortWithSpaces()
         {
-            Assert.False(Payments.IsValidISO11649Reference("RF 04"));
+            Assert.False(Payments.IsValidIso11649Reference("RF 04"));
         }
 
         [Fact]
-        void TooLong()
+        private void TooLong()
         {
-            Assert.False(Payments.IsValidISO11649Reference("RF04GHJ74CV9B4DFH99RXPLMMQ43JKL0"));
+            Assert.False(Payments.IsValidIso11649Reference("RF04GHJ74CV9B4DFH99RXPLMMQ43JKL0"));
         }
 
         [Fact]
-        void InvalidChars()
+        private void InvalidChars()
         {
-            Assert.False(Payments.IsValidISO11649Reference("RF20.0000.3"));
+            Assert.False(Payments.IsValidIso11649Reference("RF20.0000.3"));
         }
 
         [Fact]
-        void InvalidCharCodeOnPos1()
+        private void InvalidCharCodeOnPos1()
         {
-            Assert.False(Payments.IsValidISO11649Reference("DK5750510001322617"));
+            Assert.False(Payments.IsValidIso11649Reference("DK5750510001322617"));
         }
 
         [Fact]
-        void InvalidCharCodeOnPos2()
+        private void InvalidCharCodeOnPos2()
         {
-            Assert.False(Payments.IsValidISO11649Reference(" RO49AAAA1B31007593840000"));
+            Assert.False(Payments.IsValidIso11649Reference(" RO49AAAA1B31007593840000"));
         }
 
         [Fact]
-        void InvalidCheckDigitOnPos3()
+        private void InvalidCheckDigitOnPos3()
         {
-            Assert.False(Payments.IsValidISO11649Reference(" RFA8FN3DD938494"));
+            Assert.False(Payments.IsValidIso11649Reference(" RFA8FN3DD938494"));
         }
 
         [Fact]
-        void InvalidCheckDigitOnPos4()
+        private void InvalidCheckDigitOnPos4()
         {
-            Assert.False(Payments.IsValidISO11649Reference("RF0CNHF"));
+            Assert.False(Payments.IsValidIso11649Reference("RF0CNHF"));
         }
 
         [Fact]
-        void InvalidChecksum()
+        private void InvalidChecksum()
         {
-            Assert.False(Payments.IsValidIBAN("RF43029348BDEF3823"));
+            Assert.False(Payments.IsValidIban("RF43029348BDEF3823"));
         }
 
         [Fact]
-        void InvalidChecksum00()
+        private void InvalidChecksum00()
         {
-            Assert.False(Payments.IsValidIBAN("RF0072"));
+            Assert.False(Payments.IsValidIban("RF0072"));
         }
 
         [Fact]
-        void InvalidChecksum01()
+        private void InvalidChecksum01()
         {
-            Assert.False(Payments.IsValidIBAN("RF0154"));
+            Assert.False(Payments.IsValidIban("RF0154"));
         }
 
         [Fact]
-        void InvalidChecksum99()
+        private void InvalidChecksum99()
         {
-            Assert.False(Payments.IsValidIBAN("RF991X"));
+            Assert.False(Payments.IsValidIban("RF991X"));
         }
 
         [Fact]
-        void FormatShort()
+        private void FormatShort()
         {
-            Assert.Equal("RF15 093", Payments.FormatIBAN("RF15093"));
+            Assert.Equal("RF15 093", Payments.FormatIban("RF15093"));
         }
 
         [Fact]
-        void FormatLong()
+        private void FormatLong()
         {
-            Assert.Equal("RF41 BD93 DJ3Q GGD9 JI22 D", Payments.FormatIBAN("RF41BD93DJ3QGGD9JI22D"));
+            Assert.Equal("RF41 BD93 DJ3Q GGD9 JI22 D", Payments.FormatIban("RF41BD93DJ3QGGD9JI22D"));
         }
 
         [Fact]
-        void CreateCreditorReference()
+        private void CreateCreditorReference()
         {
-            Assert.Equal("RF91B334BOPQE39D902DC", Payments.CreateISO11649Reference("B334BOPQE39D902DC"));
+            Assert.Equal("RF91B334BOPQE39D902DC", Payments.CreateIso11649Reference("B334BOPQE39D902DC"));
         }
 
         [Fact]
-        void CreateCreditorReferenceWithLeadingZero()
+        private void CreateCreditorReferenceWithLeadingZero()
         {
-            Assert.Equal("RF097", Payments.CreateISO11649Reference("7"));
+            Assert.Equal("RF097", Payments.CreateIso11649Reference("7"));
         }
 
         [Fact]
-        void TooShortException()
+        private void TooShortException()
         {
-            Assert.Throws<ArgumentException>(() => Payments.CreateISO11649Reference(""));
+            Assert.Throws<ArgumentException>(() => Payments.CreateIso11649Reference(""));
         }
 
         [Fact]
-        void InvalidCharacterException()
+        private void InvalidCharacterException()
         {
-            Assert.Throws<ArgumentException>(() => Payments.CreateISO11649Reference("ABC-DEF"));
+            Assert.Throws<ArgumentException>(() => Payments.CreateIso11649Reference("ABC-DEF"));
         }
     }
 

@@ -13,41 +13,41 @@ using System.Text;
 namespace Codecrete.SwissQRBill.Generator.PDF
 {
     /// <summary>
-    /// PDF document
+    /// PDF document.
     /// </summary>
     public class Document
     {
-        private readonly List<Reference> references;
-        private readonly Reference catalogRef;
-        private readonly Reference documentInfoRef;
-        private readonly PageCollection pages;
-        private readonly Reference pagesRef;
-        private readonly Dictionary<Font, Reference> fontReferences;
+        private readonly List<Reference> _references;
+        private readonly Reference _catalogRef;
+        private readonly Reference _documentInfoRef;
+        private readonly PageCollection _pages;
+        private readonly Reference _pagesRef;
+        private readonly Dictionary<Font, Reference> _fontReferences;
 
         public Document(string title)
         {
-            references = new List<Reference>();
+            _references = new List<Reference>();
             CreateReference(null); // dummy reference with index 0
 
             GeneralDict catalog = new GeneralDict("Catalog");
             catalog.Add("Version", new Name("1.4"));
-            catalogRef = CreateReference(catalog);
+            _catalogRef = CreateReference(catalog);
 
             GeneralDict documentInfo = new GeneralDict();
-            documentInfoRef = CreateReference(documentInfo);
+            _documentInfoRef = CreateReference(documentInfo);
             documentInfo.Add("Title", title);
 
-            pages = new PageCollection(this);
-            pagesRef = CreateReference(pages);
-            catalog.Add("Pages", pagesRef);
+            _pages = new PageCollection(this);
+            _pagesRef = CreateReference(_pages);
+            catalog.Add("Pages", _pagesRef);
 
-            fontReferences = new Dictionary<Font, Reference>();
+            _fontReferences = new Dictionary<Font, Reference>();
         }
 
         public Page CreatePage(float width, float height)
         {
-            Page page = new Page(this, pagesRef, width, height);
-            pages.Add(page);
+            Page page = new Page(this, _pagesRef, width, height);
+            _pages.Add(page);
             return page;
         }
 
@@ -68,25 +68,25 @@ namespace Codecrete.SwissQRBill.Generator.PDF
 
         internal Reference CreateReference(object target)
         {
-            int index = references.Count;
+            int index = _references.Count;
             Reference reference = new Reference(index, target);
-            references.Add(reference);
+            _references.Add(reference);
             return reference;
         }
 
         internal Reference GetOrCreateFontReference(Font font)
         {
-            if (fontReferences.ContainsKey(font))
-                return fontReferences[font];
+            if (_fontReferences.ContainsKey(font))
+                return _fontReferences[font];
 
             Reference reference = CreateReference(font);
-            fontReferences.Add(font, reference);
+            _fontReferences.Add(font, reference);
             return reference;
         }
 
         private void WriteBody(StreamWriter writer, Stream stream)
         {
-            foreach (Reference reference in references)
+            foreach (Reference reference in _references)
             {
                 writer.Flush();
                 reference.Offset = (int)stream.Length;
@@ -97,8 +97,8 @@ namespace Codecrete.SwissQRBill.Generator.PDF
         private void WriteCrossReferenceTable(StreamWriter writer)
         {
             writer.Write("xref\n");
-            writer.Write($"0 {references.Count}\n");
-            foreach (Reference reference in references)
+            writer.Write($"0 {_references.Count}\n");
+            foreach (Reference reference in _references)
             {
                 reference.WriteCrossReference(writer);
             }
@@ -107,9 +107,9 @@ namespace Codecrete.SwissQRBill.Generator.PDF
         private void WriteTrailer(StreamWriter writer, long xrefOffset)
         {
             GeneralDict dict = new GeneralDict();
-            dict.Add("Root", catalogRef);
-            dict.Add("Info", documentInfoRef);
-            dict.Add("Size", references.Count);
+            dict.Add("Root", _catalogRef);
+            dict.Add("Info", _documentInfoRef);
+            dict.Add("Size", _references.Count);
             writer.Write("trailer\n");
             ((IWritable)dict).Write(writer);
             writer.Write("startxref\n");

@@ -15,41 +15,41 @@ namespace Codecrete.SwissQRBill.Generator.PDF
     /// </summary>
     internal class ResourceDict : IWritable
     {
-        private readonly GeneralDict resources;
-        private readonly Dictionary<Font, Name> fontNames;
-        private readonly Document document;
+        private readonly GeneralDict _resources;
+        private readonly Dictionary<Font, Name> _fontNames;
+        private readonly Document _document;
 
         internal ResourceDict(Document document)
         {
-            this.document = document;
-            resources = new GeneralDict("Resources");
-            fontNames = new Dictionary<Font, Name>();
+            _document = document;
+            _resources = new GeneralDict("Resources");
+            _fontNames = new Dictionary<Font, Name>();
         }
 
         internal Name AddFont(Font font)
         {
-            if (fontNames.ContainsKey(font))
+            if (_fontNames.ContainsKey(font))
             {
-                return fontNames[font];
+                return _fontNames[font];
             }
 
-            string fname = $"F{fontNames.Count + 1}";
+            string fname = $"F{_fontNames.Count + 1}";
             Name name = new Name(fname);
-            fontNames.Add(font, name);
-            document.GetOrCreateFontReference(font);
+            _fontNames.Add(font, name);
+            _document.GetOrCreateFontReference(font);
             return name;
         }
 
         void IWritable.Write(StreamWriter writer)
         {
             GeneralDict fontDict = new GeneralDict();
-            foreach (KeyValuePair<Font, Name> e in fontNames)
+            foreach (KeyValuePair<Font, Name> e in _fontNames)
             {
-                fontDict.Add(e.Value.Value, document.GetOrCreateFontReference(e.Key));
+                fontDict.Add(e.Value.Value, _document.GetOrCreateFontReference(e.Key));
             }
-            resources.Add("Font", fontDict);
+            _resources.Add("Font", fontDict);
 
-            (resources as IWritable).Write(writer);
+            (_resources as IWritable).Write(writer);
         }
     }
 }

@@ -14,20 +14,24 @@ namespace Codecrete.SwissQRBill.Generator
     public enum Language
     {
         /// <summary>
-        /// German
+        /// German language.
         /// </summary>
+        // ReSharper disable once InconsistentNaming
         DE,
         /// <summary>
-        /// French
+        /// French language.
         /// </summary>
+        // ReSharper disable once InconsistentNaming
         FR,
         /// <summary>
-        /// Italian
+        /// Italian language.
         /// </summary>
+        // ReSharper disable once InconsistentNaming
         IT,
         /// <summary>
-        /// English
+        /// English language.
         /// </summary>
+        // ReSharper disable once InconsistentNaming
         EN
     }
 }

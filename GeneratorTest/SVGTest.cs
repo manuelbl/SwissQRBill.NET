@@ -13,11 +13,11 @@ namespace Codecrete.SwissQRBill.GeneratorTest
     public class SVGTest
     {
         [Fact]
-        void SvgWithChallengingCharacters()
+        private void SvgWithChallengingCharacters()
         {
             Bill bill = SampleData.CreateExample1();
             bill.UnstructuredMessage = "<h1>&&\"ff\"'t'";
-            bill.Format.OutputSize = OutputSize.QRBillOnly;
+            bill.Format.OutputSize = OutputSize.QrBillOnly;
             bill.Format.GraphicsFormat = GraphicsFormat.SVG;
             byte[] svg = QRBill.Generate(bill);
             FileComparison.AssertFileContentsEqual(svg, "qrbill_sc1.svg");

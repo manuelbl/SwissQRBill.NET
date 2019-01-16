@@ -12,16 +12,16 @@ namespace Codecrete.SwissQRBill.Generator.PDF
 {
     internal class GeneralDict : IWritable
     {
-        private readonly Dictionary<string, object> dict;
+        private readonly Dictionary<string, object> _dict;
 
         internal GeneralDict()
         {
-            dict = new Dictionary<string, object>();
+            _dict = new Dictionary<string, object>();
         }
 
         internal GeneralDict(string type)
         {
-            dict = new Dictionary<string, object>
+            _dict = new Dictionary<string, object>
             {
                 { "Type", new Name(type) }
             };
@@ -30,7 +30,7 @@ namespace Codecrete.SwissQRBill.Generator.PDF
         void IWritable.Write(StreamWriter writer)
         {
             writer.Write("<<\n");
-            foreach (KeyValuePair<string, object> entry in dict)
+            foreach (KeyValuePair<string, object> entry in _dict)
             {
                 writer.Write($"/{entry.Key} ");
                 WriterHelper.WriteObject(writer, entry.Value);
@@ -41,7 +41,7 @@ namespace Codecrete.SwissQRBill.Generator.PDF
 
         internal void Add(string key, object value)
         {
-            dict.Add(key, value);
+            _dict.Add(key, value);
         }
     }
 }

@@ -14,17 +14,17 @@ namespace Codecrete.SwissQRBill.GeneratorTest
     public class BillTest
     {
         [Fact]
-        void SetVersion()
+        private void SetVersion()
         {
             Bill bill = new Bill
             {
-                Version = Bill.StandardVersion.V2_0
+                Version = Bill.QrBillStandardVersion.V2_0
             };
-            Assert.Equal(Bill.StandardVersion.V2_0, bill.Version);
+            Assert.Equal(Bill.QrBillStandardVersion.V2_0, bill.Version);
         }
 
         [Fact]
-        void SetAmount()
+        private void SetAmount()
         {
             Bill bill = new Bill
             {
@@ -34,7 +34,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        void SetCurrency()
+        private void SetCurrency()
         {
             Bill bill = new Bill
             {
@@ -44,7 +44,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        void SetAccount()
+        private void SetAccount()
         {
             Bill bill = new Bill
             {
@@ -54,7 +54,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        void SetCreditor()
+        private void SetCreditor()
         {
             Bill bill = new Bill();
             Address address = CreateAddress();
@@ -64,7 +64,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        void SetReference()
+        private void SetReference()
         {
             Bill bill = new Bill
             {
@@ -74,7 +74,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        void CreateCreditorReference()
+        private void CreateCreditorReference()
         {
             Bill bill = new Bill();
             bill.CreateAndSetCreditorReference("ABCD3934803");
@@ -82,7 +82,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        void SetUnstructuredMessage()
+        private void SetUnstructuredMessage()
         {
             Bill bill = new Bill
             {
@@ -92,7 +92,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        void SetDebtor()
+        private void SetDebtor()
         {
             Bill bill = new Bill();
             Address address = CreateAddress();
@@ -102,7 +102,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        void SetBillInformation()
+        private void SetBillInformation()
         {
             Bill bill = new Bill
             {
@@ -113,7 +113,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        void SetAlternativeScheme()
+        private void SetAlternativeScheme()
         {
             Bill bill = new Bill
             {
@@ -123,7 +123,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        void TestEqualsTrivial()
+        private void TestEqualsTrivial()
         {
             Bill bill = new Bill();
             Assert.Equal(bill, bill);
@@ -133,7 +133,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        void TestEquals()
+        private void TestEquals()
         {
             Bill bill1 = CreateBill();
             Bill bill2 = CreateBill();
@@ -145,7 +145,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        void TestHashCode()
+        private void TestHashCode()
         {
             Bill bill1 = CreateBill();
             Bill bill2 = CreateBill();
@@ -176,10 +176,10 @@ namespace Codecrete.SwissQRBill.GeneratorTest
             };
         }
 
-        private List<AlternativeScheme> CreateAlternativeSchemes()
+        private static List<AlternativeScheme> CreateAlternativeSchemes()
         {
             return new List<AlternativeScheme>(
-             new AlternativeScheme[] {
+             new[] {
                 new AlternativeScheme { Name = "Ultraviolet", Instruction = "UV;UltraPay005;12345" },
                 new AlternativeScheme { Name = "Xing Yong", Instruction = "XY;XYService;54321" }
         });

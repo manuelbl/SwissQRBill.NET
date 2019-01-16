@@ -44,9 +44,9 @@ namespace Codecrete.SwissQRBill.GeneratorTest
             "Bill no. 3139 for gardening work and disposal of waste material\n" +
             "EPD\n";
 
-        public static string CreateQrCodeText1(bool withCRLF)
+        public static string CreateQrCodeText1(bool withCrLf)
         {
-            return HandleLinefeed(QRCodeText1, withCRLF);
+            return HandleLinefeed(QRCodeText1, withCrLf);
         }
 
         public static Bill CreateBillData1()
@@ -76,9 +76,9 @@ namespace Codecrete.SwissQRBill.GeneratorTest
                 Amount = 3949.75m,
                 Currency = "CHF",
                 Debtor = debtor,
-                UnstructuredMessage = "Bill no. 3139 for gardening work and disposal of waste material"
+                UnstructuredMessage = "Bill no. 3139 for gardening work and disposal of waste material",
+                Format = { Language = Language.EN }
             };
-            bill.Format.Language = Language.EN;
             return bill;
         }
 
@@ -117,9 +117,9 @@ namespace Codecrete.SwissQRBill.GeneratorTest
             "UV;UltraPay005;12345\n" +
             "XY;XYService;54321";
 
-        public static string CreateQrCodeText2(bool withCRLF)
+        public static string CreateQrCodeText2(bool withCrLf)
         {
-            return HandleLinefeed(QRCodeText2, withCRLF);
+            return HandleLinefeed(QRCodeText2, withCrLf);
         }
 
         public static Bill CreateBillData2()
@@ -151,13 +151,15 @@ namespace Codecrete.SwissQRBill.GeneratorTest
                 Debtor = debtor,
                 Reference = "210000000003139471430009017",
                 UnstructuredMessage = "Order dated 18.06.2020",
-                BillInformation = "//S1/01/20170309/11/10201409/20/14000000/22/36958/30/CH106017086/40/1020/41/3010",
-                AlternativeSchemes = new List<AlternativeScheme> {
-                    new AlternativeScheme{Name = "Ultraviolet", Instruction = "UV;UltraPay005;12345" },
-                    new AlternativeScheme{Name = "Xing Yong", Instruction = "XY;XYService;54321" }
-                }
+                BillInformation =
+                    "//S1/01/20170309/11/10201409/20/14000000/22/36958/30/CH106017086/40/1020/41/3010",
+                AlternativeSchemes = new List<AlternativeScheme>
+                {
+                    new AlternativeScheme {Name = "Ultraviolet", Instruction = "UV;UltraPay005;12345"},
+                    new AlternativeScheme {Name = "Xing Yong", Instruction = "XY;XYService;54321"}
+                },
+                Format = { Language = Language.EN }
             };
-            bill.Format.Language = Language.EN;
             return bill;
         }
 
@@ -193,9 +195,9 @@ namespace Codecrete.SwissQRBill.GeneratorTest
             "Donnation to the Winterfest campaign\n" +
             "EPD\n";
 
-        public static string CreateQrCodeText3(bool withCRLF)
+        public static string CreateQrCodeText3(bool withCrLf)
         {
-            return HandleLinefeed(QRCodeText3, withCRLF);
+            return HandleLinefeed(QRCodeText3, withCrLf);
         }
 
         public static Bill CreateBillData3()
@@ -212,9 +214,9 @@ namespace Codecrete.SwissQRBill.GeneratorTest
                 Account = "CH37 0900 0000 3044 4222 5",
                 Creditor = creditor,
                 Currency = "CHF",
-                UnstructuredMessage = "Donnation to the Winterfest campaign"
+                UnstructuredMessage = "Donnation to the Winterfest campaign",
+                Format = { Language = Language.EN }
             };
-            bill.Format.Language = Language.EN;
             return bill;
         }
 
@@ -250,9 +252,9 @@ namespace Codecrete.SwissQRBill.GeneratorTest
             "\n" +
             "EPD\n";
 
-        public static string CreateQrCodeText4(bool withCRLF)
+        public static string CreateQrCodeText4(bool withCrLf)
         {
-            return HandleLinefeed(QRCodeText4, withCRLF);
+            return HandleLinefeed(QRCodeText4, withCrLf);
         }
 
         public static Bill CreateBillData4()
@@ -280,15 +282,15 @@ namespace Codecrete.SwissQRBill.GeneratorTest
                 Amount = 199.95m,
                 Currency = "CHF",
                 Debtor = debtor,
-                Reference = "RF18539007547034"
+                Reference = "RF18539007547034",
+                Format = { Language = Language.EN }
             };
-            bill.Format.Language = Language.EN;
             return bill;
         }
 
-        private static string HandleLinefeed(string text, bool withCRLF)
+        private static string HandleLinefeed(string text, bool withCrLf)
         {
-            if (withCRLF)
+            if (withCrLf)
             {
                 text = text.Replace("\n", "\r\n");
             }

@@ -13,14 +13,14 @@ namespace Codecrete.SwissQRBill.GeneratorTest
     public class AddressTest
     {
         [Fact]
-        void TestUndetermined()
+        private void TestUndetermined()
         {
             Address address = new Address();
             Assert.Equal(Address.AddressType.Undetermined, address.Type);
         }
 
         [Fact]
-        void SetName()
+        private void SetName()
         {
             Address address = new Address
             {
@@ -30,7 +30,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        void SetAddressLine1()
+        private void SetAddressLine1()
         {
             Address address = new Address
             {
@@ -41,7 +41,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        void SetAddressLine2()
+        private void SetAddressLine2()
         {
             Address address = new Address
             {
@@ -52,7 +52,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        void SetStreet()
+        private void SetStreet()
         {
             Address address = new Address
             {
@@ -63,7 +63,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        void SetHouseNo()
+        private void SetHouseNo()
         {
             Address address = new Address
             {
@@ -74,7 +74,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        void SetPostalCode()
+        private void SetPostalCode()
         {
             Address address = new Address
             {
@@ -85,7 +85,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        void SetTown()
+        private void SetTown()
         {
             Address address = new Address
             {
@@ -96,7 +96,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        void SetCountryCode()
+        private void SetCountryCode()
         {
             Address address = new Address
             {
@@ -106,7 +106,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        void ConflictTest1()
+        private void ConflictTest1()
         {
             Address address = new Address
             {
@@ -117,7 +117,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        void ConflictTest2()
+        private void ConflictTest2()
         {
             Address address = new Address
             {
@@ -128,7 +128,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        void ConflictTest3()
+        private void ConflictTest3()
         {
             Address address = new Address
             {
@@ -139,7 +139,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        void ConflictTest4()
+        private void ConflictTest4()
         {
             Address address = new Address
             {
@@ -150,7 +150,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        void EqualObjectsStructured()
+        private void EqualObjectsStructured()
         {
             Address address1 = CreateStructuredAddress();
             Address address2 = CreateStructuredAddress();
@@ -158,7 +158,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        void EqualObjectsCombined()
+        private void EqualObjectsCombined()
         {
             Address address1 = CreateCombinedElementAddress();
             Address address2 = CreateCombinedElementAddress();
@@ -166,7 +166,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        void HashObjectStructured()
+        private void HashObjectStructured()
         {
             Address address1 = CreateStructuredAddress();
             Address address2 = CreateStructuredAddress();
@@ -174,7 +174,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        void HashObjectCombined()
+        private void HashObjectCombined()
         {
             Address address1 = CreateCombinedElementAddress();
             Address address2 = CreateCombinedElementAddress();
@@ -182,7 +182,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        void ClearTestStructed()
+        private void ClearTestStructed()
         {
             Address address1 = CreateStructuredAddress();
             address1.Clear();
@@ -198,7 +198,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        void ClearTestCombined()
+        private void ClearTestCombined()
         {
             Address address1 = CreateCombinedElementAddress();
             address1.Clear();
@@ -214,7 +214,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        void TestEqualsTrivial()
+        private void TestEqualsTrivial()
         {
             Address address = CreateCombinedElementAddress();
             Assert.Equal(address, address);
@@ -224,7 +224,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        void TestEquals()
+        private void TestEquals()
         {
             Address address1 = CreateCombinedElementAddress();
             Address address2 = CreateCombinedElementAddress();

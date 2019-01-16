@@ -15,20 +15,20 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
     /// </summary>
     public class FontMetrics
     {
-        private static readonly double PtToMM = 25.4 / 72;
+        private const double PtToMm = 25.4 / 72;
 
-        private readonly ushort[] charWidthx20x7F;
-        private readonly ushort[] charWidthxA0xFF;
-        private readonly ushort charDefaultWidth;
-        private readonly FontMetrics boldMetrics;
+        private readonly ushort[] _charWidthx20x7F;
+        private readonly ushort[] _charWidthxA0xFF;
+        private readonly ushort _charDefaultWidth;
+        private readonly FontMetrics _boldMetrics;
 
         /// <summary>
         /// Initializes a new instance for the given list of font families.
-        /// </summary>
-        /// <param name="fontFamilyList">Font families, separated by comma (syntax as in CSS)</param>
-        /// <remarks>
+        /// <para>
         /// If more than one family is specified, the first family is used for metrics.
-        /// </remarks>
+        /// </para>
+        /// </summary>
+        /// <param name="fontFamilyList">The font families, separated by comma (syntax as in CSS).</param>
         public FontMetrics(string fontFamilyList)
         {
             FontFamilyList = fontFamilyList;
@@ -41,107 +41,109 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
 
             if (family.Contains("arial"))
             {
-                charWidthx20x7F = CharWidthData.ArialNormal_20_7F;
-                charWidthxA0xFF = CharWidthData.ArialNormal_A0_FF;
-                charDefaultWidth = CharWidthData.ArialNormalDefaultWidth;
+                _charWidthx20x7F = CharWidthData.ArialNormal_20_7F;
+                _charWidthxA0xFF = CharWidthData.ArialNormal_A0_FF;
+                _charDefaultWidth = CharWidthData.ArialNormalDefaultWidth;
                 boldCharWidthx20x7F = CharWidthData.ArialBold_20_7F;
                 boldCharWidthxA0xFF = CharWidthData.ArialBold_A0_FF;
                 boldCharDefaultWidth = CharWidthData.ArialBoldDefaultWdith;
             }
             else if (family.Contains("liberation") && family.Contains("sans"))
             {
-                charWidthx20x7F = CharWidthData.LiberationSansNormal_20_7F;
-                charWidthxA0xFF = CharWidthData.LiberationSansNormal_A0_FF;
-                charDefaultWidth = CharWidthData.LiberationSansNormalDefaultWidth;
+                _charWidthx20x7F = CharWidthData.LiberationSansNormal_20_7F;
+                _charWidthxA0xFF = CharWidthData.LiberationSansNormal_A0_FF;
+                _charDefaultWidth = CharWidthData.LiberationSansNormalDefaultWidth;
                 boldCharWidthx20x7F = CharWidthData.LiberationSansBold_20_7F;
                 boldCharWidthxA0xFF = CharWidthData.LiberationSansBold_A0_FF;
                 boldCharDefaultWidth = CharWidthData.LiberationSansBoldDefaultWidth;
             }
             else if (family.Contains("frutiger"))
             {
-                charWidthx20x7F = CharWidthData.FrutigerNormal_20_7F;
-                charWidthxA0xFF = CharWidthData.FrutigerNormal_A0_FF;
-                charDefaultWidth = CharWidthData.FrutigerNormalDefaultWidth;
+                _charWidthx20x7F = CharWidthData.FrutigerNormal_20_7F;
+                _charWidthxA0xFF = CharWidthData.FrutigerNormal_A0_FF;
+                _charDefaultWidth = CharWidthData.FrutigerNormalDefaultWidth;
                 boldCharWidthx20x7F = CharWidthData.FrutigerBold_20_7F;
                 boldCharWidthxA0xFF = CharWidthData.FrutigerBold_A0_FF;
                 boldCharDefaultWidth = CharWidthData.FrutigerBoldDefaultWidth;
             }
             else
             {
-                charWidthx20x7F = CharWidthData.HelveticaNormal_20_7F;
-                charWidthxA0xFF = CharWidthData.HelveticaNormal_A0_FF;
-                charDefaultWidth = CharWidthData.HelveticaNormalDefaultWidth;
+                _charWidthx20x7F = CharWidthData.HelveticaNormal_20_7F;
+                _charWidthxA0xFF = CharWidthData.HelveticaNormal_A0_FF;
+                _charDefaultWidth = CharWidthData.HelveticaNormalDefaultWidth;
                 boldCharWidthx20x7F = CharWidthData.HelveticaBold_20_7F;
                 boldCharWidthxA0xFF = CharWidthData.HelveticaBold_A0_FF;
                 boldCharDefaultWidth = CharWidthData.HelveticaBoldDefaultWidth;
             }
 
-            boldMetrics = new FontMetrics(boldCharWidthx20x7F, boldCharWidthxA0xFF, boldCharDefaultWidth);
+            _boldMetrics = new FontMetrics(boldCharWidthx20x7F, boldCharWidthxA0xFF, boldCharDefaultWidth);
         }
 
         private FontMetrics(ushort[] charWidthx20x7F, ushort[] charWidthxA0xFF, ushort charDefaultWidth)
         {
             FontFamilyList = null;
             FirstFontFamily = null;
-            this.charWidthx20x7F = charWidthx20x7F;
-            this.charWidthxA0xFF = charWidthxA0xFF;
-            this.charDefaultWidth = charDefaultWidth;
-            boldMetrics = null;
+            _charWidthx20x7F = charWidthx20x7F;
+            _charWidthxA0xFF = charWidthxA0xFF;
+            _charDefaultWidth = charDefaultWidth;
+            _boldMetrics = null;
         }
 
         /// <summary>
-        /// Gets the font family list (comma separated, same synta as for CSS)
+        /// Gets the font family list (comma separated, same synta as for CSS).
         /// </summary>
-        public string FontFamilyList { get; private set; }
+        /// <value>The font family list, comma separated.</value>
+        public string FontFamilyList { get; }
 
         /// <summary>
-        /// Gets the first font family (from the font family list)
+        /// Gets the first font family (from the font family list).
         /// </summary>
-        public string FirstFontFamily { get; private set; }
+        /// <value>The first font family name.</value>
+        public string FirstFontFamily { get; }
 
         /// <summary>
-        /// Distance between baseline and top of highest letter.
+        /// Gets the distance between baseline and top of highest letter.
         /// </summary>
-        /// <param name="fontSize">the font size (in pt)</param>
-        /// <returns>the distance (in mm)</returns>
+        /// <param name="fontSize">The font size (in pt).</param>
+        /// <returns>The distance (in mm).</returns>
         public double Ascender(int fontSize)
         {
-            return fontSize * 0.8 * PtToMM;
+            return fontSize * 0.8 * PtToMm;
         }
 
         /// <summary>
-        /// Distance between baseline and bottom of letter extending the farest below the baseline.
+        /// Gets the distance between baseline and bottom of letter extending the farest below the baseline.
         /// </summary>
-        /// <param name="fontSize">the font size (in pt)</param>
-        /// <returns>the distance (in mm)</returns>
+        /// <param name="fontSize">The font size (in pt).</param>
+        /// <returns>The distance (in mm).</returns>
         public double Descender(int fontSize)
         {
-            return fontSize * 0.2 * PtToMM;
+            return fontSize * 0.2 * PtToMm;
         }
 
         /// <summary>
-        /// Distance between the baselines of two consecutive text lines.
+        /// Gets the distance between the baselines of two consecutive text lines.
         /// </summary>
-        /// <param name="fontSize">the font size (in pt)</param>
-        /// <returns>the distance (in mm)</returns>
+        /// <param name="fontSize">The font size (in pt).</param>
+        /// <returns>The distance (in mm).</returns>
         public double LineHeight(int fontSize)
         {
-            return fontSize * PtToMM;
+            return fontSize * PtToMm;
         }
 
 #pragma warning disable S3776
 
         /// <summary>
         /// Splits the text into lines.
-        /// </summary>
-        /// <remarks>
+        /// <para>
         /// If a line would exceed the specified maximum length, line breaks are
-        /// inserted.Newlines are treated as fixed line breaks.
-        /// </remarks>
-        /// <param name="text">the text</param>
-        /// <param name="maxLength">the maximum line length (in mm)</param>
-        /// <param name="fontSize">the font size (in pt)</param>
-        /// <returns>an array of text lines</returns>
+        /// inserted. Newlines are treated as fixed line breaks.
+        /// </para>
+        /// </summary>
+        /// <param name="text">The text to split.</param>
+        /// <param name="maxLength">The maximum line length (in mm).</param>
+        /// <param name="fontSize">The font size (in pt).</param>
+        /// <returns>The resulting array of text lines.</returns>
         public string[] SplitLines(string text, double maxLength, int fontSize)
         {
             List<string> lines = new List<string>();
@@ -255,16 +257,16 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
 #pragma warning restore S3776
 
         /// <summary>
-        /// Add the specified text range to the resulting lines.
+        /// Adds the specified text range to the resulting line array.
+        /// <para>
+        /// Trailing white space is trimmed.
+        /// </para>
         /// </summary>
-        /// <remarks>
-        /// Trim trailing white space.
-        /// </remarks>
-        /// <param name="lines">resulting lines array</param>
-        /// <param name="text">text</param>
-        /// <param name="start">start of text range (including)</param>
-        /// <param name="end">end of text range (excluding)</param>
-        private static void AddResultLine(List<string> lines, string text, int start, int end)
+        /// <param name="lines">The line array to add to.</param>
+        /// <param name="text">The text serving as a source for the line.</param>
+        /// <param name="start">The start position of the line within the text.</param>
+        /// <param name="end">The end position (exluding) of the line within the text.</param>
+        private static void AddResultLine(ICollection<string> lines, string text, int start, int end)
         {
             while (end > start && text[end - 1] == ' ')
             {
@@ -277,15 +279,15 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         /// <summary>
         /// Returns the width of the specified text for the specified font size.
         /// </summary>
-        /// <param name="text">text</param>
-        /// <param name="fontSize">font size (in pt)</param>
-        /// <param name="isBold">indicates if the text is in bold or regular weight</param>
-        /// <returns>width (in mm)</returns>
+        /// <param name="text">The text to measure.</param>
+        /// <param name="fontSize">The font size (in pt).</param>
+        /// <param name="isBold">The flag indicating if the text is in bold or regular weight.</param>
+        /// <returns>The text's width (in mm).</returns>
         public double TextWidth(string text, int fontSize, bool isBold)
         {
             if (isBold)
             {
-                return boldMetrics.TextWidth(text, fontSize, false);
+                return _boldMetrics.TextWidth(text, fontSize, false);
             }
 
             double width = 0;
@@ -295,15 +297,13 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
                 width += CharWidth(text[i]);
             }
 
-            return width * fontSize / 1000 * PtToMM;
+            return width * fontSize / 1000 * PtToMm;
         }
 
         /// <summary>
         /// Returns the width of the specified character.
-        /// </summary>
-        /// <remarks>
         /// <para>
-        /// The width is given in 0.0001 pt for a font size of 1 pt.So to get the
+        /// The width is given in 0.001 pt for a font size of 1 pt. So to get the
         /// effective width in pt(1/72 in), it must be multiplied with the font size and
         /// divided by 1000.
         /// </para>
@@ -312,23 +312,23 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         /// Guidelines for Credit Transfer Initiation". For all other characters, a
         /// default width is returned.
         /// </para>
-        /// </remarks>
-        /// <param name="ch">the character</param>
-        /// <returns>the width of the character</returns>
+        /// </summary>
+        /// <param name="ch">The character to measure.</param>
+        /// <returns>The width of the character.</returns>
         private ushort CharWidth(char ch)
         {
             ushort width = 0;
             if (ch >= 0x20 && ch <= 0x7f)
             {
-                width = charWidthx20x7F[ch - 0x20];
+                width = _charWidthx20x7F[ch - 0x20];
             }
             else if (ch >= 0xa0 && ch <= 0xff)
             {
-                width = charWidthxA0xFF[ch - 0xa0];
+                width = _charWidthxA0xFF[ch - 0xa0];
             }
             if (width == 0)
             {
-                width = charDefaultWidth;
+                width = _charDefaultWidth;
             }
 
             return width;

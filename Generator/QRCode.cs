@@ -15,45 +15,45 @@ namespace Codecrete.SwissQRBill.Generator
 {
     /// <summary>
     /// Generates the QR code for the Swiss QR bill.
-    /// </summary>
-    /// <remarks>
+    /// <para>
     /// Also provides functions to generate and decode the string embedded in the QR code.
-    /// </remarks>
+    /// </para>
+    /// </summary>
     internal class QRCode
     {
-        internal static readonly double SIZE = 46; // mm
+        internal static readonly double Size = 46; // mm
 
-        private readonly string embeddedText;
+        private readonly string _embeddedText;
 
         /// <summary>
         /// Creates an instance of the QR code for the specified bill data.
-        /// </summary>
-        /// <remarks>
+        /// <para>
         /// The bill data must have been validated and cleaned.
-        /// </remarks>
-        /// <param name="bill">bill data</param>
+        /// </para>
+        /// </summary>
+        /// <param name="bill">The bill data.</param>
         internal QRCode(Bill bill)
         {
-            embeddedText = QRCodeText.Create(bill);
+            _embeddedText = QRCodeText.Create(bill);
         }
 
         /// <summary>
-        /// Draws the QR code to the specified graphics context (canvas). The QR code is
-        /// always 46 mm by 46 mm.
+        /// Draws the QR code to the specified graphics context (canvas). The QR code will
+        /// always be 46 mm by 46 mm.
         /// </summary>
-        /// <param name="graphics">graphics context</param>
-        /// <param name="offsetX">x offset</param>
-        /// <param name="offsetY">y offset</param>
+        /// <param name="graphics">The graphics context.</param>
+        /// <param name="offsetX">The x offset.</param>
+        /// <param name="offsetY">The y offset.</param>
         internal void Draw(ICanvas graphics, double offsetX, double offsetY)
         {
             QRCodeGenerator generator = new QRCodeGenerator();
-            QRCodeData data = generator.CreateQrCode(embeddedText, QRCodeGenerator.ECCLevel.M);
+            QRCodeData data = generator.CreateQrCode(_embeddedText, QRCodeGenerator.ECCLevel.M);
 
             bool[,] modules = CopyModules(data);
             ClearSwissCrossArea(modules);
 
             int modulesPerSide = modules.GetLength(0);
-            graphics.SetTransformation(offsetX, offsetY, 0, SIZE / modulesPerSide / 25.4 * 72, SIZE / modulesPerSide / 25.4 * 72);
+            graphics.SetTransformation(offsetX, offsetY, 0, Size / modulesPerSide / 25.4 * 72, Size / modulesPerSide / 25.4 * 72);
             graphics.StartPath();
             DrawModulesPath(graphics, modules);
             graphics.FillPath(0);
@@ -63,15 +63,15 @@ namespace Codecrete.SwissQRBill.Generator
             graphics.StartPath();
             graphics.AddRectangle(20, 20, 6, 6);
             graphics.FillPath(0);
-            double BarWidth = 7 / 6.0;
-            double BarLength = 35 / 9.0;
+            const double barWidth = 7 / 6.0;
+            const double barLength = 35 / 9.0;
             graphics.StartPath();
-            graphics.AddRectangle(23 - BarWidth / 2, 23 - BarLength / 2, BarWidth, BarLength);
-            graphics.AddRectangle(23 - BarLength / 2, 23 - BarWidth / 2, BarLength, BarWidth);
+            graphics.AddRectangle(23 - barWidth / 2, 23 - barLength / 2, barWidth, barLength);
+            graphics.AddRectangle(23 - barLength / 2, 23 - barWidth / 2, barLength, barWidth);
             graphics.FillPath(0xffffff);
         }
 
-        private void DrawModulesPath(ICanvas graphics, bool[,] modules)
+        private static void DrawModulesPath(ICanvas graphics, bool[,] modules)
         {
             // Simple algorithm to reduce the number of drawn rectangles
             int size = modules.GetLength(0);
@@ -89,7 +89,7 @@ namespace Codecrete.SwissQRBill.Generator
 
         // Simple algorithms to reduce the number of rectangles for drawing the QR code
         // and reduce SVG size
-        private void DrawLargestRectangle(ICanvas graphics, bool[,] modules, int x, int y)
+        private static void DrawLargestRectangle(ICanvas graphics, bool[,] modules, int x, int y)
         {
             int size = modules.GetLength(0);
 

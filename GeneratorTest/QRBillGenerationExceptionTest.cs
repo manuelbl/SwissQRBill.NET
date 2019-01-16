@@ -14,7 +14,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
     public class QRBillGenerationExceptionTest
     {
         [Fact]
-        void MessageOnly()
+        private void MessageOnly()
         {
             QRBillGenerationException e = Assert.Throws<QRBillGenerationException>(
                 () => ThrowQRBillException()
@@ -24,13 +24,13 @@ namespace Codecrete.SwissQRBill.GeneratorTest
             Assert.Null(e.InnerException);
         }
 
-        void ThrowQRBillException()
+        private void ThrowQRBillException()
         {
             throw new QRBillGenerationException("ABC");
         }
 
         [Fact]
-        void MessageAndCause()
+        private void MessageAndCause()
         {
             QRBillGenerationException e = Assert.Throws<QRBillGenerationException>(
                 () => ThrowNestedNullRefException()
@@ -40,7 +40,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
             Assert.Same(typeof(NullReferenceException), e.InnerException.GetType());
         }
 
-        void ThrowNestedNullRefException()
+        private void ThrowNestedNullRefException()
         {
             try
             {

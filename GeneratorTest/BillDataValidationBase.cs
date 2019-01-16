@@ -16,14 +16,14 @@ namespace Codecrete.SwissQRBill.GeneratorTest
     /// </summary>
     public class BillDataValidationBase
     {
-        protected Bill bill;
-        protected ValidationResult result;
-        protected Bill validatedBill;
+        protected Bill SourceBill;
+        protected ValidationResult Result;
+        protected Bill ValidatedBill;
 
         public void Validate()
         {
-            result = QRBill.Validate(bill);
-            validatedBill = result.CleanedBill;
+            Result = QRBill.Validate(SourceBill);
+            ValidatedBill = Result.CleanedBill;
         }
 
         /// <summary>
@@ -31,10 +31,10 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         /// </summary>
         public void AssertNoMessages()
         {
-            Assert.False(result.HasErrors);
-            Assert.False(result.HasWarnings);
-            Assert.False(result.HasMessages);
-            Assert.Empty(result.ValidationMessages);
+            Assert.False(Result.HasErrors);
+            Assert.False(Result.HasWarnings);
+            Assert.False(Result.HasMessages);
+            Assert.Empty(Result.ValidationMessages);
         }
 
         /// <summary>
@@ -44,12 +44,12 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         /// <param name="messageKey">the message key of the validation error</param>
         public void AssertSingleErrorMessage(string field, string messageKey)
         {
-            Assert.True(result.HasErrors);
-            Assert.False(result.HasWarnings);
-            Assert.True(result.HasMessages);
-            Assert.Single(result.ValidationMessages);
+            Assert.True(Result.HasErrors);
+            Assert.False(Result.HasWarnings);
+            Assert.True(Result.HasMessages);
+            Assert.Single(Result.ValidationMessages);
 
-            ValidationMessage msg = result.ValidationMessages[0];
+            ValidationMessage msg = Result.ValidationMessages[0];
             Assert.Equal(MessageType.Error, msg.Type);
             Assert.Equal(field, msg.Field);
             Assert.Equal(messageKey, msg.MessageKey);
@@ -62,12 +62,12 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         /// <param name="messageKey">the message key of the validation warning</param>
         public void AssertSingleWarningMessage(string field, string messageKey)
         {
-            Assert.False(result.HasErrors);
-            Assert.True(result.HasWarnings);
-            Assert.True(result.HasMessages);
-            Assert.Single(result.ValidationMessages);
+            Assert.False(Result.HasErrors);
+            Assert.True(Result.HasWarnings);
+            Assert.True(Result.HasMessages);
+            Assert.Single(Result.ValidationMessages);
 
-            ValidationMessage msg = result.ValidationMessages[0];
+            ValidationMessage msg = Result.ValidationMessages[0];
             Assert.Equal(MessageType.Warning, msg.Type);
             Assert.Equal(field, msg.Field);
             Assert.Equal(messageKey, msg.MessageKey);

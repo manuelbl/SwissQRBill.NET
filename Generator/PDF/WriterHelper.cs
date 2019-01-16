@@ -13,31 +13,29 @@ using System.Text;
 namespace Codecrete.SwissQRBill.Generator.PDF
 {
     /// <summary>
-    /// Helper class for writing content
+    /// Helper class for writing content.
     /// </summary>
     internal static class WriterHelper
     {
         internal static void WriteObject(StreamWriter writer, object obj)
         {
-            if (obj is IWritable)
+            switch (obj)
             {
-                (obj as IWritable).Write(writer);
-            }
-            else if (obj is IEnumerable<object>)
-            {
-                WriteList(writer, obj as IEnumerable<object>);
-            }
-            else if (obj is IEnumerable<float>)
-            {
-                WriteList(writer, obj as IEnumerable<float>);
-            }
-            else if (obj is string)
-            {
-                WriteString(writer, obj as string);
-            }
-            else
-            {
-                writer.Write(obj.ToString());
+                case IWritable writable:
+                    writable.Write(writer);
+                    break;
+                case IEnumerable<object> list:
+                    WriteList(writer, list);
+                    break;
+                case IEnumerable<float> floatList:
+                    WriteList(writer, floatList);
+                    break;
+                case string str:
+                    WriteString(writer, str);
+                    break;
+                default:
+                    writer.Write(obj.ToString());
+                    break;
             }
         }
 
@@ -67,47 +65,49 @@ namespace Codecrete.SwissQRBill.Generator.PDF
             for (int i = 0; i < length; i++)
             {
                 char ch = text[i];
-                if (ch < ' ' || ch == '(' || ch == ')' || ch == '\\')
+                if (ch >= ' ' && ch != '(' && ch != ')' && ch != '\\')
                 {
-                    if (result == null)
-                    {
-                        result = new StringBuilder(length + 10);
-                    }
-
-                    if (i > lastCopiedPosition)
-                    {
-                        result.Append(text, lastCopiedPosition, i - lastCopiedPosition);
-                    }
-
-                    string replacement;
-                    switch (ch)
-                    {
-                        case '(':
-                            replacement = "\\(";
-                            break;
-                        case ')':
-                            replacement = "\\)";
-                            break;
-                        case '\\':
-                            replacement = "\\\\";
-                            break;
-                        case '\n':
-                            replacement = "\\n";
-                            break;
-                        case '\r':
-                            replacement = "\\r";
-                            break;
-                        case '\t':
-                            replacement = "\\t";
-                            break;
-                        default:
-                            replacement = "000" + Convert.ToString(ch, 8);
-                            replacement = replacement.Substring(replacement.Length - 3);
-                            break;
-                    }
-                    result.Append(replacement);
-                    lastCopiedPosition = i + 1;
+                    continue;
                 }
+
+                if (result == null)
+                {
+                    result = new StringBuilder(length + 10);
+                }
+
+                if (i > lastCopiedPosition)
+                {
+                    result.Append(text, lastCopiedPosition, i - lastCopiedPosition);
+                }
+
+                string replacement;
+                switch (ch)
+                {
+                    case '(':
+                        replacement = "\\(";
+                        break;
+                    case ')':
+                        replacement = "\\)";
+                        break;
+                    case '\\':
+                        replacement = "\\\\";
+                        break;
+                    case '\n':
+                        replacement = "\\n";
+                        break;
+                    case '\r':
+                        replacement = "\\r";
+                        break;
+                    case '\t':
+                        replacement = "\\t";
+                        break;
+                    default:
+                        replacement = "000" + Convert.ToString(ch, 8);
+                        replacement = replacement.Substring(replacement.Length - 3);
+                        break;
+                }
+                result.Append(replacement);
+                lastCopiedPosition = i + 1;
             }
 
             if (result == null)

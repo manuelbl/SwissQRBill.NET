@@ -8,7 +8,6 @@
 using Codecrete.SwissQRBill.Generator;
 using Codecrete.SwissQRBill.Generator.Canvas;
 using System;
-using System.IO;
 using Xunit;
 
 namespace Codecrete.SwissQRBill.GeneratorTest
@@ -16,34 +15,34 @@ namespace Codecrete.SwissQRBill.GeneratorTest
     public class QRBillErrorsTest
     {
         [Fact]
-        void ThrowsRuntimeException()
+        private void ThrowsRuntimeException()
         {
             Assert.Throws<QRBillGenerationException>(
                 () => GenerateWithFailingCanvas()
             );
         }
 
-        void GenerateWithFailingCanvas()
+        private void GenerateWithFailingCanvas()
         {
             Bill bill = SampleData.CreateExample1();
             FailingCanvas canvas = new FailingCanvas();
-            bill.Format.OutputSize = OutputSize.QRBillOnly;
+            bill.Format.OutputSize = OutputSize.QrBillOnly;
             QRBill.Generate(bill, canvas);
         }
 
         [Fact]
-        void ThrowsValidationError()
+        private void ThrowsValidationError()
         {
             Assert.Throws<QRBillValidationException>(
                 () => GenerateWithInvalidData()
             );
         }
 
-        void GenerateWithInvalidData()
+        private void GenerateWithInvalidData()
         {
             Bill bill = SampleData.CreateExample1();
             bill.Creditor.Name = " ";
-            bill.Format.OutputSize = OutputSize.QRBillOnly;
+            bill.Format.OutputSize = OutputSize.QrBillOnly;
             bill.Format.GraphicsFormat = GraphicsFormat.PDF;
             QRBill.Generate(bill);
         }

@@ -13,66 +13,59 @@ using System.Text;
 namespace Codecrete.SwissQRBill.Generator.Canvas
 {
     /// <summary>
-    /// Canvas for generating SVG files
+    /// Canvas for generating SVG files.
     /// </summary>
     public class SVGCanvas : AbstractCanvas
     {
-        private static readonly Encoding Utf8WithoutBOM = new UTF8Encoding(false);
+        private static readonly Encoding Utf8WithoutBom = new UTF8Encoding(false);
 
-        private MemoryStream buffer;
-        private StreamWriter stream;
-        private bool isInGroup;
-        private bool isFirstMoveInPath;
-        private double lastPositionX;
-        private double lastPositionY;
-        private int approxPathLength;
+        private MemoryStream _buffer;
+        private StreamWriter _stream;
+        private bool _isInGroup;
+        private bool _isFirstMoveInPath;
+        private double _lastPositionX;
+        private double _lastPositionY;
+        private int _approxPathLength;
 
-        /// <summary>
-        /// Initializes a new instance
-        /// </summary>
-        public SVGCanvas()
-        {
-            // no further initialization needed here
-        }
 
         public override void SetupPage(double width, double height, string fontFamily)
         {
             SetupFontMetrics(fontFamily);
 
-            buffer = new MemoryStream();
-            stream = new StreamWriter(buffer, Utf8WithoutBOM, 1024);
-            stream.Write("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>\n"
+            _buffer = new MemoryStream();
+            _stream = new StreamWriter(_buffer, Utf8WithoutBom, 1024);
+            _stream.Write("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>\n"
                     + "<!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\" \"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\">\n"
                     + "<svg width=\"");
-            stream.Write(FormatNumber(width));
-            stream.Write("mm\" height=\"");
-            stream.Write(FormatNumber(height));
-            stream.Write("mm\" version=\"1.1\" viewBox=\"0 0 ");
-            stream.Write(FormatCoordinate(width));
-            stream.Write(" ");
-            stream.Write(FormatCoordinate(height));
-            stream.Write("\" xmlns=\"http://www.w3.org/2000/svg\">\n");
-            stream.Write("<g font-family=\"");
-            stream.Write(EscapeXML(fontMetrics.FontFamilyList));
-            stream.Write("\" transform=\"translate(0 ");
-            stream.Write(FormatCoordinate(height));
-            stream.Write(")\">\n");
-            stream.Write("<title>Swiss QR Bill</title>\n");
+            _stream.Write(FormatNumber(width));
+            _stream.Write("mm\" height=\"");
+            _stream.Write(FormatNumber(height));
+            _stream.Write("mm\" version=\"1.1\" viewBox=\"0 0 ");
+            _stream.Write(FormatCoordinate(width));
+            _stream.Write(" ");
+            _stream.Write(FormatCoordinate(height));
+            _stream.Write("\" xmlns=\"http://www.w3.org/2000/svg\">\n");
+            _stream.Write("<g font-family=\"");
+            _stream.Write(EscapeXml(FontMetrics.FontFamilyList));
+            _stream.Write("\" transform=\"translate(0 ");
+            _stream.Write(FormatCoordinate(height));
+            _stream.Write(")\">\n");
+            _stream.Write("<title>Swiss QR Bill</title>\n");
         }
 
         protected void Close()
         {
-            if (isInGroup)
+            if (_isInGroup)
             {
-                stream.Write("</g>\n");
-                isInGroup = false;
+                _stream.Write("</g>\n");
+                _isInGroup = false;
             }
-            if (stream != null)
+            if (_stream != null)
             {
-                stream.Write("</g>\n");
-                stream.Write("</svg>\n");
-                stream.Close();
-                stream = null;
+                _stream.Write("</g>\n");
+                _stream.Write("</svg>\n");
+                _stream.Close();
+                _stream = null;
             }
         }
 
@@ -83,46 +76,46 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
 
         public override void StartPath()
         {
-            stream.Write("<path d=\"");
-            isFirstMoveInPath = true;
-            approxPathLength = 0;
+            _stream.Write("<path d=\"");
+            _isFirstMoveInPath = true;
+            _approxPathLength = 0;
         }
 
         public override void MoveTo(double x, double y)
         {
             y = -y;
-            if (isFirstMoveInPath)
+            if (_isFirstMoveInPath)
             {
-                stream.Write("M");
-                stream.Write(FormatCoordinate(x));
-                stream.Write(",");
-                stream.Write(FormatCoordinate(y));
-                isFirstMoveInPath = false;
+                _stream.Write("M");
+                _stream.Write(FormatCoordinate(x));
+                _stream.Write(",");
+                _stream.Write(FormatCoordinate(y));
+                _isFirstMoveInPath = false;
             }
             else
             {
                 AddPathNewlines(16);
-                stream.Write("m");
-                stream.Write(FormatCoordinate(x - lastPositionX));
-                stream.Write(",");
-                stream.Write(FormatCoordinate(y - lastPositionY));
+                _stream.Write("m");
+                _stream.Write(FormatCoordinate(x - _lastPositionX));
+                _stream.Write(",");
+                _stream.Write(FormatCoordinate(y - _lastPositionY));
             }
-            lastPositionX = x;
-            lastPositionY = y;
-            approxPathLength += 16;
+            _lastPositionX = x;
+            _lastPositionY = y;
+            _approxPathLength += 16;
         }
 
         public override void LineTo(double x, double y)
         {
             y = -y;
             AddPathNewlines(16);
-            stream.Write("l");
-            stream.Write(FormatCoordinate(x - lastPositionX));
-            stream.Write(",");
-            stream.Write(FormatCoordinate(y - lastPositionY));
-            lastPositionX = x;
-            lastPositionY = y;
-            approxPathLength += 16;
+            _stream.Write("l");
+            _stream.Write(FormatCoordinate(x - _lastPositionX));
+            _stream.Write(",");
+            _stream.Write(FormatCoordinate(y - _lastPositionY));
+            _lastPositionX = x;
+            _lastPositionY = y;
+            _approxPathLength += 16;
         }
 
         public override void CubicCurveTo(double x1, double y1, double x2, double y2, double x, double y)
@@ -131,130 +124,130 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             y2 = -y2;
             y = -y;
             AddPathNewlines(48);
-            stream.Write("c");
-            stream.Write(FormatCoordinate(x1 - lastPositionX));
-            stream.Write(",");
-            stream.Write(FormatCoordinate(y1 - lastPositionY));
-            stream.Write(",");
-            stream.Write(FormatCoordinate(x2 - lastPositionX));
-            stream.Write(",");
-            stream.Write(FormatCoordinate(y2 - lastPositionY));
-            stream.Write(",");
-            stream.Write(FormatCoordinate(x - lastPositionX));
-            stream.Write(",");
-            stream.Write(FormatCoordinate(y - lastPositionY));
-            lastPositionX = x;
-            lastPositionY = y;
-            approxPathLength += 48;
+            _stream.Write("c");
+            _stream.Write(FormatCoordinate(x1 - _lastPositionX));
+            _stream.Write(",");
+            _stream.Write(FormatCoordinate(y1 - _lastPositionY));
+            _stream.Write(",");
+            _stream.Write(FormatCoordinate(x2 - _lastPositionX));
+            _stream.Write(",");
+            _stream.Write(FormatCoordinate(y2 - _lastPositionY));
+            _stream.Write(",");
+            _stream.Write(FormatCoordinate(x - _lastPositionX));
+            _stream.Write(",");
+            _stream.Write(FormatCoordinate(y - _lastPositionY));
+            _lastPositionX = x;
+            _lastPositionY = y;
+            _approxPathLength += 48;
         }
 
         public override void AddRectangle(double x, double y, double width, double height)
         {
             AddPathNewlines(40);
             MoveTo(x, y + height);
-            stream.Write("h");
-            stream.Write(FormatCoordinate(width));
-            stream.Write("v");
-            stream.Write(FormatCoordinate(height));
-            stream.Write("h");
-            stream.Write(FormatCoordinate(-width));
-            stream.Write("z");
-            approxPathLength += 24;
+            _stream.Write("h");
+            _stream.Write(FormatCoordinate(width));
+            _stream.Write("v");
+            _stream.Write(FormatCoordinate(height));
+            _stream.Write("h");
+            _stream.Write(FormatCoordinate(-width));
+            _stream.Write("z");
+            _approxPathLength += 24;
         }
 
         public override void CloseSubpath()
         {
             AddPathNewlines(1);
-            stream.Write("z");
-            approxPathLength += 1;
+            _stream.Write("z");
+            _approxPathLength += 1;
         }
 
         private void AddPathNewlines(int expectedLength)
         {
-            if (approxPathLength + expectedLength > 255)
+            if (_approxPathLength + expectedLength > 255)
             {
-                stream.Write("\n");
-                approxPathLength = 0;
+                _stream.Write("\n");
+                _approxPathLength = 0;
             }
         }
 
         public override void FillPath(int color)
         {
-            stream.Write("\" fill=\"#");
-            stream.Write(FormatColor(color));
-            stream.Write("\"/>\n");
-            isFirstMoveInPath = true;
+            _stream.Write("\" fill=\"#");
+            _stream.Write(FormatColor(color));
+            _stream.Write("\"/>\n");
+            _isFirstMoveInPath = true;
         }
 
         public override void StrokePath(double strokeWidth, int color)
         {
-            stream.Write("\" stroke=\"#");
-            stream.Write(FormatColor(color));
+            _stream.Write("\" stroke=\"#");
+            _stream.Write(FormatColor(color));
             if (strokeWidth != 1)
             {
-                stream.Write("\" stroke-width=\"");
-                stream.Write(FormatNumber(strokeWidth));
+                _stream.Write("\" stroke-width=\"");
+                _stream.Write(FormatNumber(strokeWidth));
             }
-            stream.Write("\" fill=\"none\"/>\n");
-            isFirstMoveInPath = true;
+            _stream.Write("\" fill=\"none\"/>\n");
+            _isFirstMoveInPath = true;
         }
 
         public override void PutText(string text, double x, double y, int fontSize, bool isBold)
         {
             y = -y;
-            stream.Write("<text x=\"");
-            stream.Write(FormatCoordinate(x));
-            stream.Write("\" y=\"");
-            stream.Write(FormatCoordinate(y));
-            stream.Write("\" font-size=\"");
-            stream.Write(FormatNumber(fontSize));
+            _stream.Write("<text x=\"");
+            _stream.Write(FormatCoordinate(x));
+            _stream.Write("\" y=\"");
+            _stream.Write(FormatCoordinate(y));
+            _stream.Write("\" font-size=\"");
+            _stream.Write(FormatNumber(fontSize));
             if (isBold)
             {
-                stream.Write("\" font-weight=\"bold");
+                _stream.Write("\" font-weight=\"bold");
             }
 
-            stream.Write("\">");
-            stream.Write(EscapeXML(text));
-            stream.Write("</text>\n");
+            _stream.Write("\">");
+            _stream.Write(EscapeXml(text));
+            _stream.Write("</text>\n");
         }
 
         public override void SetTransformation(double translateX, double translateY, double rotate, double scaleX, double scaleY)
         {
-            if (isInGroup)
+            if (_isInGroup)
             {
-                stream.Write("</g>\n");
-                isInGroup = false;
+                _stream.Write("</g>\n");
+                _isInGroup = false;
             }
             if (translateX != 0 || translateY != 0 || scaleX != 1 || scaleY != 1)
             {
-                stream.Write("<g transform=\"translate(");
-                stream.Write(FormatCoordinate(translateX));
-                stream.Write(" ");
-                stream.Write(FormatCoordinate(-translateY));
+                _stream.Write("<g transform=\"translate(");
+                _stream.Write(FormatCoordinate(translateX));
+                _stream.Write(" ");
+                _stream.Write(FormatCoordinate(-translateY));
                 if (rotate != 0)
                 {
-                    stream.Write(") rotate(");
-                    stream.Write((-rotate / Math.PI * 180).ToString("#.#####", CultureInfo.InvariantCulture.NumberFormat));
+                    _stream.Write(") rotate(");
+                    _stream.Write((-rotate / Math.PI * 180).ToString("#.#####", CultureInfo.InvariantCulture.NumberFormat));
                 }
                 if (scaleX != 1 || scaleY != 1)
                 {
-                    stream.Write(") scale(");
-                    stream.Write(FormatNumber(scaleX));
+                    _stream.Write(") scale(");
+                    _stream.Write(FormatNumber(scaleX));
                     if (scaleX != scaleY)
                     {
-                        stream.Write(" ");
-                        stream.Write(FormatNumber(scaleY));
+                        _stream.Write(" ");
+                        _stream.Write(FormatNumber(scaleY));
                     }
                 }
-                stream.Write(")\">\n");
-                isInGroup = true;
+                _stream.Write(")\">\n");
+                _isInGroup = true;
             }
         }
 
         public override byte[] GetResult()
         {
             Close();
-            return buffer.ToArray();
+            return _buffer.ToArray();
         }
 
         private static string FormatNumber(double value)
@@ -272,7 +265,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             return $"{color:X6}";
         }
 
-        private static string EscapeXML(string text)
+        private static string EscapeXml(string text)
         {
             int length = text.Length;
             int lastCopiedPosition = 0;

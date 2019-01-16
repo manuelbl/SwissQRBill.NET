@@ -14,18 +14,23 @@ namespace Codecrete.SwissQRBill.GeneratorTest
     public class PNGCanvasTest
     {
         [Fact]
-        void PngBillQRBill()
+        private void PngBillQrBill()
         {
             Bill bill = SampleData.CreateExample1();
             bill.Format.FontFamily = "Arial";
-            PNGCanvas canvas = new PNGCanvas(300);
-            bill.Format.OutputSize = OutputSize.QRBillOnly;
-            byte[] svg = QRBill.Generate(bill, canvas);
+
+            byte[] svg;
+            using (PNGCanvas canvas = new PNGCanvas(300))
+            {
+                bill.Format.OutputSize = OutputSize.QrBillOnly;
+                svg = QRBill.Generate(bill, canvas);
+            }
+
             FileComparison.AssertGrayscaleImageContentsEqual(svg, "qrbill_ex1.png");
         }
 
         [Fact]
-        void PngBillA4()
+        private void PngBillA4()
         {
             Bill bill = SampleData.CreateExample3();
             bill.Format.FontFamily = "Arial,Helvetica";

@@ -17,188 +17,59 @@ namespace Codecrete.SwissQRBill.Generator
     public sealed class Bill : IEquatable<Bill>
     {
         /// <summary>
-        /// QR bill version
+        /// QR bill standard version
         /// </summary>
-        public enum StandardVersion
+        public enum QrBillStandardVersion
         {
             /// <summary>
             /// Version 2.0
             /// </summary>
+            // ReSharper disable once InconsistentNaming
             V2_0
         }
 
         /// <summary>
-        /// Relative field name of an address' name
-        /// </summary>
-        public static readonly string SubFieldName = ".name";
-        /// <summary>
-        /// Relative field of an address' line 1
-        /// </summary>
-        public static readonly string SubFieldAddressLine1 = ".addressLine1";
-        /// <summary>
-        /// Relative field of an address' line 2
-        /// </summary>
-        public static readonly string SubFieldAddressLine2 = ".addressLine2";
-        /// <summary>
-        /// Relative field of an address' street
-        /// </summary>
-        public static readonly string SubFieldStreet = ".street";
-        /// <summary>
-        /// Relative field of an address' house number
-        /// </summary>
-        public static readonly string SubFieldHouseNo = ".houseNo";
-        /// <summary>
-        /// Relative field of an address' postal code
-        /// </summary>
-        public static readonly string SubFieldPostalCode = ".postalCode";
-        /// <summary>
-        /// Relative field of an address' town
-        /// </summary>
-        public static readonly string SubFieldTown = ".town";
-        /// <summary>
-        /// Relative field of an address' country code
-        /// </summary>
-        public static readonly string SubFieldCountryCode = ".countryCode";
-        /// <summary>
-        /// Field name of the QR code type
-        /// </summary>
-        public static readonly string FieldQRType = "qrText";
-        /// <summary>
-        /// Field name of the QR bill version
-        /// </summary>
-        public static readonly string FieldVersion = "version";
-        /// <summary>
-        /// Field name of the QR bill's coding type
-        /// </summary>
-        public static readonly string FieldCodingType = "codingType";
-        /// <summary>
-        /// Field name of the QR bill's trailer ("EPD")
-        /// </summary>
-        public static readonly string FieldTrailer = "trailer";
-        /// <summary>
-        /// Field name of the currency
-        /// </summary>
-        public static readonly string FieldCurrency = "currency";
-        /// <summary>
-        /// Field name of the amount
-        /// </summary>
-        public static readonly string FieldAmount = "amount";
-        /// <summary>
-        /// Field name of the account number
-        /// </summary>
-        public static readonly string FieldAccount = "account";
-        /// <summary>
-        /// Field name of the reference
-        /// </summary>
-        public static readonly string FieldReference = "reference";
-        /// <summary>
-        /// Start of field name of the creditor address
-        /// </summary>
-        public static readonly string FieldRootCreditor = "creditor";
-        /// <summary>
-        /// Field name of the creditor's name
-        /// </summary>
-        public static readonly string FieldCreditorName = "creditor.name";
-        /// <summary>
-        /// Field name of the creditor's street
-        /// </summary>
-        public static readonly string FieldCreditorStreet = "creditor.street";
-        /// <summary>
-        /// Field name of the creditor's house number
-        /// </summary>
-        public static readonly string FieldCreditorHouseNo = "creditor.houseNo";
-        /// <summary>
-        /// Field name of the creditor's postal codde
-        /// </summary>
-        public static readonly string FieldCreditorPostalCode = "creditor.postalCode";
-        /// <summary>
-        /// Field name of the creditor's town
-        /// </summary>
-        public static readonly string FieldCreditorTown = "creditor.town";
-        /// <summary>
-        /// Field name of the creditor's country code
-        /// </summary>
-        public static readonly string FieldCreditorCountryCode = "creditor.countryCode";
-        /// <summary>
-        /// Field name of the unstructured message
-        /// </summary>
-        public static readonly string FieldUnstructuredMessage = "unstructuredMessage";
-        /// <summary>
-        /// Field name of the bill information
-        /// </summary>
-        public static readonly string FieldBillInformation = "billInformation";
-        /// <summary>
-        /// Field name of the alternative schemes
-        /// </summary>
-        public static readonly string FieldAlternativeSchemes = "altSchemes";
-        /// <summary>
-        /// Start of field name of the debtor's address
-        /// </summary>
-        public static readonly string FieldRootDebtor = "debtor";
-        /// <summary>
-        /// Field name of the debtor's name
-        /// </summary>
-        public static readonly string FieldDebtorName = "debtor.name";
-        /// <summary>
-        /// Field name of the debtor's street
-        /// </summary>
-        public static readonly string FieldDebtorStreet = "debtor.street";
-        /// <summary>
-        /// Field name of the debtor's house number
-        /// </summary>
-        public static readonly string FieldDebtorHouseNo = "debtor.houseNo";
-        /// <summary>
-        /// Field name of the debtor's postal code
-        /// </summary>
-        public static readonly string FieldDebtorPostalCode = "debtor.postalCode";
-        /// <summary>
-        /// Field name of the debtor's town
-        /// </summary>
-        public static readonly string FieldDebtorTown = "debtor.town";
-        /// <summary>
-        /// Field name of the debtor's country code
-        /// </summary>
-        public static readonly string FieldDebtorCountryCode = "debtor.countryCode";
-
-        /// <summary>
         /// Gets or sets the version of the QR bill standard.
         /// </summary>
-        public StandardVersion Version { get; set; } = StandardVersion.V2_0;
+        /// <value>The QR bill standard version.</value>
+        public QrBillStandardVersion Version { get; set; } = QrBillStandardVersion.V2_0;
 
         /// <summary>
         /// Gets or sets the payment amount.
-        /// </summary>
-        /// <remarks>
+        /// <para>
         /// Valid values are between 0.01 and 999,999,999.99.
-        /// </remarks>
+        /// </para>
+        /// </summary>
+        /// <value>The payment amount.</value>
         public decimal? Amount { get; set; }
 
         /// <summary>
         /// Gets or sets the payment currency.
-        /// </summary>
-        /// <remarks>
+        /// <para>
         /// Valid values are "CHF" and "EUR".
-        /// </remarks>
+        /// </para>
+        /// </summary>
+        /// <value>The payment currency.</value>
         public string Currency { get; set; } = "CHF";
 
         /// <summary>
         /// Gets or sets the creditor's account number.
-        /// </summary>
-        /// <remarks>
+        /// <para>
         /// Account numbers must be valid IBANs of a bank of Switzerland or
         /// Liechtenstein. Spaces are allowed in the account number.
-        /// </remarks>
+        /// </para>
+        /// </summary>
+        /// <value>The creditor account number.</value>
         public string Account { get; set; }
 
         /// <summary>
         /// Gets or sets the creditor address.
         /// </summary>
+        /// <value>The creditor address.</value>
         public Address Creditor { get; set; } = new Address();
 
         /// <summary>
         /// Gets or sets the creditor payment reference.
-        /// </summary>
-        /// <remarks>
         /// <para>
         /// The reference is mandatory for QR IBANs, i.e.IBANs in the range
         /// CHxx30000xxxxxx through CHxx31999xxxxx.
@@ -208,60 +79,72 @@ namespace Codecrete.SwissQRBill.Generator
         /// (corresponding to ISR reference form) or a valid creditor reference
         /// according to ISO 11649 ("RFxxxx"). Both may contain spaces for formatting.
         /// </para>
-        /// </remarks>
+        /// </summary>
+        /// <value>The creditor payment reference.</value>
         public string Reference { get; set; }
 
         /// <summary>
         /// Creates and sets a ISO11649 creditor reference from a raw string by prefixing
         /// the String with "RF" and the modulo 97 checksum.
-        /// </summary>
-        /// <remarks>
+        /// <para>
         /// Whitespace is removed from the reference
-        /// </remarks>
-        /// <param name="rawReference">raw string</param>
-        /// <exception cref="ArgumentException">Thrown if <c>rawReference</c> contains invalid characters</exception>
+        /// </para>
+        /// </summary>
+        /// <param name="rawReference">The raw reference.</param>
+        /// <exception cref="ArgumentException"><c>rawReference</c> contains invalid characters.</exception>
         public void CreateAndSetCreditorReference(string rawReference)
         {
-            Reference = Payments.CreateISO11649Reference(rawReference);
+            Reference = Payments.CreateIso11649Reference(rawReference);
         }
 
         /// <summary>
         /// Gets or sets the debtor address.
-        /// </summary>
-        /// <remarks>
+        /// <para>
         /// The debtor is optional. If it is omitted, both setting this field to
         /// <c>null</c> or setting an address with all <c>null</c> or empty values is ok.
-        /// </remarks>
+        /// </para>
+        /// </summary>
+        /// <value>The debtor address.</value>
         public Address Debtor { get; set; }
 
         /// <summary>
         /// Gets or sets the additional unstructured message.
         /// </summary>
+        /// <value>The unstructured message.</value>
         public string UnstructuredMessage { get; set; }
 
         /// <summary>
         /// Gets or sets the additional structured bill information.
         /// </summary>
+        /// <value>The structured bill information.</value>
         public string BillInformation { get; set; }
 
         /// <summary>
         /// Gets ors sets the alternative payment schemes.
-        /// </summary>
-        /// <remarks>
+        /// <para>
         /// A maximum of two schemes with parameters are allowed.
-        /// </remarks>
+        /// </para>
+        /// </summary>
+        /// <value>The alternative payment schemes.</value>
         public List<AlternativeScheme> AlternativeSchemes { get; set; }
 
         /// <summary>
-        /// Gets or sets the bill format.
+        /// Gets or sets the bill formatting information.
         /// </summary>
+        /// <value>The bill formatting information.</value>
         public BillFormat Format { get; set; } = new BillFormat();
 
+        /// <summary>Determines whether the specified object is equal to the current object.</summary>
+        /// <param name="obj">The object to compare with the current object.</param>
+        /// <returns><c>true</c> if the specified object is equal to the current object; otherwise, <c>false</c>.</returns>
         public override bool Equals(object obj)
         {
             return Equals(obj as Bill);
         }
 
+        /// <summary>Determines whether the specified bill is equal to the current bill.</summary>
+        /// <param name="other">The bill to compare with the current bill.</param>
+        /// <returns><c>true</c> if the specified object is equal to the current object; otherwise, <c>false</c>.</returns>
         public bool Equals(Bill other)
         {
             return other != null &&
@@ -278,6 +161,8 @@ namespace Codecrete.SwissQRBill.Generator
                    EqualityComparer<BillFormat>.Default.Equals(Format, other.Format);
         }
 
+        /// <summary>Gets the hash code for this instance.</summary>
+        /// <returns>A hash code for the current object.</returns>
         public override int GetHashCode()
         {
             int hashCode = -765739998;

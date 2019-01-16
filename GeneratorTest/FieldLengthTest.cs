@@ -14,127 +14,127 @@ namespace Codecrete.SwissQRBill.GeneratorTest
     {
 
         [Fact]
-        void MaximumNameLength()
+        private void MaximumNameLength()
         {
-            bill = SampleData.CreateExample1();
+            SourceBill = SampleData.CreateExample1();
             Address address = CreateValidPerson();
             address.Name = "Name567890123456789012345678901234567890123456789012345678901234567890";
-            bill.Creditor = address;
+            SourceBill.Creditor = address;
             Validate();
             AssertNoMessages();
             Assert.Equal("Name567890123456789012345678901234567890123456789012345678901234567890",
-                    validatedBill.Creditor.Name);
+                    ValidatedBill.Creditor.Name);
         }
 
         [Fact]
-        void ClippedName()
+        private void ClippedName()
         {
-            bill = SampleData.CreateExample1();
+            SourceBill = SampleData.CreateExample1();
             Address address = CreateValidPerson();
             address.Name = "Name5678901234567890123456789012345678901234567890123456789012345678901";
-            bill.Creditor = address;
+            SourceBill.Creditor = address;
             Validate();
-            AssertSingleWarningMessage(Bill.FieldCreditorName, "field_clipped");
+            AssertSingleWarningMessage(ValidationConstants.FieldCreditorName, "field_clipped");
             Assert.Equal("Name567890123456789012345678901234567890123456789012345678901234567890",
-                    validatedBill.Creditor.Name);
+                    ValidatedBill.Creditor.Name);
         }
 
         [Fact]
-        void MaximumStreetLength()
+        private void MaximumStreetLength()
         {
-            bill = SampleData.CreateExample1();
+            SourceBill = SampleData.CreateExample1();
             Address address = CreateValidPerson();
             address.Street = "Street7890123456789012345678901234567890123456789012345678901234567890";
-            bill.Creditor = address;
+            SourceBill.Creditor = address;
             Validate();
             AssertNoMessages();
             Assert.Equal("Street7890123456789012345678901234567890123456789012345678901234567890",
-                    validatedBill.Creditor.Street);
+                    ValidatedBill.Creditor.Street);
         }
 
         [Fact]
-        void ClippedStreet()
+        private void ClippedStreet()
         {
-            bill = SampleData.CreateExample1();
+            SourceBill = SampleData.CreateExample1();
             Address address = CreateValidPerson();
             address.Street = "Street78901234567890123456789012345678901234567890123456789012345678901";
-            bill.Creditor = address;
+            SourceBill.Creditor = address;
             Validate();
-            AssertSingleWarningMessage(Bill.FieldCreditorStreet, "field_clipped");
+            AssertSingleWarningMessage(ValidationConstants.FieldCreditorStreet, "field_clipped");
             Assert.Equal("Street7890123456789012345678901234567890123456789012345678901234567890",
-                    validatedBill.Creditor.Street);
+                    ValidatedBill.Creditor.Street);
         }
 
         [Fact]
-        void MaximumHouseNoLength()
+        private void MaximumHouseNoLength()
         {
-            bill = SampleData.CreateExample1();
+            SourceBill = SampleData.CreateExample1();
             Address address = CreateValidPerson();
             address.HouseNo = "HouseNo890123456";
-            bill.Creditor = address;
+            SourceBill.Creditor = address;
             Validate();
             AssertNoMessages();
-            Assert.Equal("HouseNo890123456", validatedBill.Creditor.HouseNo);
+            Assert.Equal("HouseNo890123456", ValidatedBill.Creditor.HouseNo);
         }
 
         [Fact]
-        void ClippedHouseNo()
+        private void ClippedHouseNo()
         {
-            bill = SampleData.CreateExample1();
+            SourceBill = SampleData.CreateExample1();
             Address address = CreateValidPerson();
             address.HouseNo = "HouseNo8901234567";
-            bill.Creditor = address;
+            SourceBill.Creditor = address;
             Validate();
-            AssertSingleWarningMessage(Bill.FieldCreditorHouseNo, "field_clipped");
-            Assert.Equal("HouseNo890123456", validatedBill.Creditor.HouseNo);
+            AssertSingleWarningMessage(ValidationConstants.FieldCreditorHouseNo, "field_clipped");
+            Assert.Equal("HouseNo890123456", ValidatedBill.Creditor.HouseNo);
         }
 
         [Fact]
-        void MaximumPostalCodeLength()
+        private void MaximumPostalCodeLength()
         {
-            bill = SampleData.CreateExample1();
+            SourceBill = SampleData.CreateExample1();
             Address address = CreateValidPerson();
             address.PostalCode = "Postal7890123456";
-            bill.Creditor = address;
+            SourceBill.Creditor = address;
             Validate();
             AssertNoMessages();
-            Assert.Equal("Postal7890123456", validatedBill.Creditor.PostalCode);
+            Assert.Equal("Postal7890123456", ValidatedBill.Creditor.PostalCode);
         }
 
         [Fact]
-        void ClippedPostalCode()
+        private void ClippedPostalCode()
         {
-            bill = SampleData.CreateExample1();
+            SourceBill = SampleData.CreateExample1();
             Address address = CreateValidPerson();
             address.PostalCode = "Postal78901234567";
-            bill.Creditor = address;
+            SourceBill.Creditor = address;
             Validate();
-            AssertSingleWarningMessage(Bill.FieldCreditorPostalCode, "field_clipped");
-            Assert.Equal("Postal7890123456", validatedBill.Creditor.PostalCode);
+            AssertSingleWarningMessage(ValidationConstants.FieldCreditorPostalCode, "field_clipped");
+            Assert.Equal("Postal7890123456", ValidatedBill.Creditor.PostalCode);
         }
 
         [Fact]
-        void MaximumTownLength()
+        private void MaximumTownLength()
         {
-            bill = SampleData.CreateExample1();
+            SourceBill = SampleData.CreateExample1();
             Address address = CreateValidPerson();
             address.Town = "City5678901234567890123456789012345";
-            bill.Creditor = address;
+            SourceBill.Creditor = address;
             Validate();
             AssertNoMessages();
-            Assert.Equal("City5678901234567890123456789012345", validatedBill.Creditor.Town);
+            Assert.Equal("City5678901234567890123456789012345", ValidatedBill.Creditor.Town);
         }
 
         [Fact]
-        void ClippedTown()
+        private void ClippedTown()
         {
-            bill = SampleData.CreateExample1();
+            SourceBill = SampleData.CreateExample1();
             Address address = CreateValidPerson();
             address.Town = "City56789012345678901234567890123456";
-            bill.Creditor = address;
+            SourceBill.Creditor = address;
             Validate();
-            AssertSingleWarningMessage(Bill.FieldCreditorTown, "field_clipped");
-            Assert.Equal("City5678901234567890123456789012345", validatedBill.Creditor.Town);
+            AssertSingleWarningMessage(ValidationConstants.FieldCreditorTown, "field_clipped");
+            Assert.Equal("City5678901234567890123456789012345", ValidatedBill.Creditor.Town);
         }
     }
 }

@@ -13,46 +13,46 @@ namespace Codecrete.SwissQRBill.GeneratorTest
     public class QRReferenceTest
     {
         [Fact]
-        void ValidQRReference()
+        private void ValidQrReference()
         {
-            Assert.True(Payments.IsValidQRReference("210000000003139471430009017"));
+            Assert.True(Payments.IsValidQrReference("210000000003139471430009017"));
         }
 
         [Fact]
-        void InvalidLengthQRReference()
+        private void InvalidLengthQrReference()
         {
-            Assert.False(Payments.IsValidQRReference("2100000003139471430009017"));
+            Assert.False(Payments.IsValidQrReference("2100000003139471430009017"));
         }
 
         [Fact]
-        void ValidQRReferenceWithSpaces()
+        private void ValidQrReferenceWithSpaces()
         {
-            Assert.True(Payments.IsValidQRReference("21 00000 00003 13947 14300 09017"));
+            Assert.True(Payments.IsValidQrReference("21 00000 00003 13947 14300 09017"));
         }
 
         [Fact]
-        void InvalidQRReferenceWithLetters()
+        private void InvalidQrReferenceWithLetters()
         {
-            Assert.False(Payments.IsValidQRReference("210000S00003139471430009017"));
+            Assert.False(Payments.IsValidQrReference("210000S00003139471430009017"));
         }
 
         [Fact]
-        void IinvalidQRReferenceWithSpecialChar()
+        private void InvalidQrReferenceWithSpecialChar()
         {
-            Assert.False(Payments.IsValidQRReference("210000000%03139471430009017"));
+            Assert.False(Payments.IsValidQrReference("210000000%03139471430009017"));
         }
 
         [Fact]
-        void InvalidCheckDigitQRReference()
+        private void InvalidCheckDigitQrReference()
         {
-            Assert.False(Payments.IsValidQRReference("210000000003139471430009016"));
+            Assert.False(Payments.IsValidQrReference("210000000003139471430009016"));
         }
 
         [Fact]
-        void FormatQRReference()
+        private void FormatQrReference()
         {
             Assert.Equal("12 34560 00000 00129 11462 90514",
-                    Payments.FormatQRReferenceNumber("123456000000001291146290514"));
+                    Payments.FormatQrReferenceNumber("123456000000001291146290514"));
         }
     }
 }

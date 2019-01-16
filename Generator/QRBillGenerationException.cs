@@ -11,32 +11,30 @@ namespace Codecrete.SwissQRBill.Generator
 {
     /// <summary>
     /// Exception thrown if the bill could not be generated.
-    /// </summary>
-    /// <remarks>
+    /// <para>
     /// If the bill data is not valid, a <see cref="QRBillValidationException"/> exception is thrown instead.
-    /// </remarks>
+    /// </para>
+    /// </summary>
     [Serializable]
     public class QRBillGenerationException : Exception
     {
         /// <summary>
-        /// Initializes a new instance with the specified error message
+        /// Initializes a new instance with the specified error message.
         /// </summary>
-        /// <param name="message">error message</param>
+        /// <param name="message">The error message.</param>
         public QRBillGenerationException(string message)
             : base(message)
         {
-
         }
 
         /// <summary>
-        /// Initializes a new instance with the specified error message and a reference to the exception that caused the error
+        /// Initializes a new instance with the specified error message and a reference to the exception that caused the error.
         /// </summary>
-        /// <param name="message">error message</param>
-        /// <param name="innerException">inner exception</param>
+        /// <param name="message">The error message.</param>
+        /// <param name="innerException">The inner exception.</param>
         public QRBillGenerationException(string message, Exception innerException)
             : base(message, innerException)
         {
-
         }
 
         protected QRBillGenerationException(SerializationInfo info, StreamingContext context)

@@ -12,143 +12,143 @@ namespace Codecrete.SwissQRBill.GeneratorTest
 {
     public class FontMetricsTest
     {
-        private FontMetrics fontMetrics;
+        private readonly FontMetrics _fontMetrics;
 
         public FontMetricsTest()
         {
-            fontMetrics = new FontMetrics("Helvetica");
+            _fontMetrics = new FontMetrics("Helvetica");
         }
 
         [Fact]
-        void ShortOneLiner()
+        private void ShortOneLiner()
         {
-            string[] lines = fontMetrics.SplitLines("abc", 50, 10);
+            string[] lines = _fontMetrics.SplitLines("abc", 50, 10);
             Assert.Single(lines);
             Assert.Equal("abc", lines[0]);
         }
 
         [Fact]
-        void OneLiner()
+        private void OneLiner()
         {
-            string[] lines = fontMetrics.SplitLines("abcdefghij", 50, 10);
+            string[] lines = _fontMetrics.SplitLines("abcdefghij", 50, 10);
             Assert.Single(lines);
             Assert.Equal("abcdefghij", lines[0]);
         }
 
         [Fact]
-        void OneLinerWithTwoWords()
+        private void OneLinerWithTwoWords()
         {
-            string[] lines = fontMetrics.SplitLines("abcdef ghij", 50, 10);
+            string[] lines = _fontMetrics.SplitLines("abcdef ghij", 50, 10);
             Assert.Single(lines);
             Assert.Equal("abcdef ghij", lines[0]);
         }
 
         [Fact]
-        void LeadingSpaceOneLiner()
+        private void LeadingSpaceOneLiner()
         {
-            string[] lines = fontMetrics.SplitLines(" abcdefghij", 50, 10);
+            string[] lines = _fontMetrics.SplitLines(" abcdefghij", 50, 10);
             Assert.Single(lines);
             Assert.Equal("abcdefghij", lines[0]);
         }
 
         [Fact]
-        void TrailingSpaceOneLiner()
+        private void TrailingSpaceOneLiner()
         {
-            string[] lines = fontMetrics.SplitLines("abcdefghij ", 50, 10);
+            string[] lines = _fontMetrics.SplitLines("abcdefghij ", 50, 10);
             Assert.Single(lines);
             Assert.Equal("abcdefghij", lines[0]);
         }
 
         [Fact]
-        void EmptyLine()
+        private void EmptyLine()
         {
-            string[] lines = fontMetrics.SplitLines("", 50, 10);
+            string[] lines = _fontMetrics.SplitLines("", 50, 10);
             Assert.Single(lines);
             Assert.Equal("", lines[0]);
         }
 
         [Fact]
-        void SingleSpace()
+        private void SingleSpace()
         {
-            string[] lines = fontMetrics.SplitLines(" ", 50, 10);
+            string[] lines = _fontMetrics.SplitLines(" ", 50, 10);
             Assert.Single(lines);
             Assert.Equal("", lines[0]);
         }
 
         [Fact]
-        void ManySpaces()
+        private void ManySpaces()
         {
-            string[] lines = fontMetrics.SplitLines("                           ", 50, 10);
+            string[] lines = _fontMetrics.SplitLines("                           ", 50, 10);
             Assert.Single(lines);
             Assert.Equal("", lines[0]);
         }
 
         [Fact]
-        void OutsideASCIIRange()
+        private void OutsideAsciiRange()
         {
-            string[] lines = fontMetrics.SplitLines("éà£$\uD83D\uDE03", 50, 10);
+            string[] lines = _fontMetrics.SplitLines("éà£$\uD83D\uDE03", 50, 10);
             Assert.Single(lines);
             Assert.Equal("éà£$\uD83D\uDE03", lines[0]);
         }
 
         [Fact]
-        void TwoLinesFromSpace()
+        private void TwoLinesFromSpace()
         {
-            string[] lines = fontMetrics.SplitLines("abcde fghijk", 50, 10);
+            string[] lines = _fontMetrics.SplitLines("abcde fghijk", 50, 10);
             Assert.Equal(2, lines.Length);
             Assert.Equal("abcde", lines[0]);
             Assert.Equal("fghijk", lines[1]);
         }
 
         [Fact]
-        void TwoLinesFromNewLine()
+        private void TwoLinesFromNewLine()
         {
-            string[] lines = fontMetrics.SplitLines("abcde\nfghijk", 50, 10);
+            string[] lines = _fontMetrics.SplitLines("abcde\nfghijk", 50, 10);
             Assert.Equal(2, lines.Length);
             Assert.Equal("abcde", lines[0]);
             Assert.Equal("fghijk", lines[1]);
         }
 
         [Fact]
-        void TwoLinesWithTrailingNewline()
+        private void TwoLinesWithTrailingNewline()
         {
-            string[] lines = fontMetrics.SplitLines("abcde\n", 50, 10);
+            string[] lines = _fontMetrics.SplitLines("abcde\n", 50, 10);
             Assert.Equal(2, lines.Length);
             Assert.Equal("abcde", lines[0]);
             Assert.Equal("", lines[1]);
         }
 
         [Fact]
-        void SingleNewline()
+        private void SingleNewline()
         {
-            string[] lines = fontMetrics.SplitLines("\n", 50, 10);
+            string[] lines = _fontMetrics.SplitLines("\n", 50, 10);
             Assert.Equal(2, lines.Length);
             Assert.Equal("", lines[0]);
             Assert.Equal("", lines[1]);
         }
 
         [Fact]
-        void SpaceAndNewline()
+        private void SpaceAndNewline()
         {
-            string[] lines = fontMetrics.SplitLines("  \n ", 50, 10);
+            string[] lines = _fontMetrics.SplitLines("  \n ", 50, 10);
             Assert.Equal(2, lines.Length);
             Assert.Equal("", lines[0]);
             Assert.Equal("", lines[1]);
         }
 
         [Fact]
-        void TrailingAndLeadingSpaceAndNewline()
+        private void TrailingAndLeadingSpaceAndNewline()
         {
-            string[] lines = fontMetrics.SplitLines(" abc \n", 50, 10);
+            string[] lines = _fontMetrics.SplitLines(" abc \n", 50, 10);
             Assert.Equal(2, lines.Length);
             Assert.Equal("abc", lines[0]);
             Assert.Equal("", lines[1]);
         }
 
         [Fact]
-        void ForcedWorkbreak()
+        private void ForcedWorkbreak()
         {
-            string[] lines = fontMetrics.SplitLines("abcde", 2, 10);
+            string[] lines = _fontMetrics.SplitLines("abcde", 2, 10);
             Assert.Equal(5, lines.Length);
             Assert.Equal("a", lines[0]);
             Assert.Equal("b", lines[1]);
@@ -158,9 +158,9 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        void ForcedWordbreakWithSpaces()
+        private void ForcedWordbreakWithSpaces()
         {
-            string[] lines = fontMetrics.SplitLines("  abcde  ", 2, 10);
+            string[] lines = _fontMetrics.SplitLines("  abcde  ", 2, 10);
             Assert.Equal(5, lines.Length);
             Assert.Equal("a", lines[0]);
             Assert.Equal("b", lines[1]);

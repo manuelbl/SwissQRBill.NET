@@ -10,20 +10,20 @@ using System;
 namespace Codecrete.SwissQRBill.Generator.Canvas
 {
     /// <summary>
-    /// Abstract base class for simplified implementation of classes implementing <see cref="ICanvas"/>
+    /// Abstract base class for simplified implementation of classes implementing <see cref="ICanvas"/>.
+    /// <para>
+    /// The class mainly implements text measurement and a helper for multi-line text.
+    /// </para>
     /// </summary>
-    /// <remarks>
-    /// The class mainly implements text measurement and a helper for multi-line text
-    /// </remarks>
     public abstract class AbstractCanvas : ICanvas
     {
         protected static readonly double MmToPt = 72 / 25.4;
 
-        protected FontMetrics fontMetrics;
+        protected FontMetrics FontMetrics;
 
         protected void SetupFontMetrics(string fontFamilyList)
         {
-            fontMetrics = new FontMetrics(fontFamilyList);
+            FontMetrics = new FontMetrics(fontFamilyList);
         }
 
         public virtual void PutTextLines(string[] lines, double x, double y, int fontSize, double leading)
@@ -31,33 +31,33 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             foreach (string line in lines)
             {
                 PutText(line, x, y, fontSize, false);
-                y -= fontMetrics.LineHeight(fontSize) + leading;
+                y -= FontMetrics.LineHeight(fontSize) + leading;
             }
         }
 
         public double Ascender(int fontSize)
         {
-            return fontMetrics.Ascender(fontSize);
+            return FontMetrics.Ascender(fontSize);
         }
 
         public double Descender(int fontSize)
         {
-            return fontMetrics.Descender(fontSize);
+            return FontMetrics.Descender(fontSize);
         }
 
         public double LineHeight(int fontSize)
         {
-            return fontMetrics.LineHeight(fontSize);
+            return FontMetrics.LineHeight(fontSize);
         }
 
         public double TextWidth(string text, int fontSize, bool isBold)
         {
-            return fontMetrics.TextWidth(text, fontSize, isBold);
+            return FontMetrics.TextWidth(text, fontSize, isBold);
         }
 
         public string[] SplitLines(string text, double maxLength, int fontSize)
         {
-            return fontMetrics.SplitLines(text, maxLength, fontSize);
+            return FontMetrics.SplitLines(text, maxLength, fontSize);
         }
 
         public abstract byte[] GetResult();

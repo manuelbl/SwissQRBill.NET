@@ -14,171 +14,171 @@ namespace Codecrete.SwissQRBill.GeneratorTest
     public class CreditorValidationTest : BillDataValidationBase
     {
         [Fact]
-        void ValidCreditor()
+        private void ValidCreditor()
         {
-            bill = SampleData.CreateExample1();
+            SourceBill = SampleData.CreateExample1();
             Address address = CreateValidPerson();
-            bill.Creditor = address;
+            SourceBill.Creditor = address;
             Validate();
             AssertNoMessages();
-            Assert.NotNull(validatedBill.Creditor);
-            Assert.Equal("Zuppinger AG", validatedBill.Creditor.Name);
-            Assert.Equal("Industriestrasse", validatedBill.Creditor.Street);
-            Assert.Equal("34a", validatedBill.Creditor.HouseNo);
-            Assert.Equal("9548", validatedBill.Creditor.PostalCode);
-            Assert.Equal("Matzingen", validatedBill.Creditor.Town);
-            Assert.Equal("CH", validatedBill.Creditor.CountryCode);
+            Assert.NotNull(ValidatedBill.Creditor);
+            Assert.Equal("Zuppinger AG", ValidatedBill.Creditor.Name);
+            Assert.Equal("Industriestrasse", ValidatedBill.Creditor.Street);
+            Assert.Equal("34a", ValidatedBill.Creditor.HouseNo);
+            Assert.Equal("9548", ValidatedBill.Creditor.PostalCode);
+            Assert.Equal("Matzingen", ValidatedBill.Creditor.Town);
+            Assert.Equal("CH", ValidatedBill.Creditor.CountryCode);
         }
 
         [Fact]
-        void MissingCreditor()
+        private void MissingCreditor()
         {
-            bill = SampleData.CreateExample1();
-            bill.Creditor = null;
+            SourceBill = SampleData.CreateExample1();
+            SourceBill.Creditor = null;
             Validate();
             AssertMandatoryPersonMessages();
         }
 
         [Fact]
-        void EmptyCreditor()
+        private void EmptyCreditor()
         {
-            bill = SampleData.CreateExample1();
+            SourceBill = SampleData.CreateExample1();
             Address emptyAddress = new Address();
-            bill.Creditor = emptyAddress;
+            SourceBill.Creditor = emptyAddress;
             Validate();
             AssertMandatoryPersonMessages();
         }
 
         [Fact]
-        void EmptyCreditorWithSpaces()
+        private void EmptyCreditorWithSpaces()
         {
-            bill = SampleData.CreateExample1();
+            SourceBill = SampleData.CreateExample1();
             Address emptyAddress = new Address
             {
                 Name = "  "
             };
-            bill.Creditor = emptyAddress;
+            SourceBill.Creditor = emptyAddress;
             Validate();
             AssertMandatoryPersonMessages();
         }
 
         [Fact]
-        void MissingCreditorName()
+        private void MissingCreditorName()
         {
-            bill = SampleData.CreateExample1();
+            SourceBill = SampleData.CreateExample1();
             Address address = CreateValidPerson();
             address.Name = "  ";
-            bill.Creditor = address;
+            SourceBill.Creditor = address;
             Validate();
-            AssertSingleErrorMessage(Bill.FieldCreditorName, "field_is_mandatory");
+            AssertSingleErrorMessage(ValidationConstants.FieldCreditorName, "field_is_mandatory");
         }
 
         [Fact]
-        void CreditorWithoutStreet()
+        private void CreditorWithoutStreet()
         {
-            bill = SampleData.CreateExample1();
+            SourceBill = SampleData.CreateExample1();
             Address address = CreateValidPerson();
             address.Street = null;
-            bill.Creditor = address;
+            SourceBill.Creditor = address;
             Validate();
             AssertNoMessages();
         }
 
         [Fact]
-        void CreditorWithoutHouseNo()
+        private void CreditorWithoutHouseNo()
         {
-            bill = SampleData.CreateExample1();
+            SourceBill = SampleData.CreateExample1();
             Address address = CreateValidPerson();
             address.HouseNo = null;
-            bill.Creditor = address;
+            SourceBill.Creditor = address;
             Validate();
             AssertNoMessages();
         }
 
         [Fact]
-        void CreditorWithMissingPostalCode()
+        private void CreditorWithMissingPostalCode()
         {
-            bill = SampleData.CreateExample1();
+            SourceBill = SampleData.CreateExample1();
             Address address = CreateValidPerson();
             address.PostalCode = "";
-            bill.Creditor = address;
+            SourceBill.Creditor = address;
             Validate();
-            AssertSingleErrorMessage(Bill.FieldCreditorPostalCode, "field_is_mandatory");
+            AssertSingleErrorMessage(ValidationConstants.FieldCreditorPostalCode, "field_is_mandatory");
         }
 
         [Fact]
-        void CreditorWithMissingTown()
+        private void CreditorWithMissingTown()
         {
-            bill = SampleData.CreateExample1();
+            SourceBill = SampleData.CreateExample1();
             Address address = CreateValidPerson();
             address.Town = null;
-            bill.Creditor = address;
+            SourceBill.Creditor = address;
             Validate();
-            AssertSingleErrorMessage(Bill.FieldCreditorTown, "field_is_mandatory");
+            AssertSingleErrorMessage(ValidationConstants.FieldCreditorTown, "field_is_mandatory");
         }
 
         [Fact]
-        void CreditorWithMissingCountryCode()
+        private void CreditorWithMissingCountryCode()
         {
-            bill = SampleData.CreateExample1();
+            SourceBill = SampleData.CreateExample1();
             Address address = CreateValidPerson();
             address.CountryCode = "  ";
-            bill.Creditor = address;
+            SourceBill.Creditor = address;
             Validate();
-            AssertSingleErrorMessage(Bill.FieldCreditorCountryCode, "field_is_mandatory");
+            AssertSingleErrorMessage(ValidationConstants.FieldCreditorCountryCode, "field_is_mandatory");
         }
 
         [Fact]
-        void CreditorWithInvalidCountryCode()
+        private void CreditorWithInvalidCountryCode()
         {
-            bill = SampleData.CreateExample1();
+            SourceBill = SampleData.CreateExample1();
             Address address = CreateValidPerson();
             address.CountryCode = "Schweiz";
-            bill.Creditor = address;
+            SourceBill.Creditor = address;
             Validate();
-            AssertSingleErrorMessage(Bill.FieldCreditorCountryCode, "valid_country_code");
+            AssertSingleErrorMessage(ValidationConstants.FieldCreditorCountryCode, "valid_country_code");
         }
 
         [Fact]
-        void CreditorWithInvalidCounturyCode2()
+        private void CreditorWithInvalidCounturyCode2()
         {
-            bill = SampleData.CreateExample1();
+            SourceBill = SampleData.CreateExample1();
             Address address = CreateValidPerson();
             address.CountryCode = "R!";
-            bill.Creditor = address;
+            SourceBill.Creditor = address;
             Validate();
-            AssertSingleErrorMessage(Bill.FieldCreditorCountryCode, "valid_country_code");
+            AssertSingleErrorMessage(ValidationConstants.FieldCreditorCountryCode, "valid_country_code");
         }
 
         [Fact]
-        void CreditorWithConflictingAddress()
+        private void CreditorWithConflictingAddress()
         {
-            bill = SampleData.CreateExample1();
-            bill.Creditor.AddressLine1 = "Conflict";
+            SourceBill = SampleData.CreateExample1();
+            SourceBill.Creditor.AddressLine1 = "Conflict";
             Validate();
-            Assert.True(result.HasErrors);
-            Assert.False(result.HasWarnings);
-            Assert.True(result.HasMessages);
-            Assert.Equal(5, result.ValidationMessages.Count);
-            foreach (ValidationMessage msg in result.ValidationMessages)
+            Assert.True(Result.HasErrors);
+            Assert.False(Result.HasWarnings);
+            Assert.True(Result.HasMessages);
+            Assert.Equal(5, Result.ValidationMessages.Count);
+            foreach (ValidationMessage msg in Result.ValidationMessages)
             {
                 Assert.Equal(MessageType.Error, msg.Type);
                 Assert.Equal("adress_type_conflict", msg.MessageKey);
-                Assert.StartsWith(Bill.FieldRootCreditor, msg.Field);
+                Assert.StartsWith(ValidationConstants.FieldRootCreditor, msg.Field);
             }
         }
 
         private void AssertMandatoryPersonMessages()
         {
-            Assert.True(result.HasErrors);
-            Assert.False(result.HasWarnings);
-            Assert.True(result.HasMessages);
-            Assert.Equal(5, result.ValidationMessages.Count);
-            foreach (ValidationMessage msg in result.ValidationMessages)
+            Assert.True(Result.HasErrors);
+            Assert.False(Result.HasWarnings);
+            Assert.True(Result.HasMessages);
+            Assert.Equal(5, Result.ValidationMessages.Count);
+            foreach (ValidationMessage msg in Result.ValidationMessages)
             {
                 Assert.Equal(MessageType.Error, msg.Type);
                 Assert.Equal("field_is_mandatory", msg.MessageKey);
-                Assert.StartsWith(Bill.FieldRootCreditor, msg.Field);
+                Assert.StartsWith(ValidationConstants.FieldRootCreditor, msg.Field);
             }
         }
     }

@@ -13,18 +13,18 @@ namespace Codecrete.SwissQRBill.GeneratorTest
     public class BillFormatTest
     {
         [Fact]
-        void DefaultValueTest()
+        private void DefaultValueTest()
         {
             BillFormat format = new BillFormat();
             Assert.Equal(Language.EN, format.Language);
             Assert.Equal(GraphicsFormat.SVG, format.GraphicsFormat);
-            Assert.Equal(OutputSize.QRBillOnly, format.OutputSize);
+            Assert.Equal(OutputSize.QrBillOnly, format.OutputSize);
             Assert.Equal("Helvetica,Arial,\"Liberation Sans\"", format.FontFamily);
             Assert.Equal(SeparatorType.SolidLineWithScissors, format.SeparatorType);
         }
 
         [Fact]
-        void HashCodeTest()
+        private void HashCodeTest()
         {
             BillFormat format1 = new BillFormat();
             BillFormat format2 = new BillFormat();
@@ -32,7 +32,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        void TestEqualsTrivial()
+        private void TestEqualsTrivial()
         {
             BillFormat format = new BillFormat();
             Assert.Equal(format, format);
@@ -42,7 +42,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        void TestEquals()
+        private void TestEquals()
         {
             BillFormat format1 = new BillFormat();
             BillFormat format2 = new BillFormat();

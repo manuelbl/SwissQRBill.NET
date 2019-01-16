@@ -13,86 +13,86 @@ namespace Codecrete.SwissQRBill.GeneratorTest
     public class TrimStringTest
     {
         [Fact]
-        void NullString()
+        private void NullString()
         {
             Assert.Null(((string)null).Trimmed());
         }
 
         [Fact]
-        void EmptyString()
+        private void EmptyString()
         {
             Assert.Null("".Trimmed());
         }
 
         [Fact]
-        void OneSpace()
+        private void OneSpace()
         {
             Assert.Null(" ".Trimmed());
         }
 
         [Fact]
-        void SeveralSpaces()
+        private void SeveralSpaces()
         {
             Assert.Null("   ".Trimmed());
         }
 
         [Fact]
-        void NoWhitespace()
+        private void NoWhitespace()
         {
             Assert.Equal("ghj", "ghj".Trimmed());
         }
 
         [Fact]
-        void LeadingSpace()
+        private void LeadingSpace()
         {
             Assert.Equal("klm", " klm".Trimmed());
         }
 
         [Fact]
-        void MultipleLeadingSpaces()
+        private void MultipleLeadingSpaces()
         {
             Assert.Equal("mnop", "   mnop".Trimmed());
         }
 
         [Fact]
-        void TrailingSpace()
+        private void TrailingSpace()
         {
             Assert.Equal("pqrs", "pqrs ".Trimmed());
         }
 
         [Fact]
-        void MultipleTrailingSpaces()
+        private void MultipleTrailingSpaces()
         {
             Assert.Equal("rstu", "rstu    ".Trimmed());
         }
 
         [Fact]
-        void LeadingAndTrailingSpaces()
+        private void LeadingAndTrailingSpaces()
         {
             Assert.Equal("xyz", " xyz    ".Trimmed());
         }
 
         [Fact]
-        void InternalSpace()
+        private void InternalSpace()
         {
             Assert.Equal("cd ef", "cd ef".Trimmed());
         }
 
         [Fact]
-        void MultipleInternalSpaces()
+        private void MultipleInternalSpaces()
         {
             Assert.Equal("fg  hi", "fg  hi".Trimmed());
         }
 
         [Fact]
-        void CopyAvoidanceWithoutSpaces()
+        private void CopyAvoidanceWithoutSpaces()
         {
             string value = "cvbn";
             Assert.Same(value, value.Trimmed());
         }
 
         [Fact]
-        void CopyAvoidanceWithSpaces()
+        private void CopyAvoidanceWithSpaces()
         {
             string value = "i o p";
             Assert.Same(value, value.Trimmed());

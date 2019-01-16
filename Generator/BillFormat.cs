@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace Codecrete.SwissQRBill.Generator
 {
     /// <summary>
-    /// Formatting properties for QR bill
+    /// Formatting properties for QR bill.
     /// </summary>
     public sealed class BillFormat : IEquatable<BillFormat>
     {
@@ -16,7 +16,7 @@ namespace Codecrete.SwissQRBill.Generator
         /// <summary>
         /// Initializes a new instance with the same values as the specified instance.
         /// </summary>
-        /// <param name="format">instance with values to copy</param>
+        /// <param name="format">The instance with values to copy.</param>
         public BillFormat(BillFormat format)
         {
             OutputSize = format.OutputSize;
@@ -28,32 +28,33 @@ namespace Codecrete.SwissQRBill.Generator
 
         /// <summary>
         /// Gets or sets the output size for the generated QR bill.
+        /// <para>
+        /// Defaults to <see cref="OutputSize.QrBillOnly"/>, i.e. the QR bill only (105 by 210 mm).
+        /// </para>
         /// </summary>
-        /// <remarks>
-        /// Defaults to <see cref="OutputSize.QRBillOnly"/>, i.e. the QR bill only (105 by 210 mm)
-        /// </remarks>
-        public OutputSize OutputSize { get; set; } = OutputSize.QRBillOnly;
+        /// <value>The output size.</value>
+        public OutputSize OutputSize { get; set; } = OutputSize.QrBillOnly;
 
         /// <summary>
         /// Gets or sets the bill language.
+        /// <para>
+        /// Defaults to <see cref="Language.EN"/> (English).
+        /// </para>
         /// </summary>
-        /// <remarks>
-        /// Defaults to EN (English).
-        /// </remarks>
+        /// <value>The bill language.</value>
         public Language Language { get; set; } = Language.EN;
 
         /// <summary>
         /// Gets or sets the type of separator drawn above and between the payment part and the receipt.
-        /// </summary>
-        /// <remarks>
+        /// <para>
         /// Defaults to <see cref="SeparatorType.SolidLineWithScissors"/>.
-        /// </remarks>
+        /// </para>
+        /// </summary>
+        /// <value>The separator type.</value>
         public SeparatorType SeparatorType { get; set; } = SeparatorType.SolidLineWithScissors;
 
         /// <summary>
         /// Gets or sets the font family to be used for text.
-        /// </summary>
-        /// <remarks>
         /// <para>
         /// According to the implementation guidelines Arial, Frutiger, Helvetica and Liberation Sans
         /// are the only permitted fonts.
@@ -64,16 +65,29 @@ namespace Codecrete.SwissQRBill.Generator
         /// <para>
         /// Defaults to <c>Helvetica,Arial,"Liberation Sans"</c>.
         /// </para>
-        /// </remarks>
+        /// </summary>
+        /// <value>The font family.</value>
         public string FontFamily { get; set; } = "Helvetica,Arial,\"Liberation Sans\"";
 
+        /// <summary>
+        /// Gets or sets the graphics format to be generated.
+        /// <para>
+        /// Defaults to <see cref="GraphicsFormat.SVG"/>.
+        /// </para>
+        /// </summary>
         public GraphicsFormat GraphicsFormat { get; set; } = GraphicsFormat.SVG;
 
+        /// <summary>Determines whether the specified object is equal to the current object.</summary>
+        /// <param name="obj">The object to compare with the current object.</param>
+        /// <returns><c>true</c> if the specified object is equal to the current object; otherwise, <c>false</c>.</returns>
         public override bool Equals(object obj)
         {
             return Equals(obj as BillFormat);
         }
 
+        /// <summary>Determines whether the specified bill format is equal to the current bill format.</summary>
+        /// <param name="other">The bill format to compare with the current bill format.</param>
+        /// <returns><c>true</c> if the specified object is equal to the current object; otherwise, <c>false</c>.</returns>
         public bool Equals(BillFormat other)
         {
             return other != null &&
@@ -84,6 +98,8 @@ namespace Codecrete.SwissQRBill.Generator
                    GraphicsFormat == other.GraphicsFormat;
         }
 
+        /// <summary>Gets the hash code for this instance.</summary>
+        /// <returns>A hash code for the current object.</returns>
         public override int GetHashCode()
         {
             int hashCode = 43802783;

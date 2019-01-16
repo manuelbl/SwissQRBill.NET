@@ -15,7 +15,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
     public class ValidationResultTest
     {
         [Fact]
-        void DefaultConstructor()
+        private void DefaultConstructor()
         {
             ValidationResult result = new ValidationResult();
             Assert.True(result.IsValid);
@@ -27,7 +27,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        void SingleWarning()
+        private void SingleWarning()
         {
             ValidationResult result = new ValidationResult();
             result.AddMessage(MessageType.Warning, "tfd", "dkw");
@@ -46,7 +46,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        void SingleError()
+        private void SingleError()
         {
             ValidationResult result = new ValidationResult();
             result.AddMessage(MessageType.Error, "kdef.def", "qrdv.dwek-eke");
@@ -65,7 +65,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        void MultipleMessages()
+        private void MultipleMessages()
         {
             ValidationResult result = new ValidationResult();
             result.AddMessage(MessageType.Error, "abd-fds", "asdf.asdfe.werk");
@@ -91,10 +91,10 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        void MessageWithMessageParameters()
+        private void MessageWithMessageParameters()
         {
             ValidationResult result = new ValidationResult();
-            result.AddMessage(MessageType.Warning, "jkr", "wcw.dw", new string[] { ")(*$" });
+            result.AddMessage(MessageType.Warning, "jkr", "wcw.dw", new[] { ")(*$" });
             Assert.True(result.IsValid);
             Assert.True(result.HasMessages);
             Assert.True(result.HasWarnings);
@@ -106,11 +106,11 @@ namespace Codecrete.SwissQRBill.GeneratorTest
             Assert.Equal(MessageType.Warning, messages[0].Type);
             Assert.Equal("jkr", messages[0].Field);
             Assert.Equal("wcw.dw", messages[0].MessageKey);
-            Assert.Equal(new string[] { ")(*$" }, messages[0].MessageParameters);
+            Assert.Equal(new[] { ")(*$" }, messages[0].MessageParameters);
         }
 
         [Fact]
-        void SetCleanedBill()
+        private void SetCleanedBill()
         {
             ValidationResult result = new ValidationResult
             {

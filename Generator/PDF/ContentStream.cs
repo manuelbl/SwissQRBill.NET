@@ -17,20 +17,20 @@ namespace Codecrete.SwissQRBill.Generator.PDF
     /// </summary>
     public class ContentStream : IWritable
     {
-        private readonly MemoryStream buffer;
-        private StreamWriter contentWriter;
-        private readonly GeneralDict dict;
-        private readonly ResourceDict resources;
+        private readonly MemoryStream _buffer;
+        private StreamWriter _contentWriter;
+        private readonly GeneralDict _dict;
+        private readonly ResourceDict _resources;
 
         internal ContentStream(ResourceDict resources)
         {
-            this.resources = resources;
-            buffer = new MemoryStream();
-            buffer.WriteByte(0x78);
-            buffer.WriteByte(0xDA);
-            DeflateStream deflateStream = new DeflateStream(buffer, CompressionMode.Compress, true);
-            contentWriter = new StreamWriter(deflateStream, Document.GetCodepage1252());
-            dict = new GeneralDict();
+            _resources = resources;
+            _buffer = new MemoryStream();
+            _buffer.WriteByte(0x78);
+            _buffer.WriteByte(0xDA);
+            DeflateStream deflateStream = new DeflateStream(_buffer, CompressionMode.Compress, true);
+            _contentWriter = new StreamWriter(deflateStream, Document.GetCodepage1252());
+            _dict = new GeneralDict();
         }
 
         public void SaveGraphicsState()
@@ -174,7 +174,7 @@ namespace Codecrete.SwissQRBill.Generator.PDF
 
         public void SetFont(Font font, float fontSize)
         {
-            Name fontName = resources.AddFont(font);
+            Name fontName = _resources.AddFont(font);
             WriteOperand(fontName);
             WriteOperand(fontSize);
             WriteOperator("Tf");
@@ -205,41 +205,41 @@ namespace Codecrete.SwissQRBill.Generator.PDF
 
         private void WriteOperand(float val)
         {
-            contentWriter.Write(Invariant($"{val:0.###} "));
+            _contentWriter.Write(Invariant($"{val:0.###} "));
         }
 
         private void WriteOperand(Name name)
         {
-            contentWriter.Write($"/{name.Value} ");
+            _contentWriter.Write($"/{name.Value} ");
         }
 
         private void WriteTextOperand(string text)
         {
             text = WriterHelper.EscapeString(text);
-            contentWriter.Write($"({text}) ");
+            _contentWriter.Write($"({text}) ");
         }
 
         private void WriteOperator(string oper)
         {
-            contentWriter.Write($"{oper}\n");
+            _contentWriter.Write($"{oper}\n");
         }
 
         void IWritable.Write(StreamWriter writer)
         {
-            contentWriter.Close();
+            _contentWriter.Close();
 
-            dict.Add("Length", buffer.Length);
-            dict.Add("Filter", new Name("FlateDecode"));
-            ((IWritable)dict).Write(writer);
+            _dict.Add("Length", _buffer.Length);
+            _dict.Add("Filter", new Name("FlateDecode"));
+            ((IWritable)_dict).Write(writer);
 
             writer.Write("stream\r\n");
             writer.Flush();
-            buffer.Seek(0, SeekOrigin.Begin);
-            buffer.CopyTo(writer.BaseStream);
+            _buffer.Seek(0, SeekOrigin.Begin);
+            _buffer.CopyTo(writer.BaseStream);
             writer.Write("\r\nendstream\n");
 
-            contentWriter.Dispose();
-            contentWriter = null;
+            _contentWriter.Dispose();
+            _contentWriter = null;
         }
     }
 }

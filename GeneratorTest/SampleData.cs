@@ -42,13 +42,15 @@ namespace Codecrete.SwissQRBill.GeneratorTest
                 Debtor = debtor,
                 Reference = "210000 000 00313 9471430009017",
                 UnstructuredMessage = "Instruction of 15.09.2019",
-                BillInformation = "//S1/01/20170309/11/10201409/20/14000000/22/36958/30/CH106017086/40/1020/41/3010",
-                AlternativeSchemes = new List<AlternativeScheme> {
-                    new AlternativeScheme { Name = "Ultraviolet", Instruction = "UV;UltraPay005;12345" },
-                    new AlternativeScheme { Name = "Xing Yong", Instruction = "XY;XYService;54321" }
-                }
+                BillInformation =
+                    "//S1/01/20170309/11/10201409/20/14000000/22/36958/30/CH106017086/40/1020/41/3010",
+                AlternativeSchemes = new List<AlternativeScheme>
+                {
+                    new AlternativeScheme {Name = "Ultraviolet", Instruction = "UV;UltraPay005;12345"},
+                    new AlternativeScheme {Name = "Xing Yong", Instruction = "XY;XYService;54321"}
+                },
+                Format = { Language = Language.EN }
             };
-            bill.Format.Language = Language.EN;
             return bill;
         }
 
@@ -71,9 +73,9 @@ namespace Codecrete.SwissQRBill.GeneratorTest
                 Currency = "CHF",
                 Debtor = null,
                 Reference = "",
-                UnstructuredMessage = "Donation to the Winterfest Campaign"
+                UnstructuredMessage = "Donation to the Winterfest Campaign",
+                Format = { Language = Language.DE }
             };
-            bill.Format.Language = Language.DE;
             return bill;
         }
 
@@ -105,9 +107,9 @@ namespace Codecrete.SwissQRBill.GeneratorTest
                 Currency = "CHF",
                 Debtor = debtor,
                 Reference = "RF18539007547034",
-                UnstructuredMessage = null
+                UnstructuredMessage = null,
+                Format = { Language = Language.FR }
             };
-            bill.Format.Language = Language.FR;
             return bill;
         }
 
@@ -130,10 +132,9 @@ namespace Codecrete.SwissQRBill.GeneratorTest
                 Currency = "CHF",
                 Debtor = null,
                 Reference = "",
-                UnstructuredMessage = ""
+                UnstructuredMessage = "",
+                Format = { Language = Language.IT, SeparatorType = SeparatorType.SolidLine }
             };
-            bill.Format.Language = Language.IT;
-            bill.Format.SeparatorType = SeparatorType.SolidLine;
             return bill;
         }
 
@@ -161,10 +162,12 @@ namespace Codecrete.SwissQRBill.GeneratorTest
                 Currency = "CHF",
                 Debtor = debtor,
                 Reference = "210000 000 00313 9471430009017",
-                UnstructuredMessage = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed",
-                BillInformation = "//S1/01/20170309/11/10201409/20/14000000/22/36958/30/CH106017086/40/1020/41/3010/01/20170309/11/10201409/20/14000000/22/36958/30/CH106017086"
+                UnstructuredMessage =
+                    "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed",
+                BillInformation =
+                    "//S1/01/20170309/11/10201409/20/14000000/22/36958/30/CH106017086/40/1020/41/3010/01/20170309/11/10201409/20/14000000/22/36958/30/CH106017086",
+                Format = { Language = Language.EN }
             };
-            bill.Format.Language = Language.EN;
             return bill;
         }
 
@@ -183,10 +186,12 @@ namespace Codecrete.SwissQRBill.GeneratorTest
                 Creditor = creditor,
                 Currency = "EUR",
                 Reference = "210000 000 00313 9471430009017",
-                UnstructuredMessage = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed",
-                BillInformation = "//S1/01/20170309/11/10201409/20/14000000/22/36958/30/CH106017086/40/1020/41/3010/01/20170309/11/10201409/20/14000000/22/36958/30/CH106017086"
+                UnstructuredMessage =
+                    "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed",
+                BillInformation =
+                    "//S1/01/20170309/11/10201409/20/14000000/22/36958/30/CH106017086/40/1020/41/3010/01/20170309/11/10201409/20/14000000/22/36958/30/CH106017086",
+                Format = { Language = Language.EN }
             };
-            bill.Format.Language = Language.EN;
             return bill;
         }
     }

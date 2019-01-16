@@ -14,7 +14,7 @@ namespace Codecrete.SwissQRBill.Generator.PDF
     /// </summary>
     internal class Name : IWritable
     {
-        internal string Value { get; private set; }
+        internal string Value { get; }
 
         internal Name(string value)
         {

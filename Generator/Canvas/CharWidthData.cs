@@ -11,22 +11,22 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
 {
     /// <summary>
     /// Character width data for Helvetica, Arial, Frutiger and Liberation Sans.
-    /// </summary>
-    /// <remarks>
+    /// <para>
     /// Character widths are given in 1/1000 pt for font size 1. Only the character
     /// range allowed for QR bill text is covered.
-    /// </remarks>
+    /// </para>
+    /// </summary>
     public static class CharWidthData
     {
 #pragma warning disable S125
 
         /// <summary>
-        /// Default character width for Helvetica Normal
+        /// Default character width for Helvetica Normal.
         /// </summary>
         public static readonly ushort HelveticaNormalDefaultWidth = 556;
 
         /// <summary>
-        /// Character widths for Helvetica Normal (range 0x20 to 0x7f)
+        /// Character widths for Helvetica Normal (range 0x20 to 0x7f).
         /// </summary>
         public static readonly ushort[] HelveticaNormal_20_7F = {
             278, // 0x20
@@ -128,7 +128,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         };
 
         /// <summary>
-        /// Character widths for Helvetica Normal (range 0xa0 to 0xff)
+        /// Character widths for Helvetica Normal (range 0xa0 to 0xff).
         /// </summary>
         public static readonly ushort[] HelveticaNormal_A0_FF = {
             0, // unused
@@ -230,12 +230,12 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         };
 
         /// <summary>
-        /// Default character width for Helvetica Bold
+        /// Default character width for Helvetica Bold.
         /// </summary>
         public static readonly ushort HelveticaBoldDefaultWidth = 611;
 
         /// <summary>
-        /// Character widths for Helvetica Bold (range 0x20 to 0x7f)
+        /// Character widths for Helvetica Bold (range 0x20 to 0x7f).
         /// </summary>
         public static readonly ushort[] HelveticaBold_20_7F = {
             278, // 0x20
@@ -337,7 +337,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         };
 
         /// <summary>
-        /// Character widths for Helvetica Bold (range 0xa0 to 0xff)
+        /// Character widths for Helvetica Bold (range 0xa0 to 0xff).
         /// </summary>
         public static readonly ushort[] HelveticaBold_A0_FF = {
             0, // unused
@@ -439,12 +439,12 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         };
 
         /// <summary>
-        /// Default character width for Arial Normal
+        /// Default character width for Arial Normal.
         /// </summary>
         public static readonly ushort ArialNormalDefaultWidth = 556;
 
         /// <summary>
-        /// Character widths for Arial Normal (range 0x20 to 0x7f)
+        /// Character widths for Arial Normal (range 0x20 to 0x7f).
         /// </summary>
         public static readonly ushort[] ArialNormal_20_7F = {
             278, // 0x20
@@ -546,7 +546,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         };
 
         /// <summary>
-        /// Character widths for Arial Normal (range 0xa0 to 0xff)
+        /// Character widths for Arial Normal (range 0xa0 to 0xff).
         /// </summary>
         public static readonly ushort[] ArialNormal_A0_FF = {
             0, // unused
@@ -648,12 +648,12 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         };
 
         /// <summary>
-        /// Default character width for Arial Bold
+        /// Default character width for Arial Bold.
         /// </summary>
         public static readonly ushort ArialBoldDefaultWdith = 611;
 
         /// <summary>
-        /// Character widths for Arial Bold (range 0x20 to 0x7f)
+        /// Character widths for Arial Bold (range 0x20 to 0x7f).
         /// </summary>
         public static readonly ushort[] ArialBold_20_7F = {
             278, // 0x20
@@ -755,7 +755,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         };
 
         /// <summary>
-        /// Character widths for Arial Bold (range 0xa0 to 0xff)
+        /// Character widths for Arial Bold (range 0xa0 to 0xff).
         /// </summary>
         public static readonly ushort[] ArialBold_A0_FF = {
             0, // unused
@@ -857,12 +857,12 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         };
 
         /// <summary>
-        /// Default character width for Liberation Sans Normal
+        /// Default character width for Liberation Sans Normal.
         /// </summary>
         public static readonly ushort LiberationSansNormalDefaultWidth = 556;
 
         /// <summary>
-        /// Character widths for LIberation Sans Normal (range 0x20 to 0x7f)
+        /// Character widths for LIberation Sans Normal (range 0x20 to 0x7f).
         /// </summary>
         public static readonly ushort[] LiberationSansNormal_20_7F = {
             278, // 0x20
@@ -964,7 +964,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         };
 
         /// <summary>
-        /// Character widths for Liberation Sans Normal (range 0xa0 to 0xff)
+        /// Character widths for Liberation Sans Normal (range 0xa0 to 0xff).
         /// </summary>
         public static readonly ushort[] LiberationSansNormal_A0_FF = {
             0, // unused
@@ -1066,12 +1066,12 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         };
 
         /// <summary>
-        /// Default character width for Liberation Sans Bold
+        /// Default character width for Liberation Sans Bold.
         /// </summary>
         public static readonly ushort LiberationSansBoldDefaultWidth = 611;
 
         /// <summary>
-        /// Character widths for Liberation Sans Bold (range 0x20 to 0x7f)
+        /// Character widths for Liberation Sans Bold (range 0x20 to 0x7f).
         /// </summary>
         public static readonly ushort[] LiberationSansBold_20_7F = {
             278, // 0x20
@@ -1173,7 +1173,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         };
 
         /// <summary>
-        /// Character widths for Liberation Sans Bold (range 0xa0 to 0xff)
+        /// Character widths for Liberation Sans Bold (range 0xa0 to 0xff).
         /// </summary>
         public static readonly ushort[] LiberationSansBold_A0_FF = {
             0, // unused
@@ -1280,7 +1280,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         public static readonly ushort FrutigerNormalDefaultWidth = 556;
 
         /// <summary>
-        /// Character widths for Frutiger Normal (range 0x20 to 0x7f)
+        /// Character widths for Frutiger Normal (range 0x20 to 0x7f).
         /// </summary>
         public static readonly ushort[] FrutigerNormal_20_7F = {
             278, // 0x20
@@ -1382,7 +1382,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         };
 
         /// <summary>
-        /// Character widths for Frutiger Normal (range 0xa0 to 0xff)
+        /// Character widths for Frutiger Normal (range 0xa0 to 0xff).
         /// </summary>
         public static readonly ushort[] FrutigerNormal_A0_FF = {
             0, // unused
@@ -1484,12 +1484,12 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         };
 
         /// <summary>
-        /// Default character width for Frutiger Bold
+        /// Default character width for Frutiger Bold.
         /// </summary>
         public static readonly ushort FrutigerBoldDefaultWidth = 611;
 
         /// <summary>
-        /// Character widths for Frutiger Bold (range 0x20 to 0x7f)
+        /// Character widths for Frutiger Bold (range 0x20 to 0x7f).
         /// </summary>
         public static readonly ushort[] FrutigerBold_20_7F = {
             278, // 0x20
@@ -1591,7 +1591,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         };
 
         /// <summary>
-        /// Character widths for Frutiger Bold (range 0xa0 to 0xff)
+        /// Character widths for Frutiger Bold (range 0xa0 to 0xff).
         /// </summary>
         public static readonly ushort[] FrutigerBold_A0_FF = {
             0, // unused

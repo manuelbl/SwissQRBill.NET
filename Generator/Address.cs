@@ -13,14 +13,14 @@ namespace Codecrete.SwissQRBill.Generator
 {
     /// <summary>
     /// Address of creditor or debtor.
-    /// </summary>
-    /// <remarks>
+    /// <para>
     /// You can either set street, house number, postal code and town (type <i>structured address</i>)
     /// or address line 1 and 2 (type <i>combined address elements</i>). The type is automatically set
     /// once any of these fields is set. Before setting the fields, the address type is <i>undetermined</i>.
     /// If fields of both types are set, the address type becomes <i>conflicting</i>.
     /// Name and country code must always be set unless all fields are empty.
-    /// </remarks>
+    /// </para>
+    /// </summary>
     public sealed class Address : IEquatable<Address>
     {
 
@@ -49,12 +49,13 @@ namespace Codecrete.SwissQRBill.Generator
 
         /// <summary>
         /// Gets the address type.
-        /// </summary>
-        /// <remarks>
+        /// <para>
         /// The address type is automatically set by either setting street / house number
         /// or address line 1 and 2. Before setting the fields, the address type is <i>Undetermined</i>.
         /// If fields of both types are set, the address type becomes <i>Conflicting</i>.
-        /// </remarks>
+        /// </para>
+        /// </summary>
+        /// <value>The address type.</value>
         public AddressType Type { get; private set; } = AddressType.Undetermined;
 
         private void ChangeType(AddressType desiredType)
@@ -64,28 +65,20 @@ namespace Codecrete.SwissQRBill.Generator
                 return;
             }
 
-            if (Type == AddressType.Undetermined)
-            {
-                Type = desiredType;
-            }
-            else
-            {
-                Type = AddressType.Conflicting;
-            }
+            Type = Type == AddressType.Undetermined ? desiredType : AddressType.Conflicting;
         }
 
         /// <summary>
         /// Gets or sets the name, either the first and last name of a natural person or the
         /// company name of a legal person.
         /// </summary>
+        /// <value>The name.</value>
         public string Name { get; set; }
 
         private string _addressLine1;
 
         /// <summary>
         /// Gets or sets the address line 1.
-        /// </summary>
-        /// <remarks>
         /// <para>
         /// Address line 1 contains street name, house number or P.O. box.
         /// </para>
@@ -96,7 +89,8 @@ namespace Codecrete.SwissQRBill.Generator
         /// <para>
         /// This field is only used for combined elements addresses and is optional.
         /// </para>
-        /// </remarks>
+        /// </summary>
+        /// <value>The address line 1.</value>
         public string AddressLine1
         {
             get => _addressLine1;
@@ -111,8 +105,6 @@ namespace Codecrete.SwissQRBill.Generator
 
         /// <summary>
         /// Gets or sets the address line 2.
-        /// </summary>
-        /// <remarks>
         /// <para>
         /// Address line 2 contains postal code and town.
         /// </para>
@@ -123,7 +115,8 @@ namespace Codecrete.SwissQRBill.Generator
         /// <para>
         /// This field is only used for combined elements addresses. For this type, it's mandatory.
         /// </para>
-        /// </remarks>
+        /// </summary>
+        /// <value>The address line 2.</value>
         public string AddressLine2
         {
             get => _addressLine2;
@@ -138,8 +131,6 @@ namespace Codecrete.SwissQRBill.Generator
 
         /// <summary>
         /// Gets or sets the street.
-        /// </summary>
-        /// <remarks>
         /// <para>
         /// The street must be speicfied without house number.
         /// </para>
@@ -150,7 +141,8 @@ namespace Codecrete.SwissQRBill.Generator
         /// <para>
         /// This field is only used for structured addresses and is optional.
         /// </para>
-        /// </remarks>
+        /// </summary>
+        /// <value>The street.</value>
         public string Street
         {
             get => _street;
@@ -165,8 +157,6 @@ namespace Codecrete.SwissQRBill.Generator
 
         /// <summary>
         /// Gets or sets the house number.
-        /// </summary>
-        /// <remarks>
         /// <para>
         /// Setting this field sets the address type to <see cref="AddressType.Structured"/> unless it's already
         /// <see cref="AddressType.CombinedElements"/>, in which case it becomes <see cref="AddressType.Conflicting"/>.
@@ -174,7 +164,8 @@ namespace Codecrete.SwissQRBill.Generator
         /// <para>
         /// This field is only used for structured addresses and is optional.
         /// </para>
-        /// </remarks>
+        /// </summary>
+        /// <value>The house number.</value>
         public string HouseNo
         {
             get => _houseNo;
@@ -189,8 +180,6 @@ namespace Codecrete.SwissQRBill.Generator
 
         /// <summary>
         /// Gets or sets the postal code.
-        /// </summary>
-        /// <remarks>
         /// <para>
         /// Setting this field sets the address type to <see cref="AddressType.Structured"/> unless it's already
         /// <see cref="AddressType.CombinedElements"/>, in which case it becomes <see cref="AddressType.Conflicting"/>.
@@ -198,7 +187,8 @@ namespace Codecrete.SwissQRBill.Generator
         /// <para>
         /// This field is only used for structured addresses. For this type, it's mandatory.
         /// </para>
-        /// </remarks>
+        /// </summary>
+        /// <value>The postal code.</value>
         public string PostalCode
         {
             get => _postalCode;
@@ -213,8 +203,6 @@ namespace Codecrete.SwissQRBill.Generator
 
         /// <summary>
         /// Gets or sets the town or city.
-        /// </summary>
-        /// <remarks>
         /// <para>
         /// Setting this field sets the address type to <see cref="AddressType.Structured"/> unless it's already
         /// <see cref="AddressType.CombinedElements"/>, in which case it becomes <see cref="AddressType.Conflicting"/>.
@@ -222,7 +210,8 @@ namespace Codecrete.SwissQRBill.Generator
         /// <para>
         /// This field is only used for structured addresses. For this type, it's mandatory.
         /// </para>
-        /// </remarks>
+        /// </summary>
+        /// <value>The town or city.</value>
         public string Town
         {
             get => _town;
@@ -235,13 +224,15 @@ namespace Codecrete.SwissQRBill.Generator
 
         /// <summary>
         /// Gets or sets the two-letter ISO country code.
+        ///  <para>
+        /// The country code is mandatory unless the entire address contains <c>null</c> or emtpy values.
+        /// </para>
         /// </summary>
-        /// <remarks>
-        /// The country code is mandatory unless the entire address contains <c>null</c> or emtpy values.</remarks>
+        /// <value>The ISO country code.</value>
         public string CountryCode { get; set; }
 
         /// <summary>
-        /// Clears all fields and set the type to <see cref="AddressType.Undetermined"/>.
+        /// Clears all fields and sets the type to <see cref="AddressType.Undetermined"/>.
         /// </summary>
         public void Clear()
         {
@@ -256,11 +247,17 @@ namespace Codecrete.SwissQRBill.Generator
             CountryCode = null;
         }
 
+        /// <summary>Determines whether the specified object is equal to the current object.</summary>
+        /// <param name="obj">The object to compare with the current object.</param>
+        /// <returns><c>true</c> if the specified object is equal to the current object; otherwise, <c>false</c>.</returns>
         public override bool Equals(object obj)
         {
             return Equals(obj as Address);
         }
 
+        /// <summary>Determines whether the specified address is equal to the current address.</summary>
+        /// <param name="other">The address to compare with the current address.</param>
+        /// <returns><c>true</c> if the specified object is equal to the current object; otherwise, <c>false</c>.</returns>
         public bool Equals(Address other)
         {
             return other != null &&
@@ -275,6 +272,8 @@ namespace Codecrete.SwissQRBill.Generator
                    CountryCode == other.CountryCode;
         }
 
+        /// <summary>Gets the hash code for this instance.</summary>
+        /// <returns>A hash code for the current object.</returns>
         public override int GetHashCode()
         {
             EqualityComparer<string> comparer = EqualityComparer<string>.Default;

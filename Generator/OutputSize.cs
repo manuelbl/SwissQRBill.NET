@@ -15,7 +15,7 @@ namespace Codecrete.SwissQRBill.Generator
         /// <summary>
         /// QR bill only (105 by 210 mm).
         /// </summary>
-        QRBillOnly,
+        QrBillOnly,
         /// <summary>
         /// A4 sheet in portrait orientation. The QR bill is at the bottom.
         /// </summary>
@@ -23,6 +23,6 @@ namespace Codecrete.SwissQRBill.Generator
         /// <summary>
         /// QR code only (46 by 46 mm).
         /// </summary>
-        QRCodeOnly
+        QrCodeOnly
     }
 }

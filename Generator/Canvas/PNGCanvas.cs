@@ -24,49 +24,49 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
     /// </remarks>
     public class PNGCanvas : AbstractCanvas
     {
-        private readonly int resolution;
-        private readonly float coordinateScale;
-        private Bitmap bitmap;
-        private Graphics graphics;
-        private List<PointF> pathPoints;
-        private List<byte> pathTypes;
-        private FontFamily fontFamily;
+        private readonly int _resolution;
+        private readonly float _coordinateScale;
+        private Bitmap _bitmap;
+        private Graphics _graphics;
+        private List<PointF> _pathPoints;
+        private List<byte> _pathTypes;
+        private FontFamily _fontFamily;
 
         /// <summary>
         /// Initializes a new instance using the specified resolution.
-        /// </summary>
-        /// <remarks>
+        /// <para>
         /// It is recommended to use at least 144 dpi for a readable result.
-        /// </remarks>
-        /// <param name="resolution">resolution (in pixels per inch)</param>
+        /// </para>
+        /// </summary>
+        /// <param name="resolution">The resolutionn of the image to generate (in pixels per inch).</param>
         public PNGCanvas(int resolution)
         {
-            this.resolution = resolution;
-            coordinateScale = (float)(resolution / 25.4);
+            _resolution = resolution;
+            _coordinateScale = (float)(resolution / 25.4);
         }
 
         public override void SetupPage(double width, double height, string fontFamily)
         {
             // setup font metrics
             SetupFontMetrics(fontFamily);
-            this.fontFamily = new FontFamily(fontMetrics.FirstFontFamily);
+            _fontFamily = new FontFamily(FontMetrics.FirstFontFamily);
 
             // create image
-            int w = (int)(width * coordinateScale + 0.5);
-            int h = (int)(height * coordinateScale + 0.5);
-            bitmap = new Bitmap(w, h);
-            bitmap.SetResolution(resolution, resolution);
+            int w = (int)(width * _coordinateScale + 0.5);
+            int h = (int)(height * _coordinateScale + 0.5);
+            _bitmap = new Bitmap(w, h);
+            _bitmap.SetResolution(_resolution, _resolution);
 
             // create graphics context
-            graphics = Graphics.FromImage(bitmap);
+            _graphics = Graphics.FromImage(_bitmap);
 
             // clear background
-            graphics.FillRectangle(Brushes.White, 0, 0, w, h);
+            _graphics.FillRectangle(Brushes.White, 0, 0, w, h);
 
             // enable high quality output
-            graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
-            graphics.SmoothingMode = SmoothingMode.HighQuality;
-            graphics.TextRenderingHint = TextRenderingHint.AntiAlias;
+            _graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
+            _graphics.SmoothingMode = SmoothingMode.HighQuality;
+            _graphics.TextRenderingHint = TextRenderingHint.AntiAlias;
 
             // initialize transformation
             SetTransformation(0, 0, 0, 1, 1);
@@ -74,32 +74,32 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
 
         public override byte[] GetResult()
         {
-            graphics.Dispose();
-            graphics = null;
+            _graphics.Dispose();
+            _graphics = null;
 
             using (MemoryStream stream = new MemoryStream())
             {
-                bitmap.Save(stream, ImageFormat.Png);
+                _bitmap.Save(stream, ImageFormat.Png);
                 return stream.ToArray();
             }
         }
 
         protected void Close()
         {
-            if (graphics != null)
+            if (_graphics != null)
             {
-                graphics.Dispose();
-                graphics = null;
+                _graphics.Dispose();
+                _graphics = null;
             }
-            if (bitmap != null)
+            if (_bitmap != null)
             {
-                bitmap.Dispose();
-                bitmap = null;
+                _bitmap.Dispose();
+                _bitmap = null;
             }
-            if (fontFamily != null)
+            if (_fontFamily != null)
             {
-                fontFamily.Dispose();
-                fontFamily = null;
+                _fontFamily.Dispose();
+                _fontFamily = null;
             }
         }
 
@@ -112,11 +112,11 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         {
             // Our coordinate system extends from the bottom upwards. .NET's system
             // extends from the top downwards. So Y coordinates need to be treated specially.
-            translateX *= coordinateScale;
-            translateY *= coordinateScale;
+            translateX *= _coordinateScale;
+            translateY *= _coordinateScale;
 
             Matrix matrix = new Matrix();
-            matrix.Translate((float)translateX, bitmap.Height - (float)translateY);
+            matrix.Translate((float)translateX, _bitmap.Height - (float)translateY);
             if (rotate != 0)
             {
                 matrix.Rotate((float)(-rotate / Math.PI * 180));
@@ -127,106 +127,106 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
                 matrix.Scale((float)scaleX, (float)scaleY);
             }
 
-            graphics.Transform = matrix;
+            _graphics.Transform = matrix;
         }
 
         public override void StartPath()
         {
-            pathPoints = new List<PointF>();
-            pathTypes = new List<byte>();
+            _pathPoints = new List<PointF>();
+            _pathTypes = new List<byte>();
         }
 
         public override void CloseSubpath()
         {
-            int lastIndex = pathTypes.Count - 1;
-            byte pathType = pathTypes[lastIndex];
+            int lastIndex = _pathTypes.Count - 1;
+            byte pathType = _pathTypes[lastIndex];
             pathType |= (byte)PathPointType.CloseSubpath;
-            pathTypes[lastIndex] = pathType;
+            _pathTypes[lastIndex] = pathType;
         }
 
         public override void MoveTo(double x, double y)
         {
-            x *= coordinateScale;
-            y *= -coordinateScale;
+            x *= _coordinateScale;
+            y *= -_coordinateScale;
 
-            pathPoints.Add(new PointF((float)x, (float)y));
-            pathTypes.Add((byte)PathPointType.Start);
+            _pathPoints.Add(new PointF((float)x, (float)y));
+            _pathTypes.Add((byte)PathPointType.Start);
         }
 
         public override void LineTo(double x, double y)
         {
-            x *= coordinateScale;
-            y *= -coordinateScale;
+            x *= _coordinateScale;
+            y *= -_coordinateScale;
 
-            pathPoints.Add(new PointF((float)x, (float)y));
-            pathTypes.Add((byte)PathPointType.Line);
+            _pathPoints.Add(new PointF((float)x, (float)y));
+            _pathTypes.Add((byte)PathPointType.Line);
         }
 
         public override void AddRectangle(double x, double y, double width, double height)
         {
-            x *= coordinateScale;
-            y *= -coordinateScale;
-            width *= coordinateScale;
-            height *= -coordinateScale;
+            x *= _coordinateScale;
+            y *= -_coordinateScale;
+            width *= _coordinateScale;
+            height *= -_coordinateScale;
 
-            pathPoints.Add(new PointF((float)x, (float)y));
-            pathTypes.Add((byte)PathPointType.Start);
-            pathPoints.Add(new PointF((float)(x + width), (float)y));
-            pathTypes.Add((byte)PathPointType.Line);
-            pathPoints.Add(new PointF((float)(x + width), (float)(y + height)));
-            pathTypes.Add((byte)PathPointType.Line);
-            pathPoints.Add(new PointF((float)x, (float)(y + height)));
-            pathTypes.Add((byte)PathPointType.Line);
-            pathPoints.Add(new PointF((float)x, (float)y));
-            pathTypes.Add((byte)PathPointType.Line | (byte)PathPointType.CloseSubpath);
+            _pathPoints.Add(new PointF((float)x, (float)y));
+            _pathTypes.Add((byte)PathPointType.Start);
+            _pathPoints.Add(new PointF((float)(x + width), (float)y));
+            _pathTypes.Add((byte)PathPointType.Line);
+            _pathPoints.Add(new PointF((float)(x + width), (float)(y + height)));
+            _pathTypes.Add((byte)PathPointType.Line);
+            _pathPoints.Add(new PointF((float)x, (float)(y + height)));
+            _pathTypes.Add((byte)PathPointType.Line);
+            _pathPoints.Add(new PointF((float)x, (float)y));
+            _pathTypes.Add((byte)PathPointType.Line | (byte)PathPointType.CloseSubpath);
         }
 
         public override void CubicCurveTo(double x1, double y1, double x2, double y2, double x, double y)
         {
-            x1 *= coordinateScale;
-            y1 *= -coordinateScale;
-            x2 *= coordinateScale;
-            y2 *= -coordinateScale;
-            x *= coordinateScale;
-            y *= -coordinateScale;
+            x1 *= _coordinateScale;
+            y1 *= -_coordinateScale;
+            x2 *= _coordinateScale;
+            y2 *= -_coordinateScale;
+            x *= _coordinateScale;
+            y *= -_coordinateScale;
 
-            pathPoints.Add(new PointF((float)x1, (float)y1));
-            pathTypes.Add((byte)PathPointType.Bezier);
-            pathPoints.Add(new PointF((float)x2, (float)y2));
-            pathTypes.Add((byte)PathPointType.Bezier);
-            pathPoints.Add(new PointF((float)x, (float)y));
-            pathTypes.Add((byte)PathPointType.Bezier);
+            _pathPoints.Add(new PointF((float)x1, (float)y1));
+            _pathTypes.Add((byte)PathPointType.Bezier);
+            _pathPoints.Add(new PointF((float)x2, (float)y2));
+            _pathTypes.Add((byte)PathPointType.Bezier);
+            _pathPoints.Add(new PointF((float)x, (float)y));
+            _pathTypes.Add((byte)PathPointType.Bezier);
         }
 
         public override void FillPath(int color)
         {
             using (SolidBrush brush = new SolidBrush(Color.FromArgb(color - 16777216)))
-            using (GraphicsPath path = new GraphicsPath(pathPoints.ToArray(), pathTypes.ToArray(), FillMode.Winding))
+            using (GraphicsPath path = new GraphicsPath(_pathPoints.ToArray(), _pathTypes.ToArray(), FillMode.Winding))
             {
-                graphics.FillPath(brush, path);
+                _graphics.FillPath(brush, path);
             }
         }
 
         public override void StrokePath(double strokeWidth, int color)
         {
             using (Pen pen = new Pen(Color.FromArgb(color - 16777216), (float)strokeWidth))
-            using (GraphicsPath path = new GraphicsPath(pathPoints.ToArray(), pathTypes.ToArray()))
+            using (GraphicsPath path = new GraphicsPath(_pathPoints.ToArray(), _pathTypes.ToArray()))
             {
-                graphics.DrawPath(pen, path);
+                _graphics.DrawPath(pen, path);
             }
         }
 
         public override void PutText(string text, double x, double y, int fontSize, bool isBold)
         {
             FontStyle style = isBold ? FontStyle.Bold : FontStyle.Regular;
-            using (Font font = new Font(fontFamily, fontSize, style, GraphicsUnit.Point))
+            using (Font font = new Font(_fontFamily, fontSize, style, GraphicsUnit.Point))
             {
-                float ascent = fontFamily.GetCellAscent(style) / 2048.0f * fontSize / 72 * resolution;
-                x *= coordinateScale;
-                y *= -coordinateScale;
+                float ascent = _fontFamily.GetCellAscent(style) / 2048.0f * fontSize / 72 * _resolution;
+                x *= _coordinateScale;
+                y *= -_coordinateScale;
                 y -= ascent;
 
-                graphics.DrawString(text, font, Brushes.Black, (float)x, (float)y, StringFormat.GenericTypographic);
+                _graphics.DrawString(text, font, Brushes.Black, (float)x, (float)y, StringFormat.GenericTypographic);
             }
         }
     }

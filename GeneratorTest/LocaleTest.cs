@@ -14,25 +14,25 @@ namespace Codecrete.SwissQRBill.GeneratorTest
     public class LocaleTest
     {
         [Fact]
-        void DefaultIsDE()
+        private void DefaultIsDe()
         {
             GenerateQRBill("de-DE", "qrbill-locale-1.svg");
         }
 
         [Fact]
-        void DefaultIsUS()
+        private void DefaultIsUs()
         {
             GenerateQRBill("en-US", "qrbill-locale-2.svg");
         }
 
         [Fact]
-        void DefaultIsDECH()
+        private void DefaultIsDech()
         {
             GenerateQRBill("de-CH", "qrbill-locale-3.svg");
         }
 
         [Fact]
-        void DefaultIsFRCH()
+        private void DefaultIsFrch()
         {
             GenerateQRBill("fr-CH", "qrbill-locale-4.svg");
         }
@@ -40,7 +40,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         private void GenerateQRBill(string locale, string expectedFileName)
         {
             CultureInfo savedCurrentCulture = CultureInfo.CurrentCulture;
-            CultureInfo savedCurrentUICulture = CultureInfo.CurrentUICulture;
+            CultureInfo savedCurrentUiCulture = CultureInfo.CurrentUICulture;
 
             CultureInfo culture = CultureInfo.CreateSpecificCulture(locale);
 
@@ -50,7 +50,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
                 CultureInfo.CurrentUICulture = culture;
 
                 Bill bill = SampleData.CreateExample3();
-                bill.Format.OutputSize = OutputSize.QRBillOnly;
+                bill.Format.OutputSize = OutputSize.QrBillOnly;
                 bill.Format.GraphicsFormat = GraphicsFormat.SVG;
                 byte[] svg = QRBill.Generate(bill);
                 FileComparison.AssertFileContentsEqual(svg, expectedFileName);
@@ -58,7 +58,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
             finally
             {
                 CultureInfo.CurrentCulture = savedCurrentCulture;
-                CultureInfo.CurrentUICulture = savedCurrentUICulture;
+                CultureInfo.CurrentUICulture = savedCurrentUiCulture;
             }
         }
     }
