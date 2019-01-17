@@ -48,11 +48,13 @@ namespace Codecrete.SwissQRBill.Examples.PNGGeneration
             };
 
             // Generate QR bill
-            PNGCanvas canvas = new PNGCanvas(144);
-            byte[] png = QRBill.Generate(bill, canvas);
-
             string path = "qrbill.png";
-            File.WriteAllBytes(path, png);
+            using (PNGCanvas canvas = new PNGCanvas(QRBill.QrBillWidth, QRBill.QrBillHeight, 144, "Arial"))
+            {
+                QRBill.Draw(bill, canvas);
+                canvas.SaveAs(path);
+            }
+
             Console.WriteLine($"QR bill saved at {Path.GetFullPath(path)}");
         }
     }
