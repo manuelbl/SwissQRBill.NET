@@ -22,7 +22,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
     /// PNGs are not an optimal file format for QR bills. Vector formats such a SVG
     /// or PDF are of better quality and use far less processing power to generate
     /// </remarks>
-    public class PNGCanvas : AbstractCanvas
+    public class PNGCanvas : AbstractCanvas, IToByteArray
     {
         private readonly int _resolution;
         private readonly float _coordinateScale;
@@ -33,25 +33,27 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         private FontFamily _fontFamily;
 
         /// <summary>
-        /// Initializes a new instance using the specified resolution.
+        /// Initializes a new instance of a PNG canvas with the given size, resolution and font family.
+        /// <para>
+        /// The QR bill will be drawn in the bottom left corner of the image.
+        /// </para>
         /// <para>
         /// It is recommended to use at least 144 dpi for a readable result.
         /// </para>
         /// </summary>
+        /// <param name="width">The image width, in mm.</param>
+        /// <param name="height">The image height, in mm.</param>
         /// <param name="resolution">The resolutionn of the image to generate (in pixels per inch).</param>
-        public PNGCanvas(int resolution)
-        {
-            _resolution = resolution;
-            _coordinateScale = (float)(resolution / 25.4);
-        }
-
-        public override void SetupPage(double width, double height, string fontFamily)
+        /// <param name="fontFamilyList">A list font family names, separated by comma (same syntax as for CSS). The first font family will be used.</param>
+        public PNGCanvas(double width, double height, int resolution, string fontFamilyList)
         {
             // setup font metrics
-            SetupFontMetrics(fontFamily);
+            SetupFontMetrics(fontFamilyList);
             _fontFamily = new FontFamily(FontMetrics.FirstFontFamily);
 
             // create image
+            _resolution = resolution;
+            _coordinateScale = (float)(resolution / 25.4);
             int w = (int)(width * _coordinateScale + 0.5);
             int h = (int)(height * _coordinateScale + 0.5);
             _bitmap = new Bitmap(w, h);
@@ -69,19 +71,54 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             _graphics.TextRenderingHint = TextRenderingHint.AntiAlias;
 
             // initialize transformation
-            SetTransformation(0, 0, 0, 1, 1);
+            Matrix matrix = new Matrix();
+            matrix.Translate(0, _bitmap.Height);
+            _graphics.Transform = matrix;
         }
 
-        public override byte[] GetResult()
+        /// <summary>
+        /// Gets the resulting graphics encoded as a PNG image in a byte array.
+        /// <para>
+        /// The canvas can no longer be used for drawing after calling this method.</para>
+        /// </summary>
+        /// <returns>The byte array containing the PNG image</returns>
+        public byte[] ToByteArray()
         {
             _graphics.Dispose();
             _graphics = null;
 
-            using (MemoryStream stream = new MemoryStream())
-            {
-                _bitmap.Save(stream, ImageFormat.Png);
-                return stream.ToArray();
-            }
+            MemoryStream stream = new MemoryStream();
+            _bitmap.Save(stream, ImageFormat.Png);
+            Close();
+            return stream.ToArray();
+        }
+
+        /// <summary>
+        /// Writes the resulting graphics as a PNG image to the specified stream.
+        /// <para>
+        /// The canvas can no longer be used for drawing after calling this method.</para>
+        /// </summary>
+        /// <param name="stream">The stream to write to.</param>
+        public void WriteTo(Stream stream)
+        {
+            _graphics.Dispose();
+            _graphics = null;
+            _bitmap.Save(stream, ImageFormat.Png);
+            Close();
+        }
+
+        /// <summary>
+        /// Writes the resulting graphics as a PNG image to the specified file path.
+        /// <para>
+        /// The canvas can no longer be used for drawing after calling this method.</para>
+        /// </summary>
+        /// <param name="path">The path (file name) to write to.</param>
+        public void SaveAs(string path)
+        {
+            _graphics.Dispose();
+            _graphics = null;
+            _bitmap.Save(path, ImageFormat.Png);
+            Close();
         }
 
         protected void Close()

@@ -60,8 +60,6 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             return FontMetrics.SplitLines(text, maxLength, fontSize);
         }
 
-        public abstract byte[] GetResult();
-        public abstract void SetupPage(double width, double height, string fontFamily);
         public abstract void SetTransformation(double translateX, double translateY, double rotate, double scaleX, double scaleY);
         public abstract void PutText(string text, double x, double y, int fontSize, bool isBold);
         public abstract void StartPath();

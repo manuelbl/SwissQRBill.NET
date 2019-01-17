@@ -27,7 +27,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
             Bill bill = SampleData.CreateExample1();
             FailingCanvas canvas = new FailingCanvas();
             bill.Format.OutputSize = OutputSize.QrBillOnly;
-            QRBill.Generate(bill, canvas);
+            QRBill.Draw(bill, canvas);
         }
 
         [Fact]
@@ -38,7 +38,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
             );
         }
 
-        private void GenerateWithInvalidData()
+        private static void GenerateWithInvalidData()
         {
             Bill bill = SampleData.CreateExample1();
             bill.Creditor.Name = " ";
@@ -74,11 +74,6 @@ namespace Codecrete.SwissQRBill.GeneratorTest
                 throw new NotImplementedException();
             }
 
-            public override byte[] GetResult()
-            {
-                throw new NotImplementedException();
-            }
-
             public override void LineTo(double x, double y)
             {
                 throw new NotImplementedException();
@@ -95,11 +90,6 @@ namespace Codecrete.SwissQRBill.GeneratorTest
             }
 
             public override void SetTransformation(double translateX, double translateY, double rotate, double scaleX, double scaleY)
-            {
-                throw new NotImplementedException();
-            }
-
-            public override void SetupPage(double width, double height, string fontFamily)
             {
                 throw new NotImplementedException();
             }

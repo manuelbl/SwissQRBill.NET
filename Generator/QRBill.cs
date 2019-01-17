@@ -19,6 +19,43 @@ namespace Codecrete.SwissQRBill.Generator
     public static class QRBill
     {
         /// <summary>
+        /// The width of an A4 sheet in portrait orientation.
+        /// </summary>
+        /// <value>The width, in mm.</value>
+        public const double A4PortraitWidth = 210;
+
+        /// <summary>
+        /// The height of an A4 sheet in portrait orientation.
+        /// </summary>
+        /// <value>The height, in mm.</value>
+        public const double A4PortraitHeight = 297;
+
+        /// <summary>
+        /// The width of a QR bill (payment part and receipt).
+        /// </summary>
+        /// <value>The width, in mm.</value>
+        public const double QrBillWidth = 210;
+
+        /// <summary>
+        /// The height of a QR bill (payment part and receipt).
+        /// </summary>
+        /// <value>The height, in mm.</value>
+        public const double QrBillHeight = 105;
+
+        /// <summary>
+        /// The width of the QR code.
+        /// </summary>
+        /// <value>The width, in mm.</value>
+        public const double QrCodeWidth = 46;
+
+        /// <summary>
+        /// The height of the QR code.
+        /// </summary>
+        /// <value>The height, in mm.</value>
+        public const double QrCodeHeight = 46;
+
+
+        /// <summary>
         /// Validates and cleans the bill data.
         /// <para>
         /// The validation result contains the error and warning messages (if any) and the cleaned bill data.
@@ -36,7 +73,7 @@ namespace Codecrete.SwissQRBill.Generator
         }
 
         /// <summary>
-        /// Generates a QR bill (payment part and receipt).
+        /// Generates a QR bill (payment part and receipt) or QR code as an SVG image or PDF document.
         /// <para>
         /// If the bill is not valid, a <see cref="QRBillValidationException"/> is
         /// thrown, containing the validation result. For details about the
@@ -45,21 +82,23 @@ namespace Codecrete.SwissQRBill.Generator
         /// validation</a>
         /// </para>
         /// <para>
-        /// This method only supports the generation of SVG and PDF bills. For other graphics
-        /// formats (in particular PNG), use <see cref="Generate(Bill, ICanvas)"/>.
+        /// The graphics format is specified in <c>bill.Format.GraphisFormat</c>. This method
+        /// only supports the generation of SVG images and PDF files. For other graphics
+        /// formats (in particular PNG), use <see cref="Draw(Bill, ICanvas)"/>.
         /// </para>
         /// </summary>
         /// <param name="bill">The data for the bill.</param>
         /// <returns>The generated QR bill (as a byte array in the specified graphics format).</returns>
         /// <exception cref="QRBillValidationException">The bill data is invalid.</exception>
-        /// <seealso cref="Generate(Bill, ICanvas)"/>
+        /// <seealso cref="Draw(Bill, ICanvas)"/>
         public static byte[] Generate(Bill bill)
         {
-            using (ICanvas canvas = CreateCanvas(bill.Format.GraphicsFormat))
+            using (ICanvas canvas = CreateCanvas(bill.Format))
             {
                 try
                 {
-                    return ValidateAndGenerate(bill, canvas);
+                    ValidateAndGenerate(bill, canvas);
+                    return (canvas as IToByteArray)?.ToByteArray();
                 }
                 catch (QRBillValidationException)
                 {
@@ -73,44 +112,41 @@ namespace Codecrete.SwissQRBill.Generator
         }
 
         /// <summary>
-        /// Generates a QR bill (payment part and receipt) using the specified canvas.
+        /// Draws the QR bill (payment part and receipt) or QR code for the specified bill data onto the specified canvas.
         /// <para>
-        /// If the bill data is not valid, a <see cref="QRBillValidationException"/> is
-        /// thrown, containing the validation result. For details about the
-        /// validation result, see <a href=
-        /// "https://github.com/manuelbl/SwissQRBill/wiki/Bill-data-validation">Bill data
-        /// validation</a>
+        /// The QR bill or code are drawn at position (0, 0) extending to the top and to the right.
+        /// Typcially, the position (0, 0) is the bottom left corner of the canvas.
         /// </para>
         /// <para>
-        /// The bill is drawn on the specified canvas. It will be initialized with
-        /// <see cref="ICanvas.SetupPage(double, double, string)"/> and it will be
-        /// closed before returning the result.
+        /// This methods ignores the formatting properties <c>bill.Format.FontFamily</c> and <c>bill.Format.GraphicsFormat</c>.
+        /// They can be set when the canvas instance passed to this method is created.
+        /// </para>
+        /// <para>
+        /// If the bill data is not valid, a <see cref="QRBillValidationException"/> is thrown,
+        /// containing the validation result. For details about the validation result, see
+        /// <a href="https://github.com/manuelbl/SwissQRBill/wiki/Bill-data-validation">Bill data validation</a>.
         /// </para>
         /// </summary>
         /// <param name="bill">The data for the bill.</param>
         /// <param name="canvas">The canvas to draw to.</param>
-        /// <returns>The generated QR bill (as a byte array).</returns>
         /// <exception cref="QRBillValidationException">The bill data is invalid.</exception>
-        public static byte[] Generate(Bill bill, ICanvas canvas)
+        public static void Draw(Bill bill, ICanvas canvas)
         {
-            using (ICanvas c = canvas)
+            try
             {
-                try
-                {
-                    return ValidateAndGenerate(bill, c);
-                }
-                catch (QRBillValidationException)
-                {
-                    throw;
-                }
-                catch (Exception e)
-                {
-                    throw new QRBillGenerationException("Failed to generate QR bill", e);
-                }
+                ValidateAndGenerate(bill, canvas);
+            }
+            catch (QRBillValidationException)
+            {
+                throw;
+            }
+            catch (Exception e)
+            {
+                throw new QRBillGenerationException("Failed to generate QR bill", e);
             }
         }
 
-        private static byte[] ValidateAndGenerate(Bill bill, ICanvas canvas)
+        private static void ValidateAndGenerate(Bill bill, ICanvas canvas)
         {
             ValidationResult result = Validator.Validate(bill);
             Bill cleanedBill = result.CleanedBill;
@@ -121,11 +157,13 @@ namespace Codecrete.SwissQRBill.Generator
 
             if (bill.Format.OutputSize == OutputSize.QrCodeOnly)
             {
-                return GenerateQrCode(cleanedBill, canvas);
+                QRCode qrCode = new QRCode(cleanedBill);
+                qrCode.Draw(canvas, 0, 0);
             }
             else
             {
-                return GeneratePaymentPart(cleanedBill, canvas);
+                BillLayout layout = new BillLayout(cleanedBill, canvas);
+                layout.Draw();
             }
         }
 
@@ -175,63 +213,36 @@ namespace Codecrete.SwissQRBill.Generator
             return QRCodeText.Decode(text);
         }
 
-        /// <summary>
-        /// Generates the bill (payment part and receipt) as a byte array.
-        /// </summary>
-        /// <param name="bill">The cleaned bill data.</param>
-        /// <param name="canvas">The canvas to draw to.</param>
-        /// <returns>The byte array containing the binary data in the specified graphics format.</returns>
-        private static byte[] GeneratePaymentPart(Bill bill, ICanvas canvas)
+        private static ICanvas CreateCanvas(BillFormat format)
         {
-
             double drawingWidth;
             double drawingHeight;
 
             // define page size
-            switch (bill.Format.OutputSize)
+            switch (format.OutputSize)
             {
-                case OutputSize.A4PortraitSheet:
-                    drawingWidth = 210;
-                    drawingHeight = 297;
+                case OutputSize.QrBillOnly:
+                    drawingWidth = QrBillWidth;
+                    drawingHeight = QrBillHeight;
+                    break;
+                case OutputSize.QrCodeOnly:
+                    drawingWidth = QrCodeWidth;
+                    drawingHeight = QrCodeHeight;
                     break;
                 default:
-                    drawingWidth = 210;
-                    drawingHeight = 105;
+                    drawingWidth = A4PortraitWidth;
+                    drawingHeight = A4PortraitHeight;
                     break;
             }
 
-            canvas.SetupPage(drawingWidth, drawingHeight, bill.Format.FontFamily);
-            BillLayout layout = new BillLayout(bill, canvas);
-            layout.Draw();
-            return canvas.GetResult();
-        }
-
-        /// <summary>
-        /// Generates the QR code for the specified clean bill data.
-        /// </summary>
-        /// <param name="bill">The bill data.</param>
-        /// <param name="canvas">The canvas to draw to.</param>
-        /// <returns>The byte array containing the binary data in the specified graphics format.</returns>
-        ////
-        private static byte[] GenerateQrCode(Bill bill, ICanvas canvas)
-        {
-
-            canvas.SetupPage(QRCode.Size, QRCode.Size, bill.Format.FontFamily);
-            QRCode qrCode = new QRCode(bill);
-            qrCode.Draw(canvas, 0, 0);
-            return canvas.GetResult();
-        }
-
-        private static ICanvas CreateCanvas(GraphicsFormat graphicsFormat)
-        {
             ICanvas canvas;
-            switch (graphicsFormat)
+            switch (format.GraphicsFormat)
             {
                 case GraphicsFormat.SVG:
-                    canvas = new SVGCanvas();
+                    canvas = new SVGCanvas(drawingWidth, drawingHeight, format.FontFamily);
                     break;
                 case GraphicsFormat.PDF:
-                    canvas = new PDFCanvas();
+                    canvas = new PDFCanvas(drawingWidth, drawingHeight);
                     break;
                 default:
                     throw new QRBillGenerationException("Invalid graphics format specified");

@@ -1,4 +1,5 @@
-﻿//
+﻿
+//
 // Swiss QR Bill Generator for .NET
 // Copyright (c) 2018 Manuel Bleichenbacher
 // Licensed under MIT License
@@ -10,45 +11,28 @@ using System;
 namespace Codecrete.SwissQRBill.Generator.Canvas
 {
     /// <summary>
-    /// Common graphics interface for drawing
+    /// Commonn interface for all output formats to draw the QR bill.
     /// <para>
-    /// The coordinate system is initialized by <see cref="SetupPage(double, double, string)"/>. It's origin is
-    /// initially in the bottom left corner of the pages and extends in x-direction
-    /// to the right and in y-direction to the top.
-    /// </para>
-    /// The font family is specified at initialization and then used for the entire
-    /// lifecycle.
-    /// <para>
+    /// The coordinate system has its origin in the bottom left corner.
+    /// The y-axis extends from the bottom to the top.
     /// </para>
     /// <para>
-    /// A canvas may only be used to generate a single page. After the result has
-    /// been retrieved, the instance must not be used anymore.
+    /// The graphics model is similar to the one used by PDF, in particular with
+    /// regards to the orientation of the y axis, the concept of a current path,
+    /// and using the baseline for positioning text.
+    /// </para>
+    /// <para>
+    /// Instance of this class are expected to use a single font family for
+    /// the QR bill (regular and bold font weight).
     /// </para>
     /// </summary>
     public interface ICanvas : IDisposable
     {
         /// <summary>
-        /// Sets up the page.
-        /// <para>
-        /// The page (and graphics context) is not valid until this method has been
-        /// called.
-        /// </para>
-        /// <para>
-        /// The font family can be specified as a comma separated list, e.g. "Helvetica,Arial,sans". The first
-        /// family will be used to calculate text widths. For formats that support it (e.g. SVG), the entire list
-        /// will be used in the generated graphics file. Other format will just use the first one.
-        /// </para>
-        /// </summary>
-        /// <param name="width">The width of page (in mm).</param>
-        /// <param name="height">The height of page (in mm).</param>
-        /// <param name="fontFamily">The font family to use.</param>
-        void SetupPage(double width, double height, string fontFamily);
-
-        /// <summary>
         /// Sets a translation, rotation and scaling for the subsequent operations.
         /// <para>
         /// Before a new translation is applied, the coordinate system is reset to it's
-        /// original state after page setup (see <see cref="SetupPage(double, double, string)"/>).
+        /// original state.
         /// </para>
         /// <para>
         /// The transformations are applied in the order translation, rotation, scaling.
@@ -62,7 +46,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         void SetTransformation(double translateX, double translateY, double rotate, double scaleX, double scaleY);
 
         /// <summary>
-        /// Draws text to the graphics.
+        /// Draws text to the canvas.
         /// <para>
         /// The text position refers to the left most point on the text's baseline.
         /// </para>
@@ -110,7 +94,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
 
         /// <summary>
         /// Adds a cubic Beziér curve to the open path going from the previous point to the speicifed
-        /// position. Two control points control the curve.
+        /// position. Two control points determine the curve.
         /// </summary>
         /// <param name="x1">The x-coordinate of first control point.</param>
         /// <param name="y1">The y-coordinate of first control point.</param>
@@ -121,7 +105,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         void CubicCurveTo(double x1, double y1, double x2, double y2, double x, double y);
 
         /// <summary>
-        /// Adds a rectangle to the current path.
+        /// Adds a rectangle to the open path.
         ///</summary>
         /// <param name="x">The rectangle's left position (in mm).</param>
         /// <param name="y">The rectangle's top position (in mm).</param>
@@ -130,32 +114,33 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         void AddRectangle(double x, double y, double width, double height);
 
         /// <summary>
-        /// Closes the current subpath.
+        /// Closes the current subpath. The next path operation will implicitly
+        /// open a new subpath.
         /// </summary>
         void CloseSubpath();
 
         /// <summary>
-        /// Fills the current path and ends it.
+        /// Fills the current path and discards it.
         /// </summary>
         /// <param name="color">The fill color (expressed similar to HTML, e.g. 0xffffff for white).</param>
         void FillPath(int color);
 
         /// <summary>
-        /// Strokes the current path and ends it.
+        /// Strokes the current path and discards it.
         /// </summary>
         /// <param name="strokeWidth">The stroke width (in pt).</param>
         /// <param name="color">The stroke color (expressed similar to HTML, e.g. 0xffffff for white).</param>
         void StrokePath(double strokeWidth, int color);
 
         /// <summary>
-        /// Gets the distance between baseline and top of highest letter.
+        /// Gets the distance between the baseline and the top of the tallest letter.
         /// </summary>
         /// <param name="fontSize">The font size (in pt).</param>
         /// <returns>The distance (in mm).</returns>
         double Ascender(int fontSize);
 
         /// <summary>
-        /// Gets the distance between baseline and bottom of letter extending the farest below the
+        /// Gets the distance between the baseline and the bottom of the letter extending the farest below the
         /// baseline.
         /// </summary>
         /// <param name="fontSize">The font size (in pt).</param>
@@ -181,8 +166,10 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         /// <summary>
         /// Splits the text into lines.
         /// <para>
-        /// If a line would exceed the specified maximum length, line breaks are
-        /// inserted. Newlines are treated as fixed line breaks.
+        /// The text is split such that no line is wider the specified maximum width.
+        /// If possible, the text is split at whitespace characters. If a word is wider than
+        /// the specified maximum width, the word is split and put onto two or more lines.
+        /// The text is always split at newlines.
         /// </para>
         /// </summary>
         /// <param name="text">The text to split into lines.</param>
@@ -190,14 +177,20 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         /// <param name="fontSize">The font size (in pt).</param>
         /// <returns>The resulting array of text lines.</returns>
         string[] SplitLines(string text, double maxLength, int fontSize);
-
-        /// <summary>
-        /// Returns the generated graphics as a byte array.
-        /// <para>
-        /// After this method was called, the page is no longer valid.
-        /// </para>
-        /// </summary>>
-        /// <returns>The generated images as a byte array.</returns>
-        byte[] GetResult();
     }
+
+
+    /// <summary>
+    /// Interface implemented by canvas classes that can return the
+    /// resulting graphics as a byte array (e.g. PNG encoded image).
+    /// </summary>
+    public interface IToByteArray
+    {
+        /// <summary>
+        /// Returns the result as a byte array.
+        /// </summary>
+        /// <returns>The result.</returns>
+        byte[] ToByteArray();
+    }
+
 }

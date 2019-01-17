@@ -15,11 +15,11 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
     /// <summary>
     /// Canvas for generating SVG files.
     /// </summary>
-    public class SVGCanvas : AbstractCanvas
+    public class SVGCanvas : AbstractCanvas, IToByteArray
     {
         private static readonly Encoding Utf8WithoutBom = new UTF8Encoding(false);
 
-        private MemoryStream _buffer;
+        private readonly MemoryStream _buffer;
         private StreamWriter _stream;
         private bool _isInGroup;
         private bool _isFirstMoveInPath;
@@ -28,9 +28,18 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         private int _approxPathLength;
 
 
-        public override void SetupPage(double width, double height, string fontFamily)
+        /// <summary>
+        /// Initializes a new SVG canvas with the specified size and font family.
+        /// <para>
+        /// The QR bill will be drawn in the bottom left corner of the SVG image.
+        /// </para>
+        /// </summary>
+        /// <param name="width">The image width, in mm.</param>
+        /// <param name="height">The image height, in mm.</param>
+        /// <param name="fontFamilyList">A list font family names, separated by comma (same syntax as for CSS).</param>
+        public SVGCanvas(double width, double height, string fontFamilyList)
         {
-            SetupFontMetrics(fontFamily);
+            SetupFontMetrics(fontFamilyList);
 
             _buffer = new MemoryStream();
             _stream = new StreamWriter(_buffer, Utf8WithoutBom, 1024);
@@ -67,6 +76,45 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
                 _stream.Close();
                 _stream = null;
             }
+        }
+
+        /// <summary>
+        /// Gets the resulting graphics as an SVG document in a byte array.
+        /// <para>
+        /// The canvas can no longer be used for drawing after calling this method.</para>
+        /// </summary>
+        /// <returns>The byte array containing the SVG document</returns>
+        public byte[] ToByteArray()
+        {
+            Close();
+            return _buffer.ToArray();
+        }
+
+        /// <summary>
+        /// Writes the resulting graphics as an SVG image to the specified stream.
+        /// <para>
+        /// The canvas can no longer be used for drawing after calling this method.</para>
+        /// </summary>
+        /// <param name="stream">The stream to write to.</param>
+        public void WriteTo(Stream stream)
+        {
+            long length = _buffer.Length;
+            Close();
+            byte[] data = _buffer.GetBuffer();
+            stream.Write(data, 0, (int)length);
+            stream.Flush();
+        }
+
+        /// <summary>
+        /// Writes the resulting graphics as an SVG image to the specified file path.
+        /// <para>
+        /// The canvas can no longer be used for drawing after calling this method.</para>
+        /// </summary>
+        /// <param name="path">The path (file name) to write to.</param>
+        public void SaveAs(string path)
+        {
+            Close();
+            File.WriteAllBytes(path, _buffer.ToArray());
         }
 
         protected override void Dispose(bool disposing)
@@ -242,12 +290,6 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
                 _stream.Write(")\">\n");
                 _isInGroup = true;
             }
-        }
-
-        public override byte[] GetResult()
-        {
-            Close();
-            return _buffer.ToArray();
         }
 
         private static string FormatNumber(double value)

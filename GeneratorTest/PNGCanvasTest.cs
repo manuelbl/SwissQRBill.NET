@@ -7,6 +7,7 @@
 
 using Codecrete.SwissQRBill.Generator;
 using Codecrete.SwissQRBill.Generator.Canvas;
+using System.IO;
 using Xunit;
 
 namespace Codecrete.SwissQRBill.GeneratorTest
@@ -17,13 +18,13 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         private void PngBillQrBill()
         {
             Bill bill = SampleData.CreateExample1();
-            bill.Format.FontFamily = "Arial";
 
             byte[] svg;
-            using (PNGCanvas canvas = new PNGCanvas(300))
+            using (PNGCanvas canvas = new PNGCanvas(QRBill.QrBillWidth, QRBill.QrBillHeight, 300, "Arial"))
             {
                 bill.Format.OutputSize = OutputSize.QrBillOnly;
-                svg = QRBill.Generate(bill, canvas);
+                QRBill.Draw(bill, canvas);
+                svg = canvas.ToByteArray();
             }
 
             FileComparison.AssertGrayscaleImageContentsEqual(svg, "qrbill_ex1.png");
@@ -33,11 +34,41 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         private void PngBillA4()
         {
             Bill bill = SampleData.CreateExample3();
-            bill.Format.FontFamily = "Arial,Helvetica";
-            PNGCanvas canvas = new PNGCanvas(144);
-            bill.Format.OutputSize = OutputSize.A4PortraitSheet;
-            byte[] svg = QRBill.Generate(bill, canvas);
-            FileComparison.AssertGrayscaleImageContentsEqual(svg, "a4bill_ex3.png");
+            byte[] png;
+            using (PNGCanvas canvas =
+                new PNGCanvas(QRBill.A4PortraitWidth, QRBill.A4PortraitHeight, 144, "Arial,Helvetica"))
+            {
+                bill.Format.OutputSize = OutputSize.A4PortraitSheet;
+                QRBill.Draw(bill, canvas);
+                png = canvas.ToByteArray();
+            }
+
+            FileComparison.AssertGrayscaleImageContentsEqual(png, "a4bill_ex3.png");
         }
+        [Fact]
+        private void PngWriteTo()
+        {
+            Bill bill = SampleData.CreateExample5();
+            using (PNGCanvas canvas =
+                new PNGCanvas(QRBill.A4PortraitWidth, QRBill.A4PortraitHeight, 144, "Helvetica, Arial, Sans"))
+            {
+                QRBill.Draw(bill, canvas);
+                MemoryStream ms = new MemoryStream();
+                canvas.WriteTo(ms);
+            }
+        }
+
+        [Fact]
+        private void PngSaveAs()
+        {
+            Bill bill = SampleData.CreateExample6();
+            using (PNGCanvas canvas =
+                new PNGCanvas(QRBill.QrBillWidth, QRBill.QrBillHeight, 144, "Helvetica, Arial, Sans"))
+            {
+                QRBill.Draw(bill, canvas);
+                canvas.SaveAs("qrbill.png");
+            }
+        }
+
     }
 }

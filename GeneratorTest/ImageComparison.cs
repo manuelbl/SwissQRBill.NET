@@ -41,9 +41,6 @@ namespace Codecrete.SwissQRBill.GeneratorTest
                 Assert.True(expectedImage.PixelFormat == PixelFormat.Format32bppArgb ||
                             expectedImage.PixelFormat == PixelFormat.Format32bppRgb);
 
-                /* Comparison is disabled the moment: XUnit and this code do not get along very well. All tests
-                   cases after the first PNG test are not run - without any message. A memory management problem?
-
                 // retrieve stripes of 30 pixels
                 long diff = 0;
                 for (int y = 0; y < expectedImage.Height; y += 30)
@@ -76,8 +73,6 @@ namespace Codecrete.SwissQRBill.GeneratorTest
                 {
                     Assert.True(false, $"Pixel value difference too big: {diff}");
                 }
-
-        */
             }
         }
 
@@ -87,7 +82,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
             BitmapData desc = bitmap.LockBits(size, ImageLockMode.ReadOnly, bitmap.PixelFormat);
             stride = desc.Stride;
 
-            int length = stride * bitmap.Height;
+            int length = stride * height;
             int[] data = new int[length];
 
             Marshal.Copy(desc.Scan0, data, 0, length);

@@ -102,7 +102,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         public string FirstFontFamily { get; }
 
         /// <summary>
-        /// Gets the distance between baseline and top of highest letter.
+        /// Gets the distance between the baseline and the top of tallest letter.
         /// </summary>
         /// <param name="fontSize">The font size (in pt).</param>
         /// <returns>The distance (in mm).</returns>
@@ -112,7 +112,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         }
 
         /// <summary>
-        /// Gets the distance between baseline and bottom of letter extending the farest below the baseline.
+        /// Gets the distance between the baseline and the bottom of letter extending the farest below the baseline.
         /// </summary>
         /// <param name="fontSize">The font size (in pt).</param>
         /// <returns>The distance (in mm).</returns>
@@ -136,12 +136,14 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         /// <summary>
         /// Splits the text into lines.
         /// <para>
-        /// If a line would exceed the specified maximum length, line breaks are
-        /// inserted. Newlines are treated as fixed line breaks.
+        /// The text is split such that no line is wider the specified maximum width.
+        /// If possible, the text is split at whitespace characters. If a word is wider than
+        /// the specified maximum width, the word is split and put onto two or more lines.
+        /// The text is always split at newlines.
         /// </para>
         /// </summary>
-        /// <param name="text">The text to split.</param>
-        /// <param name="maxLength">The maximum line length (in mm).</param>
+        /// <param name="text">The text to split into lines.</param>
+        /// <param name="maxLength">The maximum line length (in pt).</param>
         /// <param name="fontSize">The font size (in pt).</param>
         /// <returns>The resulting array of text lines.</returns>
         public string[] SplitLines(string text, double maxLength, int fontSize)

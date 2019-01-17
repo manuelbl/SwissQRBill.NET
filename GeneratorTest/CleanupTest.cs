@@ -5,6 +5,7 @@
 // https://opensource.org/licenses/MIT
 //
 
+using Codecrete.SwissQRBill.Generator;
 using Codecrete.SwissQRBill.Generator.Canvas;
 using System;
 using System.Reflection;
@@ -22,9 +23,8 @@ namespace Codecrete.SwissQRBill.GeneratorTest
             Assert.NotNull(bitmapField);
 
             PNGCanvas pngCanvas;
-            using (PNGCanvas canvas = new PNGCanvas(300))
+            using (PNGCanvas canvas = new PNGCanvas(QRBill.QrBillWidth, QRBill.QrBillHeight, 300, "Arial"))
             {
-                canvas.SetupPage(200, 100, "Arial");
                 pngCanvas = canvas;
                 Assert.NotNull(bitmapField.GetValue(pngCanvas));
             }

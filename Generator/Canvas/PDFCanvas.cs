@@ -18,7 +18,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
     /// The PDF generator currently only supports the Helvetica font.
     /// </para>
     /// </summary>
-    public class PDFCanvas : AbstractCanvas
+    public class PDFCanvas : AbstractCanvas, IToByteArray
     {
         private const float ColorScale = 1f / 255;
         private Document _document;
@@ -30,7 +30,16 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         private Font _lastFont;
         private float _lastFontSize;
 
-        public override void SetupPage(double width, double height, string fontFamily)
+        /// <summary>
+        /// Initializes a new instance of the PDF canvas with the specified page size.
+        /// <para>
+        /// A PDF with a single page of the specified size will be created. The QR bill
+        /// will be drawn in the bottom left corner of the page.
+        /// </para>
+        /// </summary>
+        /// <param name="width">The page width, in mm.</param>
+        /// <param name="height">The page height, in mm.</param>
+        public PDFCanvas(double width, double height)
         {
             SetupFontMetrics("Helvetica");
             _document = new Document("Swiss QR Bill");
@@ -77,12 +86,14 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         private void SetFont(bool isBold, int fontSize)
         {
             Font font = isBold ? Font.HelveticaBold : Font.Helvetica;
-            if (font != _lastFont || fontSize != _lastFontSize)
+            if (font == _lastFont && fontSize == _lastFontSize)
             {
-                _contentStream.SetFont(font, fontSize);
-                _lastFont = font;
-                _lastFontSize = fontSize;
+                return;
             }
+
+            _contentStream.SetFont(font, fontSize);
+            _lastFont = font;
+            _lastFontSize = fontSize;
         }
 
         public override void PutText(string text, double x, double y, int fontSize, bool isBold)
@@ -199,12 +210,45 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             _contentStream.Stroke();
         }
 
-        public override byte[] GetResult()
+        /// <summary>
+        /// Gets the resulting graphics as a PDF document in a byte array.
+        /// <para>
+        /// The canvas can no longer be used for drawing after calling this method.</para>
+        /// </summary>
+        /// <returns>The byte array containing the PDF document</returns>
+        public byte[] ToByteArray()
         {
             MemoryStream buffer = new MemoryStream();
             _document.Save(buffer);
             Close();
             return buffer.ToArray();
+        }
+
+        /// <summary>
+        /// Writes the resulting graphics as a PDF document to the specified stream.
+        /// <para>
+        /// The canvas can no longer be used for drawing after calling this method.</para>
+        /// </summary>
+        /// <param name="stream">The stream to write to.</param>
+        public void WriteTo(Stream stream)
+        {
+            _document.Save(stream);
+            Close();
+        }
+
+        /// <summary>
+        /// Writes the resulting graphics as a PDF document to the specified file path.
+        /// <para>
+        /// The canvas can no longer be used for drawing after calling this method.</para>
+        /// </summary>
+        /// <param name="path">The path (file name) to write to.</param>
+        public void SaveAs(string path)
+        {
+            using (FileStream fs = new FileStream(path, FileMode.Create))
+            {
+                _document.Save(fs);
+            }
+            Close();
         }
 
         protected void Close()
