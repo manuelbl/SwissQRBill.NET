@@ -41,7 +41,7 @@ The Swiss QR bill library:
    Or by running a command in the Package Manager Console
 
 ```
-Install-Package Codecrete.SwissQRBill.Generator -Version 0.9.0	
+Install-Package Codecrete.SwissQRBill.Generator -Version 0.9.3	
 ```
 
 3. Add the code:
