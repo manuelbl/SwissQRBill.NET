@@ -14,7 +14,7 @@
     <PackageTags>Swiss-QR-Bill, Payment, ISO-20022, QR-Code, QRCode, SIX</PackageTags>
     <PackageIconUrl>https://www.codecrete.net/qrbill/android-chrome-192x192.png</PackageIconUrl>
     <PackageReleaseNotes>Initial release for .NET</PackageReleaseNotes>
-    <Version>0.9.2</Version>
+    <Version>0.9.3</Version>
     <Description>Library to generate the new QR bill used for invoicing in Switzerland (starting in mid 2020).
 
 The Swiss QR bill library:

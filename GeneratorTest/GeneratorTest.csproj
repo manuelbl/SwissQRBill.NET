@@ -19,7 +19,7 @@
 
     <PackageLicenseUrl>https://opensource.org/licenses/MIT</PackageLicenseUrl>
 
-    <Version>0.9.2</Version>
+    <Version>0.9.3</Version>
   </PropertyGroup>
 
   <ItemGroup>
