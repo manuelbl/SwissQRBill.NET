@@ -95,10 +95,11 @@ namespace Codecrete.SwissQRBill.Generator
             _labelFontSize = PpLabelPrefFontSize;
             _textFontSize = PpTextPrefFontSize;
 
+            bool isTooTight;
             while (true)
             {
                 BreakLines(InfoSectionWidth);
-                bool isTooTight = ComputePaymentPartLeading();
+                isTooTight = ComputePaymentPartLeading();
                 if (!isTooTight || _textFontSize == PpTextMinFontSize)
                 {
                     break;
@@ -114,7 +115,19 @@ namespace Codecrete.SwissQRBill.Generator
             _labelFontSize = RcLabelPrefFontSize;
             _textFontSize = RcTextPrefFontSize;
             BreakLines(ReceiptWidth - 2 * Margin);
-            ComputeReceiptLeading();
+            isTooTight = ComputeReceiptLeading();
+            if (isTooTight)
+            {
+                PrepareReducedReceiptText(false);
+                BreakLines(ReceiptWidth - 2 * Margin);
+                isTooTight = ComputeReceiptLeading();
+            }
+            if (isTooTight)
+            {
+                PrepareReducedReceiptText(true);
+                BreakLines(ReceiptWidth - 2 * Margin);
+                ComputeReceiptLeading();
+            }
             DrawReceipt();
 
             // border
@@ -299,7 +312,7 @@ namespace Codecrete.SwissQRBill.Generator
             return ComputeLeading(height, InfoSectionMaxHeight, numTextLines, numPaddings);
         }
 
-        private void ComputeReceiptLeading()
+        private bool ComputeReceiptLeading()
         {
             // The same line spacing (incl. leading) is used for the smaller label and text lines
             int numTextLines = 0;
@@ -326,7 +339,7 @@ namespace Codecrete.SwissQRBill.Generator
 
             height += numTextLines * _graphics.LineHeight(_textFontSize);
 
-            ComputeLeading(height, ReceiptMaxHeight, numTextLines, numPaddings);
+            return ComputeLeading(height, ReceiptMaxHeight, numTextLines, numPaddings);
         }
 
         private bool ComputeLeading(double height, double maxHeight, int numTextLines, int numPaddings)
@@ -522,6 +535,42 @@ namespace Codecrete.SwissQRBill.Generator
             }
         }
 
+        private void PrepareReducedReceiptText(bool reduceBoth)
+        {
+            if (reduceBoth)
+            {
+                string account = Payments.FormatIban(_bill.Account);
+                _accountPayableTo = account + "\n" + FormatPersonForDisplay(CreateReducedAddress(_bill.Creditor));
+            }
+
+            if (_bill.Debtor != null)
+            {
+                _payableBy = FormatPersonForDisplay(CreateReducedAddress(_bill.Debtor));
+            }
+        }
+
+        private Address CreateReducedAddress(Address address)
+        {
+            Address reducedAddress = new Address
+            {
+                Name = address.Name,
+                CountryCode = address.CountryCode
+            };
+
+            switch (address.Type)
+            {
+                case AddressType.Structured:
+                    reducedAddress.PostalCode = address.PostalCode;
+                    reducedAddress.Town = address.Town;
+                    break;
+                case AddressType.CombinedElements:
+                    reducedAddress.AddressLine2 = address.AddressLine2;
+                    break;
+            }
+
+            return reducedAddress;
+        }
+
         // Prepare the text (by breaking it into lines where necessary)
         private void BreakLines(double maxWidth)
         {
@@ -542,7 +591,7 @@ namespace Codecrete.SwissQRBill.Generator
 
         private void DrawCorners(double x, double y, double width, double height)
         {
-            double lwh = CornerStrokeWidth * 0.5 / 72 * 25.4;
+            const double lwh = CornerStrokeWidth * 0.5 / 72 * 25.4;
             double s = 3;
 
             _graphics.StartPath();
@@ -592,6 +641,11 @@ namespace Codecrete.SwissQRBill.Generator
                     sb.Append(houseNo);
                 }
                 sb.Append("\n");
+                if ("CH" != address.CountryCode && "LI" != address.CountryCode)
+                {
+                    sb.Append(address.CountryCode);
+                    sb.Append(" - ");
+                }
                 sb.Append(address.PostalCode);
                 sb.Append(" ");
                 sb.Append(address.Town);
@@ -605,6 +659,11 @@ namespace Codecrete.SwissQRBill.Generator
                     sb.Append(address.AddressLine1);
                 }
                 sb.Append("\n");
+                if ("CH" != address.CountryCode && "LI" != address.CountryCode)
+                {
+                    sb.Append(address.CountryCode);
+                    sb.Append(" ");
+                }
                 sb.Append(address.AddressLine2);
             }
             return sb.ToString();
