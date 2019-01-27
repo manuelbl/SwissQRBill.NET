@@ -23,34 +23,20 @@ namespace Codecrete.SwissQRBill.Generator
         private const double PtToMm = 25.4 / 72;
         private const double MmToPt = 72 / 25.4;
         private const int FontSizeTitle = 11; // pt
-        private const int PpLabelPrefFontSize = 8; // pt
-        private const int PpTextPrefFontSize = 10; // pt
-        private const int PpTextMinFontSize = 8; // pt
-        private const int RcLabelPrefFontSize = 6; // pt
-        private const int RcTextPrefFontSize = 8; // pt
         private const double SlipWidth = 210; // mm
         private const double SlipHeight = 105; // mm
-        private const double PaymentPartWidth = 148; // mm
-        private const double ReceiptWidth = SlipWidth - PaymentPartWidth; // mm
         private const double Margin = 5; // mm
-        private static readonly double QrCodeSize = QRCode.Size; // 46 mm
-        private const double InfoSectionWidth = 81; // mm (must not be smaller than 65)
-        private const double CurrencyAmountBaseLine = 32; // mm (from to bottom)
-        private const double CurrencWidthPp = 15; // mm
-        private const double CurrencyWidthRc = 13; // mm
-        private const double AmountBoWidthPp = 40; // mm
-        private const double AmountBoxHeightPp = 15; // mm
-        private const double AmountBoxWidthRc = 30; // mm
-        private const double AmountBoxHeightRc = 10; // mm
-        private const double DebtorBoxHeightPp = 25; // mm (must not be smaller than 25)
-        private const double DebtorBoxHeightRc = 25; // mm (must not be smaller than 25)
-        private const double AlternativeSchemesHeight = 6; // mm
-        private const double InfoSectionMaxHeight = SlipHeight - AlternativeSchemesHeight - 3 * Margin;
-        private const double ReceiptMaxHeight = SlipHeight - CurrencyAmountBaseLine - 7 - 0.5 - Margin;
-        private const double LeadingPref = 0.2; // relative to font size
-        private const double PaddingPref = 0.5; // relative to font size
-        private const double PaddingMin = 0.2; // relative to font size
-        private const double EllipsisWidth = 0.3528; // mm * font size
+        private const double ReceiptWidth = 62; // mm
+        private const double ReceiptTextWidth = 52; // mm
+        private const double PaymentPartWidth = 148; // mm
+        private const double PpAmountSectionWidth = 46; // mm
+        private const double PpInfoSectionWidth = 87; // mm
+        private const double AmountSectionTop = 37; // mm (from bottom)
+        private const double BoxTopPadding = 2 * PtToMm; // mm
+        private const double DebtorBoxWidthPp = 65; // mm
+        private const double DebtorBoxHeightPp = 25; // mm
+        private const double DebtorBoxWdidthRc = 52; // mm
+        private const double DebtorBoxHeightRc = 20; // mm
 
 
         private readonly Bill _bill;
@@ -72,9 +58,8 @@ namespace Codecrete.SwissQRBill.Generator
 
         private int _labelFontSize;
         private int _textFontSize;
-        private double _labelLeading;
-        private double _textLeading;
-        private double _textBottomPadding;
+        private double _lineSpacing;
+        private double _extraSpacing;
 
 
         internal BillLayout(Bill bill, ICanvas graphics)
@@ -92,14 +77,18 @@ namespace Codecrete.SwissQRBill.Generator
 
             // payment part
 
+            const int PpLabelPrefFontSize = 8; // pt
+            const int PpTextPrefFontSize = 10; // pt
+            const int PpTextMinFontSize = 8; // pt
+
             _labelFontSize = PpLabelPrefFontSize;
             _textFontSize = PpTextPrefFontSize;
 
             bool isTooTight;
             while (true)
             {
-                BreakLines(InfoSectionWidth);
-                isTooTight = ComputePaymentPartLeading();
+                BreakLines(PpInfoSectionWidth);
+                isTooTight = ComputePaymentPartSpacing();
                 if (!isTooTight || _textFontSize == PpTextMinFontSize)
                 {
                     break;
@@ -112,21 +101,24 @@ namespace Codecrete.SwissQRBill.Generator
 
             // receipt
 
+            const int RcLabelPrefFontSize = 6; // pt
+            const int RcTextPrefFontSize = 8; // pt
+
             _labelFontSize = RcLabelPrefFontSize;
             _textFontSize = RcTextPrefFontSize;
             BreakLines(ReceiptWidth - 2 * Margin);
-            isTooTight = ComputeReceiptLeading();
+            isTooTight = ComputeReceiptSpacing();
             if (isTooTight)
             {
                 PrepareReducedReceiptText(false);
                 BreakLines(ReceiptWidth - 2 * Margin);
-                isTooTight = ComputeReceiptLeading();
+                isTooTight = ComputeReceiptSpacing();
             }
             if (isTooTight)
             {
                 PrepareReducedReceiptText(true);
                 BreakLines(ReceiptWidth - 2 * Margin);
-                ComputeReceiptLeading();
+                ComputeReceiptSpacing();
             }
             DrawReceipt();
 
@@ -136,35 +128,63 @@ namespace Codecrete.SwissQRBill.Generator
 
         private void DrawPaymentPart()
         {
-            // QR code section
-            _qrCode.Draw(_graphics, ReceiptWidth + Margin, SlipHeight - 17 - QrCodeSize);
+            const double QrCodeBottom = 43.5; // mm
 
-            // "Payment part" title
+            // title section
             _graphics.SetTransformation(ReceiptWidth + Margin, 0, 0, 1, 1);
             _yPos = SlipHeight - Margin - _graphics.Ascender(FontSizeTitle);
-            _graphics.PutText(GetText(MultilingualText.KeyPaymentPart), 0,
-                        _yPos, FontSizeTitle, true);
+            _graphics.PutText(GetText(MultilingualText.KeyPaymentPart), 0, _yPos, FontSizeTitle, true);
+
+            // Swiss QR code section
+            _qrCode.Draw(_graphics, ReceiptWidth + Margin, QrCodeBottom);
+
+            // amount section
+            DrawPaymentPartAmountSection();
+
+            // information section
+            DrawPaymentPartInformationSection();
+
+            // further information section
+            DrawFurtherInformationSection();
+        }
+
+        private void DrawPaymentPartAmountSection()
+        {
+            const double CurrencyWidthPp = 15; // mm
+            const double AmountBoxWidthPp = 40; // mm
+            const double AmountBoxHeightPp = 15; // mm
+
+            _graphics.SetTransformation(ReceiptWidth + Margin, 0, 0, 1, 1);
 
             // currency
-            _yPos = CurrencyAmountBaseLine + _graphics.Ascender(_labelFontSize);
-            DrawLabelAndText(MultilingualText.KeyCurrency, _bill.Currency);
+            double y = AmountSectionTop -  _graphics.Ascender(_labelFontSize);
+            string label = GetText(MultilingualText.KeyCurrency);
+            _graphics.PutText(label, 0, y, _labelFontSize, true);
+
+            y -= (_textFontSize + 3) * PtToMm;
+            _graphics.PutText(_bill.Currency, 0, y, _textFontSize, false);
 
             // amount
-            _graphics.SetTransformation(ReceiptWidth + Margin + CurrencWidthPp, 0, 0, 1, 1);
-            _yPos = CurrencyAmountBaseLine + _graphics.Ascender(_labelFontSize);
+            y = AmountSectionTop - _graphics.Ascender(_labelFontSize);
+            label = GetText(MultilingualText.KeyAmount);
+            _graphics.PutText(label, CurrencyWidthPp, y, _labelFontSize, true);
+
+            y -= (_textFontSize + 3) * PtToMm;
             if (_amount != null)
             {
-                DrawLabelAndText(MultilingualText.KeyAmount, _amount);
+                _graphics.PutText(_amount, CurrencyWidthPp, y, _labelFontSize, true);
             }
             else
             {
-                DrawLabel(MultilingualText.KeyAmount);
-                DrawCorners(0, _yPos - AmountBoxHeightPp, AmountBoWidthPp, AmountBoxHeightPp);
+                y -= -_graphics.Ascender(_textFontSize) + AmountBoxHeightPp;
+                DrawCorners(PpAmountSectionWidth + Margin - AmountBoxWidthPp, y, AmountBoxWidthPp, AmountBoxHeightPp);
             }
+        }
 
-            // information section
-            _graphics.SetTransformation(SlipWidth - InfoSectionWidth - Margin, 0, 0, 1, 1);
-            _yPos = SlipHeight - Margin;
+        private void DrawPaymentPartInformationSection()
+        {
+            _graphics.SetTransformation(SlipWidth - PpInfoSectionWidth - Margin, 0, 0, 1, 1);
+            _yPos = SlipHeight - Margin - _graphics.Ascender(_labelFontSize);
 
             // account and creditor
             DrawLabelAndTextLines(MultilingualText.KeyAccountPayableTo, _accountPayableToLines);
@@ -189,12 +209,37 @@ namespace Codecrete.SwissQRBill.Generator
             else
             {
                 DrawLabel(MultilingualText.KeyPayableByNameAddr);
+                _yPos -= -_graphics.Ascender(_textFontSize) + BoxTopPadding;
                 _yPos -= DebtorBoxHeightPp;
-                DrawCorners(0, _yPos, InfoSectionWidth, DebtorBoxHeightPp);
+                DrawCorners(0, _yPos, DebtorBoxWidthPp, DebtorBoxHeightPp);
+            }
+        }
+
+        private void DrawFurtherInformationSection()
+        {
+            const int FontSize = 7;
+            const int LineSpacing = 8;
+            const double FurtherInformationSectionTop = 15; // mm
+
+            if (_bill.AlternativeSchemes == null || _bill.AlternativeSchemes.Count == 0)
+            {
+                return;
             }
 
-            // alternative schemes
-            DrawAlternativeSchemes();
+            _graphics.SetTransformation(ReceiptWidth + Margin, 0, 0, 1, 1);
+            double y = FurtherInformationSectionTop - _graphics.Ascender(FontSize);
+            double maxWidth = PaymentPartWidth - 2 * Margin;
+
+            foreach (AlternativeScheme scheme in _bill.AlternativeSchemes)
+            {
+                string boldText = $"{scheme.Name}: ";
+                double boldTextWidth = _graphics.TextWidth(boldText, FontSize, true);
+                _graphics.PutText(boldText, 0, y, FontSize, true);
+
+                string normalText = TrunacateText(scheme.Instruction, maxWidth - boldTextWidth, FontSize);
+                _graphics.PutText(normalText, boldTextWidth, y, FontSize, false);
+                y -= LineSpacing * PtToMm;
+            }
         }
 
         private void DrawReceipt()
@@ -202,11 +247,24 @@ namespace Codecrete.SwissQRBill.Generator
             // "Receipt" title
             _graphics.SetTransformation(Margin, 0, 0, 1, 1);
             _yPos = SlipHeight - Margin - _graphics.Ascender(FontSizeTitle);
-            _graphics.PutText(GetText(MultilingualText.KeyReceipt), 0,
-                        _yPos, FontSizeTitle, true);
+            _graphics.PutText(GetText(MultilingualText.KeyReceipt), 0, _yPos, FontSizeTitle, true);
 
-            // account and creditor
-            _yPos = SlipHeight - Margin - 7;
+            // information section
+            DrawReceiptInformationSection();
+
+            // amount section
+            DrawReceiptAmountSection();
+
+            // acceptance point
+            DrawReceiptAcceptancePointSection();
+        }
+
+        private void DrawReceiptInformationSection()
+        {
+            const double TitleHeight = 7; // mm
+
+            // payable to
+            _yPos = SlipHeight - Margin - TitleHeight - _graphics.Ascender(_labelFontSize);
             DrawLabelAndTextLines(MultilingualText.KeyAccountPayableTo, _accountPayableToLines);
 
             // reference
@@ -223,165 +281,122 @@ namespace Codecrete.SwissQRBill.Generator
             else
             {
                 DrawLabel(MultilingualText.KeyPayableByNameAddr);
+                _yPos -= -_graphics.Ascender(_textFontSize) + BoxTopPadding;
                 _yPos -= DebtorBoxHeightRc;
                 DrawCorners(0, _yPos, ReceiptWidth - 2 * Margin, DebtorBoxHeightRc);
             }
+        }
+
+        private void DrawReceiptAmountSection()
+        {
+            const double CurrencyWidthRc = 12; // mm
+            const double AmountBoxWidthRc = 30; // mm
+            const double AmountBoxHeightRc = 10; // mm
 
             // currency
-            _yPos = CurrencyAmountBaseLine + _graphics.Ascender(_labelFontSize);
-            DrawLabelAndText(MultilingualText.KeyCurrency, _bill.Currency);
+            double y = AmountSectionTop - _graphics.Ascender(_labelFontSize);
+            string label = GetText(MultilingualText.KeyCurrency);
+            _graphics.PutText(label, 0, y, _labelFontSize, true);
+
+            y -= (_textFontSize + 3) * PtToMm;
+            _graphics.PutText(_bill.Currency, 0, y, _textFontSize, false);
 
             // amount
-            _graphics.SetTransformation(Margin + CurrencyWidthRc, 0, 0, 1, 1);
-            _yPos = CurrencyAmountBaseLine + _graphics.Ascender(_labelFontSize);
+            y = AmountSectionTop - _graphics.Ascender(_labelFontSize);
+            label = GetText(MultilingualText.KeyAmount);
+            _graphics.PutText(label, CurrencyWidthRc, y, _labelFontSize, true);
+
             if (_amount != null)
             {
-                DrawLabelAndText(MultilingualText.KeyAmount, _amount);
+                y -= (_textFontSize + 3) * PtToMm;
+                _graphics.PutText(_amount, CurrencyWidthRc, y, _textFontSize, false);
             }
             else
             {
-                DrawLabel(MultilingualText.KeyAmount);
-                _graphics.SetTransformation(0, 0, 0, 1, 1);
-                DrawCorners(ReceiptWidth - Margin - AmountBoxWidthRc,
-                        CurrencyAmountBaseLine + 2 - AmountBoxHeightRc,
+                DrawCorners(ReceiptTextWidth - AmountBoxWidthRc,
+                        AmountSectionTop - AmountBoxHeightRc,
                         AmountBoxWidthRc, AmountBoxHeightRc);
             }
+        }
 
-            // acceptance point
-            _graphics.SetTransformation(0, 0, 0, 1, 1);
-            string label = GetText(MultilingualText.KeyAcceptancePoint);
+        private void DrawReceiptAcceptancePointSection()
+        {
+            const double AcceptancePointSectionTop = 23; // mm (from bottom)
+
+            String label = GetText(MultilingualText.KeyAcceptancePoint);
+            double y = AcceptancePointSectionTop - _graphics.Ascender(_labelFontSize);
             double w = _graphics.TextWidth(label, _labelFontSize, true);
-            _graphics.PutText(label, ReceiptWidth - Margin - w, 21, _labelFontSize, true);
+            _graphics.PutText(label, ReceiptTextWidth - w, y, _labelFontSize, true);
         }
 
-        private void DrawAlternativeSchemes()
+
+        private bool ComputePaymentPartSpacing()
         {
-            if (_bill.AlternativeSchemes == null || _bill.AlternativeSchemes.Count == 0)
-            {
-                return;
-            }
+            const double PpInfoSectionMaxHeight = 85; // mm
 
-            _graphics.SetTransformation(ReceiptWidth + Margin, 0, 0, 1, 1);
-            double y = 11 - _graphics.Ascender(7);
-            double maxWidth = PaymentPartWidth - 2 * Margin;
-
-            foreach (AlternativeScheme scheme in _bill.AlternativeSchemes)
-            {
-                string boldText = $"{scheme.Name}: ";
-                double boldTextWidth = _graphics.TextWidth(boldText, 7, true);
-                _graphics.PutText(boldText, 0, y, 7, true);
-
-                string normalText = TrunacateText(scheme.Instruction, maxWidth - boldTextWidth, 7);
-                _graphics.PutText(normalText, boldTextWidth, y, 7, false);
-                y -= _graphics.LineHeight(7) * 1.2;
-            }
-        }
-
-        private bool ComputePaymentPartLeading()
-        {
-            // The same line spacing (incl. leading) is used for the smaller label and text lines
+            // numExtraLines: the number of lines between text blocks
             int numTextLines = 0;
-            int numPaddings = 0;
-            double height = 0;
+            int numExtraLines = 0;
+            double fixedHeight = 0;
 
             numTextLines += 1 + _accountPayableToLines.Length;
-            height -= _graphics.Ascender(_textFontSize) - _graphics.Ascender(_labelFontSize);
-            if (_reference != null)
-            {
-                numPaddings++;
+            if (_reference != null) {
+                numExtraLines++;
                 numTextLines += 2;
             }
-            if (_additionalInfo != null)
-            {
-                numPaddings++;
+            if (_additionalInfo != null) {
+                numExtraLines++;
                 numTextLines += 1 + _additionalInfoLines.Length;
             }
-            numPaddings++;
-            if (_payableBy != null)
-            {
+            numExtraLines++;
+            if (_payableBy != null) {
                 numTextLines += 1 + _payableByLines.Length;
-            }
-            else
-            {
+            } else {
                 numTextLines += 1;
-                height += DebtorBoxHeightPp;
+                fixedHeight += DebtorBoxHeightPp;
             }
 
-            height += numTextLines * _graphics.LineHeight(_textFontSize);
+            // extra spacing line if there are alternative schemes
+            if (_bill.AlternativeSchemes != null && _bill.AlternativeSchemes.Count > 0)
+                numExtraLines++;
 
-            return ComputeLeading(height, InfoSectionMaxHeight, numTextLines, numPaddings);
+            return ComputeSpacing(PpInfoSectionMaxHeight, fixedHeight, numTextLines, numExtraLines);
         }
 
-        private bool ComputeReceiptLeading()
+        private bool ComputeReceiptSpacing()
         {
-            // The same line spacing (incl. leading) is used for the smaller label and text lines
+            const double ReceiptMaxHeight = 56; // mm
+
+            // numExtraLines: the number of lines between text blocks
             int numTextLines = 0;
-            int numPaddings = 1;
-            double height = 0;
+            int numExtraLines = 0;
+            double fixedHeight = 0;
 
             numTextLines += 1 + _accountPayableToLines.Length;
-            height -= _graphics.Ascender(_textFontSize) - _graphics.Ascender(_labelFontSize);
-            if (_reference != null)
-            {
-                numPaddings++;
+            if (_reference != null) {
+                numExtraLines++;
                 numTextLines += 2;
             }
-            numPaddings++;
-            if (_payableBy != null)
-            {
+            numExtraLines++;
+            if (_payableBy != null) {
                 numTextLines += 1 + _payableByLines.Length;
-            }
-            else
-            {
+            } else {
                 numTextLines += 1;
-                height += DebtorBoxHeightRc;
+                fixedHeight += DebtorBoxHeightRc;
             }
 
-            height += numTextLines * _graphics.LineHeight(_textFontSize);
+            numExtraLines++;
 
-            return ComputeLeading(height, ReceiptMaxHeight, numTextLines, numPaddings);
+            return ComputeSpacing(ReceiptMaxHeight, fixedHeight, numTextLines, numExtraLines);
         }
 
-        private bool ComputeLeading(double height, double maxHeight, int numTextLines, int numPaddings)
+        private bool ComputeSpacing(double maxHeight, double fixedHeight, int numTextLines, int numExtraLines)
         {
-            bool isTooTight = false;
-            _textLeading = LeadingPref * _textFontSize * PtToMm;
-            if (height + numTextLines * _textLeading > maxHeight)
-            {
-                isTooTight = true;
-                if (height > maxHeight)
-                {
-                    _textLeading = 0;
-                    _labelLeading = 0;
-                }
-                else
-                {
-                    _textLeading = (maxHeight - height) / numTextLines;
-                    _labelLeading = _textLeading + _graphics.Descender(_textFontSize) - _graphics.Descender(_labelFontSize);
-                }
-            }
-            else
-            {
-                _labelLeading = _textLeading + _graphics.Descender(_textFontSize) - _graphics.Descender(_labelFontSize);
-            }
+            _lineSpacing = (_textFontSize + 1) * PtToMm;
+            _extraSpacing = (maxHeight - fixedHeight - numTextLines * _lineSpacing) / numExtraLines;
+            _extraSpacing = Math.Min(Math.Max(_extraSpacing, 0), _lineSpacing);
 
-            double prefPadding = _textFontSize * PaddingPref * PtToMm;
-            double minPadding = _textFontSize * PaddingMin * PtToMm;
-            _textBottomPadding = (maxHeight - height - numTextLines * _textLeading) / numPaddings;
-            if (_textBottomPadding > prefPadding)
-            {
-                _textBottomPadding = prefPadding;
-            }
-            else if (_textBottomPadding < minPadding)
-            {
-                isTooTight = true;
-                if (_textBottomPadding < 0)
-                {
-                    _textBottomPadding = 0;
-                }
-            }
-
-            return isTooTight;
+            return _extraSpacing / _lineSpacing < 0.8;
         }
 
         private void DrawBorder()
@@ -471,32 +486,31 @@ namespace Codecrete.SwissQRBill.Generator
             _graphics.FillPath(0);
         }
 
-        // Draws a label at (0, yPos) and advances vertically
+        // Draws a label at (0, yPos) and advances vertically.
+        // yPos is taken as the baseline for the text.
         private void DrawLabel(string labelKey)
         {
-            _yPos -= _graphics.Ascender(_labelFontSize);
             _graphics.PutText(GetText(labelKey), 0, _yPos, _labelFontSize, true);
-            _yPos -= _graphics.Descender(_labelFontSize) + _labelLeading;
+            _yPos -= _lineSpacing;
         }
 
-        // Draws a label and a single line of text at (0, yPos) and advances vertically
+        // Draws a label and a single line of text at (0, yPos) and advances vertically.
+        // yPos is taken as the baseline for the text.
         private void DrawLabelAndText(string labelKey, string text)
         {
             DrawLabel(labelKey);
-            _yPos -= _graphics.Ascender(_textFontSize);
             _graphics.PutText(text, 0, _yPos, _textFontSize, false);
-            _yPos -= _graphics.Descender(_textFontSize) + _textLeading + _textBottomPadding;
+            _yPos -= _lineSpacing + _extraSpacing;
         }
 
-        // Draws a label and a multiple lines of text at (0, yPos) and advances
-        // vertically
+        // Draws a label and a multiple lines of text at (0, yPos) and advances vertically.
+        // yPos is taken as the baseline for the text.
         private void DrawLabelAndTextLines(string labelKey, string[] textLines)
         {
             DrawLabel(labelKey);
-            _yPos -= _graphics.Ascender(_textFontSize);
-            _graphics.PutTextLines(textLines, 0, _yPos, _textFontSize, _textLeading);
-            _yPos -= textLines.Length * (_graphics.LineHeight(_textFontSize) + _textLeading)
-                        - _graphics.Ascender(_textFontSize) + _textBottomPadding;
+            double leading = _lineSpacing - _graphics.LineHeight(_textFontSize);
+            _graphics.PutTextLines(textLines, 0, _yPos, _textFontSize, leading);
+            _yPos -= textLines.Length * _lineSpacing + _extraSpacing;
         }
 
         // Prepare the formatted text
@@ -694,6 +708,8 @@ namespace Codecrete.SwissQRBill.Generator
 
         private string TrunacateText(string text, double maxWidth, int fontSize)
         {
+            const double EllipsisWidth = 0.3528; // mm * font size
+
             if (_graphics.TextWidth(text, fontSize, false) < maxWidth)
             {
                 return text;
