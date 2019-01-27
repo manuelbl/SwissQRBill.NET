@@ -4,7 +4,7 @@
 
 **[Codecrete.SwissQRBill.Generator.QRBill](xref:Codecrete.SwissQRBill.Generator.QRBill)**: Generates Swiss QR bill (receipt and payment part). Also validates the bill data and encode and decode the text embedded in the QR code.
 
-**[Codecrete.SwissQRBill.Generator.QRBill](xref:Codecrete.SwissQRBill.Generator.Bill)**: QR bill data as input for generation or output from decoding
+**[Codecrete.SwissQRBill.Generator.Bill](xref:Codecrete.SwissQRBill.Generator.Bill)**: QR bill data as input for generation or output from decoding
 
 **[Codecrete.SwissQRBill.Generator.Payments](xref:Codecrete.SwissQRBill.Generator.Payments)**: Utility for generating and validation payment related data such as IBAN and reference numbers.
 
