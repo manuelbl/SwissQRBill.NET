@@ -96,6 +96,26 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
+        private void UnstructuredMessageReplacement()
+        {
+            SourceBill = SampleData.CreateExample1();
+            SourceBill.UnstructuredMessage = "Thanks 🙏 Lisa";
+            Validate();
+            AssertSingleWarningMessage(ValidationConstants.FieldUnstructuredMessage, "replaced_unsupported_characters");
+            Assert.Equal("Thanks . Lisa", ValidatedBill.UnstructuredMessage);
+        }
+
+        [Fact]
+        private void BillInfoReplacement()
+        {
+            SourceBill = SampleData.CreateExample1();
+            SourceBill.BillInformation = "//AZ/400€/123";
+            Validate();
+            AssertSingleWarningMessage(ValidationConstants.FieldBillInformation, "replaced_unsupported_characters");
+            Assert.Equal("//AZ/400./123", ValidatedBill.BillInformation);
+        }
+
+        [Fact]
         private void ReplacedSurrogatePair()
         {
             SourceBill = SampleData.CreateExample1();

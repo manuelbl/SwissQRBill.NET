@@ -163,7 +163,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
             foreach (ValidationMessage msg in Result.ValidationMessages)
             {
                 Assert.Equal(MessageType.Error, msg.Type);
-                Assert.Equal("adress_type_conflict", msg.MessageKey);
+                Assert.Equal("address_type_conflict", msg.MessageKey);
                 Assert.StartsWith(ValidationConstants.FieldRootCreditor, msg.Field);
             }
         }

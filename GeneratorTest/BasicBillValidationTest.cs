@@ -8,6 +8,7 @@
 using Codecrete.SwissQRBill.Generator;
 using System.Collections.Generic;
 using Xunit;
+using static Codecrete.SwissQRBill.Generator.ValidationMessage;
 
 namespace Codecrete.SwissQRBill.GeneratorTest
 {
@@ -180,6 +181,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         private void TooLongBillInformation()
         {
             SourceBill = SampleData.CreateExample1();
+            SourceBill.UnstructuredMessage = null;
             SourceBill.BillInformation = "//AA4567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789x";
             Validate();
             AssertSingleErrorMessage(ValidationConstants.FieldBillInformation, "field_value_too_long");
@@ -201,6 +203,30 @@ namespace Codecrete.SwissQRBill.GeneratorTest
             SourceBill.BillInformation = "//A";
             Validate();
             AssertSingleErrorMessage(ValidationConstants.FieldBillInformation, "bill_info_invalid");
+        }
+
+        [Fact]
+        private void TooLongAdditionalInfo()
+        {
+            SourceBill = SampleData.CreateExample6();
+            Assert.Equal(140, SourceBill.UnstructuredMessage.Length + SourceBill.BillInformation.Length);
+            SourceBill.UnstructuredMessage = SourceBill.UnstructuredMessage + "A";
+            Validate();
+
+            Assert.True(Result.HasErrors);
+            Assert.False(Result.HasWarnings);
+            Assert.True(Result.HasMessages);
+            Assert.Equal(2, Result.ValidationMessages.Count);
+
+            ValidationMessage msg = Result.ValidationMessages[0];
+            Assert.Equal(MessageType.Error, msg.Type);
+            Assert.Equal(ValidationConstants.FieldUnstructuredMessage, msg.Field);
+            Assert.Equal(ValidationConstants.KeyAdditionalInfoTooLong, msg.MessageKey);
+
+            msg = Result.ValidationMessages[1];
+            Assert.Equal(MessageType.Error, msg.Type);
+            Assert.Equal(ValidationConstants.FieldBillInformation, msg.Field);
+            Assert.Equal(ValidationConstants.KeyAdditionalInfoTooLong, msg.MessageKey);
         }
 
         [Fact]

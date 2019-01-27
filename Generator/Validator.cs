@@ -52,8 +52,7 @@ namespace Codecrete.SwissQRBill.Generator
             ValidateAmount();
             ValidateDebtor();
             ValidateReference();
-            ValidateUnstructuredMessage();
-            ValidateBillInformation();
+            ValidateAdditionalInformation();
             ValidateAlternativeSchemes();
 
             _validationResult.CleanedBill = _billOut;
@@ -194,30 +193,52 @@ namespace Codecrete.SwissQRBill.Generator
             }
         }
 
-        private void ValidateUnstructuredMessage()
-        {
-            string unstructuredMessage = _billIn.UnstructuredMessage.Trimmed();
-            unstructuredMessage = ClippedValue(unstructuredMessage, 140, ValidationConstants.FieldUnstructuredMessage);
-            _billOut.UnstructuredMessage = unstructuredMessage;
-        }
-
-        private void ValidateBillInformation()
+        private void ValidateAdditionalInformation()
         {
             string billInformation = _billIn.BillInformation.Trimmed();
-            if (billInformation != null)
-            {
-                if (!ValidateLength(billInformation, 140, ValidationConstants.FieldBillInformation))
-                {
-                    return;
-                }
+            string unstructuredMessage = _billIn.UnstructuredMessage.Trimmed();
 
-                if (!billInformation.StartsWith("//") || billInformation.Length < 4)
+            if (billInformation != null && (!billInformation.StartsWith("//") || billInformation.Length < 4)) {
+                _validationResult.AddMessage(MessageType.Error, ValidationConstants.FieldBillInformation, ValidationConstants.KeyBillInfoInvalid);
+                billInformation = null;
+            }
+
+            if (billInformation == null && unstructuredMessage == null)
+            {
+                return;
+            }
+
+            if (billInformation == null)
+            {
+                unstructuredMessage = CleanedValue(unstructuredMessage, ValidationConstants.FieldUnstructuredMessage);
+                unstructuredMessage = ClippedValue(unstructuredMessage, 140, ValidationConstants.FieldUnstructuredMessage);
+                _billOut.UnstructuredMessage = unstructuredMessage;
+            }
+            else if (unstructuredMessage == null)
+            {
+                billInformation = CleanedValue(billInformation, ValidationConstants.FieldBillInformation);
+                if (ValidateLength(billInformation, 140, ValidationConstants.FieldBillInformation))
                 {
-                    _validationResult.AddMessage(MessageType.Error, ValidationConstants.FieldBillInformation, ValidationConstants.KeyBillInfoInvalid);
-                    return;
+                    _billOut.BillInformation = billInformation;
                 }
             }
-            _billOut.BillInformation = billInformation;
+            else
+            {
+                billInformation = CleanedValue(billInformation, ValidationConstants.FieldBillInformation);
+                unstructuredMessage = CleanedValue(unstructuredMessage, ValidationConstants.FieldUnstructuredMessage);
+
+                int combinedLength = billInformation.Length + unstructuredMessage.Length;
+                if (combinedLength > 140)
+                {
+                    _validationResult.AddMessage(MessageType.Error, ValidationConstants.FieldUnstructuredMessage, ValidationConstants.KeyAdditionalInfoTooLong);
+                    _validationResult.AddMessage(MessageType.Error, ValidationConstants.FieldBillInformation, ValidationConstants.KeyAdditionalInfoTooLong);
+                }
+                else
+                {
+                    _billOut.UnstructuredMessage = unstructuredMessage;
+                    _billOut.BillInformation = billInformation;
+                }
+            }
         }
 
         private void ValidateAlternativeSchemes()
@@ -498,6 +519,17 @@ namespace Codecrete.SwissQRBill.Generator
                 new[] { maxLength.ToString() });
             return value.Substring(0, maxLength);
 
+        }
+
+        private string CleanedValue(string value, string field)
+        {
+            Payments.CleanValue(value, out Payments.CleaningResult result);
+            if (result.ReplacedUnsupportedChars)
+            {
+                _validationResult.AddMessage(MessageType.Warning, field, ValidationConstants.KeyReplacedUnsupportedCharacters);
+            }
+
+            return result.CleanedString;
         }
 
         private string CleanedValue(string value, string fieldRoot, string subfield)

@@ -51,7 +51,7 @@ namespace Codecrete.SwissQRBill.Generator
         /// <summary>
         /// Validation message key: Conflicting fields for both structured and combined elements address type have been used
         /// </summary>
-        public const string KeyAddressTypeConflict = "adress_type_conflict";
+        public const string KeyAddressTypeConflict = "address_type_conflict";
         /// <summary>
         /// Validation message key: Country code must consist of two letters
         /// </summary>
@@ -65,6 +65,10 @@ namespace Codecrete.SwissQRBill.Generator
         /// Validation message key: Field value exceed the maximum length
         /// </summary>
         public const string KeyFieldTooLong = "field_value_too_long";
+        /// <summary>
+        /// Validation message key: The unstructured message and the bill information combined exceed 140 characters
+        /// </summary>
+        public const string KeyAdditionalInfoTooLong = "additional_info_too_long";
         /// <summary>
         /// Validation message key: Unsupported characters have been replaced
         /// </summary>

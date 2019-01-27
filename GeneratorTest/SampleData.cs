@@ -142,9 +142,9 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         {
             Address creditor = new Address
             {
-                Name = "Ambikaipagan & Deepshikha Thirugnanasampanthamoorthy",
+                Name = "Herrn und Frau Ambikaipagan & Deepshikha Thirugnanasampanthamoorthy",
                 AddressLine1 = "c/o Pereira De Carvalho, Conrad-Ferdinand-Meyer-Strasse 317 Wohnung 7B",
-                AddressLine2 = "9527 Niederhelfenschwil bei Schönholzerswilen SG",
+                AddressLine2 = "9527 Niederhelfenschwil bei Schönholzerswilen im Kanton St. Gallen",
                 CountryCode = "CH"
             };
             Address debtor = new Address
@@ -162,10 +162,8 @@ namespace Codecrete.SwissQRBill.GeneratorTest
                 Currency = "CHF",
                 Debtor = debtor,
                 Reference = "210000 000 00313 9471430009017",
-                UnstructuredMessage =
-                    "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed",
-                BillInformation =
-                    "//S1/01/20170309/11/10201409/20/14000000/22/36958/30/CH106017086/40/1020/41/3010/01/20170309/11/10201409/20/14000000/22/36958/30/CH106017086",
+                UnstructuredMessage = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed",
+                BillInformation = "//S1/01/20170309/11/10201409/20/14000000/22/36958/30/CH106017086/40/1020/41/3010",
                 Format = { Language = Language.EN }
             };
             return bill;
@@ -175,9 +173,9 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         {
             Address creditor = new Address
             {
-                Name = "Ambikaipagan & Deepshikha Thirugnanasampanthamoorthy",
+                Name = "Herrn und Frau Ambikaipagan & Deepshikha Thirugnanasampanthamoorthy",
                 AddressLine1 = "c/o Pereira De Carvalho, Conrad-Ferdinand-Meyer-Strasse 317 Wohnung 7B",
-                AddressLine2 = "9527 Niederhelfenschwil bei Schönholzerswilen SG",
+                AddressLine2 = "9527 Niederhelfenschwil bei Schönholzerswilen im Kanton St. Gallen",
                 CountryCode = "CH"
             };
             Bill bill = new Bill
@@ -186,10 +184,8 @@ namespace Codecrete.SwissQRBill.GeneratorTest
                 Creditor = creditor,
                 Currency = "EUR",
                 Reference = "210000 000 00313 9471430009017",
-                UnstructuredMessage =
-                    "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed",
-                BillInformation =
-                    "//S1/01/20170309/11/10201409/20/14000000/22/36958/30/CH106017086/40/1020/41/3010/01/20170309/11/10201409/20/14000000/22/36958/30/CH106017086",
+                UnstructuredMessage = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed",
+                BillInformation = "//S1/01/20170309/11/10201409/20/14000000/22/36958/30/CH106017086/40/1020/41/3010",
                 Format = { Language = Language.EN }
             };
             return bill;
