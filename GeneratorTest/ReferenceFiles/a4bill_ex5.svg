@@ -335,7 +335,7 @@ m3,0h1v1h-1zm4,0h1v1h-1zm4,0h1v1h-1z" fill="#000000"/>
 <text x="0" y="-99.282" font-size="7" font-weight="bold">Currency</text>
 <text x="0" y="-87.282" font-size="9">CHF</text>
 <text x="42.52" y="-99.282" font-size="7" font-weight="bold">Amount</text>
-<text x="42.52" y="-87.282" font-size="7" font-weight="bold">987 654 321.50</text>
+<text x="42.52" y="-87.282" font-size="7">987 654 321.50</text>
 </g>
 <g transform="translate(334.488 0)">
 <text x="0" y="-277.865" font-size="7" font-weight="bold">Account / Payable to</text>
