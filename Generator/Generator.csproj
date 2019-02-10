@@ -27,7 +27,7 @@ The Swiss QR bill library:
 - is small and fast
 - is free – even for commecial use (MIT License)
 - is built for .NET Standard 2.0 and runs on all modern .NET platforms
-- has a single non-Microsoft dependency: QRCoder</Description>
+- has a single non-Microsoft dependency: Net.Codecrete.QrCodeGenerator</Description>
   </PropertyGroup>
 
   <ItemGroup>
