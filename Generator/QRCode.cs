@@ -6,10 +6,8 @@
 //
 
 using Codecrete.SwissQRBill.Generator.Canvas;
-using QRCoder;
+using Net.Codecrete.QrCodeGenerator;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 
 namespace Codecrete.SwissQRBill.Generator
 {
@@ -46,10 +44,9 @@ namespace Codecrete.SwissQRBill.Generator
         /// <param name="offsetY">The y offset.</param>
         internal void Draw(ICanvas graphics, double offsetX, double offsetY)
         {
-            QRCodeGenerator generator = new QRCodeGenerator();
-            QRCodeData data = generator.CreateQrCode(_embeddedText, QRCodeGenerator.ECCLevel.M);
+            QrCode qrCode = QrCode.EncodeText(_embeddedText, QrCode.Ecc.Medium);
 
-            bool[,] modules = CopyModules(data);
+            bool[,] modules = CopyModules(qrCode);
             ClearSwissCrossArea(modules);
 
             int modulesPerSide = modules.GetLength(0);
@@ -133,20 +130,18 @@ namespace Codecrete.SwissQRBill.Generator
             ClearRectangle(modules, start, start, size - 2 * start, size - 2 * start);
         }
 
-        private static bool[,] CopyModules(QRCodeData qrCode)
+        private static bool[,] CopyModules(QrCode qrCode)
         {
-            List<BitArray> moduleMatrix = qrCode.ModuleMatrix;
-            int quietZone = 4;
-            int size = moduleMatrix.Count;
-            bool[,] modules = new bool[size - 2 * quietZone, size - 2 * quietZone];
-            for (int y = quietZone; y < size - quietZone; y++)
+            int size = qrCode.Size;
+            bool[,] modules = new bool[size, size];
+            for (int y = 0; y < size; y++)
             {
-                BitArray row = moduleMatrix[y];
-                for (int x = quietZone; x < size - quietZone; x++)
+                for (int x = 0; x < size; x++)
                 {
-                    modules[y - quietZone, x - quietZone] = row[x];
+                    modules[y, x] = qrCode.GetModule(x, y);
                 }
             }
+
             return modules;
         }
 
