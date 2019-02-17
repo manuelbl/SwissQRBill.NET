@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <AssemblyName>Codecrete.SwissQRBill.Examples.IText7</AssemblyName>
+    <RootNamespace>Codecrete.SwissQRBill.Examples.IText7</RootNamespace>
+    <Authors>Manuel Bleichenbacher</Authors>
+    <Company>Codecrete</Company>
+    <Product>Swiss QR Bill for .NET</Product>
+    <Description>Sample applicaiton showing how to use iText7 to add QR bills to existing PDF documents.</Description>
+    <Copyright>Open source - published under MIT license</Copyright>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Codecrete.SwissQRBill.Generator" Version="0.9.4" />
+    <PackageReference Include="itext7" Version="7.1.5" />
+  </ItemGroup>
+
+</Project>
