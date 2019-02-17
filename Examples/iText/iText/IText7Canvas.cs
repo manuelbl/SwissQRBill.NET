@@ -8,8 +8,18 @@ using iText.Kernel.Pdf.Canvas;
 
 namespace Codecrete.SwissQRBill.Examples.IText7
 {
-    class IText7Canvas : AbstractCanvas
+    public class IText7Canvas : AbstractCanvas
     {
+        /// <summary>
+        /// Page number for adding the QR bill to the last page of the PDF document.
+        /// </summary>
+        public const int LastPage = -1;
+
+        /// <summary>
+        /// Page number for appending a new page for the QR bill at the end of the PDF document.
+        /// </summary>
+        public const int NewPageAtEnd = -2;
+
         private const float ColorScale = 1f / 255;
         private PdfDocument _document;
         private PdfCanvas _canvas;
@@ -59,6 +69,58 @@ namespace Codecrete.SwissQRBill.Examples.IText7
             CreateDocument(writer, width, height);
         }
 
+        /// <summary>
+        /// Initializes a new instance of the PDF canvas for adding the QR bill to
+        /// an existing PDF document.
+        /// <para>
+        /// The QR bill can either be added to an existing page by specifying the
+        /// zero-based page number (or <see cref="LastPage"/>. Or a new page at
+        /// the end of the document can be created (<see cref="NewPageAtEnd"/>).
+        /// </para>
+        /// <para>
+        /// The created canvas assumes that the page with the QR bill has an A4 portrait format
+        /// and adds the QR bil at the bottom of the page.</para>
+        /// <para>
+        /// The final PDF will be written to the specified path when the canvas
+        /// is closed (<see cref="Close"/>) or disposed (<see cref="Dispose"/>).
+        /// </para>
+        /// </summary>
+        /// <param name="sourcePath">path to existing PDF document</param>
+        /// <param name="destPath">path for the new PDF document with the additional QR bill</param>
+        /// <param name="pageNo">the zero-based number of the page for adding the QR bill</param>
+        public IText7Canvas(string sourcePath, string destPath, int pageNo)
+        {
+            PdfReader reader = new PdfReader(sourcePath);
+            PdfWriter writer = new PdfWriter(destPath);
+            OpenDocument(reader, writer, pageNo);
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the PDF canvas for adding the QR bill to
+        /// an existing PDF document.
+        /// <para>
+        /// The QR bill can either be added to an existing page by specifying the
+        /// zero-based page number (or <see cref="LastPage"/>. Or a new page at
+        /// the end of the document can be created (<see cref="NewPageAtEnd"/>).
+        /// </para>
+        /// <para>
+        /// The created canvas assumes that the page with the QR bill has an A4 portrait format
+        /// and adds the QR bil at the bottom of the page.</para>
+        /// <para>
+        /// The final PDF will be written to the specified stream when the canvas
+        /// is closed (<see cref="Close"/>) or disposed (<see cref="Dispose"/>).
+        /// </para>
+        /// </summary>
+        /// <param name="source">stream to read existing PDF document from</param>
+        /// <param name="destination">stream to wirte the new PDF document with the additional QR bill to</param>
+        /// <param name="pageNo">the zero-based number of the page for adding the QR bill</param>
+        public IText7Canvas(Stream source, Stream destination, int pageNo)
+        {
+            PdfReader reader = new PdfReader(source);
+            PdfWriter writer = new PdfWriter(destination);
+            OpenDocument(reader, writer, pageNo);
+        }
+
         private void CreateDocument(PdfWriter writer, double width, double height)
         {
             SetupFontMetrics("Helvetica");
@@ -66,6 +128,30 @@ namespace Codecrete.SwissQRBill.Examples.IText7
             _document.GetDocumentInfo().SetTitle("Swiss QR Bill");
             PageSize pageSize = new PageSize((float)(width * MmToPt), (float)(height * MmToPt));
             PdfPage page = _document.AddNewPage(pageSize);
+            _canvas = new PdfCanvas(page);
+            _canvas.SaveState();
+        }
+
+        private void OpenDocument(PdfReader reader, PdfWriter writer, int pageNo)
+        {
+            SetupFontMetrics("Helvetica");
+            _document = new PdfDocument(reader, writer);
+
+            PdfPage page;
+            if (pageNo == NewPageAtEnd)
+            {
+                PageSize pageSize = new PageSize((float)(210 * MmToPt), (float)(297 * MmToPt));
+                page = _document.AddNewPage(pageSize);
+            }
+            else if (pageNo == LastPage)
+            {
+                page = _document.GetLastPage();
+            }
+            else
+            {
+                page = _document.GetPage(pageNo);
+            }
+
             _canvas = new PdfCanvas(page);
             _canvas.SaveState();
         }

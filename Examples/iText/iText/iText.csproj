@@ -13,6 +13,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="invoice-without-qr-bill.pdf" />
+    <None Remove="PdfFile\invoice-without-qr-bill.pdf" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="PdfFile\invoice-without-qr-bill.pdf" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Codecrete.SwissQRBill.Generator" Version="0.9.4" />
     <PackageReference Include="itext7" Version="7.1.5" />
   </ItemGroup>

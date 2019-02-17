@@ -7,6 +7,7 @@
 
 using System;
 using System.IO;
+using System.Reflection;
 using Codecrete.SwissQRBill.Generator;
 
 
@@ -22,9 +23,19 @@ namespace Codecrete.SwissQRBill.Examples.IText7
     {
         private static void Main(string[] args)
         {
-            // Generate QR bill
-            string path = "qrbill.pdf";
             Bill bill = CreateBillData();
+
+            string destPath = "invoice-with-qr-bill.pdf";
+            using (FileStream fs = new FileStream(destPath, FileMode.Create))
+            using (IText7Canvas canvas = new IText7Canvas(OpenPdfInvoice("invoice-without-qr-bill.pdf"), fs, IText7Canvas.LastPage))
+            {
+                QRBill.Draw(bill, canvas);
+            }
+
+            Console.WriteLine($"QR bill saved at {Path.GetFullPath(destPath)}");
+
+            // Generate QR bill in new file
+            string path = "qrbill.pdf";
             using (IText7Canvas canvas = new IText7Canvas(path, 210, 297))
             {
                 QRBill.Draw(bill, canvas);
@@ -64,6 +75,18 @@ namespace Codecrete.SwissQRBill.Examples.IText7
 
             bill.CreateAndSetCreditorReference("2021007834");
             return bill;
+        }
+
+        private static Stream OpenPdfInvoice(string filename)
+        {
+            Assembly assembly = Assembly.GetExecutingAssembly();
+            Stream resourceStream = assembly.GetManifestResourceStream(typeof(Program), $"PdfFile.{filename}");
+            if (resourceStream == null)
+            {
+                throw new FileNotFoundException($"Resource not found: PdfFile.{filename}");
+            }
+
+            return resourceStream;
         }
     }
 }
