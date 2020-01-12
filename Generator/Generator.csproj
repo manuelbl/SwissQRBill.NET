@@ -7,14 +7,15 @@
     <Company>Codecrete</Company>
     <Product>Swiss QR Bill</Product>
     <Copyright>Open source published under MIT license</Copyright>
-    <PackageLicenseUrl>https://opensource.org/licenses/MIT</PackageLicenseUrl>
     <TargetFramework>netstandard2.0</TargetFramework>
     <RepositoryUrl>https://github.com/manuelbl/SwissQRBill.NET</RepositoryUrl>
     <PackageProjectUrl>https://github.com/manuelbl/SwissQRBill.NET</PackageProjectUrl>
     <PackageTags>Swiss-QR-Bill, Payment, ISO-20022, QR-Code, QRCode, SIX</PackageTags>
-    <PackageIconUrl>https://www.codecrete.net/qrbill/android-chrome-192x192.png</PackageIconUrl>
-    <PackageReleaseNotes>Initial release for .NET</PackageReleaseNotes>
-    <Version>2.0.0</Version>
+    <PackageReleaseNotes>New in release 2.1:
+- Advice generation with amount 0
+- Less strict for trailing line feeds
+</PackageReleaseNotes>
+    <Version>2.1.0</Version>
     <Description>Library to generate the new QR bill used for invoicing in Switzerland (starting in mid 2020).
 
 The Swiss QR bill library:
@@ -28,12 +29,26 @@ The Swiss QR bill library:
 - is free – even for commecial use (MIT License)
 - is built for .NET Standard 2.0 and runs on all modern .NET platforms
 - has a single non-Microsoft dependency: Net.Codecrete.QrCodeGenerator</Description>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageIconUrl />
+    <PackageIcon>logo.png</PackageIcon>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Net.Codecrete.QrCodeGenerator" Version="1.5.0" />
     <PackageReference Include="System.Drawing.Common" Version="4.5.1" />
     <PackageReference Include="System.Text.Encoding.CodePages" Version="4.5.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Images\logo.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+    <None Include="Images\logo.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>
