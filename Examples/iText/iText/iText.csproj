@@ -22,8 +22,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Codecrete.SwissQRBill.Generator" Version="2.0.0" />
-    <PackageReference Include="itext7" Version="7.1.5" />
+    <PackageReference Include="Codecrete.SwissQRBill.Generator" Version="2.1.0" />
+    <PackageReference Include="itext7" Version="7.1.9" />
   </ItemGroup>
 
 </Project>
