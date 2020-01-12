@@ -66,7 +66,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         private void AmountTooLow()
         {
             SourceBill = SampleData.CreateExample1();
-            SourceBill.Amount = 0m;
+            SourceBill.Amount = -0.01m;
             Validate();
             AssertSingleErrorMessage(ValidationConstants.FieldAmount, "amount_in_valid_range");
         }

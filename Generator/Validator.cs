@@ -89,7 +89,7 @@ namespace Codecrete.SwissQRBill.Generator
             {
                 decimal amt = amount.Value;
                 amt = Math.Round(amt, 2, MidpointRounding.AwayFromZero); // round to multiple of 0.01
-                if (amt < 0.01m || amt > 999999999.99m)
+                if (amt < 0.00m || amt > 999999999.99m)
                 {
                     _validationResult.AddMessage(MessageType.Error, ValidationConstants.FieldAmount, ValidationConstants.KeyAmountIsInValidRange);
                 }

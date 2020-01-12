@@ -60,6 +60,10 @@ namespace Codecrete.SwissQRBill.Generator
         /// Text key for "Payable by (name / address)"
         /// </summary>
         internal const string KeyPayableByNameAddr = "PayableByNameAddr";
+        /// <summary>
+        /// Text key for "DO NOT USE FOR PAYMENT"
+        /// </summary>
+        internal const string KeyDoNotUseForPayment = "DoNotUseForPayment";
 
         /// <summary>
         /// Gets the resource set for the specified language.

@@ -46,7 +46,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
             Assert.Throws<QRBillValidationException>(() =>
             {
                 Bill bill = SampleData.CreateExample4();
-                bill.Amount = 0.0m;
+                bill.Amount = -0.01m;
                 QRBill.EncodeQrCodeText(bill);
             });
         }

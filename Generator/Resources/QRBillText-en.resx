@@ -132,6 +132,9 @@
   <data name="Currency" xml:space="preserve">
     <value>Currency</value>
   </data>
+  <data name="DoNotUseForPayment" xml:space="preserve">
+    <value>DO NOT USE FOR PAYMENT</value>
+  </data>
   <data name="PayableBy" xml:space="preserve">
     <value>Payable by</value>
   </data>
