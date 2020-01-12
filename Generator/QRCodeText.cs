@@ -146,7 +146,11 @@ namespace Codecrete.SwissQRBill.Generator
             string[] lines = SplitLines(text);
             if (lines.Length < 32 || lines.Length > 34)
             {
-                ThrowSingleValidationError(ValidationConstants.FieldQrType, ValidationConstants.KeyValidDataStructure);
+                // A line feed at the end is illegal (cf 4.2.3) but found in practice. Don't be too strict.
+                if (!(lines.Length == 35 && lines[34].Length == 0))
+                {
+                    ThrowSingleValidationError(ValidationConstants.FieldQrType, ValidationConstants.KeyValidDataStructure);
+                }
             }
 
             if ("SPC" != lines[0])
@@ -205,6 +209,11 @@ namespace Codecrete.SwissQRBill.Generator
 
             List<AlternativeScheme> alternativeSchemes = null;
             int numSchemes = lines.Length - 32;
+            // skip empty schemes at end (due to invalid trailing line feed)
+            if (numSchemes > 0 && lines[32 + numSchemes - 1].Length == 0)
+            {
+                numSchemes--;
+            }
             if (numSchemes > 0)
             {
                 alternativeSchemes = new List<AlternativeScheme>();

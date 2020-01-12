@@ -105,7 +105,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
             Assert.Equal(bill, bill2);
         }
 
-        private void NormalizeSourceBill(Bill bill)
+        public static void NormalizeSourceBill(Bill bill)
         {
             bill.Format.Language = Language.DE;
             bill.Account = bill.Account.Replace(" ", "");
@@ -156,7 +156,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
             }
         }
 
-        private void NormalizeDecodedBill(Bill bill)
+        public static void NormalizeDecodedBill(Bill bill)
         {
             bill.Format.Language = Language.DE; // fix language (not contained in text)
         }
@@ -226,7 +226,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
             AssertSingleError(err.Result, ValidationConstants.KeyValidDataStructure, ValidationConstants.FieldTrailer);
         }
 
-        private static void AssertSingleError(ValidationResult result, string messageKey, string field)
+        public static void AssertSingleError(ValidationResult result, string messageKey, string field)
         {
             Assert.NotNull(result);
             List<ValidationMessage> messages = result.ValidationMessages;
