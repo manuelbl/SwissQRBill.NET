@@ -75,7 +75,7 @@ namespace Codecrete.SwissQRBill.Generator
         public const string KeyReplacedUnsupportedCharacters = "replaced_unsupported_characters";
         /// <summary>
         /// Validation message key: Valid data structure starts with "SPC" and consists
-        /// of 32 to 34 lines of text
+        /// of 32 to 34 lines of text (with exceptions)
         /// </summary>
         public const string KeyValidDataStructure = "valid_data_structure";
         /// <summary>

@@ -144,7 +144,7 @@ namespace Codecrete.SwissQRBill.Generator
         public static Bill Decode(string text)
         {
             string[] lines = SplitLines(text);
-            if (lines.Length < 32 || lines.Length > 34)
+            if (lines.Length < 31 || lines.Length > 34)
             {
                 // A line feed at the end is illegal (cf 4.2.3) but found in practice. Don't be too strict.
                 if (!(lines.Length == 35 && lines[34].Length == 0))
@@ -205,7 +205,7 @@ namespace Codecrete.SwissQRBill.Generator
                 ThrowSingleValidationError(ValidationConstants.FieldTrailer, ValidationConstants.KeyValidDataStructure);
             }
 
-            billData.BillInformation = lines[31];
+            billData.BillInformation = lines.Length > 31 ? lines[31] : "";
 
             List<AlternativeScheme> alternativeSchemes = null;
             int numSchemes = lines.Length - 32;

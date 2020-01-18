@@ -18,9 +18,9 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         private void DecodeText1()
         {
             Bill bill = SampleData.CreateExample1();
-            NormalizeSourceBill(bill);
+            TestHelper.NormalizeSourceBill(bill);
             Bill bill2 = QRBill.DecodeQrCodeText(QRBill.EncodeQrCodeText(bill));
-            NormalizeDecodedBill(bill2);
+            TestHelper.NormalizeDecodedBill(bill2);
             Assert.Equal(bill, bill2);
         }
 
@@ -28,9 +28,9 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         private void DecodeText2()
         {
             Bill bill = SampleData.CreateExample2();
-            NormalizeSourceBill(bill);
+            TestHelper.NormalizeSourceBill(bill);
             Bill bill2 = QRBill.DecodeQrCodeText(QRBill.EncodeQrCodeText(bill));
-            NormalizeDecodedBill(bill2);
+            TestHelper.NormalizeDecodedBill(bill2);
             Assert.Equal(bill, bill2);
         }
 
@@ -38,9 +38,9 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         private void DecodeText3()
         {
             Bill bill = SampleData.CreateExample3();
-            NormalizeSourceBill(bill);
+            TestHelper.NormalizeSourceBill(bill);
             Bill bill2 = QRBill.DecodeQrCodeText(QRBill.EncodeQrCodeText(bill));
-            NormalizeDecodedBill(bill2);
+            TestHelper.NormalizeDecodedBill(bill2);
             Assert.Equal(bill, bill2);
         }
 
@@ -49,9 +49,9 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         {
             Bill bill = SampleData.CreateExample4();
             bill.Format = new BillFormat(); // set default values
-            NormalizeSourceBill(bill);
+            TestHelper.NormalizeSourceBill(bill);
             Bill bill2 = QRBill.DecodeQrCodeText(QRBill.EncodeQrCodeText(bill));
-            NormalizeDecodedBill(bill2);
+            TestHelper.NormalizeDecodedBill(bill2);
             Assert.Equal(bill, bill2);
         }
 
@@ -59,9 +59,9 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         private void DecodeTextB1A()
         {
             Bill bill = SampleQRCodeText.CreateBillData1();
-            NormalizeSourceBill(bill);
+            TestHelper.NormalizeSourceBill(bill);
             Bill bill2 = QRBill.DecodeQrCodeText(SampleQRCodeText.CreateQrCodeText1(false));
-            NormalizeDecodedBill(bill2);
+            TestHelper.NormalizeDecodedBill(bill2);
             Assert.Equal(bill, bill2);
         }
 
@@ -69,9 +69,9 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         private void DecodeTextB1B()
         {
             Bill bill = SampleQRCodeText.CreateBillData1();
-            NormalizeSourceBill(bill);
+            TestHelper.NormalizeSourceBill(bill);
             Bill bill2 = QRBill.DecodeQrCodeText(SampleQRCodeText.CreateQrCodeText1(true));
-            NormalizeDecodedBill(bill2);
+            TestHelper.NormalizeDecodedBill(bill2);
             Assert.Equal(bill, bill2);
         }
 
@@ -79,9 +79,9 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         private void DecodeTextB2()
         {
             Bill bill = SampleQRCodeText.CreateBillData2();
-            NormalizeSourceBill(bill);
+            TestHelper.NormalizeSourceBill(bill);
             Bill bill2 = QRBill.DecodeQrCodeText(SampleQRCodeText.CreateQrCodeText2(false));
-            NormalizeDecodedBill(bill2);
+            TestHelper.NormalizeDecodedBill(bill2);
             Assert.Equal(bill, bill2);
         }
 
@@ -89,9 +89,9 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         private void DecodeTextB3()
         {
             Bill bill = SampleQRCodeText.CreateBillData3();
-            NormalizeSourceBill(bill);
+            TestHelper.NormalizeSourceBill(bill);
             Bill bill2 = QRBill.DecodeQrCodeText(SampleQRCodeText.CreateQrCodeText3(false));
-            NormalizeDecodedBill(bill2);
+            TestHelper.NormalizeDecodedBill(bill2);
             Assert.Equal(bill, bill2);
         }
 
@@ -99,73 +99,17 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         private void DecodeTextB4()
         {
             Bill bill = SampleQRCodeText.CreateBillData4();
-            NormalizeSourceBill(bill);
+            TestHelper.NormalizeSourceBill(bill);
             Bill bill2 = QRBill.DecodeQrCodeText(SampleQRCodeText.CreateQrCodeText4(false));
-            NormalizeDecodedBill(bill2);
+            TestHelper.NormalizeDecodedBill(bill2);
             Assert.Equal(bill, bill2);
-        }
-
-        public static void NormalizeSourceBill(Bill bill)
-        {
-            bill.Format.Language = Language.DE;
-            bill.Account = bill.Account.Replace(" ", "");
-            if (bill.Reference != null)
-            {
-                bill.Reference = bill.Reference.Replace(" ", "");
-            }
-
-            if (bill.Creditor != null)
-            {
-                if (bill.Creditor.Street == null)
-                {
-                    bill.Creditor.Street = ""; // replace null with empty string
-                }
-
-                if (bill.Creditor.HouseNo == null)
-                {
-                    bill.Creditor.HouseNo = ""; // replace null with empty string
-                }
-            }
-
-            if (bill.Debtor?.Town != null)
-            {
-                bill.Debtor.Town = bill.Debtor.Town.Trim();
-            }
-
-            if (bill.Reference == null)
-            {
-                bill.Reference = ""; // replace null with empty string
-            }
-
-            if (bill.UnstructuredMessage == null)
-            {
-                bill.UnstructuredMessage = ""; // replace null with empty string
-            }
-
-            if (bill.BillInformation == null)
-            {
-                bill.BillInformation = ""; // replace null with empty string
-            }
-
-            if (bill.AlternativeSchemes != null)
-            {
-                foreach (AlternativeScheme scheme in bill.AlternativeSchemes)
-                {
-                    scheme.Name = null;
-                }
-            }
-        }
-
-        public static void NormalizeDecodedBill(Bill bill)
-        {
-            bill.Format.Language = Language.DE; // fix language (not contained in text)
         }
 
         [Fact]
         private void DecodeInvalidFormat1()
         {
             QRBillValidationException err = Assert.Throws<QRBillValidationException>(() => QRBill.DecodeQrCodeText("garbage"));
-            AssertSingleError(err.Result, ValidationConstants.KeyValidDataStructure, ValidationConstants.FieldQrType);
+            TestHelper.AssertSingleError(err.Result, ValidationConstants.KeyValidDataStructure, ValidationConstants.FieldQrType);
         }
 
         [Fact]
@@ -173,7 +117,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         {
             QRBillValidationException err = Assert.Throws<QRBillValidationException>(
                     () => QRBill.DecodeQrCodeText("SPC\r\n0100\r\n\r\n\r\n"));
-            AssertSingleError(err.Result, ValidationConstants.KeyValidDataStructure, ValidationConstants.FieldQrType);
+            TestHelper.AssertSingleError(err.Result, ValidationConstants.KeyValidDataStructure, ValidationConstants.FieldQrType);
         }
 
         [Fact]
@@ -181,7 +125,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         {
             QRBillValidationException err = Assert.Throws<QRBillValidationException>(() => QRBill.DecodeQrCodeText(
                        "SPC1\r\n0200\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n"));
-            AssertSingleError(err.Result, ValidationConstants.KeyValidDataStructure, ValidationConstants.FieldQrType);
+            TestHelper.AssertSingleError(err.Result, ValidationConstants.KeyValidDataStructure, ValidationConstants.FieldQrType);
         }
 
         [Fact]
@@ -189,7 +133,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         {
             QRBillValidationException err = Assert.Throws<QRBillValidationException>(() => QRBill.DecodeQrCodeText(
                        "SPC1\r\n0200\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n"));
-            AssertSingleError(err.Result, ValidationConstants.KeyValidDataStructure, ValidationConstants.FieldQrType);
+            TestHelper.AssertSingleError(err.Result, ValidationConstants.KeyValidDataStructure, ValidationConstants.FieldQrType);
         }
 
         [Fact]
@@ -197,7 +141,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         {
             QRBillValidationException err = Assert.Throws<QRBillValidationException>(() => QRBill.DecodeQrCodeText(
                        "SPC\r\n0101\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n"));
-            AssertSingleError(err.Result, ValidationConstants.KeySupportedVersion, ValidationConstants.FieldVersion);
+            TestHelper.AssertSingleError(err.Result, ValidationConstants.KeySupportedVersion, ValidationConstants.FieldVersion);
         }
 
         [Fact]
@@ -205,7 +149,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         {
             QRBillValidationException err = Assert.Throws<QRBillValidationException>(() => QRBill.DecodeQrCodeText(
                        "SPC\r\n0200\r\n0\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n"));
-            AssertSingleError(err.Result, ValidationConstants.KeySupportedCodingType, ValidationConstants.FieldCodingType);
+            TestHelper.AssertSingleError(err.Result, ValidationConstants.KeySupportedCodingType, ValidationConstants.FieldCodingType);
         }
 
         [Fact]
@@ -214,7 +158,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
             string invalidText = SampleQRCodeText.CreateQrCodeText1(false).Replace("3949.75", "1239d49.75");
             QRBillValidationException err = Assert.Throws<QRBillValidationException>(
                         () => QRBill.DecodeQrCodeText(invalidText));
-            AssertSingleError(err.Result, ValidationConstants.KeyValidNumber, ValidationConstants.FieldAmount);
+            TestHelper.AssertSingleError(err.Result, ValidationConstants.KeyValidNumber, ValidationConstants.FieldAmount);
         }
 
         [Fact]
@@ -223,18 +167,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
             string invalidText = SampleQRCodeText.CreateQrCodeText1(false).Replace("EPD", "E_P");
             QRBillValidationException err = Assert.Throws<QRBillValidationException>(
                         () => QRBill.DecodeQrCodeText(invalidText));
-            AssertSingleError(err.Result, ValidationConstants.KeyValidDataStructure, ValidationConstants.FieldTrailer);
-        }
-
-        public static void AssertSingleError(ValidationResult result, string messageKey, string field)
-        {
-            Assert.NotNull(result);
-            List<ValidationMessage> messages = result.ValidationMessages;
-            Assert.NotNull(messages);
-            Assert.Single(messages);
-            Assert.Equal(MessageType.Error, messages[0].Type);
-            Assert.Equal(messageKey, messages[0].MessageKey);
-            Assert.Equal(field, messages[0].Field);
+            TestHelper.AssertSingleError(err.Result, ValidationConstants.KeyValidDataStructure, ValidationConstants.FieldTrailer);
         }
     }
 }
