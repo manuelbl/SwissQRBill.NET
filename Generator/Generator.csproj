@@ -11,11 +11,12 @@
     <RepositoryUrl>https://github.com/manuelbl/SwissQRBill.NET</RepositoryUrl>
     <PackageProjectUrl>https://github.com/manuelbl/SwissQRBill.NET</PackageProjectUrl>
     <PackageTags>Swiss-QR-Bill, Payment, ISO-20022, QR-Code, QRCode, SIX</PackageTags>
-    <PackageReleaseNotes>New in release 2.1:
+    <PackageReleaseNotes>New in release 2.1 &amp; 2.1.1:
 - Advice generation with amount 0
 - Less strict for trailing line feeds
+- Less strict for missing line feeds
 </PackageReleaseNotes>
-    <Version>2.1.0</Version>
+    <Version>2.1.1</Version>
     <Description>Library to generate the new QR bill used for invoicing in Switzerland (starting in mid 2020).
 
 The Swiss QR bill library:
