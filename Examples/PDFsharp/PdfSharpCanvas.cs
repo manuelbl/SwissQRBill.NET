@@ -59,6 +59,7 @@ namespace PDFsharp
         public override void StartPath()
         {
             CurrentPath = new XGraphicsPath();
+            CurrentPath.FillMode = XFillMode.Winding;
             CurrentPathPoint = new XPoint(0.0, 0.0);
         }
 
@@ -96,14 +97,12 @@ namespace PDFsharp
 
         public override void FillPath(int color)
         {
-            // TODO: Use color (is it really necessary??)
-            XGraphics.DrawPath(XBrushes.Black, CurrentPath);
+            XGraphics.DrawPath(new XSolidBrush(XColor.FromArgb(color)), CurrentPath);
         }
 
         public override void StrokePath(double strokeWidth, int color)
         {
-            // TODO: Use color (is it really necessary??)
-            var pen = new XPen(XColors.Black, XUnit.FromPoint(strokeWidth).Millimeter);
+            var pen = new XPen(XColor.FromArgb(color), XUnit.FromPoint(strokeWidth).Millimeter);
             XGraphics.DrawPath(pen, CurrentPath);
         }
 
