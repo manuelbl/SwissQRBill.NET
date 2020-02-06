@@ -38,7 +38,7 @@ namespace PDFsharp
 
             XGraphics.TranslateTransform(translateX, translateY);
             if (rotate != 0.0)
-                XGraphics.RotateTransform(rotate);
+                XGraphics.RotateTransform(rotate / System.Math.PI * 180.0);
             if (scaleX != 1.0 || scaleY != 1.0)
                 XGraphics.ScaleTransform(scaleX, scaleY);           
         }
