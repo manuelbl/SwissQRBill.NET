@@ -71,7 +71,9 @@ namespace PDFsharp
         public override void LineTo(double x, double y)
         {
             var point = new XPoint(x, y);
+            CurrentPath.StartFigure();
             CurrentPath.AddLine(CurrentPathPoint, point);
+            CurrentPath.CloseFigure();
             CurrentPathPoint = point;
         }
 
