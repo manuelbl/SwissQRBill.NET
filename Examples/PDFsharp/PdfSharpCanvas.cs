@@ -10,8 +10,7 @@ namespace PDFsharp
         private readonly XGraphics XGraphics;
         private readonly string FontFamily;
 
-        private XGraphicsPath CurrentPath;
-        private XPoint CurrentPathPoint;
+        private GraphicsPath CurrentPath;
 
         public PdfSharpCanvas(PdfPage page, string fontFamily)
         {
@@ -58,23 +57,17 @@ namespace PDFsharp
 
         public override void StartPath()
         {
-            CurrentPath = new XGraphicsPath();
-            CurrentPath.FillMode = XFillMode.Winding;
-            CurrentPathPoint = new XPoint(0.0, 0.0);
+            CurrentPath = new GraphicsPath();
         }
 
         public override void MoveTo(double x, double y)
         {
-            CurrentPathPoint = new XPoint(x, y);
+            CurrentPath.MoveTo(new XPoint(x, y));
         }
 
         public override void LineTo(double x, double y)
         {
-            var point = new XPoint(x, y);
-            CurrentPath.StartFigure();
-            CurrentPath.AddLine(CurrentPathPoint, point);
-            CurrentPath.CloseFigure();
-            CurrentPathPoint = point;
+            CurrentPath.LineTo(new XPoint(x, y));
         }
 
         public override void CubicCurveTo(double x1, double y1, double x2, double y2, double x, double y)
@@ -82,30 +75,28 @@ namespace PDFsharp
             var controlPoint1 = new XPoint(x1, y1);
             var controlPoint2 = new XPoint(x2, y2);
             var point = new XPoint(x, y);
-            CurrentPath.AddBezier(CurrentPathPoint, controlPoint1, controlPoint2, point);
-            CurrentPathPoint = point;
+            CurrentPath.CubicCurveTo(controlPoint1, controlPoint2, point);
         }
 
         public override void AddRectangle(double x, double y, double width, double height)
         {
-            // TODO: Do we need to update CurrentPathPoint here?
-            CurrentPath.AddRectangle(x, y, width, height);
+            CurrentPath.AddRectangle(new XPoint(x, y), width, height);
         }
 
         public override void CloseSubpath()
         {
-            // TODO: Anything we need to do here?
+            CurrentPath.CloseSubpath();
         }
 
         public override void FillPath(int color)
         {
-            XGraphics.DrawPath(new XSolidBrush(XColor.FromArgb(color)), CurrentPath);
+            CurrentPath.Fill(XGraphics, new XSolidBrush(XColor.FromArgb(color)));
         }
 
         public override void StrokePath(double strokeWidth, int color)
         {
             var pen = new XPen(XColor.FromArgb(color), XUnit.FromPoint(strokeWidth).Millimeter);
-            XGraphics.DrawPath(pen, CurrentPath);
+            CurrentPath.Stroke(XGraphics, pen);
         }
 
         protected override void Dispose(bool disposing)
