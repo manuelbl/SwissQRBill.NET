@@ -142,7 +142,7 @@
     <value>Pagabile da (nome/indirizzo)</value>
   </data>
   <data name="PaymentPart" xml:space="preserve">
-    <value>Sezione pagamento</value>
+    <value>Sezione di pagamento</value>
   </data>
   <data name="Receipt" xml:space="preserve">
     <value>Ricevuta</value>
