@@ -69,7 +69,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         {
             bill.Format.SeparatorType = separatorType;
             using (PNGCanvas canvas =
-                new PNGCanvas(QRBill.A4PortraitWidth, QRBill.A4PortraitHeight, 1254, "Arial,Helvetica"))
+                new PNGCanvas(QRBill.A4PortraitWidth, QRBill.A4PortraitHeight, 288, "Arial,Helvetica"))
             {
                 QRBill.Draw(bill, canvas);
                 FileComparison.AssertGrayscaleImageContentsEqual(canvas.ToByteArray(), expectedFileName);
