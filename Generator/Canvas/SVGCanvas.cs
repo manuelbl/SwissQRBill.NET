@@ -229,12 +229,27 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
 
         public override void StrokePath(double strokeWidth, int color)
         {
+            StrokePath(strokeWidth, color, LineStyle.Solid);
+        }
+
+        public override void StrokePath(double strokeWidth, int color, LineStyle lineStyle)
+        {
             _stream.Write("\" stroke=\"#");
             _stream.Write(FormatColor(color));
             if (strokeWidth != 1)
             {
                 _stream.Write("\" stroke-width=\"");
                 _stream.Write(FormatNumber(strokeWidth));
+            }
+            if (lineStyle == LineStyle.Dashed)
+            {
+                _stream.Write("\" stroke-dasharray=\"");
+                _stream.Write(FormatNumber(strokeWidth * 4));
+            }
+            else if (lineStyle == LineStyle.Dotted)
+            {
+                _stream.Write("\" stroke-linecap=\"round\" stroke-dasharray=\"0 ");
+                _stream.Write(FormatNumber(strokeWidth * 3));
             }
             _stream.Write("\" fill=\"none\"/>\n");
             _isFirstMoveInPath = true;

@@ -1,5 +1,4 @@
-﻿
-//
+﻿//
 // Swiss QR Bill Generator for .NET
 // Copyright (c) 2018 Manuel Bleichenbacher
 // Licensed under MIT License
@@ -128,9 +127,20 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         /// <summary>
         /// Strokes the current path and discards it.
         /// </summary>
+        /// <para>
+        /// The path is stroked with a solid line.
+        /// </para>
         /// <param name="strokeWidth">The stroke width (in pt).</param>
         /// <param name="color">The stroke color (expressed similar to HTML, e.g. 0xffffff for white).</param>
         void StrokePath(double strokeWidth, int color);
+
+        /// <summary>
+        /// Strokes the current path and discards it.
+        /// </summary>
+        /// <param name="strokeWidth">The stroke width (in pt).</param>
+        /// <param name="color">The stroke color (expressed similar to HTML, e.g. 0xffffff for white).</param>
+        /// <param name="color">The line style</param>
+        void StrokePath(double strokeWidth, int color, LineStyle lineStyle);
 
         /// <summary>
         /// Gets the distance between the baseline and the top of the tallest letter.

@@ -58,7 +58,7 @@ namespace Codecrete.SwissQRBill.Generator
         /// </para>
         /// </summary>
         /// <value>The separator type.</value>
-        public SeparatorType SeparatorType { get; set; } = SeparatorType.SolidLineWithScissors;
+        public SeparatorType SeparatorType { get; set; } = SeparatorType.DashedLineWithScissors;
 
         /// <summary>
         /// Gets or sets the font family to be used for text.

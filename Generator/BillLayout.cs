@@ -425,12 +425,37 @@ namespace Codecrete.SwissQRBill.Generator
                 return;
             }
 
+            bool hasScissors = separatorType == SeparatorType.SolidLineWithScissors
+                || separatorType == SeparatorType.DashedLineWithScissors
+                || separatorType == SeparatorType.DottedLineWithScissors;
+
+            LineStyle lineStyle;
+            double lineWidth;
+            switch (separatorType)
+            {
+                case SeparatorType.DashedLine:
+                case SeparatorType.DashedLineWithScissors:
+                    lineStyle = LineStyle.Dashed;
+                    lineWidth = 0.6;
+                    break;
+                case SeparatorType.DottedLine:
+                case SeparatorType.DottedLineWithScissors:
+                    lineStyle = LineStyle.Dotted;
+                    lineWidth = 0.75;
+                    break;
+                default:
+                    lineStyle = LineStyle.Solid;
+                    lineWidth = 0.5;
+                    break;
+            }
+
+
             _graphics.SetTransformation(0, 0, 0, 1, 1);
 
             // Draw vertical separator line between receipt and payment part
             _graphics.StartPath();
             _graphics.MoveTo(ReceiptWidth, 0);
-            if (separatorType == SeparatorType.SolidLineWithScissors)
+            if (hasScissors)
             {
                 _graphics.LineTo(ReceiptWidth, SlipHeight - 8);
                 _graphics.MoveTo(ReceiptWidth, SlipHeight - 5);
@@ -441,17 +466,17 @@ namespace Codecrete.SwissQRBill.Generator
             if (outputSize != OutputSize.QrBillOnly)
             {
                 _graphics.MoveTo(0, SlipHeight);
-                if (separatorType == SeparatorType.SolidLineWithScissors)
+                if (hasScissors)
                 {
                     _graphics.LineTo(5, SlipHeight);
                     _graphics.MoveTo(8, SlipHeight);
                 }
                 _graphics.LineTo(SlipWidth, SlipHeight);
             }
-            _graphics.StrokePath(0.5, 0);
+            _graphics.StrokePath(lineWidth, 0, lineStyle);
 
             // Draw scissors
-            if (separatorType == SeparatorType.SolidLineWithScissors)
+            if (hasScissors)
             {
                 DrawScissors(ReceiptWidth, SlipHeight - 5, 3, 0);
                 if (outputSize != OutputSize.QrBillOnly)

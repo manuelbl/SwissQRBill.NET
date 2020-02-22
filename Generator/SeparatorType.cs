@@ -24,6 +24,22 @@ namespace Codecrete.SwissQRBill.Generator
         /// <summary>
         /// Solid lines with a scissor symbol are drawn.
         /// </summary>
-        SolidLineWithScissors
+        SolidLineWithScissors,
+        /// <summary>
+        /// Dashed lines are drawn.
+        /// </summary>
+        DashedLine,
+        /// <summary>
+        /// Dashed lines with a scissor symbol are drawn.
+        /// </summary>
+        DashedLineWithScissors,
+        /// <summary>
+        /// Dotted lines are drawn.
+        /// </summary>
+        DottedLine,
+        /// <summary>
+        /// Dotted lines with a scissor symbol are drawn.
+        /// </summary>
+        DottedLineWithScissors
     }
 }

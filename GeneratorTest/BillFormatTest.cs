@@ -20,7 +20,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
             Assert.Equal(GraphicsFormat.SVG, format.GraphicsFormat);
             Assert.Equal(OutputSize.QrBillOnly, format.OutputSize);
             Assert.Equal("Helvetica,Arial,\"Liberation Sans\"", format.FontFamily);
-            Assert.Equal(SeparatorType.SolidLineWithScissors, format.SeparatorType);
+            Assert.Equal(SeparatorType.DashedLineWithScissors, format.SeparatorType);
         }
 
         [Fact]

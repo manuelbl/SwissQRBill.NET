@@ -26,6 +26,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
     {
         private readonly int _resolution;
         private readonly float _coordinateScale;
+        private readonly float _fontScale;
         private Bitmap _bitmap;
         private Graphics _graphics;
         private List<PointF> _pathPoints;
@@ -54,6 +55,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             // create image
             _resolution = resolution;
             _coordinateScale = (float)(resolution / 25.4);
+            _fontScale = (float)(resolution / 72.0);
             int w = (int)(width * _coordinateScale + 0.5);
             int h = (int)(height * _coordinateScale + 0.5);
             _bitmap = new Bitmap(w, h);
@@ -246,10 +248,34 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
 
         public override void StrokePath(double strokeWidth, int color)
         {
-            using (Pen pen = new Pen(Color.FromArgb(color - 16777216), (float)strokeWidth))
-            using (GraphicsPath path = new GraphicsPath(_pathPoints.ToArray(), _pathTypes.ToArray()))
+            StrokePath(strokeWidth, color, LineStyle.Solid);
+        }
+
+        public override void StrokePath(double strokeWidth, int color, LineStyle lineStyle)
+        {
+            float width = (float)strokeWidth * _fontScale;
+
+            using (Pen pen = new Pen(Color.FromArgb(color - 16777216), width))
             {
-                _graphics.DrawPath(pen, path);
+                switch (lineStyle)
+                {
+                    case LineStyle.Dashed:
+                        pen.DashPattern = new float[] { 4, 4 };
+                        break;
+                    case LineStyle.Dotted:
+                        pen.StartCap = LineCap.Round;
+                        pen.EndCap = LineCap.Round;
+                        pen.DashCap = DashCap.Round;
+                        pen.DashPattern = new float[] { 0.01f, 2 };
+                        break;
+                    default:
+                        break;
+                }
+
+                using (GraphicsPath path = new GraphicsPath(_pathPoints.ToArray(), _pathTypes.ToArray()))
+                {
+                    _graphics.DrawPath(pen, path);
+                }
             }
         }
 
@@ -258,7 +284,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             FontStyle style = isBold ? FontStyle.Bold : FontStyle.Regular;
             using (Font font = new Font(_fontFamily, fontSize, style, GraphicsUnit.Point))
             {
-                float ascent = _fontFamily.GetCellAscent(style) / 2048.0f * fontSize / 72 * _resolution;
+                float ascent = _fontFamily.GetCellAscent(style) / 2048.0f * fontSize * _fontScale;
                 x *= _coordinateScale;
                 y *= -_coordinateScale;
                 y -= ascent;

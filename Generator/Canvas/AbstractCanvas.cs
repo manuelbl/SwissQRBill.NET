@@ -71,6 +71,12 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         public abstract void FillPath(int color);
         public abstract void StrokePath(double strokeWidth, int color);
 
+        public virtual void StrokePath(double strokeWidth, int color, LineStyle lineStyle)
+        {
+            // default implementation for backward compatibility
+            StrokePath(strokeWidth, color);
+        }
+
         public void Dispose()
         {
             Dispose(true);
