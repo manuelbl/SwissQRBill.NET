@@ -29,6 +29,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         private bool _hasSavedGraphicsState;
         private Font _lastFont;
         private float _lastFontSize;
+        private LineStyle _lastLineStyle;
 
         /// <summary>
         /// Initializes a new instance of the PDF canvas with the specified page size.
@@ -194,6 +195,11 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
 
         public override void StrokePath(double strokeWidth, int color)
         {
+            StrokePath(strokeWidth, color, LineStyle.Solid);
+        }
+
+        public override void StrokePath(double strokeWidth, int color, LineStyle lineStyle)
+        {
             if (color != _lastStrokingColor)
             {
                 _lastStrokingColor = color;
@@ -201,6 +207,26 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
                 float g = ColorScale * ((color >> 8) & 0xff);
                 float b = ColorScale * ((color >> 8) & 0xff);
                 _contentStream.SetStrokingColor(r, g, b);
+            }
+            if (lineStyle != _lastLineStyle
+                || (lineStyle != LineStyle.Solid && strokeWidth != _lastLineWidth))
+            {
+                _lastLineStyle = lineStyle;
+                float[] pattern;
+                switch (lineStyle)
+                {
+                    case LineStyle.Dashed:
+                        pattern = new float[] { 4 * (float)strokeWidth };
+                        break;
+                    case LineStyle.Dotted:
+                        pattern = new float[] { 0, 3 * (float)strokeWidth };
+                        break;
+                    default:
+                        pattern = new float[] { };
+                        break;
+                }
+                _contentStream.SetLineCapStyle(lineStyle == LineStyle.Dotted ? 1 : 0);
+                _contentStream.SetLineDashPattern(pattern, 0);
             }
             if (strokeWidth != _lastLineWidth)
             {

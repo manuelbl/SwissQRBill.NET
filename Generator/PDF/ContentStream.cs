@@ -75,6 +75,19 @@ namespace Codecrete.SwissQRBill.Generator.PDF
             WriteOperator("w");
         }
 
+        public void SetLineCapStyle(int style)
+        {
+            WriteOperand(style);
+            WriteOperator("J");
+        }
+
+        public void SetLineDashPattern(float[] pattern, float offset)
+        {
+            WriteOperand(pattern);
+            WriteOperand(offset);
+            WriteOperator("d");
+        }
+
         public void MoveTo(float x, float y)
         {
             WriteOperand(x);
@@ -203,9 +216,24 @@ namespace Codecrete.SwissQRBill.Generator.PDF
             WriteOperator("Tj");
         }
 
+        private void WriteOperand(int val)
+        {
+            _contentWriter.Write($"{val} ");
+        }
+
         private void WriteOperand(float val)
         {
             _contentWriter.Write(Invariant($"{val:0.###} "));
+        }
+
+        private void WriteOperand(float[] array)
+        {
+            _contentWriter.Write("[");
+            foreach (float val in array)
+            {
+                WriteOperand(val);
+            }
+            _contentWriter.Write("] ");
         }
 
         private void WriteOperand(Name name)
