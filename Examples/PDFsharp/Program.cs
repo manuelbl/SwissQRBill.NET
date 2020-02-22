@@ -24,6 +24,7 @@ namespace PDFsharp
                 {
                     graphic.DrawString("Test Invoice", new XFont("Arial", 20.0), XBrushes.Black, 20.0, 150.0);
                 }
+
                 using (var canvas = new PdfSharpCanvas(page, "Arial"))
                 {
                     QRBill.Draw(Bill, canvas);
@@ -56,7 +57,7 @@ namespace PDFsharp
             Format = new BillFormat
             {
                  Language = Language.DE,
-                 SeparatorType = SeparatorType.SolidLineWithScissors,
+                 SeparatorType = SeparatorType.DashedLineWithScissors,
                  OutputSize = OutputSize.A4PortraitSheet,
                  GraphicsFormat = GraphicsFormat.PDF,
                  FontFamily = "Arial"

@@ -103,7 +103,24 @@ namespace PDFsharp
 
         public override void StrokePath(double strokeWidth, int color)
         {
+            StrokePath(strokeWidth, color, LineStyle.Solid);
+        }
+
+        public override void StrokePath(double strokeWidth, int color, LineStyle lineStyle)
+        {
             var pen = new XPen(XColor.FromArgb(color), XUnit.FromPoint(strokeWidth).Millimeter);
+            switch (lineStyle)
+            {
+                case LineStyle.Dashed:
+                    pen.DashPattern = new double[] { 4, 4 };
+                    break;
+                case LineStyle.Dotted:
+                    pen.LineCap = XLineCap.Round;
+                    pen.DashPattern = new double[] { 0.01, 3 };
+                    break;
+                default:
+                    break;
+            }
             CurrentPath.Stroke(XGraphics, pen);
         }
 

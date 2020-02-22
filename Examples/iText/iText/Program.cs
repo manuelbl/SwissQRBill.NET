@@ -36,6 +36,7 @@ namespace Codecrete.SwissQRBill.Examples.IText7
 
             // Generate QR bill in new file
             string path = "qrbill.pdf";
+            bill.Format.SeparatorType = SeparatorType.DottedLineWithScissors;
             using (IText7Canvas canvas = new IText7Canvas(path, 210, 297))
             {
                 QRBill.Draw(bill, canvas);
