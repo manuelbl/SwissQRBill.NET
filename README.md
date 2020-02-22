@@ -106,6 +106,15 @@ namespace Codecrete.SwissQRBill.Examples.Basic
 
 See DocFX [API Documentation](https://codecrete.net/SwissQRBill.NET/api/index.html)
 
+## PDF Library
+
+To generate QR bills as PDF files, this library uses its own, minimal PDF generator that requires no further dependencies and comes with the same permissive license as the rest of this library.
+
+If you are already using [iText](https://itextpdf.com/en) or [PDFsharp](http://www.pdfsharp.net/), then have a look at the respective examples:
+
+- iText: https://github.com/manuelbl/SwissQRBill.NET/tree/master/Examples/iText
+- PDFsharp: https://github.com/manuelbl/SwissQRBill.NET/tree/master/Examples/PDFsharp
+
 ## More information
 
 This library is the .NET version of Swiss QR Bill. There is also a [Java version](https://github.com/manuelbl/SwissQRBill) with the same features. More information about both libraries can be found in the [Wiki](https://github.com/manuelbl/SwissQRBill/wiki).
