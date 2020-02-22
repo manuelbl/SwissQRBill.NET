@@ -1,4 +1,12 @@
-﻿using Codecrete.SwissQRBill.Generator.Canvas;
+﻿//
+// Swiss QR Bill Generator for .NET
+// Copyright (c) 2020 Robert Hegner
+// Copyright (c) 2020 Manuel Bleichenbacher
+// Licensed under MIT License
+// https://opensource.org/licenses/MIT
+//
+
+using Codecrete.SwissQRBill.Generator.Canvas;
 using PdfSharp.Drawing;
 using PdfSharp.Pdf;
 

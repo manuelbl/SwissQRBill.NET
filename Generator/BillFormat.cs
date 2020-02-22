@@ -1,4 +1,11 @@
-﻿using System;
+﻿//
+// Swiss QR Bill Generator for .NET
+// Copyright (c) 2018 Manuel Bleichenbacher
+// Licensed under MIT License
+// https://opensource.org/licenses/MIT
+//
+
+using System;
 using System.Collections.Generic;
 
 namespace Codecrete.SwissQRBill.Generator

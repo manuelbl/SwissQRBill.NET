@@ -1,4 +1,11 @@
-﻿using System.IO;
+﻿//
+// Swiss QR Bill Generator for .NET
+// Copyright (c) 2019 Manuel Bleichenbacher
+// Licensed under MIT License
+// https://opensource.org/licenses/MIT
+//
+
+using System.IO;
 using Codecrete.SwissQRBill.Generator.Canvas;
 using iText.IO.Font.Constants;
 using iText.Kernel.Font;

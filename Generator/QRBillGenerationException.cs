@@ -4,6 +4,7 @@
 // Licensed under MIT License
 // https://opensource.org/licenses/MIT
 //
+
 using System;
 using System.Runtime.Serialization;
 
