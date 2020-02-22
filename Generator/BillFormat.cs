@@ -54,7 +54,7 @@ namespace Codecrete.SwissQRBill.Generator
         /// <summary>
         /// Gets or sets the type of separator drawn above and between the payment part and the receipt.
         /// <para>
-        /// Defaults to <see cref="SeparatorType.SolidLineWithScissors"/>.
+        /// Defaults to <see cref="SeparatorType.DashedLineWithScissors"/>.
         /// </para>
         /// </summary>
         /// <value>The separator type.</value>

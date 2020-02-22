@@ -139,7 +139,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         /// </summary>
         /// <param name="strokeWidth">The stroke width (in pt).</param>
         /// <param name="color">The stroke color (expressed similar to HTML, e.g. 0xffffff for white).</param>
-        /// <param name="color">The line style</param>
+        /// <param name="lineStyle">The line style</param>
         void StrokePath(double strokeWidth, int color, LineStyle lineStyle);
 
         /// <summary>
