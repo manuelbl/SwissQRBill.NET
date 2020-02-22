@@ -36,6 +36,12 @@
     <None Remove="ReferenceFiles\a4bill_ex5.svg" />
     <None Remove="ReferenceFiles\a4bill_ex6.pdf" />
     <None Remove="ReferenceFiles\a4bill_ex6.svg" />
+    <None Remove="ReferenceFiles\linestyle_1.pdf" />
+    <None Remove="ReferenceFiles\linestyle_1.png" />
+    <None Remove="ReferenceFiles\linestyle_1.svg" />
+    <None Remove="ReferenceFiles\linestyle_2.pdf" />
+    <None Remove="ReferenceFiles\linestyle_2.png" />
+    <None Remove="ReferenceFiles\linestyle_2.svg" />
     <None Remove="ReferenceFiles\qrbill-locale-1.svg" />
     <None Remove="ReferenceFiles\qrbill-locale-2.svg" />
     <None Remove="ReferenceFiles\qrbill-locale-3.svg" />
@@ -66,6 +72,12 @@
     <EmbeddedResource Include="ReferenceFiles\a4bill_ex5.svg" />
     <EmbeddedResource Include="ReferenceFiles\a4bill_ex6.pdf" />
     <EmbeddedResource Include="ReferenceFiles\a4bill_ex6.svg" />
+    <EmbeddedResource Include="ReferenceFiles\linestyle_1.pdf" />
+    <EmbeddedResource Include="ReferenceFiles\linestyle_1.png" />
+    <EmbeddedResource Include="ReferenceFiles\linestyle_1.svg" />
+    <EmbeddedResource Include="ReferenceFiles\linestyle_2.pdf" />
+    <EmbeddedResource Include="ReferenceFiles\linestyle_2.png" />
+    <EmbeddedResource Include="ReferenceFiles\linestyle_2.svg" />
     <EmbeddedResource Include="ReferenceFiles\qrbill-locale-1.svg" />
     <EmbeddedResource Include="ReferenceFiles\qrbill-locale-2.svg" />
     <EmbeddedResource Include="ReferenceFiles\qrbill-locale-3.svg" />
