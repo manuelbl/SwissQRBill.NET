@@ -130,7 +130,7 @@ namespace Codecrete.SwissQRBill.Generator
 
         private void DrawPaymentPart()
         {
-            const double qrCodeBottom = 43.5; // mm
+            const double qrCodeBottom = 42; // mm
 
             // title section
             _graphics.SetTransformation(ReceiptWidth + Margin, 0, 0, 1, 1);
