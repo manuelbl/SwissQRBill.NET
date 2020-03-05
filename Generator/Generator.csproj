@@ -14,8 +14,11 @@
     <PackageReleaseNotes>New in release 2.2:
 - Dashed and dotted lines for separator line (dashed is now the default)
 - Fix invalid translations of "Zahlteil" (payment part)
-- Example for using it with PDFsharp</PackageReleaseNotes>
-    <Version>2.2.0</Version>
+- Example for using it with PDFsharp
+
+New in release 2.2.1:
+- Fixed vertical position of QR code</PackageReleaseNotes>
+    <Version>2.2.1</Version>
     <Description>Library to generate the new QR bill used for invoicing in Switzerland (starting in mid 2020).
 
 The Swiss QR bill library:
