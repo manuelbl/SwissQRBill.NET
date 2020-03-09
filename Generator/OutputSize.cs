@@ -17,6 +17,10 @@ namespace Codecrete.SwissQRBill.Generator
         /// </summary>
         QrBillOnly,
         /// <summary>
+        /// QR bill with horizontal separator line (110 by 210 mm).
+        /// </summary>
+        QrBillWithHorizontalLine,
+        /// <summary>
         /// A4 sheet in portrait orientation. The QR bill is at the bottom.
         /// </summary>
         A4PortraitSheet,

@@ -51,6 +51,7 @@
     <None Remove="ReferenceFiles\qrbill_ex2.svg" />
     <None Remove="ReferenceFiles\qrbill_ex3.svg" />
     <None Remove="ReferenceFiles\qrbill_ex4.svg" />
+    <None Remove="ReferenceFiles\qrbill_ex5.svg" />
     <None Remove="ReferenceFiles\qrbill_sc1.svg" />
     <None Remove="ReferenceFiles\qrcode_ex1.svg" />
     <None Remove="ReferenceFiles\qrcode_ex2.svg" />
@@ -87,6 +88,7 @@
     <EmbeddedResource Include="ReferenceFiles\qrbill_ex2.svg" />
     <EmbeddedResource Include="ReferenceFiles\qrbill_ex3.svg" />
     <EmbeddedResource Include="ReferenceFiles\qrbill_ex4.svg" />
+    <EmbeddedResource Include="ReferenceFiles\qrbill_ex5.svg" />
     <EmbeddedResource Include="ReferenceFiles\qrbill_sc1.svg" />
     <EmbeddedResource Include="ReferenceFiles\qrcode_ex1.svg" />
     <EmbeddedResource Include="ReferenceFiles\qrcode_ex2.svg" />
