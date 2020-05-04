@@ -62,5 +62,15 @@ namespace Codecrete.SwissQRBill.GeneratorTest
             byte[] svg = QRBill.Generate(bill);
             FileComparison.AssertFileContentsEqual(svg, "qrbill_ex5.svg");
         }
+
+        [Fact]
+        private void CreateQrBillFrench()
+        {
+            Bill bill = SampleData.CreateExample1();
+            bill.Format.GraphicsFormat = GraphicsFormat.SVG;
+            bill.Format.Language = Language.FR;
+            byte[] svg = QRBill.Generate(bill);
+            FileComparison.AssertFileContentsEqual(svg, "qrbill_fr.svg");
+        }
     }
 }
