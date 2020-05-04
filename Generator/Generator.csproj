@@ -20,8 +20,11 @@ New in release 2.2.1:
 - Fixed vertical position of QR code
 
 New in release 2.2.2:
-- New output size for QR bill with horizontal separator line</PackageReleaseNotes>
-    <Version>2.2.2</Version>
+- New output size for QR bill with horizontal separator line
+
+New in release 2.3:
+- Fix typo in "Information supplémentaires"</PackageReleaseNotes>
+    <Version>2.2.3</Version>
     <Description>Library to generate the new QR bill used for invoicing in Switzerland (starting in mid 2020).
 
 The Swiss QR bill library:
