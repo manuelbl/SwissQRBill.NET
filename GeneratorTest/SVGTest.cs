@@ -5,9 +5,9 @@
 // https://opensource.org/licenses/MIT
 //
 
-using System.IO;
 using Codecrete.SwissQRBill.Generator;
 using Codecrete.SwissQRBill.Generator.Canvas;
+using System.IO;
 using Xunit;
 
 namespace Codecrete.SwissQRBill.GeneratorTest

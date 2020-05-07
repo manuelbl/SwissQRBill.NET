@@ -42,7 +42,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
                         () => QRBill.DecodeQrCodeText(qrText));
             TestHelper.AssertSingleError(err.Result, ValidationConstants.KeyValidDataStructure, ValidationConstants.FieldQrType);
         }
-        
+
         [Fact]
         private void TooManyLines()
         {
@@ -62,7 +62,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
             string qrText = QRBill.EncodeQrCodeText(bill);
             qrText = qrText.Substring(0, qrText.Length - 1);
             Assert.EndsWith("EPD", qrText);
-            
+
             Bill bill2 = QRBill.DecodeQrCodeText(qrText);
             TestHelper.NormalizeDecodedBill(bill2);
             Assert.Equal(bill, bill2);

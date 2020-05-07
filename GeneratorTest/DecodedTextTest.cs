@@ -6,9 +6,7 @@
 //
 
 using Codecrete.SwissQRBill.Generator;
-using System.Collections.Generic;
 using Xunit;
-using static Codecrete.SwissQRBill.Generator.ValidationMessage;
 
 namespace Codecrete.SwissQRBill.GeneratorTest
 {

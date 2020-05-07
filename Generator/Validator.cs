@@ -204,7 +204,8 @@ namespace Codecrete.SwissQRBill.Generator
             string billInformation = _billIn.BillInformation.Trimmed();
             string unstructuredMessage = _billIn.UnstructuredMessage.Trimmed();
 
-            if (billInformation != null && (!billInformation.StartsWith("//") || billInformation.Length < 4)) {
+            if (billInformation != null && (!billInformation.StartsWith("//") || billInformation.Length < 4))
+            {
                 _validationResult.AddMessage(MessageType.Error, ValidationConstants.FieldBillInformation, ValidationConstants.KeyBillInfoInvalid);
                 billInformation = null;
             }

@@ -49,7 +49,7 @@ namespace Codecrete.SwissQRBill.Generator.PDF
             dict.Add("Subtype", new Name(Subtype));
             dict.Add("BaseFont", new Name(Name));
             dict.Add("Encoding", new Name(Encoding));
-            ((IWritable) dict).Write(writer);
+            ((IWritable)dict).Write(writer);
         }
     }
 }
