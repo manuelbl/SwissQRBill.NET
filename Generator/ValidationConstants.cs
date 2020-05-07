@@ -45,6 +45,10 @@ namespace Codecrete.SwissQRBill.Generator
         /// </summary>
         public const string KeyMandatoryForQRIBAN = "mandatory_for_qr_iban";
         /// <summary>
+        /// Validation message key: Reference type must be one of "QRR", "SCOR" and "NON" and match the reference
+        /// </summary>
+        public const string KeyValidRefType = "valid_ref_type";
+        /// <summary>
         /// Validation message key: Field is mandatory
         /// </summary>
         public const string KeyFieldIsMandatory = "field_is_mandatory";
@@ -159,6 +163,10 @@ namespace Codecrete.SwissQRBill.Generator
         /// Field name of the account number.
         /// </summary>
         public const string FieldAccount = "account";
+        /// <summary>
+        /// Field name of the reference type.
+        /// </summary>
+        public const string FieldReferenceType = "referenceType";
         /// <summary>
         /// Field name of the reference.
         /// </summary>

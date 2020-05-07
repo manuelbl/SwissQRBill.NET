@@ -129,5 +129,14 @@ namespace Codecrete.SwissQRBill.GeneratorTest
             Validate();
             AssertSingleErrorMessage(ValidationConstants.FieldReference, "valid_iso11649_creditor_ref");
         }
+
+        [Fact]
+        private void InvalidReferenceType()
+        {
+            SourceBill = SampleData.CreateExample3();
+            SourceBill.ReferenceType = "ABC";
+            Validate();
+            AssertSingleErrorMessage(ValidationConstants.FieldReferenceType, "valid_ref_type");
+        }
     }
 }

@@ -155,6 +155,8 @@ namespace Codecrete.SwissQRBill.Generator
             else
             {
                 _billOut.Reference = null;
+                if (isValidAccount && Bill.ReferenceTypeNoRef != _billIn.ReferenceType)
+                    _validationResult.AddMessage(MessageType.Error, ValidationConstants.FieldReferenceType, ValidationConstants.KeyValidRefType);
             }
         }
 
@@ -178,6 +180,8 @@ namespace Codecrete.SwissQRBill.Generator
             else
             {
                 _billOut.Reference = cleanedReference;
+                if (Bill.ReferenceTypeQrRef != _billIn.ReferenceType)
+                    _validationResult.AddMessage(MessageType.Error, ValidationConstants.FieldReferenceType, ValidationConstants.KeyValidRefType);
             }
         }
 
@@ -190,6 +194,8 @@ namespace Codecrete.SwissQRBill.Generator
             else
             {
                 _billOut.Reference = cleanedReference;
+                if (Bill.ReferenceTypeCredRef != _billIn.ReferenceType)
+                    _validationResult.AddMessage(MessageType.Error, ValidationConstants.FieldReferenceType, ValidationConstants.KeyValidRefType);
             }
         }
 

@@ -71,6 +71,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
                 Reference = "RF839DF38202934"
             };
             Assert.Equal("RF839DF38202934", bill.Reference);
+            Assert.Equal(Bill.ReferenceTypeCredRef, bill.ReferenceType);
         }
 
         [Fact]
@@ -79,6 +80,15 @@ namespace Codecrete.SwissQRBill.GeneratorTest
             Bill bill = new Bill();
             bill.CreateAndSetCreditorReference("ABCD3934803");
             Assert.Equal("RF93ABCD3934803", bill.Reference);
+            Assert.Equal(Bill.ReferenceTypeCredRef, bill.ReferenceType);
+        }
+
+        [Fact]
+        private void SetReferenceType()
+        {
+            Bill bill = new Bill();
+            bill.ReferenceType = Bill.ReferenceTypeCredRef;
+            Assert.Equal(Bill.ReferenceTypeCredRef, bill.ReferenceType);
         }
 
         [Fact]

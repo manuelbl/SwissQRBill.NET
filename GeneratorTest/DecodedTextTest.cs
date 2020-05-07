@@ -106,6 +106,16 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
+        private void DecodeInvalidRefType()
+        {
+            Bill bill = SampleData.CreateExample3();
+            string qrText = QRBill.EncodeQrCodeText(bill);
+            qrText = qrText.Replace("SCOR", "XXXX");
+            Bill bill2 = QRBill.DecodeQrCodeText(qrText);
+            Assert.Equal("XXXX", bill2.ReferenceType);
+        }
+
+        [Fact]
         private void DecodeInvalidFormat1()
         {
             QRBillValidationException err = Assert.Throws<QRBillValidationException>(() => QRBill.DecodeQrCodeText("garbage"));

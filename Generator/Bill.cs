@@ -17,6 +17,21 @@ namespace Codecrete.SwissQRBill.Generator
     public sealed class Bill : IEquatable<Bill>
     {
         /// <summary>
+        /// Reference type: without reference.
+        /// </summary>
+        public static readonly string ReferenceTypeNoRef = "NON";
+
+        /// <summary>
+        /// Reference type: QR reference.
+        /// </summary>
+        public static readonly string ReferenceTypeQrRef = "QRR";
+
+        /// <summary>
+        /// Reference type: creditor reference (ISO 11649)
+        /// </summary>
+        public static readonly string ReferenceTypeCredRef = "SCOR";
+
+        /// <summary>
         /// QR bill standard version
         /// </summary>
         public enum QrBillStandardVersion
@@ -69,6 +84,43 @@ namespace Codecrete.SwissQRBill.Generator
         public Address Creditor { get; set; } = new Address();
 
         /// <summary>
+        /// Gets or sets the ype of payment reference
+        /// </summary>
+        /// <para>
+        /// The reference type is automatically set when the reference is set
+        /// (derived from the reference). So there is usually no need to set
+        /// it explicitly.
+        /// </para>
+        /// <value>One of the constant values <c>ReferenceTypeXxxRef</c></value>
+        /// <see cref="ReferenceTypeQrRef"/>
+        /// <see cref="ReferenceTypeCredRef"/>
+        /// <see cref="ReferenceTypeNoRef"/>
+        public string ReferenceType { get; set; } = ReferenceTypeNoRef;
+
+        /// <summary>
+        /// Updates the reference type by deriving it from the payment reference.
+        /// </summary>
+        public void UpdateReferenceType()
+        {
+            string rf = Reference.Trimmed();
+            if (rf != null)
+            {
+                if (rf.StartsWith("RF"))
+                    ReferenceType = ReferenceTypeCredRef;
+                else if (rf.Length > 0)
+                    ReferenceType = ReferenceTypeQrRef;
+                else
+                    ReferenceType = ReferenceTypeNoRef;
+            }
+            else
+            {
+                ReferenceType = ReferenceTypeNoRef;
+            }
+        }
+
+        private string _reference;
+
+        /// <summary>
         /// Gets or sets the creditor payment reference.
         /// <para>
         /// The reference is mandatory for QR IBANs, i.e.IBANs in the range
@@ -81,7 +133,18 @@ namespace Codecrete.SwissQRBill.Generator
         /// </para>
         /// </summary>
         /// <value>The creditor payment reference.</value>
-        public string Reference { get; set; }
+        public string Reference
+        {
+            get
+            {
+                return _reference;
+            }
+            set
+            {
+                _reference = value;
+                UpdateReferenceType();
+            }
+        }
 
         /// <summary>
         /// Creates and sets a ISO11649 creditor reference from a raw string by prefixing
@@ -153,6 +216,7 @@ namespace Codecrete.SwissQRBill.Generator
                    Currency == other.Currency &&
                    Account == other.Account &&
                    EqualityComparer<Address>.Default.Equals(Creditor, other.Creditor) &&
+                   ReferenceType == other.ReferenceType &&
                    Reference == other.Reference &&
                    EqualityComparer<Address>.Default.Equals(Debtor, other.Debtor) &&
                    UnstructuredMessage == other.UnstructuredMessage &&
@@ -171,6 +235,7 @@ namespace Codecrete.SwissQRBill.Generator
             hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Currency);
             hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Account);
             hashCode = hashCode * -1521134295 + EqualityComparer<Address>.Default.GetHashCode(Creditor);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(ReferenceType);
             hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Reference);
             hashCode = hashCode * -1521134295 + EqualityComparer<Address>.Default.GetHashCode(Debtor);
             hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(UnstructuredMessage);

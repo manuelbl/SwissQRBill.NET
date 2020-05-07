@@ -59,19 +59,7 @@ namespace Codecrete.SwissQRBill.Generator
             AppendPerson(_bill.Debtor);
 
             // RmtInf
-            string referenceType = "NON";
-            if (_bill.Reference != null)
-            {
-                if (_bill.Reference.StartsWith("RF"))
-                {
-                    referenceType = "SCOR";
-                }
-                else if (_bill.Reference.Length > 0)
-                {
-                    referenceType = "QRR";
-                }
-            }
-            AppendDataField(referenceType); // Tp
+            AppendDataField(_bill.ReferenceType); // Tp
             AppendDataField(_bill.Reference); // Ref
 
             // AddInf
@@ -197,8 +185,10 @@ namespace Codecrete.SwissQRBill.Generator
 
             billData.Debtor = DecodeAddress(lines, 20, true);
 
-            // reference type is ignored (line 27)
+            // Set reference type and reference in reverse order
+            // to retain reference type (as it is updated by setting 'Reference')
             billData.Reference = lines[28];
+            billData.ReferenceType = lines[27];
             billData.UnstructuredMessage = lines[29];
             if ("EPD" != lines[30])
             {
