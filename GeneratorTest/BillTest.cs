@@ -116,10 +116,10 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         {
             Bill bill = new Bill
             {
-                BillInformation = "S1/01/20170309/11/10201409/20/14000000/22/369 58/30/CH106017086/40/1020/41/3010"
+                BillInformationText = "S1/01/20170309/11/10201409/20/14000000/22/369 58/30/CH106017086/40/1020/41/3010"
             };
             Assert.Equal("S1/01/20170309/11/10201409/20/14000000/22/369 58/30/CH106017086/40/1020/41/3010",
-                    bill.BillInformation);
+                    bill.BillInformationText);
         }
 
         [Fact]

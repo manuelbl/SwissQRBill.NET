@@ -563,15 +563,15 @@ namespace Codecrete.SwissQRBill.Generator
             _reference = FormatReferenceNumber(_bill.Reference);
 
             string info = _bill.UnstructuredMessage;
-            if (_bill.BillInformation != null)
+            if (_bill.BillInformationText != null)
             {
                 if (info == null)
                 {
-                    info = _bill.BillInformation;
+                    info = _bill.BillInformationText;
                 }
                 else
                 {
-                    info = info + "\n" + _bill.BillInformation;
+                    info = info + "\n" + _bill.BillInformationText;
                 }
             }
             if (info != null)

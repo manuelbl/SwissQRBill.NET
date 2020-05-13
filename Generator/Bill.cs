@@ -177,10 +177,16 @@ namespace Codecrete.SwissQRBill.Generator
         public string UnstructuredMessage { get; set; }
 
         /// <summary>
-        /// Gets or sets the additional structured bill information.
+        /// Gets or sets the text containing the additional structured bill information.
         /// </summary>
-        /// <value>The structured bill information.</value>
-        public string BillInformation { get; set; }
+        /// <value>The structured bill information text.</value>
+        public string BillInformationText { get; set; }
+
+        /// <summary>
+        /// Gets or sets the billing information.
+        /// </summary>
+        /// <value>The structured billing information.</value>
+        public BillInformation BillInformation { get; set; }
 
         /// <summary>
         /// Gets ors sets the alternative payment schemes.
@@ -220,7 +226,7 @@ namespace Codecrete.SwissQRBill.Generator
                    Reference == other.Reference &&
                    EqualityComparer<Address>.Default.Equals(Debtor, other.Debtor) &&
                    UnstructuredMessage == other.UnstructuredMessage &&
-                   BillInformation == other.BillInformation &&
+                   BillInformationText == other.BillInformationText &&
                    SequenceEqual(AlternativeSchemes, other.AlternativeSchemes) &&
                    EqualityComparer<BillFormat>.Default.Equals(Format, other.Format);
         }
@@ -239,7 +245,7 @@ namespace Codecrete.SwissQRBill.Generator
             hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Reference);
             hashCode = hashCode * -1521134295 + EqualityComparer<Address>.Default.GetHashCode(Debtor);
             hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(UnstructuredMessage);
-            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(BillInformation);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(BillInformationText);
             hashCode = hashCode * -1521134295 + EqualityComparer<List<AlternativeScheme>>.Default.GetHashCode(AlternativeSchemes);
             hashCode = hashCode * -1521134295 + EqualityComparer<BillFormat>.Default.GetHashCode(Format);
             return hashCode;

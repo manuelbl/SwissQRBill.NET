@@ -151,7 +151,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
                 Debtor = debtor,
                 Reference = "210000000003139471430009017",
                 UnstructuredMessage = "Order dated 18.06.2020",
-                BillInformation =
+                BillInformationText =
                     "//S1/01/20170309/11/10201409/20/14000000/22/36958/30/CH106017086/40/1020/41/3010",
                 AlternativeSchemes = new List<AlternativeScheme>
                 {

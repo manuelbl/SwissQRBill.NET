@@ -182,7 +182,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         {
             SourceBill = SampleData.CreateExample1();
             SourceBill.UnstructuredMessage = null;
-            SourceBill.BillInformation = "//AA4567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789x";
+            SourceBill.BillInformationText = "//AA4567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789x";
             Validate();
             AssertSingleErrorMessage(ValidationConstants.FieldBillInformation, "field_value_too_long");
         }
@@ -191,7 +191,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         private void InvalidBillInformation1()
         {
             SourceBill = SampleData.CreateExample1();
-            SourceBill.BillInformation = "ABCD";
+            SourceBill.BillInformationText = "ABCD";
             Validate();
             AssertSingleErrorMessage(ValidationConstants.FieldBillInformation, "bill_info_invalid");
         }
@@ -200,7 +200,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         private void InvalidBillInformation2()
         {
             SourceBill = SampleData.CreateExample1();
-            SourceBill.BillInformation = "//A";
+            SourceBill.BillInformationText = "//A";
             Validate();
             AssertSingleErrorMessage(ValidationConstants.FieldBillInformation, "bill_info_invalid");
         }
@@ -209,7 +209,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         private void TooLongAdditionalInfo()
         {
             SourceBill = SampleData.CreateExample6();
-            Assert.Equal(140, SourceBill.UnstructuredMessage.Length + SourceBill.BillInformation.Length);
+            Assert.Equal(140, SourceBill.UnstructuredMessage.Length + SourceBill.BillInformationText.Length);
             SourceBill.UnstructuredMessage = SourceBill.UnstructuredMessage + "A";
             Validate();
 

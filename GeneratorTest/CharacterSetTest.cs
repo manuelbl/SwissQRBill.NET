@@ -109,10 +109,10 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         private void BillInfoReplacement()
         {
             SourceBill = SampleData.CreateExample1();
-            SourceBill.BillInformation = "//AZ/400€/123";
+            SourceBill.BillInformationText = "//AZ/400€/123";
             Validate();
             AssertSingleWarningMessage(ValidationConstants.FieldBillInformation, "replaced_unsupported_characters");
-            Assert.Equal("//AZ/400./123", ValidatedBill.BillInformation);
+            Assert.Equal("//AZ/400./123", ValidatedBill.BillInformationText);
         }
 
         [Fact]

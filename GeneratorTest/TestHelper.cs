@@ -51,9 +51,9 @@ namespace Codecrete.SwissQRBill.GeneratorTest
                 bill.UnstructuredMessage = ""; // replace null with empty string
             }
 
-            if (bill.BillInformation == null)
+            if (bill.BillInformationText == null)
             {
-                bill.BillInformation = ""; // replace null with empty string
+                bill.BillInformationText = ""; // replace null with empty string
             }
 
             if (bill.AlternativeSchemes != null)

@@ -65,7 +65,7 @@ namespace Codecrete.SwissQRBill.Generator
             // AddInf
             AppendDataField(_bill.UnstructuredMessage); // Unstrd
             AppendDataField("EPD"); // Trailer
-            AppendDataField(_bill.BillInformation); // StrdBkgInf
+            AppendDataField(_bill.BillInformationText); // StrdBkgInf
 
             // AltPmtInf
             if (_bill.AlternativeSchemes != null && _bill.AlternativeSchemes.Count > 0)
@@ -131,7 +131,7 @@ namespace Codecrete.SwissQRBill.Generator
         /// <exception cref="QRBillValidationException">The text is in an invalid format.</exception>
         public static Bill Decode(string text)
         {
-            string[] lines = SplitLines(text);
+            var lines = SplitLines(text);
             if (lines.Length < 31 || lines.Length > 34)
             {
                 // A line feed at the end is illegal (cf 4.2.3) but found in practice. Don't be too strict.
@@ -156,7 +156,7 @@ namespace Codecrete.SwissQRBill.Generator
                 ThrowSingleValidationError(ValidationConstants.FieldCodingType, ValidationConstants.KeySupportedCodingType);
             }
 
-            Bill billData = new Bill
+            var billData = new Bill
             {
                 Version = Bill.QrBillStandardVersion.V2_0,
 
@@ -195,7 +195,12 @@ namespace Codecrete.SwissQRBill.Generator
                 ThrowSingleValidationError(ValidationConstants.FieldTrailer, ValidationConstants.KeyValidDataStructure);
             }
 
-            billData.BillInformation = lines.Length > 31 ? lines[31] : "";
+            billData.BillInformationText = lines.Length > 31 ? lines[31] : "";
+
+            if (billData.BillInformationText.Length > 0)
+            {
+                billData.BillInformation = BillInformation.DecodeBillInformationText(billData.BillInformationText);
+            }
 
             List<AlternativeScheme> alternativeSchemes = null;
             int numSchemes = lines.Length - 32;

@@ -201,7 +201,7 @@ namespace Codecrete.SwissQRBill.Generator
 
         private void ValidateAdditionalInformation()
         {
-            string billInformation = _billIn.BillInformation.Trimmed();
+            string billInformation = _billIn.BillInformationText.Trimmed();
             string unstructuredMessage = _billIn.UnstructuredMessage.Trimmed();
 
             if (billInformation != null && (!billInformation.StartsWith("//") || billInformation.Length < 4))
@@ -226,7 +226,7 @@ namespace Codecrete.SwissQRBill.Generator
                 billInformation = CleanedValue(billInformation, ValidationConstants.FieldBillInformation);
                 if (ValidateLength(billInformation, 140, ValidationConstants.FieldBillInformation))
                 {
-                    _billOut.BillInformation = billInformation;
+                    _billOut.BillInformationText = billInformation;
                 }
             }
             else
@@ -243,7 +243,7 @@ namespace Codecrete.SwissQRBill.Generator
                 else
                 {
                     _billOut.UnstructuredMessage = unstructuredMessage;
-                    _billOut.BillInformation = billInformation;
+                    _billOut.BillInformationText = billInformation;
                 }
             }
         }
