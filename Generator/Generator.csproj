@@ -16,15 +16,12 @@
 - Fix invalid translations of "Zahlteil" (payment part)
 - Example for using it with PDFsharp
 
-New in release 2.2.1:
+New in releases 2.2.x:
 - Fixed vertical position of QR code
-
-New in release 2.2.2:
 - New output size for QR bill with horizontal separator line
-
-New in release 2.3:
-- Fix typo in "Information supplémentaires"</PackageReleaseNotes>
-    <Version>2.2.3</Version>
+- Fix typo in "Information supplémentaires"
+- New field for reference type (useful for parsing QR code text)</PackageReleaseNotes>
+    <Version>2.2.4</Version>
     <Description>Library to generate the new QR bill used for invoicing in Switzerland (starting in mid 2020).
 
 The Swiss QR bill library:
