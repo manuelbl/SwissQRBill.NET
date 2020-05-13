@@ -51,5 +51,27 @@ namespace Codecrete.SwissQRBill.GeneratorTest
             byte[] svg = QRBill.Generate(bill);
             FileComparison.AssertFileContentsEqual(svg, "qrcode_ex4.svg");
         }
+
+        [Fact]
+        private void DecodeQrCodeText_QRBillWithoutBillingInformation_BillingInfoIsNull()
+        {
+            var bill = SampleData.CreateExample4();
+            TestHelper.NormalizeSourceBill(bill);
+
+            var decodedBill = QRBill.DecodeQrCodeText(QRBill.EncodeQrCodeText(bill));
+
+            Assert.Null(decodedBill.BillInformation);
+        }
+
+        [Fact]
+        private void DecodeQrCodeText_QRBillWithBillingInformation_BillingIsNotNull()
+        {
+            var bill = SampleData.CreateExample1();
+            TestHelper.NormalizeSourceBill(bill);
+
+            var decodedBill = QRBill.DecodeQrCodeText(QRBill.EncodeQrCodeText(bill));
+
+            Assert.NotNull(decodedBill.BillInformation);
+        }
     }
 }
