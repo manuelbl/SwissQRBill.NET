@@ -183,6 +183,37 @@ namespace Codecrete.SwissQRBill.Generator
         public string BillInformation { get; set; }
 
         /// <summary>
+        /// Sets the bill information according to Swico S1 syntax from the specified structured bill information.
+        /// <para>
+        /// Set the <see cref="BillInformation"/> property to a value similar to <c>//S1/10/...</c>.
+        /// </para>
+        /// </summary>
+        /// <param name="billInformation">structured bill information</param>
+        public void SetSwicoBillInformation(SwicoBillInformation billInformation)
+        {
+            BillInformation = billInformation.EncodeAsText();
+        }
+
+        /// <summary>
+        /// Retrieves the Swico structured bill information from the text in bill information property.
+        /// <para>
+        /// If <see cref="BillInformation"/> contains valid Swico S1 bill information, the
+        /// result is returned in a <see cref="SwicoBillInformation"/> instance. If it does
+        /// not conform to the syntax, an exception is thrown.
+        /// </para>
+        /// </summary>
+        /// <returns>structured bill information</returns>
+        /// <exception cref="SwicoDecodingException">bill information does not conform to Swico S1 syntax.</exception>
+        /// <remarks>
+        /// The bill information property likely contains structured bill information if it starts with <c>//S1/</c>.
+        /// Structured bill information is not validated unless this method is called.
+        /// </remarks>
+        public SwicoBillInformation RetrieveSwicoBillInformation()
+        {
+            return SwicoBillInformation.DecodeText(BillInformation);
+        }
+
+        /// <summary>
         /// Gets ors sets the alternative payment schemes.
         /// <para>
         /// A maximum of two schemes with parameters are allowed.

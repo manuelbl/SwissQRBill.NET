@@ -123,6 +123,46 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
+        private void SetSwicoBillInfo()
+        {
+            Bill bill = CreateBill();
+            bill.SetSwicoBillInformation(new SwicoBillInformation
+            {
+                InvoiceNumber = "ABC-293234",
+                CustomerReference = "234.2343-094",
+                VatRate = 8m
+            });
+            Assert.Equal("//S1/10/ABC-293234/20/234.2343-094/32/8", bill.BillInformation);
+        }
+
+        [Fact]
+        private void RetrieveSwicoBillInfo()
+        {
+            Bill bill = CreateBill();
+            bill.BillInformation = "//S1/10/ABC-293234/20/234.2343-094/32/8";
+            SwicoBillInformation billInfo = bill.RetrieveSwicoBillInformation();
+            Assert.Equal(new SwicoBillInformation
+            {
+                InvoiceNumber = "ABC-293234",
+                CustomerReference = "234.2343-094",
+                VatRate = 8m
+            },
+                billInfo);
+        }
+
+        [Fact]
+        private void RetrieveSwicoBillInfo_ThrowException()
+        {
+            Bill bill = CreateBill();
+            bill.BillInformation = "//S2/10234234234";
+
+            var exception = Record.Exception(() => bill.RetrieveSwicoBillInformation());
+
+            Assert.NotNull(exception);
+            Assert.IsType<SwicoDecodingException>(exception);
+        }
+
+        [Fact]
         private void SetAlternativeScheme()
         {
             Bill bill = new Bill
