@@ -18,7 +18,7 @@ namespace Codecrete.SwissQRBill.Generator
     /// The encoded bill information can be found in a Swiss QR bill in th field <c>StrdBkgInf</c>.
     /// </para>
     /// <para>
-    /// Also see see http://swiss-qr-invoice.org/downloads/qr-bill-s1-syntax-de.pdf
+    /// Also see http://swiss-qr-invoice.org/downloads/qr-bill-s1-syntax-de.pdf
     /// </para>
     /// </summary>
     internal static class SwicoS1Decoder
@@ -255,7 +255,7 @@ namespace Codecrete.SwissQRBill.Generator
         /// <para>
         /// Additionally, the escaping with back slashes is undone.
         /// </para>
-        /// <param name="text"></param>
+        /// <param name="text">The text to split.</param>
         /// <returns>An array of substrings</returns>
         private static string[] Split(string text)
         {

@@ -42,6 +42,12 @@ namespace Codecrete.SwissQRBill.GeneratorTest
             Assert.Equal(SwicoExamples.CreateExample4(), billInformation);
         }
 
+        [Fact]
+        public void NullValue_ReturnsNull()
+        {
+            Assert.Null(SwicoBillInformation.DecodeText(null));
+        }
+
         [Theory]
         [InlineData("//S1/10//11//20//30/")]
         [InlineData("//S1/")]
@@ -171,6 +177,8 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         [InlineData("//S1/10/10201409/31/1905213")]
         [InlineData("//S1/10/10201409/31/1905211905232")]
         [InlineData("//S1/10/10201409/31/19052119052 ")]
+        [InlineData("//S1/10/10201409/31/190500190531")]
+        [InlineData("//S1/10/10201409/31/190501190532")]
         public void InvalidVatDates_IsIgnored(string rawBillInformation)
         {
             SwicoBillInformation billInformation = SwicoBillInformation.DecodeText(rawBillInformation);

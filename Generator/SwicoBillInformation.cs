@@ -38,9 +38,9 @@ namespace Codecrete.SwissQRBill.Generator
         public string CustomerReference { get; set; }
 
         /// <summary>
-        /// Gets or sets the UID number.
+        /// Gets or sets the invoicing party's VAT number.
         /// <para>
-        /// The number without any prefix, white space, separator or suffix, i.e. 106017086 instead of "CHE-106.017.086 MWST".
+        /// The number without any prefix, white space, separator or suffix, i.e. "106017086" instead of "CHE-106.017.086 MWST".
         /// </para>
         /// </summary>
         public string VatNumber { get; set; }
@@ -115,12 +115,12 @@ namespace Codecrete.SwissQRBill.Generator
         /// <summary>
         /// Gets or sets the payment conditions.
         /// <para>
-        /// Each element in the list is a tuple of a payment discount (in percent) and a deadliine
+        /// Each element in the list is a tuple of a payment discount (in percent) and a deadline
         /// (in days from the invoice date).
         /// </para>
         /// </summary>
         /// <example>
-        /// If the list contained (2, 10), (0, 60), a discount of 2% aplies if the payment is made
+        /// If the list contained (2, 10), (0, 60), a discount of 2% applies if the payment is made
         /// by 10 days after invoice data. The payment is due 60 days after invoice date.
         /// </example>
         public List<(decimal, int)> PaymentConditions { get; set; }
@@ -128,7 +128,7 @@ namespace Codecrete.SwissQRBill.Generator
         /// <summary>
         /// Gets the due date.
         /// <para>
-        /// The due date is calculated from the payment condition with a discount of 0.
+        /// The due date is calculated from the invoice date and the payment condition with a discount of 0.
         /// </para>
         /// </summary>
         public DateTime? DueDate

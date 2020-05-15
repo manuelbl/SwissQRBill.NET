@@ -15,10 +15,10 @@ namespace Codecrete.SwissQRBill.Generator
     /// <summary>
     /// Encodes structured bill information according to Swico S1 syntax.
     /// <para>
-    /// The encoded bill information can be used in a Swiss QR bill in th field <c>StrdBkgInf</c>.
+    /// The encoded bill information can be used in a Swiss QR bill in the field <c>StrdBkgInf</c>.
     /// </para>
     /// <para>
-    /// Also see see http://swiss-qr-invoice.org/downloads/qr-bill-s1-syntax-de.pdf
+    /// Also see http://swiss-qr-invoice.org/downloads/qr-bill-s1-syntax-de.pdf
     /// </para>
     /// </summary>
     internal static class SwicoS1Encoder
@@ -28,7 +28,7 @@ namespace Codecrete.SwissQRBill.Generator
         /// </summary>
         /// <param name="billInfo">The bill information.</param>
         /// <returns>The encoded bill information text.</returns>
-        internal static String Encode(SwicoBillInformation billInfo)
+        internal static string Encode(SwicoBillInformation billInfo)
         {
             StringBuilder sb = new StringBuilder();
 
@@ -48,7 +48,7 @@ namespace Codecrete.SwissQRBill.Generator
             }
             if (billInfo.VatNumber != null)
             {
-                sb.Append("/30/").Append(billInfo.VatNumber);
+                sb.Append("/30/").Append(EscapedText(billInfo.VatNumber));
             }
             if (billInfo.VatDate != null)
             {
@@ -80,7 +80,7 @@ namespace Codecrete.SwissQRBill.Generator
                 AppendTupleList(sb, billInfo.PaymentConditions);
             }
 
-            return sb.ToString();
+            return sb.Length > 4 ? sb.ToString() : null;
         }
 
         private static string EscapedText(string text)

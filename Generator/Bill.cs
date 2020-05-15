@@ -148,7 +148,7 @@ namespace Codecrete.SwissQRBill.Generator
 
         /// <summary>
         /// Creates and sets a ISO11649 creditor reference from a raw string by prefixing
-        /// the String with "RF" and the modulo 97 checksum.
+        /// the string with "RF" and the modulo 97 checksum.
         /// <para>
         /// Whitespace is removed from the reference
         /// </para>

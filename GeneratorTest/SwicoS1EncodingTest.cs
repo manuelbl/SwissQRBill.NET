@@ -86,5 +86,24 @@ namespace Codecrete.SwissQRBill.GeneratorTest
                 "//S1/10/10201409/11/190512/20/1400.000-53/30/106017086/31/180508/32/7.7/40/2:10;0:30",
                 text);
         }
+
+        [Fact]
+        public void NoValidData_ReturnsNull()
+        {
+            var info = new SwicoBillInformation();
+            Assert.Null(info.EncodeAsText());
+
+            info.VatStartDate = new DateTime(2020, 8, 12);
+            Assert.Null(info.EncodeAsText());
+
+            info.VatStartDate = null;
+            info.VatEndDate = new DateTime(2020, 8, 12);
+            Assert.Null(info.EncodeAsText());
+
+            info.VatRateDetails = new List<(decimal, decimal)>();
+            info.VatImportTaxes = new List<(decimal, decimal)>();
+            info.PaymentConditions = new List<(decimal, int)>();
+            Assert.Null(info.EncodeAsText());
+        }
     }
 }

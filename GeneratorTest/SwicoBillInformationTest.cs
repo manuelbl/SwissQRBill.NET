@@ -132,7 +132,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        public void GetDueDate()
+        public void DueDate_IsValid()
         {
             SwicoBillInformation billInformation = new SwicoBillInformation
             {
@@ -143,13 +143,35 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
+        public void DueDate_IsNull()
+        {
+            SwicoBillInformation billInformation = new SwicoBillInformation();
+            Assert.Null(billInformation.DueDate);
+
+            billInformation.InvoiceDate = new DateTime(2020, 6, 30);
+            Assert.Null(billInformation.DueDate);
+
+            billInformation.PaymentConditions = new List<(decimal, int)>();
+            Assert.Null(billInformation.DueDate);
+
+            billInformation.InvoiceDate = null;
+            Assert.Null(billInformation.DueDate);
+
+            billInformation.InvoiceDate = new DateTime(2020, 6, 30);
+            Assert.Null(billInformation.DueDate);
+
+            billInformation.PaymentConditions = new List<(decimal, int)> { (2m, 10) };
+            Assert.Null(billInformation.DueDate);
+        }
+
+        [Fact]
         public void TestEqualsTrivial()
         {
             SwicoBillInformation info = new SwicoBillInformation();
             Assert.Equal(info, info);
 
             SwicoBillInformation nullBill = null;
-            Assert.NotEqual(info, nullBill);
+            Assert.NotEqual(nullBill, info);
             Assert.NotEqual((object)"xxx", info);
         }
 
