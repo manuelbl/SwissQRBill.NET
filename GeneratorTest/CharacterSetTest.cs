@@ -16,14 +16,14 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         private static readonly string TextWithCombiningAccents = "àáâäçèéêëìíîïñòóôöùúûüýßÀÁÂÄÇÈÉÊËÌÍÎÏÒÓÔÖÙÚÛÜÑ";
 
         [Fact]
-        private void VerifyTestData()
+        public void VerifyTestData()
         {
             Assert.Equal(46, TextWithoutCombiningAccents.Length);
             Assert.Equal(59, TextWithCombiningAccents.Length);
         }
 
         [Fact]
-        private void ValidLetters()
+        public void ValidLetters()
         {
             SourceBill = SampleData.CreateExample1();
             Address address = CreateValidPerson();
@@ -35,7 +35,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void ValidSpecialChars()
+        public void ValidSpecialChars()
         {
             SourceBill = SampleData.CreateExample1();
 
@@ -48,7 +48,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void ValidAccents()
+        public void ValidAccents()
         {
             SourceBill = SampleData.CreateExample1();
             Address address = CreateValidPerson();
@@ -60,7 +60,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void ValidCombiningAccents()
+        public void ValidCombiningAccents()
         {
             SourceBill = SampleData.CreateExample1();
             Address address = CreateValidPerson();
@@ -72,7 +72,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void NewlineReplacement()
+        public void NewlineReplacement()
         {
             SourceBill = SampleData.CreateExample1();
             Address address = CreateValidPerson();
@@ -84,7 +84,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void InvalidCharacterReplacement()
+        public void InvalidCharacterReplacement()
         {
             SourceBill = SampleData.CreateExample1();
             Address address = CreateValidPerson();
@@ -96,7 +96,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void UnstructuredMessageReplacement()
+        public void UnstructuredMessageReplacement()
         {
             SourceBill = SampleData.CreateExample1();
             SourceBill.UnstructuredMessage = "Thanks 🙏 Lisa";
@@ -106,7 +106,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void BillInfoReplacement()
+        public void BillInfoReplacement()
         {
             SourceBill = SampleData.CreateExample1();
             SourceBill.BillInformation = "//AZ/400€/123";
@@ -116,7 +116,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void ReplacedSurrogatePair()
+        public void ReplacedSurrogatePair()
         {
             SourceBill = SampleData.CreateExample1();
             Address address = CreateValidPerson();
@@ -128,7 +128,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void TwoReplacedConsecutiveSurrogatePairs()
+        public void TwoReplacedConsecutiveSurrogatePairs()
         {
             SourceBill = SampleData.CreateExample1();
             Address address = CreateValidPerson();
@@ -140,7 +140,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void TwoReplacedSuggoratePairsWithWhitespace()
+        public void TwoReplacedSuggoratePairsWithWhitespace()
         {
             SourceBill = SampleData.CreateExample1();
             Address address = CreateValidPerson();
@@ -153,7 +153,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
 
         [Theory]
         [MemberData(nameof(InvalidCharList))]
-        private void InvalidChars(string invalidChar)
+        public void InvalidChars(string invalidChar)
         {
             SourceBill = SampleData.CreateExample1();
             Address address = CreateValidPerson();

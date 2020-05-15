@@ -14,7 +14,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
     {
 
         [Fact]
-        private void DefaultConstructorTest()
+        public void DefaultConstructorTest()
         {
             AlternativeScheme scheme = new AlternativeScheme();
             Assert.Null(scheme.Name);
@@ -22,7 +22,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void ConstructorTest()
+        public void ConstructorTest()
         {
             AlternativeScheme scheme = new AlternativeScheme { Name = "Paymit", Instruction = "PM,12341234,1241234" };
             Assert.Equal("Paymit", scheme.Name);
@@ -30,7 +30,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void TestEqualsTrivial()
+        public void TestEqualsTrivial()
         {
             AlternativeScheme scheme = new AlternativeScheme { Name = "Paymit", Instruction = "PM,12341234,1241234" };
             Assert.Equal(scheme, scheme);
@@ -40,7 +40,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void TestEquals()
+        public void TestEquals()
         {
             AlternativeScheme scheme1 = new AlternativeScheme { Name = "Paymit", Instruction = "PM,12341234,1241234" };
             AlternativeScheme scheme2 = new AlternativeScheme { Name = "Paymit", Instruction = "PM,12341234,1241234" };
@@ -52,7 +52,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void TestHashCode()
+        public void TestHashCode()
         {
             AlternativeScheme scheme1 = new AlternativeScheme { Name = "Paymit", Instruction = "PM,12341234,1241234" };
             AlternativeScheme scheme2 = new AlternativeScheme { Name = "Paymit", Instruction = "PM,12341234,1241234" };

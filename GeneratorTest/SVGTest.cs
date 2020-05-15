@@ -15,7 +15,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
     public class SVGTest
     {
         [Fact]
-        private void SvgWithChallengingCharacters()
+        public void SvgWithChallengingCharacters()
         {
             Bill bill = SampleData.CreateExample1();
             bill.UnstructuredMessage = "<h1>&&\"ff\"'t'";
@@ -26,7 +26,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void SvgWriteTo()
+        public void SvgWriteTo()
         {
             Bill bill = SampleData.CreateExample1();
             using (SVGCanvas canvas =
@@ -39,7 +39,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void SvgSaveAs()
+        public void SvgSaveAs()
         {
             Bill bill = SampleData.CreateExample2();
             using (SVGCanvas canvas =

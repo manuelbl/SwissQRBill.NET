@@ -14,7 +14,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
     public class BillTest
     {
         [Fact]
-        private void SetVersion()
+        public void SetVersion()
         {
             Bill bill = new Bill
             {
@@ -24,7 +24,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void SetAmount()
+        public void SetAmount()
         {
             Bill bill = new Bill
             {
@@ -34,7 +34,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void SetCurrency()
+        public void SetCurrency()
         {
             Bill bill = new Bill
             {
@@ -44,7 +44,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void SetAccount()
+        public void SetAccount()
         {
             Bill bill = new Bill
             {
@@ -54,7 +54,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void SetCreditor()
+        public void SetCreditor()
         {
             Bill bill = new Bill();
             Address address = CreateAddress();
@@ -64,7 +64,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void SetReference()
+        public void SetReference()
         {
             Bill bill = new Bill
             {
@@ -75,7 +75,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void CreateCreditorReference()
+        public void CreateCreditorReference()
         {
             Bill bill = new Bill();
             bill.CreateAndSetCreditorReference("ABCD3934803");
@@ -84,15 +84,17 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void SetReferenceType()
+        public void SetReferenceType()
         {
-            Bill bill = new Bill();
-            bill.ReferenceType = Bill.ReferenceTypeCredRef;
+            Bill bill = new Bill
+            {
+                ReferenceType = Bill.ReferenceTypeCredRef
+            };
             Assert.Equal(Bill.ReferenceTypeCredRef, bill.ReferenceType);
         }
 
         [Fact]
-        private void SetUnstructuredMessage()
+        public void SetUnstructuredMessage()
         {
             Bill bill = new Bill
             {
@@ -102,7 +104,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void SetDebtor()
+        public void SetDebtor()
         {
             Bill bill = new Bill();
             Address address = CreateAddress();
@@ -112,7 +114,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void SetBillInformation()
+        public void SetBillInformation()
         {
             Bill bill = new Bill
             {
@@ -123,7 +125,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void SetSwicoBillInfo()
+        public void SetSwicoBillInfo()
         {
             Bill bill = CreateBill();
             bill.SetSwicoBillInformation(new SwicoBillInformation
@@ -136,7 +138,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void RetrieveSwicoBillInfo()
+        public void RetrieveSwicoBillInfo()
         {
             Bill bill = CreateBill();
             bill.BillInformation = "//S1/10/ABC-293234/20/234.2343-094/32/8";
@@ -151,7 +153,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void RetrieveInvalidSwicoBillInfo()
+        public void RetrieveInvalidSwicoBillInfo()
         {
             Bill bill = CreateBill();
             bill.BillInformation = "//S2/10234234234";
@@ -159,7 +161,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void SetAlternativeScheme()
+        public void SetAlternativeScheme()
         {
             Bill bill = new Bill
             {
@@ -169,7 +171,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void TestEqualsTrivial()
+        public void TestEqualsTrivial()
         {
             Bill bill = new Bill();
             Assert.Equal(bill, bill);
@@ -179,7 +181,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void TestEquals()
+        public void TestEquals()
         {
             Bill bill1 = CreateBill();
             Bill bill2 = CreateBill();
@@ -191,7 +193,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void TestHashCode()
+        public void TestHashCode()
         {
             Bill bill1 = CreateBill();
             Bill bill2 = CreateBill();

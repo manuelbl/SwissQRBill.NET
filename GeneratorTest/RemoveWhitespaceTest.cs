@@ -14,98 +14,98 @@ namespace Codecrete.SwissQRBill.GeneratorTest
     public class RemoveWhitespaceTest
     {
         [Fact]
-        private void EmptyString()
+        public void EmptyString()
         {
             Assert.Equal("", "".WhiteSpaceRemoved());
         }
 
         [Fact]
-        private void OneSpace()
+        public void OneSpace()
         {
             Assert.Equal("", " ".WhiteSpaceRemoved());
         }
 
         [Fact]
-        private void SeveralSpaces()
+        public void SeveralSpaces()
         {
             Assert.Equal("", "   ".WhiteSpaceRemoved());
         }
 
         [Fact]
-        private void NoWhitespace()
+        public void NoWhitespace()
         {
             Assert.Equal("abcd", "abcd".WhiteSpaceRemoved());
         }
 
         [Fact]
-        private void LeadingSpace()
+        public void LeadingSpace()
         {
             Assert.Equal("fggh", " fggh".WhiteSpaceRemoved());
         }
 
         [Fact]
-        private void MultipleLeadingSpaces()
+        public void MultipleLeadingSpaces()
         {
             Assert.Equal("jklm", "   jklm".WhiteSpaceRemoved());
         }
 
         [Fact]
-        private void TrailingSpace()
+        public void TrailingSpace()
         {
             Assert.Equal("nppo", "nppo ".WhiteSpaceRemoved());
         }
 
         [Fact]
-        private void MultipleTrailingSpaces()
+        public void MultipleTrailingSpaces()
         {
             Assert.Equal("qrs", "qrs    ".WhiteSpaceRemoved());
         }
 
         [Fact]
-        private void LeadingAndTrailingSpaces()
+        public void LeadingAndTrailingSpaces()
         {
             Assert.Equal("guj", " guj    ".WhiteSpaceRemoved());
         }
 
         [Fact]
-        private void SingleSpace()
+        public void SingleSpace()
         {
             Assert.Equal("abde", "ab de".WhiteSpaceRemoved());
         }
 
         [Fact]
-        private void MultipleSpaces()
+        public void MultipleSpaces()
         {
             Assert.Equal("cdef", "cd    ef".WhiteSpaceRemoved());
         }
 
         [Fact]
-        private void MultipleGroupsOfSpaces()
+        public void MultipleGroupsOfSpaces()
         {
             Assert.Equal("ghijkl", "gh ij  kl".WhiteSpaceRemoved());
         }
 
         [Fact]
-        private void LeadingAndMultipleGroupsOfSpaces()
+        public void LeadingAndMultipleGroupsOfSpaces()
         {
             Assert.Equal("opqrst", "  op   qr s t".WhiteSpaceRemoved());
         }
 
         [Fact]
-        private void LeadingAndTrailingAndMultipleGroupsOfSpaces()
+        public void LeadingAndTrailingAndMultipleGroupsOfSpaces()
         {
             Assert.Equal("uvxyz", " uv x  y z  ".WhiteSpaceRemoved());
         }
 
         [Fact]
-        private void CopyAvoidance()
+        public void CopyAvoidance()
         {
             string value = "qwerty";
             Assert.Same(value, value.WhiteSpaceRemoved());
         }
 
         [Fact]
-        private void NullString()
+        public void NullString()
         {
             Assert.Throws<NullReferenceException>(() => ((string)null).WhiteSpaceRemoved());
         }

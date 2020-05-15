@@ -16,7 +16,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
     public class SwicoS1EncodingTest
     {
         [Fact]
-        private void EncodeExample1()
+        public void EncodeExample1()
         {
             SwicoBillInformation billInfo = SwicoExamples.CreateExample1();
             string text = billInfo.EncodeAsText();
@@ -24,7 +24,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void EncodeExample2()
+        public void EncodeExample2()
         {
             SwicoBillInformation billInfo = SwicoExamples.CreateExample2();
             string text = billInfo.EncodeAsText();
@@ -32,7 +32,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void EncodeExample3()
+        public void EncodeExample3()
         {
             SwicoBillInformation billInfo = SwicoExamples.CreateExample3();
             string text = billInfo.EncodeAsText();
@@ -40,7 +40,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void EncodeExample4()
+        public void EncodeExample4()
         {
             SwicoBillInformation billInfo = SwicoExamples.CreateExample3();
             string text = billInfo.EncodeAsText();
@@ -48,7 +48,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void EncodeTextWithBackslash()
+        public void EncodeTextWithBackslash()
         {
             SwicoBillInformation billInfo = new SwicoBillInformation
             {
@@ -67,7 +67,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void EncodeEmptyList()
+        public void EncodeEmptyList()
         {
             SwicoBillInformation billInfo = new SwicoBillInformation
             {

@@ -13,7 +13,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
     public class BarelyAcceptableQrCodeTest
     {
         [Fact]
-        private void WithoutAlternativeSchemes()
+        public void WithoutAlternativeSchemes()
         {
             Bill bill = SampleData.CreateExample2();
             TestHelper.NormalizeSourceBill(bill);
@@ -23,7 +23,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void WithAlternativeSchemes()
+        public void WithAlternativeSchemes()
         {
             Bill bill = SampleData.CreateExample1();
             TestHelper.NormalizeSourceBill(bill);
@@ -33,7 +33,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void InvalidLineFeed()
+        public void InvalidLineFeed()
         {
             Bill bill = SampleData.CreateExample1();
             TestHelper.NormalizeSourceBill(bill);
@@ -44,7 +44,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void TooManyLines()
+        public void TooManyLines()
         {
             Bill bill = SampleData.CreateExample1();
             TestHelper.NormalizeSourceBill(bill);
@@ -55,7 +55,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void NoNLAfterEPD()
+        public void NoNLAfterEPD()
         {
             Bill bill = SampleData.CreateExample2();
             TestHelper.NormalizeSourceBill(bill);
@@ -69,7 +69,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void TooFewLines()
+        public void TooFewLines()
         {
             Bill bill = SampleData.CreateExample2();
             bill.UnstructuredMessage = null;

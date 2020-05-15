@@ -14,7 +14,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
     {
 
         [Fact]
-        private void MaximumNameLength()
+        public void MaximumNameLength()
         {
             SourceBill = SampleData.CreateExample1();
             Address address = CreateValidPerson();
@@ -27,7 +27,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void ClippedName()
+        public void ClippedName()
         {
             SourceBill = SampleData.CreateExample1();
             Address address = CreateValidPerson();
@@ -40,7 +40,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void MaximumStreetLength()
+        public void MaximumStreetLength()
         {
             SourceBill = SampleData.CreateExample1();
             Address address = CreateValidPerson();
@@ -53,7 +53,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void ClippedStreet()
+        public void ClippedStreet()
         {
             SourceBill = SampleData.CreateExample1();
             Address address = CreateValidPerson();
@@ -66,7 +66,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void MaximumHouseNoLength()
+        public void MaximumHouseNoLength()
         {
             SourceBill = SampleData.CreateExample1();
             Address address = CreateValidPerson();
@@ -78,7 +78,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void ClippedHouseNo()
+        public void ClippedHouseNo()
         {
             SourceBill = SampleData.CreateExample1();
             Address address = CreateValidPerson();
@@ -90,7 +90,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void MaximumPostalCodeLength()
+        public void MaximumPostalCodeLength()
         {
             SourceBill = SampleData.CreateExample1();
             Address address = CreateValidPerson();
@@ -102,7 +102,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void ClippedPostalCode()
+        public void ClippedPostalCode()
         {
             SourceBill = SampleData.CreateExample1();
             Address address = CreateValidPerson();
@@ -114,7 +114,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void MaximumTownLength()
+        public void MaximumTownLength()
         {
             SourceBill = SampleData.CreateExample1();
             Address address = CreateValidPerson();
@@ -126,7 +126,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void ClippedTown()
+        public void ClippedTown()
         {
             SourceBill = SampleData.CreateExample1();
             Address address = CreateValidPerson();

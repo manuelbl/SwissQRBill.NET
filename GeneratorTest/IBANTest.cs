@@ -13,85 +13,85 @@ namespace Codecrete.SwissQRBill.GeneratorTest
     public class IBANTest
     {
         [Fact]
-        private void Valid()
+        public void Valid()
         {
             Assert.True(Payments.IsValidIban("FR7630066100410001057380116"));
         }
 
         [Fact]
-        private void ValidWithSpaces()
+        public void ValidWithSpaces()
         {
             Assert.True(Payments.IsValidIban("FR76 3006 6100 4100 0105 7380 116"));
         }
 
         [Fact]
-        private void ValidWithTrailingAndLeadingSpaces()
+        public void ValidWithTrailingAndLeadingSpaces()
         {
             Assert.True(Payments.IsValidIban(" DE12500105170648489890 "));
         }
 
         [Fact]
-        private void ValidWithLowercase()
+        public void ValidWithLowercase()
         {
             Assert.True(Payments.IsValidIban("MT98mmeb44093000000009027293051"));
         }
 
         [Fact]
-        private void TooShort()
+        public void TooShort()
         {
             Assert.False(Payments.IsValidIban("CH04"));
         }
 
         [Fact]
-        private void TooShortWithSpaces()
+        public void TooShortWithSpaces()
         {
             Assert.False(Payments.IsValidIban("CH 04"));
         }
 
         [Fact]
-        private void InvalidChars()
+        public void InvalidChars()
         {
             Assert.False(Payments.IsValidIban("SE64-1200-0000-0121-7014-5230"));
         }
 
         [Fact]
-        private void InvalidCountryCodeOnPos1()
+        public void InvalidCountryCodeOnPos1()
         {
             Assert.False(Payments.IsValidIban("0K9311110000001057361004"));
         }
 
         [Fact]
-        private void InvalidCountryCodeOnPos2()
+        public void InvalidCountryCodeOnPos2()
         {
             Assert.False(Payments.IsValidIban("S 056031001001300933"));
         }
 
         [Fact]
-        private void InvalidCheckDigitOnPos3()
+        public void InvalidCheckDigitOnPos3()
         {
             Assert.False(Payments.IsValidIban(" GBF2ESSE40486562136016"));
         }
 
         [Fact]
-        private void InvalidCheckDigitOnPos4()
+        public void InvalidCheckDigitOnPos4()
         {
             Assert.False(Payments.IsValidIban("FR7A30066100410001057380116"));
         }
 
         [Fact]
-        private void InvalidChecksum()
+        public void InvalidChecksum()
         {
             Assert.False(Payments.IsValidIban("DK5650510001322617"));
         }
 
         [Fact]
-        private void FormatIban1()
+        public void FormatIban1()
         {
             Assert.Equal("BE68 8440 1037 0034", Payments.FormatIban("BE68844010370034"));
         }
 
         [Fact]
-        private void FormatIban2()
+        public void FormatIban2()
         {
             Assert.Equal("IT68 D030 0203 2800 0040 0162 854", Payments.FormatIban("IT68D0300203280000400162854"));
         }

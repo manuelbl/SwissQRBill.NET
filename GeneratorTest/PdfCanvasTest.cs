@@ -15,7 +15,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
     public class PdfCanvasTest
     {
         [Fact]
-        private void PdfWriteTo()
+        public void PdfWriteTo()
         {
             Bill bill = SampleData.CreateExample3();
             using (PDFCanvas canvas =
@@ -28,7 +28,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void PdfSaveAs()
+        public void PdfSaveAs()
         {
             Bill bill = SampleData.CreateExample4();
             using (PDFCanvas canvas =

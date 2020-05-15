@@ -15,7 +15,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
     public class ValidationResultTest
     {
         [Fact]
-        private void DefaultConstructor()
+        public void DefaultConstructor()
         {
             ValidationResult result = new ValidationResult();
             Assert.True(result.IsValid);
@@ -27,7 +27,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void SingleWarning()
+        public void SingleWarning()
         {
             ValidationResult result = new ValidationResult();
             result.AddMessage(MessageType.Warning, "tfd", "dkw");
@@ -46,7 +46,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void SingleError()
+        public void SingleError()
         {
             ValidationResult result = new ValidationResult();
             result.AddMessage(MessageType.Error, "kdef.def", "qrdv.dwek-eke");
@@ -65,7 +65,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void MultipleMessages()
+        public void MultipleMessages()
         {
             ValidationResult result = new ValidationResult();
             result.AddMessage(MessageType.Error, "abd-fds", "asdf.asdfe.werk");
@@ -91,7 +91,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void MessageWithMessageParameters()
+        public void MessageWithMessageParameters()
         {
             ValidationResult result = new ValidationResult();
             result.AddMessage(MessageType.Warning, "jkr", "wcw.dw", new[] { ")(*$" });
@@ -110,7 +110,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void SetCleanedBill()
+        public void SetCleanedBill()
         {
             ValidationResult result = new ValidationResult
             {

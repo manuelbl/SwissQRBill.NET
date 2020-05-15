@@ -8,13 +8,12 @@
 using Codecrete.SwissQRBill.Generator;
 using Xunit;
 
-
 namespace Codecrete.SwissQRBill.GeneratorTest
 {
     public class DebtorValidationTest : BillDataValidationBase
     {
         [Fact]
-        private void ValidDebtor()
+        public void ValidDebtor()
         {
             SourceBill = SampleData.CreateExample1();
 
@@ -32,7 +31,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void EmptyDebtor()
+        public void EmptyDebtor()
         {
             SourceBill = SampleData.CreateExample1();
             Address emptyAddress = new Address();
@@ -43,7 +42,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void EmptyDebtorWithSpaces()
+        public void EmptyDebtorWithSpaces()
         {
             SourceBill = SampleData.CreateExample1();
             Address emptyAddress = new Address
@@ -57,7 +56,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void MissingName()
+        public void MissingName()
         {
             SourceBill = SampleData.CreateExample1();
             Address address = CreateValidPerson();
@@ -68,7 +67,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void MissingTown()
+        public void MissingTown()
         {
             SourceBill = SampleData.CreateExample1();
             Address address = CreateValidPerson();
@@ -79,7 +78,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void OpenDebtor()
+        public void OpenDebtor()
         {
             SourceBill = SampleData.CreateExample1();
 

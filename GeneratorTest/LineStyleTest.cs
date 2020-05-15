@@ -14,42 +14,42 @@ namespace Codecrete.SwissQRBill.GeneratorTest
     public class LineStyleTest
     {
         [Fact]
-        private void SvgWithDashedLines()
+        public void SvgWithDashedLines()
         {
             Bill bill = SampleData.CreateExample1();
             GenerateAndCompareBill(bill, GraphicsFormat.SVG, SeparatorType.DashedLine, "linestyle_1.svg");
         }
 
         [Fact]
-        private void SvgWithDottedLines()
+        public void SvgWithDottedLines()
         {
             Bill bill = SampleData.CreateExample1();
             GenerateAndCompareBill(bill, GraphicsFormat.SVG, SeparatorType.DottedLineWithScissors, "linestyle_2.svg");
         }
 
         [Fact]
-        private void PdfWithDashedLines()
+        public void PdfWithDashedLines()
         {
             Bill bill = SampleData.CreateExample1();
             GenerateAndCompareBill(bill, GraphicsFormat.PDF, SeparatorType.DashedLineWithScissors, "linestyle_1.pdf");
         }
 
         [Fact]
-        private void PdfWithDottedLines()
+        public void PdfWithDottedLines()
         {
             Bill bill = SampleData.CreateExample1();
             GenerateAndCompareBill(bill, GraphicsFormat.PDF, SeparatorType.DottedLine, "linestyle_2.pdf");
         }
 
         [Fact]
-        private void PngWithDashedLines()
+        public void PngWithDashedLines()
         {
             Bill bill = SampleData.CreateExample1();
             GenerateAndComparePngBill(bill, SeparatorType.DashedLine, "linestyle_1.png");
         }
 
         [Fact]
-        private void PngWithDottedLines()
+        public void PngWithDottedLines()
         {
             Bill bill = SampleData.CreateExample2();
             GenerateAndComparePngBill(bill, SeparatorType.DottedLineWithScissors, "linestyle_2.png");

@@ -20,7 +20,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void ShortOneLiner()
+        public void ShortOneLiner()
         {
             string[] lines = _fontMetrics.SplitLines("abc", 50, 10);
             Assert.Single(lines);
@@ -28,7 +28,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void OneLiner()
+        public void OneLiner()
         {
             string[] lines = _fontMetrics.SplitLines("abcdefghij", 50, 10);
             Assert.Single(lines);
@@ -36,7 +36,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void OneLinerWithTwoWords()
+        public void OneLinerWithTwoWords()
         {
             string[] lines = _fontMetrics.SplitLines("abcdef ghij", 50, 10);
             Assert.Single(lines);
@@ -44,7 +44,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void LeadingSpaceOneLiner()
+        public void LeadingSpaceOneLiner()
         {
             string[] lines = _fontMetrics.SplitLines(" abcdefghij", 50, 10);
             Assert.Single(lines);
@@ -52,7 +52,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void TrailingSpaceOneLiner()
+        public void TrailingSpaceOneLiner()
         {
             string[] lines = _fontMetrics.SplitLines("abcdefghij ", 50, 10);
             Assert.Single(lines);
@@ -60,7 +60,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void EmptyLine()
+        public void EmptyLine()
         {
             string[] lines = _fontMetrics.SplitLines("", 50, 10);
             Assert.Single(lines);
@@ -68,7 +68,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void SingleSpace()
+        public void SingleSpace()
         {
             string[] lines = _fontMetrics.SplitLines(" ", 50, 10);
             Assert.Single(lines);
@@ -76,7 +76,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void ManySpaces()
+        public void ManySpaces()
         {
             string[] lines = _fontMetrics.SplitLines("                           ", 50, 10);
             Assert.Single(lines);
@@ -84,7 +84,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void OutsideAsciiRange()
+        public void OutsideAsciiRange()
         {
             string[] lines = _fontMetrics.SplitLines("éà£$\uD83D\uDE03", 50, 10);
             Assert.Single(lines);
@@ -92,7 +92,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void TwoLinesFromSpace()
+        public void TwoLinesFromSpace()
         {
             string[] lines = _fontMetrics.SplitLines("abcde fghijk", 50, 10);
             Assert.Equal(2, lines.Length);
@@ -101,7 +101,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void TwoLinesFromNewLine()
+        public void TwoLinesFromNewLine()
         {
             string[] lines = _fontMetrics.SplitLines("abcde\nfghijk", 50, 10);
             Assert.Equal(2, lines.Length);
@@ -110,7 +110,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void TwoLinesWithTrailingNewline()
+        public void TwoLinesWithTrailingNewline()
         {
             string[] lines = _fontMetrics.SplitLines("abcde\n", 50, 10);
             Assert.Equal(2, lines.Length);
@@ -119,7 +119,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void SingleNewline()
+        public void SingleNewline()
         {
             string[] lines = _fontMetrics.SplitLines("\n", 50, 10);
             Assert.Equal(2, lines.Length);
@@ -128,7 +128,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void SpaceAndNewline()
+        public void SpaceAndNewline()
         {
             string[] lines = _fontMetrics.SplitLines("  \n ", 50, 10);
             Assert.Equal(2, lines.Length);
@@ -137,7 +137,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void TrailingAndLeadingSpaceAndNewline()
+        public void TrailingAndLeadingSpaceAndNewline()
         {
             string[] lines = _fontMetrics.SplitLines(" abc \n", 50, 10);
             Assert.Equal(2, lines.Length);
@@ -146,7 +146,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void ForcedWorkbreak()
+        public void ForcedWorkbreak()
         {
             string[] lines = _fontMetrics.SplitLines("abcde", 2, 10);
             Assert.Equal(5, lines.Length);
@@ -158,7 +158,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void ForcedWordbreakWithSpaces()
+        public void ForcedWordbreakWithSpaces()
         {
             string[] lines = _fontMetrics.SplitLines("  abcde  ", 2, 10);
             Assert.Equal(5, lines.Length);

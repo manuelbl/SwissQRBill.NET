@@ -16,7 +16,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
     public class SwicoBillInformationTest
     {
         [Fact]
-        private void SetInvoiceNumber()
+        public void SetInvoiceNumber()
         {
             SwicoBillInformation billInformation = new SwicoBillInformation
             {
@@ -26,7 +26,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void SetInvoiceDate()
+        public void SetInvoiceDate()
         {
             SwicoBillInformation billInformation = new SwicoBillInformation
             {
@@ -36,7 +36,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void SetCustomerReference()
+        public void SetCustomerReference()
         {
             SwicoBillInformation billInformation = new SwicoBillInformation
             {
@@ -46,7 +46,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void SetVatNumber()
+        public void SetVatNumber()
         {
             SwicoBillInformation billInformation = new SwicoBillInformation
             {
@@ -56,7 +56,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void SetVatDate()
+        public void SetVatDate()
         {
             SwicoBillInformation billInformation = new SwicoBillInformation
             {
@@ -66,7 +66,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void SetVatStartDate()
+        public void SetVatStartDate()
         {
             SwicoBillInformation billInformation = new SwicoBillInformation
             {
@@ -76,7 +76,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void SetVatEndDate()
+        public void SetVatEndDate()
         {
             SwicoBillInformation billInformation = new SwicoBillInformation
             {
@@ -86,7 +86,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void SetVatRate()
+        public void SetVatRate()
         {
             SwicoBillInformation billInformation = new SwicoBillInformation
             {
@@ -96,7 +96,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void SetVatDetails()
+        public void SetVatDetails()
         {
             SwicoBillInformation billInformation = new SwicoBillInformation
             {
@@ -108,7 +108,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void SetVatImportTaxes()
+        public void SetVatImportTaxes()
         {
             SwicoBillInformation billInformation = new SwicoBillInformation
             {
@@ -120,7 +120,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void SetPaymentConditions()
+        public void SetPaymentConditions()
         {
             SwicoBillInformation billInformation = new SwicoBillInformation
             {
@@ -132,7 +132,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void GetDueDate()
+        public void GetDueDate()
         {
             SwicoBillInformation billInformation = new SwicoBillInformation
             {
@@ -143,7 +143,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void TestEqualsTrivial()
+        public void TestEqualsTrivial()
         {
             SwicoBillInformation info = new SwicoBillInformation();
             Assert.Equal(info, info);
@@ -154,7 +154,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void TestEquals()
+        public void TestEquals()
         {
             SwicoBillInformation info1 = CreateBillInformation();
             SwicoBillInformation info2 = CreateBillInformation();
@@ -166,7 +166,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void TestHashCode()
+        public void TestHashCode()
         {
             SwicoBillInformation info1 = CreateBillInformation();
             SwicoBillInformation info2 = CreateBillInformation();

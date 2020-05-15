@@ -13,35 +13,35 @@ namespace Codecrete.SwissQRBill.GeneratorTest
     public class EncodedTextTest
     {
         [Fact]
-        private void CreateText1()
+        public void CreateText1()
         {
             Bill bill = SampleQRCodeText.CreateBillData1();
             Assert.Equal(SampleQRCodeText.CreateQrCodeText1(false), QRBill.EncodeQrCodeText(bill));
         }
 
         [Fact]
-        private void CreateText2()
+        public void CreateText2()
         {
             Bill bill = SampleQRCodeText.CreateBillData2();
             Assert.Equal(SampleQRCodeText.CreateQrCodeText2(false), QRBill.EncodeQrCodeText(bill));
         }
 
         [Fact]
-        private void CreateText3()
+        public void CreateText3()
         {
             Bill bill = SampleQRCodeText.CreateBillData3();
             Assert.Equal(SampleQRCodeText.CreateQrCodeText3(false), QRBill.EncodeQrCodeText(bill));
         }
 
         [Fact]
-        private void CreateText4()
+        public void CreateText4()
         {
             Bill bill = SampleQRCodeText.CreateBillData4();
             Assert.Equal(SampleQRCodeText.CreateQrCodeText4(false), QRBill.EncodeQrCodeText(bill));
         }
 
         [Fact]
-        private void CreateText5()
+        public void CreateText5()
         {
             Assert.Throws<QRBillValidationException>(() =>
             {
@@ -52,7 +52,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void CreateText6()
+        public void CreateText6()
         {
             Bill bill = SampleQRCodeText.CreateBillData3();
             ValidationResult result = QRBill.Validate(bill);

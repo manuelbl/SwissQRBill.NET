@@ -14,7 +14,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
     public class QRBillTest
     {
         [Fact]
-        private void CreateQrBill1()
+        public void CreateQrBill1()
         {
             Bill bill = SampleData.CreateExample1();
             bill.Format.OutputSize = OutputSize.QrBillOnly;
@@ -24,7 +24,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void CreateQrBill2()
+        public void CreateQrBill2()
         {
             Bill bill = SampleData.CreateExample2();
             bill.Format.OutputSize = OutputSize.QrBillOnly;
@@ -34,7 +34,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void CreateQrBill3()
+        public void CreateQrBill3()
         {
             Bill bill = SampleData.CreateExample3();
             bill.Format.OutputSize = OutputSize.QrBillOnly;
@@ -44,7 +44,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void CreateQrBill4()
+        public void CreateQrBill4()
         {
             Bill bill = SampleData.CreateExample4();
             bill.Format.OutputSize = OutputSize.QrBillOnly;
@@ -54,7 +54,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void CreateQrBill5()
+        public void CreateQrBill5()
         {
             Bill bill = SampleData.CreateExample3();
             bill.Format.OutputSize = OutputSize.QrBillWithHorizontalLine;
@@ -64,7 +64,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void CreateQrBillFrench()
+        public void CreateQrBillFrench()
         {
             Bill bill = SampleData.CreateExample1();
             bill.Format.GraphicsFormat = GraphicsFormat.SVG;

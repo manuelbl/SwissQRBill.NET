@@ -14,25 +14,25 @@ namespace Codecrete.SwissQRBill.GeneratorTest
     public class LocaleTest
     {
         [Fact]
-        private void DefaultIsDe()
+        public void DefaultIsDe()
         {
             GenerateQRBill("de-DE", "qrbill-locale-1.svg");
         }
 
         [Fact]
-        private void DefaultIsUs()
+        public void DefaultIsUs()
         {
             GenerateQRBill("en-US", "qrbill-locale-2.svg");
         }
 
         [Fact]
-        private void DefaultIsDech()
+        public void DefaultIsDech()
         {
             GenerateQRBill("de-CH", "qrbill-locale-3.svg");
         }
 
         [Fact]
-        private void DefaultIsFrch()
+        public void DefaultIsFrch()
         {
             GenerateQRBill("fr-CH", "qrbill-locale-4.svg");
         }

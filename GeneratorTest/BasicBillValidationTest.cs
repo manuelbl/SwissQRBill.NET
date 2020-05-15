@@ -15,7 +15,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
     public class BasicBillValidationTest : BillDataValidationBase
     {
         [Fact]
-        private void ValidCurrency()
+        public void ValidCurrency()
         {
             SourceBill = SampleData.CreateExample1();
             SourceBill.Currency = "CHF";
@@ -25,7 +25,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void MissingCurrency()
+        public void MissingCurrency()
         {
             SourceBill = SampleData.CreateExample1();
             SourceBill.Currency = null;
@@ -34,7 +34,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void InvalidCurrency()
+        public void InvalidCurrency()
         {
             SourceBill = SampleData.CreateExample1();
             SourceBill.Currency = "USD";
@@ -43,7 +43,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void OpenAmount()
+        public void OpenAmount()
         {
             SourceBill = SampleData.CreateExample1();
             SourceBill.Amount = null;
@@ -53,7 +53,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void ValidAmount()
+        public void ValidAmount()
         {
             SourceBill = SampleData.CreateExample1();
             SourceBill.Amount = 100.15m;
@@ -63,7 +63,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void AmountTooLow()
+        public void AmountTooLow()
         {
             SourceBill = SampleData.CreateExample1();
             SourceBill.Amount = -0.01m;
@@ -72,7 +72,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void AmountTooHigh2()
+        public void AmountTooHigh2()
         {
             SourceBill = SampleData.CreateExample1();
             SourceBill.Amount = 1000000000.0m;
@@ -81,7 +81,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void ValidChAccount()
+        public void ValidChAccount()
         {
             SourceBill = SampleData.CreateExample1();
             SourceBill.Account = "CH4431999123000889012";
@@ -91,7 +91,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void ValidLiAccount()
+        public void ValidLiAccount()
         {
             SourceBill = SampleData.CreateExample3();
             SourceBill.Account = "LI56 0880 0000 0209 4080 8";
@@ -101,7 +101,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void ValidAccountWithSpaces()
+        public void ValidAccountWithSpaces()
         {
             SourceBill = SampleData.CreateExample1();
             SourceBill.Account = " CH44 3199 9123 0008 89012";
@@ -111,7 +111,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void MissingAccount()
+        public void MissingAccount()
         {
             SourceBill = SampleData.CreateExample1();
             SourceBill.Account = null;
@@ -120,7 +120,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void ForeignAccount()
+        public void ForeignAccount()
         {
             SourceBill = SampleData.CreateExample1();
             SourceBill.Account = "DE68 2012 0700 3100 7555 55";
@@ -129,7 +129,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void InvalidIban1()
+        public void InvalidIban1()
         {
             SourceBill = SampleData.CreateExample1();
             SourceBill.Account = "CH0031999123000889012";
@@ -138,7 +138,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void InvalidIban2()
+        public void InvalidIban2()
         {
             SourceBill = SampleData.CreateExample1();
             SourceBill.Account = "CH503199912300088333339012";
@@ -147,7 +147,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void ValidUnstructuredMessage()
+        public void ValidUnstructuredMessage()
         {
             SourceBill = SampleData.CreateExample1();
 
@@ -158,7 +158,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void EmptyUnstructureMessage()
+        public void EmptyUnstructureMessage()
         {
             SourceBill = SampleData.CreateExample1();
             SourceBill.UnstructuredMessage = "   ";
@@ -168,7 +168,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void UnstructuredMessageWithLeadingAndTrailingWhitespace()
+        public void UnstructuredMessageWithLeadingAndTrailingWhitespace()
         {
             SourceBill = SampleData.CreateExample1();
             SourceBill.UnstructuredMessage = "  Bill no 39133 ";
@@ -178,7 +178,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void TooLongBillInformation()
+        public void TooLongBillInformation()
         {
             SourceBill = SampleData.CreateExample1();
             SourceBill.UnstructuredMessage = null;
@@ -188,7 +188,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void InvalidBillInformation1()
+        public void InvalidBillInformation1()
         {
             SourceBill = SampleData.CreateExample1();
             SourceBill.BillInformation = "ABCD";
@@ -197,7 +197,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void InvalidBillInformation2()
+        public void InvalidBillInformation2()
         {
             SourceBill = SampleData.CreateExample1();
             SourceBill.BillInformation = "//A";
@@ -206,11 +206,11 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void TooLongAdditionalInfo()
+        public void TooLongAdditionalInfo()
         {
             SourceBill = SampleData.CreateExample6();
             Assert.Equal(140, SourceBill.UnstructuredMessage.Length + SourceBill.BillInformation.Length);
-            SourceBill.UnstructuredMessage = SourceBill.UnstructuredMessage + "A";
+            SourceBill.UnstructuredMessage += "A";
             Validate();
 
             Assert.True(Result.HasErrors);
@@ -230,7 +230,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void TooManyAltSchemes()
+        public void TooManyAltSchemes()
         {
             SourceBill = SampleData.CreateExample1();
             SourceBill.AlternativeSchemes = new List<AlternativeScheme> {
@@ -243,7 +243,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void TooLongAltSchemeInstructions()
+        public void TooLongAltSchemeInstructions()
         {
             SourceBill = SampleData.CreateExample1();
             SourceBill.AlternativeSchemes = new List<AlternativeScheme> {

@@ -13,43 +13,43 @@ namespace Codecrete.SwissQRBill.GeneratorTest
     public class QRReferenceTest
     {
         [Fact]
-        private void ValidQrReference()
+        public void ValidQrReference()
         {
             Assert.True(Payments.IsValidQrReference("210000000003139471430009017"));
         }
 
         [Fact]
-        private void InvalidLengthQrReference()
+        public void InvalidLengthQrReference()
         {
             Assert.False(Payments.IsValidQrReference("2100000003139471430009017"));
         }
 
         [Fact]
-        private void ValidQrReferenceWithSpaces()
+        public void ValidQrReferenceWithSpaces()
         {
             Assert.True(Payments.IsValidQrReference("21 00000 00003 13947 14300 09017"));
         }
 
         [Fact]
-        private void InvalidQrReferenceWithLetters()
+        public void InvalidQrReferenceWithLetters()
         {
             Assert.False(Payments.IsValidQrReference("210000S00003139471430009017"));
         }
 
         [Fact]
-        private void InvalidQrReferenceWithSpecialChar()
+        public void InvalidQrReferenceWithSpecialChar()
         {
             Assert.False(Payments.IsValidQrReference("210000000%03139471430009017"));
         }
 
         [Fact]
-        private void InvalidCheckDigitQrReference()
+        public void InvalidCheckDigitQrReference()
         {
             Assert.False(Payments.IsValidQrReference("210000000003139471430009016"));
         }
 
         [Fact]
-        private void FormatQrReference()
+        public void FormatQrReference()
         {
             Assert.Equal("12 34560 00000 00129 11462 90514",
                     Payments.FormatQrReferenceNumber("123456000000001291146290514"));

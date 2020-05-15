@@ -15,7 +15,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
     public class QRBillErrorsTest
     {
         [Fact]
-        private void ThrowsRuntimeException()
+        public void ThrowsRuntimeException()
         {
             Assert.Throws<QRBillGenerationException>(
                 () => GenerateWithFailingCanvas()
@@ -31,7 +31,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void ThrowsValidationError()
+        public void ThrowsValidationError()
         {
             Assert.Throws<QRBillValidationException>(
                 () => GenerateWithInvalidData()

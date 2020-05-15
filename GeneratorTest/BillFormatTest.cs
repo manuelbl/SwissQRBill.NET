@@ -13,7 +13,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
     public class BillFormatTest
     {
         [Fact]
-        private void DefaultValueTest()
+        public void DefaultValueTest()
         {
             BillFormat format = new BillFormat();
             Assert.Equal(Language.EN, format.Language);
@@ -24,7 +24,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void HashCodeTest()
+        public void HashCodeTest()
         {
             BillFormat format1 = new BillFormat();
             BillFormat format2 = new BillFormat();
@@ -32,7 +32,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void TestEqualsTrivial()
+        public void TestEqualsTrivial()
         {
             BillFormat format = new BillFormat();
             Assert.Equal(format, format);
@@ -42,7 +42,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void TestEquals()
+        public void TestEquals()
         {
             BillFormat format1 = new BillFormat();
             BillFormat format2 = new BillFormat();

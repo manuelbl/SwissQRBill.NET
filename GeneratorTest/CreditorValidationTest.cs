@@ -14,7 +14,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
     public class CreditorValidationTest : BillDataValidationBase
     {
         [Fact]
-        private void ValidCreditor()
+        public void ValidCreditor()
         {
             SourceBill = SampleData.CreateExample1();
             Address address = CreateValidPerson();
@@ -31,7 +31,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void MissingCreditor()
+        public void MissingCreditor()
         {
             SourceBill = SampleData.CreateExample1();
             SourceBill.Creditor = null;
@@ -40,7 +40,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void EmptyCreditor()
+        public void EmptyCreditor()
         {
             SourceBill = SampleData.CreateExample1();
             Address emptyAddress = new Address();
@@ -50,7 +50,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void EmptyCreditorWithSpaces()
+        public void EmptyCreditorWithSpaces()
         {
             SourceBill = SampleData.CreateExample1();
             Address emptyAddress = new Address
@@ -63,7 +63,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void MissingCreditorName()
+        public void MissingCreditorName()
         {
             SourceBill = SampleData.CreateExample1();
             Address address = CreateValidPerson();
@@ -74,7 +74,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void CreditorWithoutStreet()
+        public void CreditorWithoutStreet()
         {
             SourceBill = SampleData.CreateExample1();
             Address address = CreateValidPerson();
@@ -85,7 +85,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void CreditorWithoutHouseNo()
+        public void CreditorWithoutHouseNo()
         {
             SourceBill = SampleData.CreateExample1();
             Address address = CreateValidPerson();
@@ -96,7 +96,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void CreditorWithMissingPostalCode()
+        public void CreditorWithMissingPostalCode()
         {
             SourceBill = SampleData.CreateExample1();
             Address address = CreateValidPerson();
@@ -107,7 +107,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void CreditorWithMissingTown()
+        public void CreditorWithMissingTown()
         {
             SourceBill = SampleData.CreateExample1();
             Address address = CreateValidPerson();
@@ -118,7 +118,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void CreditorWithMissingCountryCode()
+        public void CreditorWithMissingCountryCode()
         {
             SourceBill = SampleData.CreateExample1();
             Address address = CreateValidPerson();
@@ -129,7 +129,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void CreditorWithInvalidCountryCode()
+        public void CreditorWithInvalidCountryCode()
         {
             SourceBill = SampleData.CreateExample1();
             Address address = CreateValidPerson();
@@ -140,7 +140,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void CreditorWithInvalidCounturyCode2()
+        public void CreditorWithInvalidCounturyCode2()
         {
             SourceBill = SampleData.CreateExample1();
             Address address = CreateValidPerson();
@@ -151,7 +151,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void CreditorWithConflictingAddress()
+        public void CreditorWithConflictingAddress()
         {
             SourceBill = SampleData.CreateExample1();
             SourceBill.Creditor.AddressLine1 = "Conflict";

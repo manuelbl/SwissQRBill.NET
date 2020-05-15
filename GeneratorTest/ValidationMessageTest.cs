@@ -14,7 +14,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
     public class ValidationMessageTest
     {
         [Fact]
-        private void DefaultConstructor()
+        public void DefaultConstructor()
         {
             ValidationMessage msg = new ValidationMessage();
             Assert.Null(msg.Field);
@@ -23,7 +23,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void ConstructorWithThreeParameters()
+        public void ConstructorWithThreeParameters()
         {
             ValidationMessage msg = new ValidationMessage(MessageType.Error, "fld", "msg3");
             Assert.Equal(MessageType.Error, msg.Type);
@@ -33,7 +33,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void ConstructorWithFourParameters()
+        public void ConstructorWithFourParameters()
         {
             ValidationMessage msg = new ValidationMessage(MessageType.Warning, "addInfo", "clipped", new[] { "xxx" });
             Assert.Equal(MessageType.Warning, msg.Type);
@@ -45,7 +45,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void SetType()
+        public void SetType()
         {
             ValidationMessage msg = new ValidationMessage
             {
@@ -55,7 +55,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void SetField()
+        public void SetField()
         {
             ValidationMessage msg = new ValidationMessage
             {
@@ -65,7 +65,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void SetMessageKey()
+        public void SetMessageKey()
         {
             ValidationMessage msg = new ValidationMessage
             {
@@ -75,7 +75,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void SetMessageParameters()
+        public void SetMessageParameters()
         {
             ValidationMessage msg = new ValidationMessage
             {

@@ -328,11 +328,11 @@ namespace Codecrete.SwissQRBill.Generator
                 }
                 if (sum > 9999999)
                 {
-                    sum = sum % 97;
+                    sum %= 97;
                 }
             }
 
-            sum = sum % 97;
+            sum %= 97;
             return sum;
         }
 

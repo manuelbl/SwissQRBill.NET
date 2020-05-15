@@ -13,7 +13,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
     public class QRCodeTest
     {
         [Fact]
-        private void QrCodeAsSvg1()
+        public void QrCodeAsSvg1()
         {
             Bill bill = SampleData.CreateExample1();
             bill.Format.OutputSize = OutputSize.QrCodeOnly;
@@ -23,7 +23,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void QrCodeAsSvg2()
+        public void QrCodeAsSvg2()
         {
             Bill bill = SampleData.CreateExample2();
             bill.Format.OutputSize = OutputSize.QrCodeOnly;
@@ -33,7 +33,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void QrCodeAsSvg3()
+        public void QrCodeAsSvg3()
         {
             Bill bill = SampleData.CreateExample3();
             bill.Format.OutputSize = OutputSize.QrCodeOnly;
@@ -43,7 +43,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void QrCodeAsSvg4()
+        public void QrCodeAsSvg4()
         {
             Bill bill = SampleData.CreateExample4();
             bill.Format.OutputSize = OutputSize.QrCodeOnly;

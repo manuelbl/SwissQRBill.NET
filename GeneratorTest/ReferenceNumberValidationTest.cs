@@ -15,7 +15,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
     {
 
         [Fact]
-        private void ValidQrReference()
+        public void ValidQrReference()
         {
             SourceBill = SampleData.CreateExample1();
             SourceBill.Reference = "210000000003139471430009017";
@@ -25,7 +25,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void ValidQrReferenceWithSpaces()
+        public void ValidQrReferenceWithSpaces()
         {
             SourceBill = SampleData.CreateExample1();
             SourceBill.Reference = "21 00000 00003 13947 14300 09017";
@@ -35,7 +35,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void ValidCreditorReference()
+        public void ValidCreditorReference()
         {
             SourceBill = SampleData.CreateExample3();
             SourceBill.Reference = "RF18539007547034";
@@ -45,7 +45,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void QrIbanNoAndQrReference()
+        public void QrIbanNoAndQrReference()
         {
             SourceBill = SampleData.CreateExample1();
             SourceBill.Account = "CH3709000000304442225"; // non QR-IBAN
@@ -56,7 +56,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void WhitespaceReference()
+        public void WhitespaceReference()
         {
             SourceBill = SampleData.CreateExample1();
             SourceBill.Account = "CH3709000000304442225"; // non QR-IBAN
@@ -67,7 +67,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void MissingReferenceForQriban()
+        public void MissingReferenceForQriban()
         {
             SourceBill = SampleData.CreateExample1();
             SourceBill.Account = "CH4431999123000889012"; // QR-IBAN
@@ -77,7 +77,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void WhitespaceReferenceForQriban()
+        public void WhitespaceReferenceForQriban()
         {
             SourceBill = SampleData.CreateExample1();
             SourceBill.Reference = "   ";
@@ -86,7 +86,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void InvalidReference()
+        public void InvalidReference()
         {
             SourceBill = SampleData.CreateExample1();
             SourceBill.Reference = "ABC";
@@ -95,7 +95,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void InvalidNumericReference()
+        public void InvalidNumericReference()
         {
             SourceBill = SampleData.CreateExample1();
             SourceBill.Reference = "1234567890";
@@ -104,7 +104,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void InvalidNonNumericReference()
+        public void InvalidNonNumericReference()
         {
             SourceBill = SampleData.CreateExample1();
             SourceBill.Reference = "123ABC7890";
@@ -113,7 +113,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void InvalidCharsInCreditorReference()
+        public void InvalidCharsInCreditorReference()
         {
             SourceBill = SampleData.CreateExample3();
             SourceBill.Reference = "RF38302!!3393";
@@ -122,7 +122,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void InvalidCreditorReference()
+        public void InvalidCreditorReference()
         {
             SourceBill = SampleData.CreateExample3();
             SourceBill.Reference = "RF00539007547034";
@@ -131,7 +131,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void InvalidReferenceType()
+        public void InvalidReferenceType()
         {
             SourceBill = SampleData.CreateExample3();
             SourceBill.ReferenceType = "ABC";

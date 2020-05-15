@@ -16,7 +16,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
     public class CleanupTest
     {
         [Fact]
-        private void ClosePngFreesResources()
+        public void ClosePngFreesResources()
         {
             Type type = typeof(PNGCanvas);
             FieldInfo bitmapField = type.GetField("_bitmap", BindingFlags.NonPublic | BindingFlags.Instance);
