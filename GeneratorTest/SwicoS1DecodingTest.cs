@@ -93,6 +93,25 @@ namespace Codecrete.SwissQRBill.GeneratorTest
             );
         }
 
+        [Theory]
+        [InlineData(@"//S1/10/X.66711/20/405\/1/40/0:30", @"405/1")]
+        [InlineData(@"//S1/10/X.66711/20/405\\1/40/0:30", @"405\1")]
+        [InlineData(@"//S1/10/X.66711/20/\/405-1/40/0:30", @"/405-1")]
+        [InlineData(@"//S1/10/X.66711/20/\405-1/40/0:30", @"\405-1")]
+        [InlineData(@"//S1/10/X.66711/20/405\\/40/0:30", @"405\")]
+        public void EscapedCharacters_Unescaped(string rawBillInformation, string customerReference)
+        {
+            SwicoBillInformation billInformation = SwicoBillInformation.DecodeText(rawBillInformation);
+            Assert.Equal(new SwicoBillInformation()
+            {
+                InvoiceNumber = "X.66711",
+                CustomerReference = customerReference,
+                PaymentConditions = new List<(decimal, int)> { (0m, 30) }
+            },
+                billInformation
+            );
+        }
+
         [Fact]
         public void BillInformationTruncated1_IsIgnored()
         {
