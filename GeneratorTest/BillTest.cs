@@ -151,15 +151,11 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        private void RetrieveSwicoBillInfo_ThrowException()
+        private void RetrieveInvalidSwicoBillInfo()
         {
             Bill bill = CreateBill();
             bill.BillInformation = "//S2/10234234234";
-
-            var exception = Record.Exception(() => bill.RetrieveSwicoBillInformation());
-
-            Assert.NotNull(exception);
-            Assert.IsType<SwicoDecodingException>(exception);
+            Assert.Null(bill.RetrieveSwicoBillInformation());
         }
 
         [Fact]

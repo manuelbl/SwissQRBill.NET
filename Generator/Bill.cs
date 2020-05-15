@@ -185,7 +185,7 @@ namespace Codecrete.SwissQRBill.Generator
         /// <summary>
         /// Sets the bill information according to Swico S1 syntax from the specified structured bill information.
         /// <para>
-        /// Set the <see cref="BillInformation"/> property to a value similar to <c>//S1/10/...</c>.
+        /// Sets the <see cref="BillInformation"/> property to a value similar to <c>//S1/10/...</c>.
         /// </para>
         /// </summary>
         /// <param name="billInformation">structured bill information</param>
@@ -197,16 +197,15 @@ namespace Codecrete.SwissQRBill.Generator
         /// <summary>
         /// Retrieves the Swico structured bill information from the text in bill information property.
         /// <para>
-        /// If <see cref="BillInformation"/> contains valid Swico S1 bill information, the
-        /// result is returned in a <see cref="SwicoBillInformation"/> instance. If it does
-        /// not conform to the syntax, an exception is thrown.
+        /// If <see cref="BillInformation"/> contains Swico S1 bill information, the
+        /// result is returned in a <see cref="SwicoBillInformation"/> instance.
+        /// Minor errors in the text are silently ignored. If <see cref="BillInformation"/> does not
+        /// contain Swico bill information or the text has major errors, <c>null</c> is returned.
         /// </para>
         /// </summary>
-        /// <returns>structured bill information</returns>
-        /// <exception cref="SwicoDecodingException">bill information does not conform to Swico S1 syntax.</exception>
+        /// <returns>structured bill information (or <c>null</c> if no Swico bill information is found)</returns>
         /// <remarks>
         /// The bill information property likely contains structured bill information if it starts with <c>//S1/</c>.
-        /// Structured bill information is not validated unless this method is called.
         /// </remarks>
         public SwicoBillInformation RetrieveSwicoBillInformation()
         {

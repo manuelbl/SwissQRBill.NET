@@ -9,7 +9,6 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Text.RegularExpressions;
 
 namespace Codecrete.SwissQRBill.Generator
 {
@@ -41,47 +40,37 @@ namespace Codecrete.SwissQRBill.Generator
         private const int PaymentConditionsTag = 40;
 
         /// <summary>
-        /// Decodes the specified text 
+        /// Decodes the specified text.
+        /// <para>
+        /// As much data as possible is decoded. Invalid data is silently ignored.
+        /// </para>
         /// </summary>
         /// <param name="billInfoText">Encoded structured bill information.</param>
-        /// <returns>The decoded bill information.</returns>
-        /// <exception cref="SwicoDecodingException">The text is not valid Swico S1 syntax.</exception>
+        /// <returns>The decoded bill information (or <c>null</c> if no valid Swico bill information is found).</returns>
         internal static SwicoBillInformation Decode(string billInfoText)
         {
             if (billInfoText == null || !billInfoText.StartsWith("//S1/"))
             {
-                throw new SwicoDecodingException("Bill information text does not start with \"//S1/\"");
+                return null;
             }
 
+            // Split text as slashes
             string[] parts = Split(billInfoText.Substring(5));
-            var elems = new List<(int Tag, string Value)>();
 
+            // Create a list of tuples (tag, value)
+            var tuples = new List<(int Tag, string Value)>();
             int len = parts.Length;
-            int lastTag = -1;
             for (int i = 0; i < len - 1; i += 2)
             {
-                if (!ValidIntNumber.IsMatch(parts[i]) || !int.TryParse(parts[i], out int tag))
+                if (int.TryParse(parts[i], out int tag))
                 {
-                    throw new SwicoDecodingException($"Invalid tag /{parts[i]}/ in bill information");
+                    tuples.Add((tag, parts[i + 1]));
                 }
-
-                if (tag <= lastTag)
-                {
-                    throw new SwicoDecodingException("Bill information: tags must appear in ascending order");
-                }
-
-                elems.Add((tag, parts[i + 1]));
-                lastTag = tag;
             }
 
-            // Odd number of parts is invalid
-            if ((len & 1) != 0)
-            {
-                throw new SwicoDecodingException($"Bill information is truncated at tag /{parts[len - 1]}");
-            }
-
+            // Process the tuples and assign them to bill information
             var billInformation = new SwicoBillInformation();
-            foreach (var (Tag, Value) in elems)
+            foreach (var (Tag, Value) in tuples)
             {
                 DecodeElement(billInformation, Tag, Value);
             }
@@ -92,7 +81,9 @@ namespace Codecrete.SwissQRBill.Generator
         private static void DecodeElement(SwicoBillInformation billInformation, int tag, string value)
         {
             if (value.Length == 0)
+            {
                 return;
+            }
 
             switch (tag)
             {
@@ -120,8 +111,6 @@ namespace Codecrete.SwissQRBill.Generator
                 case PaymentConditionsTag:
                     SetPaymentConditions(billInformation, value);
                     break;
-                default:
-                    throw new SwicoDecodingException($"Unknown tag /{tag}/ in bill information");
             }
         }
 
@@ -129,75 +118,106 @@ namespace Codecrete.SwissQRBill.Generator
         {
             if (value.Length != 6 && value.Length != 12)
             {
-                throw new SwicoDecodingException($"Invalid VAT date(s) in bill information: {value}");
+                return;
             }
 
             if (value.Length == 6)
             {
-                billInformation.VatDate = GetDateValue(value);
+                // Single VAT date
+                DateTime? date = GetDateValue(value);
+                if (date != null)
+                {
+                    billInformation.VatDate = date;
+                    billInformation.VatStartDate = null;
+                    billInformation.VatEndDate = null;
+                }
             }
             else
             {
-                billInformation.VatStartDate = GetDateValue(value.Substring(0, 6));
-                billInformation.VatEndDate = GetDateValue(value.Substring(6, 6));
+                // VAT date range
+                DateTime? startDate = GetDateValue(value.Substring(0, 6));
+                DateTime? endDate = GetDateValue(value.Substring(6, 6));
+                if (startDate != null && endDate != null)
+                {
+                    billInformation.VatStartDate = startDate;
+                    billInformation.VatEndDate = endDate;
+                    billInformation.VatDate = null;
+                }
             }
         }
 
         private static void SetVatRateDetails(SwicoBillInformation billInformation, string value)
         {
-            // Test for single VAT rate
+            // Test for single VAT rate vs list of tuples
             if (!value.Contains(":") && !value.Contains(";"))
             {
                 billInformation.VatRate = GetDecimalValue(value);
-                return;
+                billInformation.VatRateDetails = null;
             }
-
-            billInformation.VatRateDetails = ParseDetailList(value);
+            else
+            {
+                billInformation.VatRateDetails = ParseDetailList(value);
+                billInformation.VatRate = null;
+            }
         }
 
         private static void SetPaymentConditions(SwicoBillInformation billInformation, string value)
         {
-            var entries = value.Split(';');
+            // Split into tuples
+            var tuples = value.Split(';');
 
             var list = new List<(decimal, int)>();
-            foreach (var listEntry in entries)
+            foreach (var listEntry in tuples)
             {
+                // Split into tuple (discount, days)
                 var detail = listEntry.Split(':');
                 if (detail.Length != 2)
                 {
-                    throw new SwicoDecodingException($"Invalid discount / days tuple in bill information: {listEntry}");
+                    continue;
                 }
 
-                decimal discount = GetDecimalValue(detail[0]);
-                int days = GetIntValue(detail[1]);
-                list.Add((discount, days));
+                decimal? discount = GetDecimalValue(detail[0]);
+                int? days = GetIntValue(detail[1]);
+                if (discount != null && days != null)
+                {
+                    list.Add((discount.Value, days.Value));
+                }
             }
 
-            billInformation.PaymentConditions = list;
+            if (list.Count > 0)
+            {
+                billInformation.PaymentConditions = list;
+            }
         }
 
         private static List<(decimal, decimal)> ParseDetailList(string text)
         {
-            var entries = text.Split(';');
+            // Split into tuples
+            var tuples = text.Split(';');
 
             var list = new List<(decimal, decimal)>();
-            foreach (var vatEntry in entries)
+            foreach (var vatEntry in tuples)
             {
+                // Split into tuple (rate, amount)
                 var vatDetails = vatEntry.Split(':');
                 if (vatDetails.Length != 2)
                 {
-                    throw new SwicoDecodingException($"Invalid VAT rate / amount tuple in bill information: {vatEntry}");
+                    continue;
                 }
 
-                decimal vatRate = GetDecimalValue(vatDetails[0]);
-                decimal vatAmount = GetDecimalValue(vatDetails[1]);
-                list.Add((vatRate, vatAmount));
+                decimal? vatRate = GetDecimalValue(vatDetails[0]);
+                decimal? vatAmount = GetDecimalValue(vatDetails[1]);
+                if (vatRate != null && vatAmount != null)
+                {
+                    list.Add((vatRate.Value, vatAmount.Value));
+                }
             }
-            return list;
+            return list.Count > 0 ? list : null;
         }
 
-        private static DateTime GetDateValue(string dateText)
+        private static DateTime? GetDateValue(string dateText)
         {
+            // Validation with 
             if (DateTime.TryParseExact(
                 dateText,
                 "yyMMdd",
@@ -208,31 +228,25 @@ namespace Codecrete.SwissQRBill.Generator
                 return date;
             }
 
-            throw new SwicoDecodingException($"Invalid date value in bill information: {dateText}");
+            return null;
         }
 
-        private static readonly Regex ValidIntNumber = new Regex(@"^[0-9]+$", RegexOptions.Compiled);
-
-        private static int GetIntValue(string intText)
+        private static int? GetIntValue(string intText)
         {
-            if (ValidIntNumber.IsMatch(intText) && int.TryParse(intText, out var num))
+            if (int.TryParse(intText, out var num))
             {
                 return num;
             }
-
-            throw new SwicoDecodingException($"Invalid integer value in bill information: {intText}");
+            return null;
         }
 
-        private static readonly Regex ValidDecimalNumber = new Regex(@"^[0-9]+(\.[0-9]+)?$", RegexOptions.Compiled);
-
-        private static decimal GetDecimalValue(string decimalText)
+        private static decimal? GetDecimalValue(string decimalText)
         {
-            if (ValidDecimalNumber.IsMatch(decimalText) && decimal.TryParse(decimalText, out var num))
+            if (decimal.TryParse(decimalText, out var num))
             {
                 return num;
             }
-
-            throw new SwicoDecodingException($"Invalid numeric value in bill information: {decimalText}");
+            return null;
         }
 
         /// <summary>

@@ -166,7 +166,6 @@ namespace Codecrete.SwissQRBill.Generator
         /// </summary>
         /// <param name="text">The structured billing information encoded according to Swico S1 syntax.</param>
         /// <returns>The decoded billing information.</returns>
-        /// <exception cref="SwicoDecodingException">The text is not valid Swico S1 syntax.</exception>
         public static SwicoBillInformation DecodeText(string text)
         {
             return SwicoS1Decoder.Decode(text);
