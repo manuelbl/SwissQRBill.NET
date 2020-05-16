@@ -11,17 +11,10 @@
     <RepositoryUrl>https://github.com/manuelbl/SwissQRBill.NET</RepositoryUrl>
     <PackageProjectUrl>https://github.com/manuelbl/SwissQRBill.NET</PackageProjectUrl>
     <PackageTags>Swiss-QR-Bill, Payment, ISO-20022, QR-Code, QRCode, SIX</PackageTags>
-    <PackageReleaseNotes>New in release 2.2:
-- Dashed and dotted lines for separator line (dashed is now the default)
-- Fix invalid translations of "Zahlteil" (payment part)
-- Example for using it with PDFsharp
-
-New in releases 2.2.x:
-- Fixed vertical position of QR code
-- New output size for QR bill with horizontal separator line
-- Fix typo in "Information supplémentaires"
-- New field for reference type (useful for parsing QR code text)</PackageReleaseNotes>
-    <Version>2.2.4</Version>
+    <PackageReleaseNotes>New in release 2.3:
+- Encoding and extraction of structured bill information (Swico S1)
+</PackageReleaseNotes>
+    <Version>2.3</Version>
     <Description>Library to generate the new QR bill used for invoicing in Switzerland (starting in mid 2020).
 
 The Swiss QR bill library:
@@ -29,6 +22,7 @@ The Swiss QR bill library:
 - generates payment slip (105mm by 210mm), A4 sheets or QR code only
 - is multilingual: German, French, Italian, English
 - validates the invoice data and provides detailed validation information
+- adds and retrieves structured bill information (according to Swico S1)
 - parses the invoice data embedded in the QR code
 - is easy to use
 - is small and fast
