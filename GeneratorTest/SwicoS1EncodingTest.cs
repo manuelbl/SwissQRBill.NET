@@ -9,6 +9,7 @@
 using Codecrete.SwissQRBill.Generator;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using Xunit;
 
 namespace Codecrete.SwissQRBill.GeneratorTest
@@ -104,6 +105,34 @@ namespace Codecrete.SwissQRBill.GeneratorTest
             info.VatImportTaxes = new List<(decimal, decimal)>();
             info.PaymentConditions = new List<(decimal, int)>();
             Assert.Null(info.EncodeAsText());
+        }
+
+        [Theory]
+        [InlineData("de-DE")]
+        [InlineData("en-US")]
+        [InlineData("de-CH")]
+        [InlineData("fr-CH")]
+        public void DifferentLocales_HaveNoEffect(string locale)
+        {
+            CultureInfo savedCurrentCulture = CultureInfo.CurrentCulture;
+            CultureInfo savedCurrentUiCulture = CultureInfo.CurrentUICulture;
+
+            CultureInfo culture = CultureInfo.CreateSpecificCulture(locale);
+
+            try
+            {
+                CultureInfo.CurrentCulture = culture;
+                CultureInfo.CurrentUICulture = culture;
+
+                SwicoBillInformation billInfo = SwicoExamples.CreateExample3();
+                string text = billInfo.EncodeAsText();
+                Assert.Equal(SwicoExamples.Example3Text, text);
+            }
+            finally
+            {
+                CultureInfo.CurrentCulture = savedCurrentCulture;
+                CultureInfo.CurrentUICulture = savedCurrentUiCulture;
+            }
         }
     }
 }

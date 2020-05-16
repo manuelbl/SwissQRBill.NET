@@ -8,6 +8,7 @@
 using Codecrete.SwissQRBill.Generator;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using Xunit;
 
 namespace Codecrete.SwissQRBill.GeneratorTest
@@ -46,6 +47,33 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         public void NullValue_ReturnsNull()
         {
             Assert.Null(SwicoBillInformation.DecodeText(null));
+        }
+
+        [Theory]
+        [InlineData("de-DE")]
+        [InlineData("en-US")]
+        [InlineData("de-CH")]
+        [InlineData("fr-CH")]
+        public void DifferentLocales_HaveNoEffect(string locale)
+        {
+            CultureInfo savedCurrentCulture = CultureInfo.CurrentCulture;
+            CultureInfo savedCurrentUiCulture = CultureInfo.CurrentUICulture;
+
+            CultureInfo culture = CultureInfo.CreateSpecificCulture(locale);
+
+            try
+            {
+                CultureInfo.CurrentCulture = culture;
+                CultureInfo.CurrentUICulture = culture;
+
+                var billInformation = SwicoBillInformation.DecodeText(SwicoExamples.Example3Text);
+                Assert.Equal(SwicoExamples.CreateExample3(), billInformation);
+            }
+            finally
+            {
+                CultureInfo.CurrentCulture = savedCurrentCulture;
+                CultureInfo.CurrentUICulture = savedCurrentUiCulture;
+            }
         }
 
         [Theory]

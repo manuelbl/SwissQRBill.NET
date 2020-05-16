@@ -8,6 +8,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text;
 
 namespace Codecrete.SwissQRBill.Generator
@@ -95,7 +96,7 @@ namespace Codecrete.SwissQRBill.Generator
 
         private static string S1Number(decimal num)
         {
-            return num.ToString("0.######");
+            return num.ToString("0.######", CultureInfo.InvariantCulture);
         }
 
         private static void AppendTupleList(StringBuilder sb, List<(decimal, decimal)> list)

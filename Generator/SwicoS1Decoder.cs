@@ -242,7 +242,7 @@ namespace Codecrete.SwissQRBill.Generator
 
         private static decimal? GetDecimalValue(string decimalText)
         {
-            if (decimal.TryParse(decimalText, out var num))
+            if (decimal.TryParse(decimalText, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out var num))
             {
                 return num;
             }
