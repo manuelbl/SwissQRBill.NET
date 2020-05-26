@@ -227,7 +227,7 @@ m2,0h3v1h-3zm6,0h1v1h-1zm4,0h1v1h-1zm6,0h2v1h-2zm8,0h2v1h-2zm4,0h3v1h-3z" fill="
 <text x="0" y="-98.482" font-size="8" font-weight="bold">Currency</text>
 <text x="0" y="-85.482" font-size="10">CHF</text>
 <text x="42.52" y="-98.482" font-size="8" font-weight="bold">Amount</text>
-<text x="42.52" y="-85.482" font-size="8">123 949.75</text>
+<text x="42.52" y="-85.482" font-size="10">123 949.75</text>
 </g>
 <g transform="translate(334.488 0)">
 <text x="0" y="-277.065" font-size="8" font-weight="bold">Account / Payable to</text>

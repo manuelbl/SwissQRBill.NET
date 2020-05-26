@@ -174,7 +174,7 @@ namespace Codecrete.SwissQRBill.Generator
             y -= (_textFontSize + 3) * PtToMm;
             if (_amount != null)
             {
-                _graphics.PutText(_amount, currencyWidthPp, y, _labelFontSize, false);
+                _graphics.PutText(_amount, currencyWidthPp, y, _textFontSize, false);
             }
             else
             {
