@@ -17,9 +17,11 @@
 
     <Copyright>Open source published under MIT license</Copyright>
 
-    <PackageLicenseUrl>https://opensource.org/licenses/MIT</PackageLicenseUrl>
+    <PackageLicenseUrl></PackageLicenseUrl>
 
-    <Version>2.3</Version>
+    <Version>2.3.1</Version>
+
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
 
   <ItemGroup>
