@@ -415,7 +415,7 @@ namespace Codecrete.SwissQRBill.Generator
             return _extraSpacing / _lineSpacing < 0.8;
         }
 
-        private void DrawBorder()
+        internal void DrawBorder()
         {
             SeparatorType separatorType = _bill.Format.SeparatorType;
             OutputSize outputSize = _bill.Format.OutputSize;

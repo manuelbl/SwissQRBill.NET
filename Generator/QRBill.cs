@@ -158,6 +158,44 @@ namespace Codecrete.SwissQRBill.Generator
             }
         }
 
+        /// <summary>
+        /// Draws the separator line(s) to the specified canvas.
+        /// <para>
+        /// The separator lines are drawn assuming that the QR bill starts at position (0, 0)
+        /// and extends the top and right.So position (0, 0) should be in the bottom left corner.
+        /// </para>
+        /// <para>
+        /// This method allows to add separator lines to an existing QR bill,
+        /// e.g. on to an archived QR bill document.
+        /// </para>
+        /// </summary>
+        /// <param name="separatorType">The separator type.</param>
+        /// <param name="withHorizontalLine"><code>true</code> if both the horizontal and vertical line should be drawn,
+        /// <code>false</code> for the vertical line only</param>
+        /// <param name="canvas">The canvas to draw to.</param>
+        public static void DrawSeparators(SeparatorType separatorType, bool withHorizontalLine, ICanvas canvas)
+        {
+            Bill bill = new Bill
+            {
+                Format = new BillFormat
+                {
+                    SeparatorType = separatorType,
+                    OutputSize = withHorizontalLine ? OutputSize.QrBillWithHorizontalLine : OutputSize.QrBillOnly
+                }
+            };
+
+            BillLayout layout = new BillLayout(bill, canvas);
+
+            try
+            {
+                layout.DrawBorder();
+            }
+            catch (Exception e)
+            {
+                throw new QRBillGenerationException("Failed drawing separators", e);
+            }
+        }
+
         private static void ValidateAndGenerate(Bill bill, ICanvas canvas)
         {
             ValidationResult result = Validator.Validate(bill);

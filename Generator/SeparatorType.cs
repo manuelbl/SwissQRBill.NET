@@ -9,7 +9,7 @@
 namespace Codecrete.SwissQRBill.Generator
 {
     /// <summary>
-    /// Separator type above and betweeen payment part and receipt.
+    /// Separator type above and between payment part and receipt.
     /// </summary>
     public enum SeparatorType
     {
