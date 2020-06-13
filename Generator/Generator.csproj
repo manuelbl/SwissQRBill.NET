@@ -11,11 +11,12 @@
     <RepositoryUrl>https://github.com/manuelbl/SwissQRBill.NET</RepositoryUrl>
     <PackageProjectUrl>https://github.com/manuelbl/SwissQRBill.NET</PackageProjectUrl>
     <PackageTags>Swiss-QR-Bill, Payment, ISO-20022, QR-Code, QRCode, SIX</PackageTags>
-    <PackageReleaseNotes>New in release 2.3.0 / 2.3.1 / 2.3.2:
+    <PackageReleaseNotes>New in release 2.3.0 / 2.3.1 / 2.3.2 / 2.3.3:
 - Encoding and extraction of structured bill information (Swico S1)
 - Fixed invalid font size of amount
-- Added method to draw separator lines only</PackageReleaseNotes>
-    <Version>2.3.2</Version>
+- Added method to draw separator lines only
+- Changed payment part translations</PackageReleaseNotes>
+    <Version>2.3.3</Version>
     <Description>Library to generate the new QR bill used for invoicing in Switzerland (starting in mid 2020).
 
 The Swiss QR bill library:
