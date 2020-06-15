@@ -295,6 +295,9 @@ namespace Codecrete.SwissQRBill.Generator
                 case GraphicsFormat.SVG:
                     canvas = new SVGCanvas(drawingWidth, drawingHeight, format.FontFamily);
                     break;
+                case GraphicsFormat.PNG:
+                    canvas = new PNGCanvas(drawingWidth, drawingHeight, format.PngResolution, format.FontFamily);
+                    break;
                 case GraphicsFormat.PDF:
                     canvas = new PDFCanvas(drawingWidth, drawingHeight);
                     break;

@@ -76,6 +76,19 @@ namespace Codecrete.SwissQRBill.Generator
         /// <value>The font family.</value>
         public string FontFamily { get; set; } = "Helvetica,Arial,\"Liberation Sans\"";
 
+
+        /// <summary>
+        /// Gets or sets the resolution in pixels per inch which is used for the PNG graphic format.
+        /// <para>
+        /// It is recommended to use at least 144 dpi for a readable result.
+        /// </para>
+        /// <para>
+        /// Default is set to 300 dpi.
+        /// </para>
+        /// </summary>
+        /// <value>The PNG resolution.</value>
+        public int PngResolution { get; set; } = 300;
+
         /// <summary>
         /// Gets or sets the graphics format to be generated.
         /// <para>

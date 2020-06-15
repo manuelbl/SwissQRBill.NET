@@ -19,6 +19,11 @@ namespace Codecrete.SwissQRBill.Generator
         // ReSharper disable once InconsistentNaming
         SVG,
         /// <summary>
+        /// PNG graphics format.
+        /// </summary>
+        // ReSharper disable once InconsistentNaming
+        PNG,
+        /// <summary>
         /// PDF graphics format.
         /// </summary>
         // ReSharper disable once InconsistentNaming
