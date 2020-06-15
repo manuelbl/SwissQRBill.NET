@@ -76,6 +76,19 @@ namespace Codecrete.SwissQRBill.Generator
         /// <value>The font family.</value>
         public string FontFamily { get; set; } = "Helvetica,Arial,\"Liberation Sans\"";
 
+
+        /// <summary>
+        /// Gets or sets the resolution for pixel image graphics formats.
+        /// <para>
+        /// It is recommended to use at least 144 dpi for a readable result.
+        /// </para>
+        /// <para>
+        /// Defaults to 144 dpi.
+        /// </para>
+        /// </summary>
+        /// <value>The graphics resolution, in dpi (pixels per inch).</value>
+        public int Resolution { get; set; } = 144;
+
         /// <summary>
         /// Gets or sets the graphics format to be generated.
         /// <para>
@@ -102,7 +115,8 @@ namespace Codecrete.SwissQRBill.Generator
                    Language == other.Language &&
                    SeparatorType == other.SeparatorType &&
                    FontFamily == other.FontFamily &&
-                   GraphicsFormat == other.GraphicsFormat;
+                   GraphicsFormat == other.GraphicsFormat &&
+                   Resolution == other.Resolution;
         }
 
         /// <summary>Gets the hash code for this instance.</summary>
@@ -115,6 +129,7 @@ namespace Codecrete.SwissQRBill.Generator
             hashCode = hashCode * -1521134295 + SeparatorType.GetHashCode();
             hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(FontFamily);
             hashCode = hashCode * -1521134295 + GraphicsFormat.GetHashCode();
+            hashCode = hashCode * -1521134295 + Resolution.GetHashCode();
             return hashCode;
         }
     }
