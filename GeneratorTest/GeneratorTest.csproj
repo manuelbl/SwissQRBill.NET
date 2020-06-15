@@ -26,6 +26,7 @@
 
   <ItemGroup>
     <None Remove="ReferenceFiles\a4bill_ex1.pdf" />
+    <None Remove="ReferenceFiles\a4bill_ex1.png" />
     <None Remove="ReferenceFiles\a4bill_ex1.svg" />
     <None Remove="ReferenceFiles\a4bill_ex2.pdf" />
     <None Remove="ReferenceFiles\a4bill_ex2.svg" />
@@ -66,6 +67,7 @@
 
   <ItemGroup>
     <EmbeddedResource Include="ReferenceFiles\a4bill_ex1.pdf" />
+    <EmbeddedResource Include="ReferenceFiles\a4bill_ex1.png" />
     <EmbeddedResource Include="ReferenceFiles\a4bill_ex1.svg" />
     <EmbeddedResource Include="ReferenceFiles\a4bill_ex2.pdf" />
     <EmbeddedResource Include="ReferenceFiles\a4bill_ex2.svg" />

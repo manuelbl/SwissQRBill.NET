@@ -19,15 +19,15 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         {
             Bill bill = SampleData.CreateExample1();
 
-            byte[] svg;
+            byte[] png;
             using (PNGCanvas canvas = new PNGCanvas(QRBill.QrBillWidth, QRBill.QrBillHeight, 300, "Arial"))
             {
                 bill.Format.OutputSize = OutputSize.QrBillOnly;
                 QRBill.Draw(bill, canvas);
-                svg = canvas.ToByteArray();
+                png = canvas.ToByteArray();
             }
 
-            FileComparison.AssertGrayscaleImageContentsEqual(svg, "qrbill_ex1.png");
+            FileComparison.AssertGrayscaleImageContentsEqual(png, "qrbill_ex1.png");
         }
 
         [Fact]
@@ -45,6 +45,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
 
             FileComparison.AssertGrayscaleImageContentsEqual(png, "a4bill_ex3.png");
         }
+
         [Fact]
         public void PngWriteTo()
         {
