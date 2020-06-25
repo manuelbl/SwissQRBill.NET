@@ -7,6 +7,7 @@
 
 using Codecrete.SwissQRBill.Generator;
 using Codecrete.SwissQRBill.Generator.Canvas;
+using System.Globalization;
 using System.IO;
 using Xunit;
 
@@ -36,6 +37,34 @@ namespace Codecrete.SwissQRBill.GeneratorTest
             {
                 QRBill.Draw(bill, canvas);
                 canvas.SaveAs("qrbill.pdf");
+            }
+        }
+
+        [Fact]
+        public void LocaleIndependence()
+        {
+            CultureInfo savedCurrentCulture = CultureInfo.CurrentCulture;
+            CultureInfo savedCurrentUiCulture = CultureInfo.CurrentUICulture;
+
+            CultureInfo culture = CultureInfo.CreateSpecificCulture("de-DE");
+
+            Bill bill = SampleData.CreateExample4();
+            using (PDFCanvas canvas =
+                new PDFCanvas(QRBill.A4PortraitWidth, QRBill.A4PortraitHeight))
+            {
+                try
+                {
+                    CultureInfo.CurrentCulture = culture;
+                    CultureInfo.CurrentUICulture = culture;
+
+                    QRBill.Draw(bill, canvas);
+                    FileComparison.AssertFileContentsEqual(canvas.ToByteArray(), "pdfcanvas-locale-1.pdf");
+                }
+                finally
+                {
+                    CultureInfo.CurrentCulture = savedCurrentCulture;
+                    CultureInfo.CurrentUICulture = savedCurrentUiCulture;
+                }
             }
         }
     }

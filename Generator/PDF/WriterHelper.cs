@@ -7,6 +7,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Text;
 
@@ -33,6 +34,9 @@ namespace Codecrete.SwissQRBill.Generator.PDF
                 case string str:
                     WriteString(writer, str);
                     break;
+                case float flt:
+                    WriteNumber(writer, flt);
+                    break;
                 default:
                     writer.Write(obj.ToString());
                     break;
@@ -44,6 +48,11 @@ namespace Codecrete.SwissQRBill.Generator.PDF
             writer.Write("(");
             writer.Write(EscapeString(str));
             writer.Write(")");
+        }
+
+        internal static void WriteNumber(StreamWriter writer, float num)
+        {
+            writer.Write(num.ToString("0.###", CultureInfo.InvariantCulture.NumberFormat));
         }
 
         internal static void WriteList<T>(StreamWriter writer, IEnumerable<T> list)

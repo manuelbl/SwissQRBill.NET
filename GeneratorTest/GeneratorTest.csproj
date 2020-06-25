@@ -47,6 +47,7 @@
     <None Remove="ReferenceFiles\linestyle_2.pdf" />
     <None Remove="ReferenceFiles\linestyle_2.png" />
     <None Remove="ReferenceFiles\linestyle_2.svg" />
+    <None Remove="ReferenceFiles\pdfcanvas-locale-1.pdf" />
     <None Remove="ReferenceFiles\qrbill-locale-1.svg" />
     <None Remove="ReferenceFiles\qrbill-locale-2.svg" />
     <None Remove="ReferenceFiles\qrbill-locale-3.svg" />
@@ -88,6 +89,7 @@
     <EmbeddedResource Include="ReferenceFiles\linestyle_2.pdf" />
     <EmbeddedResource Include="ReferenceFiles\linestyle_2.png" />
     <EmbeddedResource Include="ReferenceFiles\linestyle_2.svg" />
+    <EmbeddedResource Include="ReferenceFiles\pdfcanvas-locale-1.pdf" />
     <EmbeddedResource Include="ReferenceFiles\qrbill-locale-1.svg" />
     <EmbeddedResource Include="ReferenceFiles\qrbill-locale-2.svg" />
     <EmbeddedResource Include="ReferenceFiles\qrbill-locale-3.svg" />
