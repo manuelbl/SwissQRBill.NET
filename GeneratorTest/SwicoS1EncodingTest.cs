@@ -68,6 +68,18 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
+        public void EncodeInvoiceNoOnly()
+        {
+            SwicoBillInformation billInfo = new SwicoBillInformation
+            {
+                InvoiceNumber = "X.66711-8831"
+            };
+
+            string text = billInfo.EncodeAsText();
+            Assert.Equal("//S1/10/X.66711-8831", text);
+        }
+
+        [Fact]
         public void EncodeEmptyList()
         {
             SwicoBillInformation billInfo = new SwicoBillInformation
