@@ -94,7 +94,7 @@ namespace Codecrete.SwissQRBill.Generator
         /// validation</a>
         /// </para>
         /// <para>
-        /// The graphics format is specified in <c>bill.Format.GraphisFormat</c>. This method
+        /// The graphics format is specified in <c>bill.Format.GraphicsFormat</c>. This method
         /// only supports the generation of SVG images and PDF files. For other graphics
         /// formats (in particular PNG), use <see cref="Draw(Bill, ICanvas)"/>.
         /// </para>
@@ -127,7 +127,7 @@ namespace Codecrete.SwissQRBill.Generator
         /// Draws the QR bill (payment part and receipt) or QR code for the specified bill data onto the specified canvas.
         /// <para>
         /// The QR bill or code are drawn at position (0, 0) extending to the top and to the right.
-        /// Typcially, the position (0, 0) is the bottom left corner of the canvas.
+        /// Typically, the position (0, 0) is the bottom left corner of the canvas.
         /// </para>
         /// <para>
         /// This methods ignores the formatting properties <c>bill.Format.FontFamily</c> and <c>bill.Format.GraphicsFormat</c>.

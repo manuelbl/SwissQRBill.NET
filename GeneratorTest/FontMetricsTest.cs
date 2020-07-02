@@ -146,7 +146,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        public void ForcedWorkbreak()
+        public void ForcedWordBreak()
         {
             string[] lines = _fontMetrics.SplitLines("abcde", 2, 10);
             Assert.Equal(5, lines.Length);
@@ -158,7 +158,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        public void ForcedWordbreakWithSpaces()
+        public void ForcedWordBreakWithSpaces()
         {
             string[] lines = _fontMetrics.SplitLines("  abcde  ", 2, 10);
             Assert.Equal(5, lines.Length);

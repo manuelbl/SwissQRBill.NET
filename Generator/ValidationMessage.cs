@@ -1,4 +1,4 @@
-﻿//
+//
 // Swiss QR Bill Generator for .NET
 // Copyright (c) 2018 Manuel Bleichenbacher
 // Licensed under MIT License
@@ -14,7 +14,7 @@ namespace Codecrete.SwissQRBill.Generator
     public sealed class ValidationMessage
     {
         /// <summary>
-        /// The type of validatin message.
+        /// The type of validation message.
         /// </summary>
         public enum MessageType
         {

@@ -28,7 +28,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         [Fact]
         public void ValidWithLowercaseLetters()
         {
-            Assert.True(Payments.IsValidIso11649Reference("RF 44 alll ower case"));
+            Assert.True(Payments.IsValidIso11649Reference("RF 44 all lower case"));
         }
 
         [Fact]

@@ -1,4 +1,4 @@
-﻿//
+//
 // Swiss QR Bill Generator for .NET
 // Copyright (c) 2018 Manuel Bleichenbacher
 // Licensed under MIT License
@@ -40,7 +40,7 @@ namespace Codecrete.SwissQRBill.Generator
             return Equals(obj as AlternativeScheme);
         }
 
-        /// <summary>Determines whether the specified alernative scheme is equal to the current alternative scheme.</summary>
+        /// <summary>Determines whether the specified alternative scheme is equal to the current alternative scheme.</summary>
         /// <param name="other">The alternative scheme to compare with the current alternative scheme.</param>
         /// <returns><c>true</c> if the specified object is equal to the current object; otherwise, <c>false</c>.</returns>
         public bool Equals(AlternativeScheme other)

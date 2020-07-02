@@ -158,7 +158,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        public void EmptyUnstructureMessage()
+        public void EmptyUnstructuredMessage()
         {
             SourceBill = SampleData.CreateExample1();
             SourceBill.UnstructuredMessage = "   ";

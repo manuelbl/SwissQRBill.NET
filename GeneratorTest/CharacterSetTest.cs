@@ -140,7 +140,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        public void TwoReplacedSuggoratePairsWithWhitespace()
+        public void TwoReplacedSurrogatePairsWithWhitespace()
         {
             SourceBill = SampleData.CreateExample1();
             Address address = CreateValidPerson();

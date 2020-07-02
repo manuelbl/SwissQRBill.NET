@@ -6,6 +6,7 @@
 //
 
 
+using System;
 
 namespace Codecrete.SwissQRBill.Generator.Canvas
 {
@@ -650,7 +651,14 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         /// <summary>
         /// Default character width for Arial Bold.
         /// </summary>
+        /// <remarks>Keeping for backward compatibility.</remarks>
+        [Obsolete("Use the properly spelled ArialBoldDefaultWidth instead.")]
         public static readonly ushort ArialBoldDefaultWdith = 611;
+
+        /// <summary>
+        /// Default character width for Arial Bold.
+        /// </summary>
+        public static readonly ushort ArialBoldDefaultWidth = 611;
 
         /// <summary>
         /// Character widths for Arial Bold (range 0x20 to 0x7f).
@@ -862,7 +870,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         public static readonly ushort LiberationSansNormalDefaultWidth = 556;
 
         /// <summary>
-        /// Character widths for LIberation Sans Normal (range 0x20 to 0x7f).
+        /// Character widths for Liberation Sans Normal (range 0x20 to 0x7f).
         /// </summary>
         public static readonly ushort[] LiberationSansNormal_20_7F = {
             278, // 0x20

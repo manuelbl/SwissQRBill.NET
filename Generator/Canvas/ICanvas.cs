@@ -10,7 +10,7 @@ using System;
 namespace Codecrete.SwissQRBill.Generator.Canvas
 {
     /// <summary>
-    /// Commonn interface for all output formats to draw the QR bill.
+    /// Common interface for all output formats to draw the QR bill.
     /// <para>
     /// The coordinate system has its origin in the bottom left corner.
     /// The y-axis extends from the bottom to the top.
@@ -53,7 +53,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         /// <param name="text">The text to draw.</param>
         /// <param name="x">The x position of the text's start (in mm).</param>
         /// <param name="y">The y position of the text's top (in mm).</param>
-        /// <param name="fontSize">Thhe font size (in pt).</param>
+        /// <param name="fontSize">The font size (in pt).</param>
         /// <param name="isBold">Flag indicating if the text is in bold or regular weight.</param>
         void PutText(string text, double x, double y, int fontSize, bool isBold);
 
@@ -84,7 +84,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         void MoveTo(double x, double y);
 
         /// <summary>
-        /// Adds a line segment to the open path from the previous point to the speicifed
+        /// Adds a line segment to the open path from the previous point to the specified
         /// position.
         /// </summary>
         /// <param name="x">The x-coordinate of position.</param>
@@ -92,7 +92,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         void LineTo(double x, double y);
 
         /// <summary>
-        /// Adds a cubic Beziér curve to the open path going from the previous point to the speicifed
+        /// Adds a cubic Beziér curve to the open path going from the previous point to the specified
         /// position. Two control points determine the curve.
         /// </summary>
         /// <param name="x1">The x-coordinate of first control point.</param>
@@ -109,7 +109,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         /// <param name="x">The rectangle's left position (in mm).</param>
         /// <param name="y">The rectangle's top position (in mm).</param>
         /// <param name="width">The rectangle's width (in mm).</param>
-        /// <param name="height">Trectangle's height (in mm).</param>
+        /// <param name="height">The rectangle's height (in mm).</param>
         void AddRectangle(double x, double y, double width, double height);
 
         /// <summary>
@@ -150,7 +150,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         double Ascender(int fontSize);
 
         /// <summary>
-        /// Gets the distance between the baseline and the bottom of the letter extending the farest below the
+        /// Gets the distance between the baseline and the bottom of the letter extending the farthest below the
         /// baseline.
         /// </summary>
         /// <param name="fontSize">The font size (in pt).</param>

@@ -238,7 +238,7 @@ namespace Codecrete.SwissQRBill.Generator
                 double boldTextWidth = _graphics.TextWidth(boldText, fontSize, true);
                 _graphics.PutText(boldText, 0, y, fontSize, true);
 
-                string normalText = TrunacateText(scheme.Instruction, maxWidth - boldTextWidth, fontSize);
+                string normalText = TruncateText(scheme.Instruction, maxWidth - boldTextWidth, fontSize);
                 _graphics.PutText(normalText, boldTextWidth, y, fontSize, false);
                 y -= lineSpacing * PtToMm;
             }
@@ -747,7 +747,7 @@ namespace Codecrete.SwissQRBill.Generator
             return Payments.FormatQrReferenceNumber(refNo);
         }
 
-        private string TrunacateText(string text, double maxWidth, int fontSize)
+        private string TruncateText(string text, double maxWidth, int fontSize)
         {
             const double ellipsisWidth = 0.3528; // mm * font size
 
