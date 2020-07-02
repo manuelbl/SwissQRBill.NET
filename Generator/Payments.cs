@@ -518,7 +518,7 @@ namespace Codecrete.SwissQRBill.Generator
             /// <summary>
             /// Gets/sets the flag indicating if unsupported characters have been replaced.
             /// </summary>
-            /// <value>Flag indicating if unsspored characters have been replaced.</value>
+            /// <value>Flag indicating if unsupported characters have been replaced.</value>
             public bool ReplacedUnsupportedChars { get; set; }
         }
 

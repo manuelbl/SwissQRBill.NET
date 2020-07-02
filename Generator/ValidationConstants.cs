@@ -9,7 +9,7 @@
 namespace Codecrete.SwissQRBill.Generator
 {
     /// <summary>
-    /// Constants for bill valdiation messages: message keys and field names.
+    /// Constants for bill validation messages: message keys and field names.
     /// </summary>
     public static class ValidationConstants
     {

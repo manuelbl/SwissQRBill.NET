@@ -44,7 +44,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         /// </summary>
         /// <param name="width">The image width, in mm.</param>
         /// <param name="height">The image height, in mm.</param>
-        /// <param name="resolution">The resolutionn of the image to generate (in pixels per inch).</param>
+        /// <param name="resolution">The resolution of the image to generate (in pixels per inch).</param>
         /// <param name="fontFamilyList">A list font family names, separated by comma (same syntax as for CSS). The first font family will be used.</param>
         public PNGCanvas(double width, double height, int resolution, string fontFamilyList)
         {

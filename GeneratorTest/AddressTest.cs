@@ -182,7 +182,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        public void ClearTestStructed()
+        public void ClearTestStructured()
         {
             Address address1 = CreateStructuredAddress();
             address1.Clear();

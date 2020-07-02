@@ -1,4 +1,4 @@
-﻿//
+//
 // Swiss QR Bill Generator for .NET
 // Copyright (c) 2018 Manuel Bleichenbacher
 // Licensed under MIT License
@@ -98,7 +98,7 @@ namespace Codecrete.SwissQRBill.Generator
         /// </summary>
         /// <param name="type">The message type.</param>
         /// <param name="field">The name of the affected field.</param>
-        /// <param name="messageKey">The language-netural message key.</param>
+        /// <param name="messageKey">The language-neutral message key.</param>
         /// <param name="messageParameters">The optional message parameters (text) to be inserted into the localized message.</param>
         /// <seealso cref="ValidationMessage"/>
         public void AddMessage(ValidationMessage.MessageType type, string field, string messageKey, string[] messageParameters = null)

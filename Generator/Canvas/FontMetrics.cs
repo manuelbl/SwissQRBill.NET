@@ -46,7 +46,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
                 _charDefaultWidth = CharWidthData.ArialNormalDefaultWidth;
                 boldCharWidthx20x7F = CharWidthData.ArialBold_20_7F;
                 boldCharWidthxA0xFF = CharWidthData.ArialBold_A0_FF;
-                boldCharDefaultWidth = CharWidthData.ArialBoldDefaultWdith;
+                boldCharDefaultWidth = CharWidthData.ArialBoldDefaultWidth;
             }
             else if (family.Contains("liberation") && family.Contains("sans"))
             {
@@ -90,7 +90,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         }
 
         /// <summary>
-        /// Gets the font family list (comma separated, same synta as for CSS).
+        /// Gets the font family list (comma separated, same syntax as for CSS).
         /// </summary>
         /// <value>The font family list, comma separated.</value>
         public string FontFamilyList { get; }
@@ -112,7 +112,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         }
 
         /// <summary>
-        /// Gets the distance between the baseline and the bottom of letter extending the farest below the baseline.
+        /// Gets the distance between the baseline and the bottom of letter extending the farthest below the baseline.
         /// </summary>
         /// <param name="fontSize">The font size (in pt).</param>
         /// <returns>The distance (in mm).</returns>
@@ -267,7 +267,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         /// <param name="lines">The line array to add to.</param>
         /// <param name="text">The text serving as a source for the line.</param>
         /// <param name="start">The start position of the line within the text.</param>
-        /// <param name="end">The end position (exluding) of the line within the text.</param>
+        /// <param name="end">The end position (excluding) of the line within the text.</param>
         private static void AddResultLine(ICollection<string> lines, string text, int start, int end)
         {
             while (end > start && text[end - 1] == ' ')

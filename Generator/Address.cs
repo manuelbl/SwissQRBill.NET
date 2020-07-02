@@ -132,7 +132,7 @@ namespace Codecrete.SwissQRBill.Generator
         /// <summary>
         /// Gets or sets the street.
         /// <para>
-        /// The street must be speicfied without house number.
+        /// The street must be specified without house number.
         /// </para>
         /// <para>
         /// Setting this field sets the address type to <see cref="AddressType.Structured"/> unless it's already
@@ -225,7 +225,7 @@ namespace Codecrete.SwissQRBill.Generator
         /// <summary>
         /// Gets or sets the two-letter ISO country code.
         ///  <para>
-        /// The country code is mandatory unless the entire address contains <c>null</c> or emtpy values.
+        /// The country code is mandatory unless the entire address contains <c>null</c> or empty values.
         /// </para>
         /// </summary>
         /// <value>The ISO country code.</value>

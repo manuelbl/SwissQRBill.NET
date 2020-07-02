@@ -140,7 +140,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        public void CreditorWithInvalidCounturyCode2()
+        public void CreditorWithInvalidCountryCode2()
         {
             SourceBill = SampleData.CreateExample1();
             Address address = CreateValidPerson();

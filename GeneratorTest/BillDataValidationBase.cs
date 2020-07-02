@@ -56,7 +56,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         /// <summary>
-        /// Asserts thta the validation succeeded with a single warning
+        /// Asserts that the validation succeeded with a single warning
         /// </summary>
         /// <param name="field">the field that triggered the validation warning</param>
         /// <param name="messageKey">the message key of the validation warning</param>
