@@ -103,6 +103,11 @@ namespace Codecrete.SwissQRBill.GeneratorTest
             {
                 throw new NotImplementedException();
             }
+
+            public override byte[] ToByteArray()
+            {
+                throw new NotImplementedException();
+            }
         }
     }
 }

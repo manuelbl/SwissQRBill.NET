@@ -25,7 +25,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
     /// the QR bill (regular and bold font weight).
     /// </para>
     /// </summary>
-    public interface ICanvas : IDisposable
+    public interface ICanvas : IToByteArray, IDisposable
     {
         /// <summary>
         /// Sets a translation, rotation and scaling for the subsequent operations.
