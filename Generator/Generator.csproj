@@ -11,14 +11,9 @@
     <RepositoryUrl>https://github.com/manuelbl/SwissQRBill.NET</RepositoryUrl>
     <PackageProjectUrl>https://github.com/manuelbl/SwissQRBill.NET</PackageProjectUrl>
     <PackageTags>Swiss-QR-Bill, Payment, ISO-20022, QR-Code, QRCode, SIX</PackageTags>
-    <PackageReleaseNotes>New in releases 2.3.0 through 2.3.5:
-- Encoding and extraction of structured bill information (Swico S1)
-- Fixed invalid font size of amount
-- Added method to draw separator lines only
-- Changed payment part translations
-- Easier use of PNG
-- Fixed locale sensitivity in PDF generation</PackageReleaseNotes>
-    <Version>2.3.5</Version>
+    <PackageReleaseNotes>New in releases 2.4.0:
+- Strong-named assembly</PackageReleaseNotes>
+    <Version>2.4.0</Version>
     <Description>Library to generate the new QR bill used for invoicing in Switzerland (starting in mid 2020).
 
 The Swiss QR bill library:
@@ -41,7 +36,7 @@ The Swiss QR bill library:
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Net.Codecrete.QrCodeGenerator" Version="1.5.0" />
+    <PackageReference Include="Net.Codecrete.QrCodeGenerator" Version="1.6.0" />
     <PackageReference Include="System.Drawing.Common" Version="4.5.1" />
     <PackageReference Include="System.Text.Encoding.CodePages" Version="4.5.1" />
   </ItemGroup>
