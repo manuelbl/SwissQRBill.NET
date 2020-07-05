@@ -36,6 +36,8 @@ The Swiss QR bill library:
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageIconUrl />
     <PackageIcon>logo.png</PackageIcon>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>Key.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
   <ItemGroup>
