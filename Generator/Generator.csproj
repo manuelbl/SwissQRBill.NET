@@ -11,9 +11,10 @@
     <RepositoryUrl>https://github.com/manuelbl/SwissQRBill.NET</RepositoryUrl>
     <PackageProjectUrl>https://github.com/manuelbl/SwissQRBill.NET</PackageProjectUrl>
     <PackageTags>Swiss-QR-Bill, Payment, ISO-20022, QR-Code, QRCode, SIX</PackageTags>
-    <PackageReleaseNotes>New in releases 2.4.0:
-- Strong-named assembly</PackageReleaseNotes>
-    <Version>2.4.0</Version>
+    <PackageReleaseNotes>New in releases 2.4.0 / 2.4.1:
+- Strong-named assembly
+- No leading zeroes in QR code text</PackageReleaseNotes>
+    <Version>2.4.1</Version>
     <Description>Library to generate the new QR bill used for invoicing in Switzerland (starting in mid 2020).
 
 The Swiss QR bill library:
@@ -33,6 +34,8 @@ The Swiss QR bill library:
     <PackageIcon>logo.png</PackageIcon>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>Key.snk</AssemblyOriginatorKeyFile>
+    <AssemblyVersion>2.4.0.0</AssemblyVersion>
+    <FileVersion>2.4.1.0</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>

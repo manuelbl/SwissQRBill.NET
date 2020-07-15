@@ -22,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Codecrete.SwissQRBill.Generator" Version="2.4.0" />
+    <PackageReference Include="Codecrete.SwissQRBill.Generator" Version="2.4.1" />
     <PackageReference Include="itext7" Version="7.1.10" />
   </ItemGroup>
 
