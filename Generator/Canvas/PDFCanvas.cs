@@ -18,7 +18,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
     /// The PDF generator currently only supports the Helvetica font.
     /// </para>
     /// </summary>
-    public class PDFCanvas : AbstractCanvas, IToByteArray
+    public class PDFCanvas : AbstractCanvas
     {
         private const float ColorScale = 1f / 255;
         private Document _document;
@@ -242,7 +242,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         /// The canvas can no longer be used for drawing after calling this method.</para>
         /// </summary>
         /// <returns>The byte array containing the PDF document</returns>
-        public byte[] ToByteArray()
+        public override byte[] ToByteArray()
         {
             MemoryStream buffer = new MemoryStream();
             _document.Save(buffer);

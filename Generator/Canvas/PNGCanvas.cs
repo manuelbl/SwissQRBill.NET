@@ -22,7 +22,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
     /// PNGs are not an optimal file format for QR bills. Vector formats such a SVG
     /// or PDF are of better quality and use far less processing power to generate
     /// </remarks>
-    public class PNGCanvas : AbstractCanvas, IToByteArray
+    public class PNGCanvas : AbstractCanvas
     {
         private readonly int _resolution;
         private readonly float _coordinateScale;
@@ -84,7 +84,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         /// The canvas can no longer be used for drawing after calling this method.</para>
         /// </summary>
         /// <returns>The byte array containing the PNG image</returns>
-        public byte[] ToByteArray()
+        public override byte[] ToByteArray()
         {
             _graphics.Dispose();
             _graphics = null;
