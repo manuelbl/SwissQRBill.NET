@@ -113,7 +113,7 @@ namespace Codecrete.SwissQRBill.Generator
 
         private static string FormatAmountForCode(decimal amount)
         {
-            return amount.ToString("n", AmountNumberInfo);
+            return string.Format(AmountNumberInfo, "{0:#.00}", amount);
         }
 
         /// <summary>
@@ -308,7 +308,6 @@ namespace Codecrete.SwissQRBill.Generator
         private static NumberFormatInfo CreateAmountNumberInfo()
         {
             NumberFormatInfo numberInfo = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();
-            numberInfo.NumberDecimalDigits = 2;
             numberInfo.NumberDecimalSeparator = ".";
             numberInfo.NumberGroupSeparator = "";
             return numberInfo;

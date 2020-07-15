@@ -288,6 +288,74 @@ namespace Codecrete.SwissQRBill.GeneratorTest
             return bill;
         }
 
+        private static readonly string QRCodeText5 = "SPC\n" +
+            "0200\n" +
+            "1\n" +
+            "CH5800791123000889012\n" +
+            "S\n" +
+            "Robert Schneider AG\n" +
+            "Rue du Lac\n" +
+            "1268\n" +
+            "2501\n" +
+            "Biel\n" +
+            "CH\n" +
+            "\n" +
+            "\n" +
+            "\n" +
+            "\n" +
+            "\n" +
+            "\n" +
+            "\n" +
+            ".50\n" +
+            "CHF\n" +
+            "K\n" +
+            "Pia-Maria Rutschmann-Schnyder\n" +
+            "Grosse Marktgasse 28\n" +
+            "9400 Rorschach\n" +
+            "\n" +
+            "\n" +
+            "CH\n" +
+            "SCOR\n" +
+            "RF18539007547034\n" +
+            "\n" +
+            "EPD\n";
+
+        public static string CreateQrCodeText5(bool withCrLf)
+        {
+            return HandleLinefeed(QRCodeText5, withCrLf);
+        }
+
+        public static Bill CreateBillData5()
+        {
+            Address creditor = new Address
+            {
+                Name = "Robert Schneider AG",
+                Street = "Rue du Lac",
+                HouseNo = "1268",
+                PostalCode = "2501",
+                Town = "Biel",
+                CountryCode = "CH"
+            };
+            Address debtor = new Address
+            {
+                Name = "Pia-Maria Rutschmann-Schnyder",
+                AddressLine1 = "Grosse Marktgasse 28",
+                AddressLine2 = "9400 Rorschach",
+                CountryCode = "CH"
+            };
+            Bill bill = new Bill
+            {
+                Account = "CH5800791123000889012",
+                Creditor = creditor,
+                Amount = 0.50m,
+                Currency = "CHF",
+                Debtor = debtor,
+                Reference = "RF18539007547034",
+                Format = { Language = Language.EN }
+            };
+            return bill;
+        }
+
         private static string HandleLinefeed(string text, bool withCrLf)
         {
             if (withCrLf)

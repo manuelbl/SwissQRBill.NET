@@ -104,6 +104,16 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
+        public void DecodeTextB5()
+        {
+            Bill bill = SampleQRCodeText.CreateBillData5();
+            TestHelper.NormalizeSourceBill(bill);
+            Bill bill2 = QRBill.DecodeQrCodeText(SampleQRCodeText.CreateQrCodeText5(false));
+            TestHelper.NormalizeDecodedBill(bill2);
+            Assert.Equal(bill, bill2);
+        }
+
+        [Fact]
         public void DecodeInvalidRefType()
         {
             Bill bill = SampleData.CreateExample3();

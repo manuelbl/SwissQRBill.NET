@@ -43,6 +43,13 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         [Fact]
         public void CreateText5()
         {
+            Bill bill = SampleQRCodeText.CreateBillData5();
+            Assert.Equal(SampleQRCodeText.CreateQrCodeText5(false), QRBill.EncodeQrCodeText(bill));
+        }
+
+        [Fact]
+        public void CreateTextError1()
+        {
             Assert.Throws<QRBillValidationException>(() =>
             {
                 Bill bill = SampleData.CreateExample4();
@@ -52,7 +59,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        public void CreateText6()
+        public void CreateTextEmptyReference()
         {
             Bill bill = SampleQRCodeText.CreateBillData3();
             ValidationResult result = QRBill.Validate(bill);
