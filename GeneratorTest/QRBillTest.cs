@@ -72,5 +72,12 @@ namespace Codecrete.SwissQRBill.GeneratorTest
             byte[] svg = QRBill.Generate(bill);
             FileComparison.AssertFileContentsEqual(svg, "qrbill_fr.svg");
         }
+
+        [Fact]
+        public void GetLibraryVersion()
+        {
+            string version = QRBill.LibraryVersion;
+            Assert.Matches(@"^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$", version);
+        }
     }
 }

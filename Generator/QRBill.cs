@@ -7,6 +7,8 @@
 
 using Codecrete.SwissQRBill.Generator.Canvas;
 using System;
+using System.Diagnostics;
+using System.Reflection;
 
 namespace Codecrete.SwissQRBill.Generator
 {
@@ -305,6 +307,18 @@ namespace Codecrete.SwissQRBill.Generator
                     throw new QRBillGenerationException("Invalid graphics format specified");
             }
             return canvas;
+        }
+
+        /// <summary>
+        /// Gets the library's version number.
+        /// </summary>
+        /// <value>version number in semantic versioning format (major.minor.patch)</value>
+        public static string LibraryVersion
+        {
+            get
+            {
+                return FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).FileVersion;
+            }
         }
     }
 }
