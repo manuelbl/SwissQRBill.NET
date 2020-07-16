@@ -31,17 +31,56 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        public void ThrowsValidationError()
+        public void ThrowsValidationError1()
         {
-            Assert.Throws<QRBillValidationException>(
-                () => GenerateWithInvalidData()
+            var exception = Assert.Throws<QRBillValidationException>(
+                () => GenerateWithInvalidData1()
             );
+            Assert.Equal("QR bill data is invalid: field \"creditor.name\" may not be empty (field_is_mandatory)", exception.Message);
         }
 
-        private static void GenerateWithInvalidData()
+        private static void GenerateWithInvalidData1()
         {
             Bill bill = SampleData.CreateExample1();
             bill.Creditor.Name = " ";
+            bill.Format.OutputSize = OutputSize.QrBillOnly;
+            bill.Format.GraphicsFormat = GraphicsFormat.PDF;
+            QRBill.Generate(bill);
+        }
+
+        [Fact]
+        public void ThrowsValidationError2()
+        {
+            var exception = Assert.Throws<QRBillValidationException>(
+                () => GenerateWithInvalidData2()
+            );
+            Assert.Equal("QR bill data is invalid: the value for field \"billInformation\" should not exceed a length of 140 characters (field_value_too_long)", exception.Message);
+        }
+
+        private static void GenerateWithInvalidData2()
+        {
+            Bill bill = SampleData.CreateExample1();
+            bill.UnstructuredMessage = null;
+            bill.BillInformation = "//" + new String('X', 150);
+            bill.Format.OutputSize = OutputSize.QrBillOnly;
+            bill.Format.GraphicsFormat = GraphicsFormat.PDF;
+            QRBill.Generate(bill);
+        }
+
+        [Fact]
+        public void ThrowsValidationError3()
+        {
+            var exception = Assert.Throws<QRBillValidationException>(
+                () => GenerateWithInvalidData3()
+            );
+            Assert.Equal("QR bill data is invalid: currency should be \"CHF\" or \"EUR\" (currency_is_chf_or_eur); reference is invalid (numeric QR reference required) (valid_qr_ref_no)", exception.Message);
+        }
+
+        private static void GenerateWithInvalidData3()
+        {
+            Bill bill = SampleData.CreateExample1();
+            bill.Reference = "RF1234";
+            bill.Currency = "XXX";
             bill.Format.OutputSize = OutputSize.QrBillOnly;
             bill.Format.GraphicsFormat = GraphicsFormat.PDF;
             QRBill.Generate(bill);

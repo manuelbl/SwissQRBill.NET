@@ -39,5 +39,7 @@ namespace Codecrete.SwissQRBill.Generator
         /// </summary>
         /// <value>The validation result.</value>
         public ValidationResult Result => _result;
+
+        public override string Message => "QR bill data is invalid: " + _result.Description;
     }
 }

@@ -6,6 +6,7 @@
 //
 
 using System.Collections.Generic;
+using System.Text;
 
 namespace Codecrete.SwissQRBill.Generator
 {
@@ -122,5 +123,70 @@ namespace Codecrete.SwissQRBill.Generator
         /// </summary>
         /// <value>The cleaned bill data.</value>
         public Bill CleanedBill { get; set; }
+
+        /// <summary>
+        /// Gets a human-readable description of the validation problems.
+        /// <para>
+        /// The description includes errors only.
+        /// </para>
+        /// </summary>
+        /// <value>The description.</value>
+        public string Description
+        {
+            get
+            {
+                if (!HasErrors)
+                {
+                    return "Valid bill data";
+                }
+
+                StringBuilder sb = new StringBuilder();
+
+                foreach (var message in ValidationMessages)
+                {
+                    if (message.Type != ValidationMessage.MessageType.Error)
+                        continue;
+
+                    if (sb.Length > 0)
+                        sb.Append("; ");
+
+                    string desc = ErrorMessages.ContainsKey(message.MessageKey) ? ErrorMessages[message.MessageKey] : "Unknown error";
+                    if (message.MessageKey == "field_is_mandatory")
+                    {
+                        desc = string.Format(desc, message.Field);
+                    }
+                    else if (message.MessageKey == "field_value_too_long")
+                    {
+                        desc = string.Format(desc, message.Field, message.MessageParameters[0]);
+                    }
+
+                    sb.Append(desc);
+                    sb.Append(" (");
+                    sb.Append(message.MessageKey);
+                    sb.Append(")");
+                }
+
+                return sb.ToString();
+            }
+        }
+
+        private static readonly Dictionary<string, string> ErrorMessages = new Dictionary<string, string>()
+        {
+            { "currency_is_chf_or_eur", "currency should be \"CHF\" or \"EUR\"" },
+            { "amount_in_valid_range", "amount should be between 0.01 and 999 999 999.99" },
+            { "account_is_ch_li_iban", "account number should start with \"CH\" or \"LI\"" },
+            { "account_is_valid_iban", "IBAN is invalid (format or checksum)" },
+            { "valid_iso11649_creditor_ref", "reference is invalid (reference should be empty or start with \"RF\")" },
+            { "valid_qr_ref_no", "reference is invalid (numeric QR reference required)" },
+            { "mandatory_for_qr_iban", "reference is needed for a payment to this account (QR-IBAN)" },
+            { "field_is_mandatory", "field \"{0}\" may not be empty" },
+            { "valid_country_code", "country code is invalid; it should consist of two letters" },
+            { "address_type_conflict", "fields for either structured address or combined elements address may be filled but not both" },
+            { "alt_scheme_max_exceed", "no more than two alternative schemes may be used" },
+            { "bill_info_invalid", "structured bill information must start with \"//\"" },
+            { "field_value_too_long", "the value for field \"{0}\" should not exceed a length of {1} characters" },
+            { "additional_info_too_long", "the additional information and the structured bill information combined should not exceed 140 characters" }
+        };
+
     }
 }
