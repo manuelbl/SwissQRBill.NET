@@ -44,6 +44,20 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
+        public void Example5_FullyDecoded()
+        {
+            var billInformation = SwicoBillInformation.DecodeText(SwicoExamples.Example5Text);
+            Assert.Equal(SwicoExamples.CreateExample5(), billInformation);
+        }
+
+        [Fact]
+        public void Example6_FullyDecoded()
+        {
+            var billInformation = SwicoBillInformation.DecodeText(SwicoExamples.Example6Text);
+            Assert.Equal(SwicoExamples.CreateExample6(), billInformation);
+        }
+
+        [Fact]
         public void NullValue_ReturnsNull()
         {
             Assert.Null(SwicoBillInformation.DecodeText(null));
