@@ -44,6 +44,20 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
+        public void Example5_FullyDecoded()
+        {
+            var billInformation = SwicoBillInformation.DecodeText(SwicoExamples.Example5Text);
+            Assert.Equal(SwicoExamples.CreateExample5(), billInformation);
+        }
+
+        [Fact]
+        public void Example6_FullyDecoded()
+        {
+            var billInformation = SwicoBillInformation.DecodeText(SwicoExamples.Example6Text);
+            Assert.Equal(SwicoExamples.CreateExample6(), billInformation);
+        }
+
+        [Fact]
         public void NullValue_ReturnsNull()
         {
             Assert.Null(SwicoBillInformation.DecodeText(null));
@@ -188,6 +202,8 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         [InlineData("//S1/10/10201409/11/19.05.20/20/405.789.Q")]
         [InlineData("//S1/10/10201409/11/1905213/20/405.789.Q")]
         [InlineData("//S1/10/10201409/11/200301 /20/405.789.Q")]
+        [InlineData("//S1/10/10201409/11/200301125977/20/405.789.Q")]
+        [InlineData("//S1/10/10201409/11/2003011288/20/405.789.Q")]
         public void InvalidInvoiceDate_IsIgnored(string rawBillInformation)
         {
             SwicoBillInformation billInformation = SwicoBillInformation.DecodeText(rawBillInformation);

@@ -217,15 +217,49 @@ namespace Codecrete.SwissQRBill.Generator
 
         private static DateTime? GetDateValue(string dateText)
         {
-            // Validation with 
-            if (DateTime.TryParseExact(
-                dateText,
-                "yyMMdd",
-                CultureInfo.InvariantCulture,
-                DateTimeStyles.None,
-                out var date))
+            if (string.IsNullOrWhiteSpace(dateText))
             {
-                return date;
+                return null;
+            }
+            
+            if (dateText.Length == 6) // Consistent with specifications
+            {
+                // Validation with 
+                if (DateTime.TryParseExact(
+                    dateText,
+                    "yyMMdd",
+                    CultureInfo.InvariantCulture,
+                    DateTimeStyles.None,
+                    out var date))
+                {
+                    return date;
+                }
+            }
+            else if (dateText.Length == 12) // Not consistent with specifications but seen in production (year, month, day, hour, minute, second)
+            {
+                // Validation with 
+                if (DateTime.TryParseExact(
+                    dateText,
+                    "yyMMddHHmmss",
+                    CultureInfo.InvariantCulture,
+                    DateTimeStyles.None,
+                    out var date))
+                {
+                    return date.Date;
+                }
+            }
+            else if (dateText.Length == 10) // Not consistent with specifications but seen in production (year, month, day, hour, minute)
+            {
+                // Validation with 
+                if (DateTime.TryParseExact(
+                    dateText,
+                    "yyMMddHHmm",
+                    CultureInfo.InvariantCulture,
+                    DateTimeStyles.None,
+                    out var date))
+                {
+                    return date.Date;
+                }
             }
 
             return null;

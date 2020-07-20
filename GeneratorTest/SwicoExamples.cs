@@ -72,5 +72,37 @@ namespace Codecrete.SwissQRBill.GeneratorTest
 
         internal const string Example4Text =
                 @"//S1/10/X.66711\/8824/11/200712/20/MW-2020-04/30/107978798/32/2.5:117.22/40/3:5;1.5:20;1:40;0:60";
+
+        internal static SwicoBillInformation CreateExample5()
+        {
+            return new SwicoBillInformation
+            {
+                InvoiceNumber = "79269",
+                InvoiceDate = new DateTime(2020, 7, 14),
+                CustomerReference = "66359",
+                VatNumber = "109532551",
+                VatRate = 7.7m,
+                PaymentConditions = new List<(decimal, int)> { (0m, 30) }
+            };
+        }
+
+        internal const string Example5Text =
+            "//S1/10/79269/11/200714210713/20/66359/30/109532551/32/7.7/40/0:30";
+
+        internal static SwicoBillInformation CreateExample6()
+        {
+            return new SwicoBillInformation
+            {
+                InvoiceNumber = "802277",
+                InvoiceDate = new DateTime(2020, 7, 1),
+                CustomerReference = "55878",
+                VatNumber = "109532551",
+                VatRate = 7.7m,
+                PaymentConditions = new List<(decimal, int)> { (0m, 30) }
+            };
+        }
+
+        internal const string Example6Text =
+            "//S1/10/802277/11/2007012107/20/55878/30/109532551/32/7.7/40/0:30";
     }
 }
