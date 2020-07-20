@@ -360,20 +360,47 @@ namespace Codecrete.SwissQRBill.Generator
                 return false;
             }
 
-            int carry = 0;
             int len = reference.Length;
             if (len != 27)
             {
                 return false;
             }
 
+            return CalculateMod10(reference) == 0;
+        }
+
+        /// <summary>
+        /// Creates a QR reference from a raw string by appending the checksum digit
+        /// and prepending zeros to make it the correct length.
+        /// <para>
+        /// Whitespace is removed from the reference.
+        /// </para>
+        /// </summary>
+        /// <param name="rawReference">The raw string (digits and whitespace only).</param>
+        /// <returns>The QR reference.</returns>
+        /// <exception cref="ArgumentException">The reference contains non-numeric characters or is too long</exception>
+        public static string CreateQRReference(string rawReference)
+        {
+            string rawRef = rawReference.WhiteSpaceRemoved();
+            if (!IsNumeric(rawRef))
+                throw new ArgumentException("Invalid character in reference (digits allowed only)");
+            if (rawRef.Length > 26)
+                throw new ArgumentException("Reference number is too long");
+            int mod10 = CalculateMod10(rawRef);
+            return "00000000000000000000000000".Substring(0, 26 - rawRef.Length) + rawRef + (char)('0' + mod10);
+        }
+
+        private static int CalculateMod10(string reference)
+        {
+            int len = reference.Length;
+            int carry = 0;
             for (int i = 0; i < len; i++)
             {
                 int digit = reference[i] - '0';
                 carry = Mod10[(carry + digit) % 10];
             }
 
-            return carry == 0;
+            return (10 - carry) % 10;
         }
 
         /// <summary>

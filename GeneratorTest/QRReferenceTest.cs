@@ -6,6 +6,7 @@
 //
 
 using Codecrete.SwissQRBill.Generator;
+using System;
 using Xunit;
 
 namespace Codecrete.SwissQRBill.GeneratorTest
@@ -53,6 +54,40 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         {
             Assert.Equal("12 34560 00000 00129 11462 90514",
                     Payments.FormatQrReferenceNumber("123456000000001291146290514"));
+        }
+
+        [Fact]
+        public void CreateQRReference()
+        {
+            Assert.Equal(
+                    "000000000000000000001234565",
+                    Payments.CreateQRReference("123456"));
+        }
+
+        [Fact]
+        public void CreateQRReferenceWithWhitespace()
+        {
+            Assert.Equal(
+                    "000000000000000000001234565",
+                    Payments.CreateQRReference("  12 3456 "));
+        }
+
+        [Fact]
+        public void RawReferenceWithInvalidCharacters()
+        {
+            ArgumentException ex = Assert.Throws<ArgumentException>(
+                () => Payments.CreateQRReference("1134a56")
+            );
+            Assert.Equal("Invalid character in reference (digits allowed only)", ex.Message);
+        }
+
+        [Fact]
+        public void RawReferenceTooLong()
+        {
+            ArgumentException ex = Assert.Throws<ArgumentException>(
+                    () => Payments.CreateQRReference("123456789012345678901234567")
+                );
+            Assert.Equal("Reference number is too long", ex.Message);
         }
     }
 }

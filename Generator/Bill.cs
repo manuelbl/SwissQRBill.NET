@@ -123,16 +123,21 @@ namespace Codecrete.SwissQRBill.Generator
         /// <summary>
         /// Gets or sets the creditor payment reference.
         /// <para>
-        /// The reference is mandatory for QR IBANs, i.e.IBANs in the range
-        /// CHxx30000xxxxxx through CHxx31999xxxxx.
+        /// The reference is mandatory for QR IBANs, i.e. IBANs in the range
+        /// CHxx30000xxxxxx through CHxx31999xxxxx. QR IBANs require a valid QR
+        /// reference (numeric reference corresponding to the ISR reference format).
         /// </para>
         /// <para>
-        /// If specified, the reference must be either a valid QR reference
-        /// (corresponding to ISR reference form) or a valid creditor reference
-        /// according to ISO 11649 ("RFxxxx"). Both may contain spaces for formatting.
+        /// For non-QR IBANs, the reference is optional. If it is provided,
+        /// it must be valid creditor reference according to ISO 11649 ("RFxxxx").
+        /// </para>
+        /// <para>
+        /// Both types of references may contain spaces for formatting.
         /// </para>
         /// </summary>
         /// <value>The creditor payment reference.</value>
+        /// <seealso cref="CreateAndSetCreditorReference(string)"/>
+        /// <seealso cref="CreateAndSetQRReference(string)"/>
         public string Reference
         {
             get
@@ -158,6 +163,21 @@ namespace Codecrete.SwissQRBill.Generator
         public void CreateAndSetCreditorReference(string rawReference)
         {
             Reference = Payments.CreateIso11649Reference(rawReference);
+        }
+
+        /// <summary>
+        /// Creates and sets a QR reference from a raw string by appending the checksum digit
+        /// and prepending zeros to make it the correct length.
+        /// <para>
+        /// As the QR reference is numeric, the raw string must consist of digits and
+        /// whitespace only. Whitespace is removed from the reference.
+        /// </para>
+        /// </summary>
+        /// <param name="rawReference">The raw reference.</param>
+        /// <exception cref="ArgumentException"><c>rawReference</c> contains non-numeric characters or is too long.</exception>
+        public void CreateAndSetQRReference(string rawReference)
+        {
+            Reference = Payments.CreateQRReference(rawReference);
         }
 
         /// <summary>

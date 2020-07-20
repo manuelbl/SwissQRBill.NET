@@ -84,6 +84,15 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
+        public void CreateQRReference()
+        {
+            Bill bill = new Bill();
+            bill.CreateAndSetQRReference("20187383000000000000721928");
+            Assert.Equal("201873830000000000007219287", bill.Reference);
+            Assert.Equal(Bill.ReferenceTypeQrRef, bill.ReferenceType);
+        }
+
+        [Fact]
         public void SetReferenceType()
         {
             Bill bill = new Bill
