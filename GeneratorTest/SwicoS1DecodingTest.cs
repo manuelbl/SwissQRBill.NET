@@ -202,6 +202,8 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         [InlineData("//S1/10/10201409/11/19.05.20/20/405.789.Q")]
         [InlineData("//S1/10/10201409/11/1905213/20/405.789.Q")]
         [InlineData("//S1/10/10201409/11/200301 /20/405.789.Q")]
+        [InlineData("//S1/10/10201409/11/200301125977/20/405.789.Q")]
+        [InlineData("//S1/10/10201409/11/2003011288/20/405.789.Q")]
         public void InvalidInvoiceDate_IsIgnored(string rawBillInformation)
         {
             SwicoBillInformation billInformation = SwicoBillInformation.DecodeText(rawBillInformation);
