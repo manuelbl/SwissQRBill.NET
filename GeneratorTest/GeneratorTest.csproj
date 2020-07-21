@@ -19,7 +19,7 @@
 
     <PackageLicenseUrl></PackageLicenseUrl>
 
-    <Version>2.4.2</Version>
+    <Version>2.4.3</Version>
 
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
