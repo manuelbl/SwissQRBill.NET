@@ -229,7 +229,6 @@ namespace Codecrete.SwissQRBill.Examples.IText7
             SetFont(false, fontSize);
 
             _canvas.BeginText()
-                .BeginText()
                 .MoveText(x, y)
                 .SetLeading(lineHeight);
 
