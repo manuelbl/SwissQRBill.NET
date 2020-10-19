@@ -5,20 +5,29 @@
 // https://opensource.org/licenses/MIT
 //
 
+using System;
+using System.IO;
+
 namespace Codecrete.SwissQRBill.Generator
 {
     /// <summary>
-    /// The output size of the QR bill.
+    /// The output size of the QR bill or QR code.
     /// </summary>
     public enum OutputSize
     {
         /// <summary>
         /// QR bill only (105 by 210 mm).
+        /// <para>
+        /// This size is suitable if the QR bill has no horizontal line.
+        /// If the horizontal line is needed and the A4 sheet size is not
+        /// suitable, use <see cref="QrBillExtraSpace"/> instead.
+        /// </para>
         /// </summary>
         QrBillOnly,
         /// <summary>
         /// QR bill with horizontal separator line (110 by 210 mm).
         /// </summary>
+        [Obsolete("Renamed to 'QrBillExtraSpace'")]
         QrBillWithHorizontalLine,
         /// <summary>
         /// A4 sheet in portrait orientation. The QR bill is at the bottom.
@@ -27,6 +36,14 @@ namespace Codecrete.SwissQRBill.Generator
         /// <summary>
         /// QR code only (46 by 46 mm).
         /// </summary>
-        QrCodeOnly
+        QrCodeOnly,
+        /// <summary>
+        /// QR bill only with additional space at the top for the horizontal line (about 110 by 210 mm).
+        /// <para>
+        /// The extra 5 mm at the top create space for the horizontal line and
+        /// optionally for the scissors.
+        /// </para>
+        /// </summary>
+        QrBillExtraSpace
     }
 }

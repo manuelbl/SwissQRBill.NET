@@ -22,48 +22,56 @@ namespace Codecrete.SwissQRBill.Generator
     {
         /// <summary>
         /// The width of an A4 sheet in portrait orientation.
+        /// <seealso cref="OutputSize.A4PortraitSheet"/>
         /// </summary>
         /// <value>The width, in mm.</value>
         public const double A4PortraitWidth = 210;
 
         /// <summary>
         /// The height of an A4 sheet in portrait orientation.
+        /// <seealso cref="OutputSize.A4PortraitSheet"/>
         /// </summary>
         /// <value>The height, in mm.</value>
         public const double A4PortraitHeight = 297;
 
         /// <summary>
         /// The width of a QR bill (payment part and receipt).
+        /// <seealso cref="OutputSize.QrBillOnly"/>
         /// </summary>
         /// <value>The width, in mm.</value>
         public const double QrBillWidth = 210;
 
         /// <summary>
         /// The height of a QR bill (payment part and receipt).
+        /// <seealso cref="OutputSize.QrBillOnly"/>
         /// </summary>
         /// <value>The height, in mm.</value>
         public const double QrBillHeight = 105;
 
         /// <summary>
-        /// The width of a QR bill with horizontal separator line (payment part and receipt plus space for line and scissors).
+        /// The width of the output format with extra space for horizontal separator line (payment part and receipt plus space for line and scissors).
+        /// <seealso cref="OutputSize.QrBillExtraSpace"/>
         /// </summary>
         /// <value>The width, in mm.</value>
         public const double QrBillWithHoriLineWidth = 210;
 
         /// <summary>
-        /// The height of a QR bill with horizontal separator line (payment part and receipt plus space for line and scissors).
+        /// The height of a the output format with extra space for horizontal separator line (payment part and receipt plus space for line and scissors).
+        /// <seealso cref="OutputSize.QrBillExtraSpace"/>
         /// </summary>
         /// <value>The height, in mm.</value>
         public const double QrBillWithHoriLineHeight = 110;
 
         /// <summary>
         /// The width of the QR code.
+        /// <seealso cref="OutputSize.QrCodeOnly"/>
         /// </summary>
         /// <value>The width, in mm.</value>
         public const double QrCodeWidth = 46;
 
         /// <summary>
         /// The height of the QR code.
+        /// <seealso cref="OutputSize.QrCodeOnly"/>
         /// </summary>
         /// <value>The height, in mm.</value>
         public const double QrCodeHeight = 46;
@@ -182,7 +190,7 @@ namespace Codecrete.SwissQRBill.Generator
                 Format = new BillFormat
                 {
                     SeparatorType = separatorType,
-                    OutputSize = withHorizontalLine ? OutputSize.QrBillWithHorizontalLine : OutputSize.QrBillOnly
+                    OutputSize = withHorizontalLine ? OutputSize.QrBillExtraSpace : OutputSize.QrBillOnly
                 }
             };
 
@@ -277,7 +285,10 @@ namespace Codecrete.SwissQRBill.Generator
                     drawingWidth = QrBillWidth;
                     drawingHeight = QrBillHeight;
                     break;
+                case OutputSize.QrBillExtraSpace:
+#pragma warning disable CS0618 // Type or member is obsolete
                 case OutputSize.QrBillWithHorizontalLine:
+#pragma warning restore CS0618 // Type or member is obsolete
                     drawingWidth = QrBillWithHoriLineWidth;
                     drawingHeight = QrBillWithHoriLineHeight;
                     break;

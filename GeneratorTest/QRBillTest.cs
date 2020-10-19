@@ -54,10 +54,22 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        public void CreateQrBill5()
+        public void CreateQrBill5a()
         {
             Bill bill = SampleData.CreateExample3();
+            bill.Format.OutputSize = OutputSize.QrBillExtraSpace;
+            bill.Format.GraphicsFormat = GraphicsFormat.SVG;
+            byte[] svg = QRBill.Generate(bill);
+            FileComparison.AssertFileContentsEqual(svg, "qrbill_ex5.svg");
+        }
+
+        [Fact]
+        public void CreateQrBill5b()
+        {
+            Bill bill = SampleData.CreateExample3();
+#pragma warning disable CS0618 // Type or member is obsolete
             bill.Format.OutputSize = OutputSize.QrBillWithHorizontalLine;
+#pragma warning restore CS0618 // Type or member is obsolete
             bill.Format.GraphicsFormat = GraphicsFormat.SVG;
             byte[] svg = QRBill.Generate(bill);
             FileComparison.AssertFileContentsEqual(svg, "qrbill_ex5.svg");
