@@ -154,12 +154,26 @@ namespace Codecrete.SwissQRBill.GeneratorTest
             TestHelper.AssertSingleError(err.Result, ValidationConstants.KeyValidDataStructure, ValidationConstants.FieldQrType);
         }
 
-        [Fact]
-        public void DecodeInvalidVersion()
+        [Theory]
+        [InlineData("SPC\r\n0101\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n")]
+        [InlineData("SPC\r\n020\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n")]
+        [InlineData("SPC\r\n020f\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n")]
+        public void DecodeInvalidVersion(string qrCodeText)
         {
-            QRBillValidationException err = Assert.Throws<QRBillValidationException>(() => QRBill.DecodeQrCodeText(
-                       "SPC\r\n0101\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n"));
+            QRBillValidationException err = Assert.Throws<QRBillValidationException>(() => QRBill.DecodeQrCodeText(qrCodeText));
             TestHelper.AssertSingleError(err.Result, ValidationConstants.KeySupportedVersion, ValidationConstants.FieldVersion);
+        }
+
+        [Fact]
+        public void decodeIgnoreMinorVersion()
+        {
+            Bill bill = SampleQRCodeText.CreateBillData1();
+            TestHelper.NormalizeSourceBill(bill);
+            string qrCodeText = SampleQRCodeText.CreateQrCodeText1(false);
+            qrCodeText = qrCodeText.Replace("\n0200\n", "\n0201\n");
+            Bill bill2 = QRBill.DecodeQrCodeText(qrCodeText);
+            TestHelper.NormalizeDecodedBill(bill2);
+            Assert.Equal(bill, bill2);
         }
 
         [Fact]

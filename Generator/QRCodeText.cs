@@ -8,6 +8,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
+using System.Text.RegularExpressions;
 using static Codecrete.SwissQRBill.Generator.Address;
 using static Codecrete.SwissQRBill.Generator.ValidationMessage;
 
@@ -116,6 +117,8 @@ namespace Codecrete.SwissQRBill.Generator
             return string.Format(AmountNumberInfo, "{0:0.00}", amount);
         }
 
+        private static Regex ValidVersion = new Regex(@"^02[0-9][0-9]$", RegexOptions.Compiled);
+
         /// <summary>
         /// Decodes the specified text and returns the bill data.
         /// <para>
@@ -146,7 +149,7 @@ namespace Codecrete.SwissQRBill.Generator
                 ThrowSingleValidationError(ValidationConstants.FieldQrType, ValidationConstants.KeyValidDataStructure);
             }
 
-            if ("0200" != lines[1])
+            if (!ValidVersion.IsMatch(lines[1]))
             {
                 ThrowSingleValidationError(ValidationConstants.FieldVersion, ValidationConstants.KeySupportedVersion);
             }
