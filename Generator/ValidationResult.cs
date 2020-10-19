@@ -6,6 +6,7 @@
 //
 
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Codecrete.SwissQRBill.Generator
@@ -63,25 +64,12 @@ namespace Codecrete.SwissQRBill.Generator
         /// <summary>
         /// Gets if this validation result contains any error messages.
         /// </summary>
-        /// <value><c>true</c> if the result contains any messages, <c>false</c> otherwise.</value>
+        /// <value><c>true</c> if the result contains any error messages, <c>false</c> otherwise.</value>
         public bool HasErrors
         {
             get
             {
-                if (_validationMessages == null)
-                {
-                    return false;
-                }
-
-                foreach (ValidationMessage message in _validationMessages)
-                {
-                    if (message.Type == ValidationMessage.MessageType.Error)
-                    {
-                        return true;
-                    }
-                }
-
-                return false;
+                return _validationMessages != null && _validationMessages.Any(message => message.Type == ValidationMessage.MessageType.Error);
             }
         }
 
