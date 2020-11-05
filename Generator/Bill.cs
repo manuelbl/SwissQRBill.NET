@@ -179,7 +179,33 @@ namespace Codecrete.SwissQRBill.Generator
         {
             Reference = Payments.CreateQRReference(rawReference);
         }
+        
+        /// <summary>
+        /// Creates and sets a ISO11649 creditor reference or a QR reference.
+        /// </summary>
+        /// <param name="rawReference"></param>
+        public void CreateAndSetReference(string rawReference)
+        {
+            // Check bill account
+            var account = Account?.Replace(" ", string.Empty) ?? null;
+            if (account == null) throw new Exception("Account is null or empty");
 
+            // Check rawReference
+            rawReference = rawReference?.Replace(" ", string.Empty) ?? null;
+            if (rawReference == null) throw new ArgumentNullException(nameof(rawReference), "Raw reference is null or empty");
+
+            // Create and set reference
+            var isQrBillIban = Account.Length >= 6 && account[4] == '3' && (account[5] == '0' || account[5] == '1');
+            if (isQrBillIban)
+            {
+                CreateAndSetQRReference(rawReference);
+            }
+            else
+            {
+                CreateAndSetCreditorReference(rawReference);
+            }
+        }
+        
         /// <summary>
         /// Gets or sets the debtor address.
         /// <para>
