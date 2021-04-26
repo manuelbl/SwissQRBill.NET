@@ -44,6 +44,9 @@ namespace Codecrete.SwissQRBill.Generator
         private readonly ICanvas _graphics;
         private readonly ResourceSet _resourceSet;
 
+        private readonly double _additionalLeftMargin;
+        private readonly double _additionalRightMargin;
+
         private string _accountPayableTo;
         private string _reference;
         private string _additionalInfo;
@@ -71,6 +74,8 @@ namespace Codecrete.SwissQRBill.Generator
             _qrCode = new QRCode(bill);
             _graphics = graphics;
             _resourceSet = MultilingualText.GetResourceSet(bill.Format.Language);
+            _additionalLeftMargin = Math.Min(Math.Max(bill.Format.MarginLeft, 5.0), 12.0) - Margin;
+            _additionalRightMargin = Math.Min(Math.Max(bill.Format.MarginRight, 5.0), 12.0) - Margin;
         }
 
         internal void Draw()
@@ -89,7 +94,7 @@ namespace Codecrete.SwissQRBill.Generator
             bool isTooTight;
             while (true)
             {
-                BreakLines(PpInfoSectionWidth);
+                BreakLines(PpInfoSectionWidth - _additionalRightMargin);
                 isTooTight = ComputePaymentPartSpacing();
                 if (!isTooTight || _textFontSize == ppTextMinFontSize)
                 {
@@ -108,18 +113,19 @@ namespace Codecrete.SwissQRBill.Generator
 
             _labelFontSize = rcLabelPrefFontSize;
             _textFontSize = rcTextPrefFontSize;
-            BreakLines(ReceiptWidth - 2 * Margin);
+            double receiptTextWidthAdapted = ReceiptTextWidth - _additionalLeftMargin;
+            BreakLines(receiptTextWidthAdapted);
             isTooTight = ComputeReceiptSpacing();
             if (isTooTight)
             {
                 PrepareReducedReceiptText(false);
-                BreakLines(ReceiptWidth - 2 * Margin);
+                BreakLines(receiptTextWidthAdapted);
                 isTooTight = ComputeReceiptSpacing();
             }
             if (isTooTight)
             {
                 PrepareReducedReceiptText(true);
-                BreakLines(ReceiptWidth - 2 * Margin);
+                BreakLines(receiptTextWidthAdapted);
                 ComputeReceiptSpacing();
             }
             DrawReceipt();
@@ -230,7 +236,7 @@ namespace Codecrete.SwissQRBill.Generator
 
             _graphics.SetTransformation(ReceiptWidth + Margin, 0, 0, 1, 1);
             double y = furtherInformationSectionTop - _graphics.Ascender(fontSize);
-            const double maxWidth = PaymentPartWidth - 2 * Margin;
+            double maxWidth = PaymentPartWidth - 2 * Margin - _additionalRightMargin;
 
             foreach (AlternativeScheme scheme in _bill.AlternativeSchemes)
             {
@@ -247,7 +253,7 @@ namespace Codecrete.SwissQRBill.Generator
         private void DrawReceipt()
         {
             // "Receipt" title
-            _graphics.SetTransformation(Margin, 0, 0, 1, 1);
+            _graphics.SetTransformation(Margin + _additionalLeftMargin, 0, 0, 1, 1);
             _yPos = SlipHeight - Margin - _graphics.Ascender(FontSizeTitle);
             _graphics.PutText(GetText(MultilingualText.KeyReceipt), 0, _yPos, FontSizeTitle, true);
 
@@ -285,7 +291,7 @@ namespace Codecrete.SwissQRBill.Generator
                 DrawLabel(MultilingualText.KeyPayableByNameAddr);
                 _yPos -= -_textAscender + BoxTopPadding;
                 _yPos -= DebtorBoxHeightRc;
-                DrawCorners(0, _yPos, DebtorBoxWidthRc, DebtorBoxHeightRc);
+                DrawCorners(0, _yPos, DebtorBoxWidthRc - _additionalLeftMargin, DebtorBoxHeightRc);
             }
         }
 
@@ -317,7 +323,7 @@ namespace Codecrete.SwissQRBill.Generator
             {
                 DrawCorners(ReceiptTextWidth - amountBoxWidthRc,
                         AmountSectionTop - amountBoxHeightRc,
-                        amountBoxWidthRc, amountBoxHeightRc);
+                        amountBoxWidthRc - _additionalLeftMargin, amountBoxHeightRc);
             }
         }
 
@@ -328,7 +334,7 @@ namespace Codecrete.SwissQRBill.Generator
             string label = GetText(MultilingualText.KeyAcceptancePoint);
             double y = acceptancePointSectionTop - _labelAscender;
             double w = _graphics.TextWidth(label, _labelFontSize, true);
-            _graphics.PutText(label, ReceiptTextWidth - w, y, _labelFontSize, true);
+            _graphics.PutText(label, ReceiptTextWidth - _additionalLeftMargin - w, y, _labelFontSize, true);
         }
 
 

@@ -22,6 +22,8 @@ namespace Codecrete.SwissQRBill.GeneratorTest
             Assert.Equal("Helvetica,Arial,\"Liberation Sans\"", format.FontFamily);
             Assert.Equal(SeparatorType.DashedLineWithScissors, format.SeparatorType);
             Assert.Equal(144, format.Resolution);
+            Assert.Equal(5.0, format.MarginLeft);
+            Assert.Equal(5.0, format.MarginRight);
         }
 
         [Fact]

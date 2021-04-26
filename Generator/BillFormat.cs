@@ -15,6 +15,9 @@ namespace Codecrete.SwissQRBill.Generator
     /// </summary>
     public sealed class BillFormat : IEquatable<BillFormat>
     {
+        /// Default width for left and right margin, in mm. 
+        public static readonly double DefaultMarginWidth = 5.0;
+
         /// <summary>
         /// Initializes a new instance with default values.
         /// </summary>
@@ -31,6 +34,8 @@ namespace Codecrete.SwissQRBill.Generator
             SeparatorType = format.SeparatorType;
             FontFamily = format.FontFamily;
             GraphicsFormat = format.GraphicsFormat;
+            MarginLeft = format.MarginLeft;
+            MarginRight = format.MarginRight;
         }
 
         /// <summary>
@@ -97,6 +102,36 @@ namespace Codecrete.SwissQRBill.Generator
         /// </summary>
         public GraphicsFormat GraphicsFormat { get; set; } = GraphicsFormat.SVG;
 
+        /// <summary>
+        /// Gets or sets the left margin width (from edge of paper to start of text).
+        /// <para>
+        /// Valid values are between 5mm and 12mm. The default is 5mm.
+        /// </para>
+        /// <para>
+        /// Values other than 5mm are not fully standard compliant as the fields in the receipt on the left-hand side
+        /// become narrower. It is especially obvious if <i>Payable by</i> or <i>Amount</i> are not pre-filled
+        /// so that the black corners are printed instead of text. Yet values higher than 5mm are more compatible
+        /// with typical office and home printers, which are not capable of printing up to the edge of the paper and
+        /// require a margin wider than 5mm.
+        /// </para>
+        /// </summary>
+        /// <value>margin width, in mm</value>
+        public double MarginLeft { get; set; } = DefaultMarginWidth;
+
+        /// <summary>
+        /// Gets the the right margin width (from the end of the text to the edge of the paper).
+        /// <para>
+        /// Valid values are between 5mm and 12mm. The default is 5mm.
+        /// </para>
+        /// <para>
+        /// Values other than 5mm are not fully standard compliant but are more compatible with typical office and home
+        /// printers, which are not capable of printing up to the edge of the paper and require a margin wider than 5mm.
+        /// </para>
+        /// </summary>
+        /// <value>width width, in mm</value>
+        public double MarginRight { get; set; } = DefaultMarginWidth;
+
+
         /// <summary>Determines whether the specified object is equal to the current object.</summary>
         /// <param name="obj">The object to compare with the current object.</param>
         /// <returns><c>true</c> if the specified object is equal to the current object; otherwise, <c>false</c>.</returns>
@@ -116,7 +151,9 @@ namespace Codecrete.SwissQRBill.Generator
                    SeparatorType == other.SeparatorType &&
                    FontFamily == other.FontFamily &&
                    GraphicsFormat == other.GraphicsFormat &&
-                   Resolution == other.Resolution;
+                   Resolution == other.Resolution &&
+                   MarginLeft == other.MarginLeft &&
+                   MarginRight == other.MarginRight;
         }
 
         /// <summary>Gets the hash code for this instance.</summary>
@@ -130,6 +167,8 @@ namespace Codecrete.SwissQRBill.Generator
             hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(FontFamily);
             hashCode = hashCode * -1521134295 + GraphicsFormat.GetHashCode();
             hashCode = hashCode * -1521134295 + Resolution.GetHashCode();
+            hashCode = hashCode * -1521134295 + MarginLeft.GetHashCode();
+            hashCode = hashCode * -1521134295 + MarginRight.GetHashCode();
             return hashCode;
         }
     }

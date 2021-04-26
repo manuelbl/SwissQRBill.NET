@@ -39,6 +39,9 @@
     <None Remove="ReferenceFiles\a4bill_ex5.svg" />
     <None Remove="ReferenceFiles\a4bill_ex6.pdf" />
     <None Remove="ReferenceFiles\a4bill_ex6.svg" />
+    <None Remove="ReferenceFiles\a4bill_ma1.svg" />
+    <None Remove="ReferenceFiles\a4bill_ma2.svg" />
+    <None Remove="ReferenceFiles\a4bill_ma6.svg" />
     <None Remove="ReferenceFiles\a4bill_postproc1.pdf" />
     <None Remove="ReferenceFiles\a4bill_postproc2.pdf" />
     <None Remove="ReferenceFiles\linestyle_1.pdf" />
@@ -81,6 +84,9 @@
     <EmbeddedResource Include="ReferenceFiles\a4bill_ex5.svg" />
     <EmbeddedResource Include="ReferenceFiles\a4bill_ex6.pdf" />
     <EmbeddedResource Include="ReferenceFiles\a4bill_ex6.svg" />
+    <EmbeddedResource Include="ReferenceFiles\a4bill_ma1.svg" />
+    <EmbeddedResource Include="ReferenceFiles\a4bill_ma2.svg" />
+    <EmbeddedResource Include="ReferenceFiles\a4bill_ma6.svg" />
     <EmbeddedResource Include="ReferenceFiles\a4bill_postproc1.pdf" />
     <EmbeddedResource Include="ReferenceFiles\a4bill_postproc2.pdf" />
     <EmbeddedResource Include="ReferenceFiles\linestyle_1.pdf" />
