@@ -15,7 +15,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
     /// <summary>
     /// Canvas for generating SVG files.
     /// </summary>
-    public class SVGCanvas : AbstractCanvas, IToByteArray
+    public class SVGCanvas : AbstractCanvas
     {
         private static readonly Encoding Utf8WithoutBom = new UTF8Encoding(false);
 
@@ -84,7 +84,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         /// The canvas can no longer be used for drawing after calling this method.</para>
         /// </summary>
         /// <returns>The byte array containing the SVG document</returns>
-        public byte[] ToByteArray()
+        public override byte[] ToByteArray()
         {
             Close();
             return _buffer.ToArray();

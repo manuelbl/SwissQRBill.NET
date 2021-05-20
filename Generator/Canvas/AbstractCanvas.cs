@@ -77,6 +77,8 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             StrokePath(strokeWidth, color);
         }
 
+        public abstract byte[] ToByteArray();
+
         public void Dispose()
         {
             Dispose(true);
