@@ -15,7 +15,7 @@ namespace PDFsharp
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
             using (var doc = new PdfDocument())
             {
