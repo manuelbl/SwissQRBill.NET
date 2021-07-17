@@ -8,6 +8,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 using System.Text;
 
 namespace Codecrete.SwissQRBill.Generator.PDF
@@ -132,7 +133,17 @@ namespace Codecrete.SwissQRBill.Generator.PDF
                 // fall through
             }
 
-            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+            // `CodePagesEncodingProvider.Instance` is not part of .NET Standard 2.0 but is available (built-in) on all
+            // supported versions of .NET Core, see https://apisof.net/catalog/653e5d69-d3b8-cf7c-2875-7f1822ab1354
+            // So we register the CodePagesEncodingProvider.Instance through reflexion in order to avoid
+            // taking a superfluous dependency on the System.Text.Encoding.CodePages NuGet package.
+            // On .NET Framework, this issue is moot since Encoding.GetEncoding(1252) always succeeds.
+            var encodingProvider = Type.GetType("System.Text.CodePagesEncodingProvider, System.Text.Encoding.CodePages");
+            var instanceProperty = encodingProvider?.GetProperty("Instance", BindingFlags.Public | BindingFlags.Static);
+            if (instanceProperty?.GetValue(null) is EncodingProvider instance)
+            {
+                Encoding.RegisterProvider(instance);
+            }
             return Encoding.GetEncoding(1252);
         }
     }
