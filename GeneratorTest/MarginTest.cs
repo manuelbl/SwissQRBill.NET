@@ -5,47 +5,51 @@
 // https://opensource.org/licenses/MIT
 //
 
+using System.Threading.Tasks;
 using Codecrete.SwissQRBill.Generator;
 using Xunit;
 
 namespace Codecrete.SwissQRBill.GeneratorTest
 {
-    public class MarginTest
+    [VerifyXunit.UsesVerify]
+    public class MarginTest : VerifyTest
     {
 
         [Fact]
-        public void CreateA4SvgBill1()
+        public Task CreateA4SvgBill1()
         {
             Bill bill = SampleData.CreateExample1();
             bill.Format.MarginLeft = 8.0;
             bill.Format.MarginRight = 8.0;
-            GenerateAndCompareBill(bill, "a4bill_ma1.svg");
+            byte[] svg = GenerateSvg(bill);
+            return VerifySvg(svg);
         }
 
         [Fact]
-        public void CreateA4SvgBill2()
+        public Task CreateA4SvgBill2()
         {
             Bill bill = SampleData.CreateExample2();
             bill.Format.MarginLeft = 12.0;
             bill.Format.MarginRight = 12.0;
-            GenerateAndCompareBill(bill, "a4bill_ma2.svg");
+            byte[] svg = GenerateSvg(bill);
+            return VerifySvg(svg);
         }
 
         [Fact]
-        public void CreateA4SvgBill6()
+        public Task CreateA4SvgBill6()
         {
             Bill bill = SampleData.CreateExample6();
             bill.Format.MarginLeft = 10.0;
             bill.Format.MarginRight = 9.0;
-            GenerateAndCompareBill(bill, "a4bill_ma6.svg");
+            byte[] svg = GenerateSvg(bill);
+            return VerifySvg(svg);
         }
 
-        private void GenerateAndCompareBill(Bill bill, string expectedFileName)
+        private static byte[] GenerateSvg(Bill bill)
         {
             bill.Format.OutputSize = OutputSize.A4PortraitSheet;
             bill.Format.GraphicsFormat = GraphicsFormat.SVG;
-            byte[] imageData = QRBill.Generate(bill);
-            FileComparison.AssertFileContentsEqual(imageData, expectedFileName);
+            return QRBill.Generate(bill);
         }
     }
 }

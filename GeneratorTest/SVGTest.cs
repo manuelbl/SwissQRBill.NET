@@ -8,21 +8,23 @@
 using Codecrete.SwissQRBill.Generator;
 using Codecrete.SwissQRBill.Generator.Canvas;
 using System.IO;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace Codecrete.SwissQRBill.GeneratorTest
 {
-    public class SVGTest
+    [VerifyXunit.UsesVerify]
+    public class SVGTest : VerifyTest
     {
         [Fact]
-        public void SvgWithChallengingCharacters()
+        public Task SvgWithChallengingCharacters()
         {
             Bill bill = SampleData.CreateExample1();
             bill.UnstructuredMessage = "<h1>&&\"ff\"'t'";
             bill.Format.OutputSize = OutputSize.QrBillOnly;
             bill.Format.GraphicsFormat = GraphicsFormat.SVG;
             byte[] svg = QRBill.Generate(bill);
-            FileComparison.AssertFileContentsEqual(svg, "qrbill_sc1.svg");
+            return VerifySvg(svg);
         }
 
         [Fact]

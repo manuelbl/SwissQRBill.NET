@@ -1,4 +1,4 @@
-﻿//
+//
 // Swiss QR Bill Generator for .NET
 // Copyright (c) 2018 Manuel Bleichenbacher
 // Licensed under MIT License
@@ -7,38 +7,24 @@
 
 using Codecrete.SwissQRBill.Generator;
 using System.Globalization;
+using System.Threading.Tasks;
+using VerifyTests;
 using Xunit;
 
 namespace Codecrete.SwissQRBill.GeneratorTest
 {
-    public class LocaleTest
+    [VerifyXunit.UsesVerify]
+    public class LocaleTest : VerifyTest
     {
-        [Fact]
-        public void DefaultIsDe()
+        [Theory]
+        [InlineData("de-DE")]
+        [InlineData("en-US")]
+        [InlineData("de-CH")]
+        [InlineData("fr-CH")]
+        public Task CurrentCulture(string locale)
         {
-            GenerateQRBill("de-DE", "qrbill-locale-1.svg");
-        }
+            SvgSettings.UseParameters(locale);
 
-        [Fact]
-        public void DefaultIsUs()
-        {
-            GenerateQRBill("en-US", "qrbill-locale-2.svg");
-        }
-
-        [Fact]
-        public void DefaultIsDech()
-        {
-            GenerateQRBill("de-CH", "qrbill-locale-3.svg");
-        }
-
-        [Fact]
-        public void DefaultIsFrch()
-        {
-            GenerateQRBill("fr-CH", "qrbill-locale-4.svg");
-        }
-
-        private void GenerateQRBill(string locale, string expectedFileName)
-        {
             CultureInfo savedCurrentCulture = CultureInfo.CurrentCulture;
             CultureInfo savedCurrentUiCulture = CultureInfo.CurrentUICulture;
 
@@ -53,7 +39,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
                 bill.Format.OutputSize = OutputSize.QrBillOnly;
                 bill.Format.GraphicsFormat = GraphicsFormat.SVG;
                 byte[] svg = QRBill.Generate(bill);
-                FileComparison.AssertFileContentsEqual(svg, expectedFileName);
+                return VerifySvg(svg);
             }
             finally
             {

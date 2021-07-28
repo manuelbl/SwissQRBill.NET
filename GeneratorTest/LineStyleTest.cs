@@ -5,74 +5,81 @@
 // https://opensource.org/licenses/MIT
 //
 
+using System;
+using System.Threading.Tasks;
 using Codecrete.SwissQRBill.Generator;
 using Codecrete.SwissQRBill.Generator.Canvas;
 using Xunit;
 
 namespace Codecrete.SwissQRBill.GeneratorTest
 {
-    public class LineStyleTest
+    [VerifyXunit.UsesVerify]
+    public class LineStyleTest : VerifyTest
     {
         [Fact]
-        public void SvgWithDashedLines()
+        public Task SvgWithDashedLines()
         {
             Bill bill = SampleData.CreateExample1();
-            GenerateAndCompareBill(bill, GraphicsFormat.SVG, SeparatorType.DashedLine, "linestyle_1.svg");
+            return GenerateAndCompareBill(bill, GraphicsFormat.SVG, SeparatorType.DashedLine);
         }
 
         [Fact]
-        public void SvgWithDottedLines()
+        public Task SvgWithDottedLines()
         {
             Bill bill = SampleData.CreateExample1();
-            GenerateAndCompareBill(bill, GraphicsFormat.SVG, SeparatorType.DottedLineWithScissors, "linestyle_2.svg");
+            return GenerateAndCompareBill(bill, GraphicsFormat.SVG, SeparatorType.DottedLineWithScissors);
         }
 
         [Fact]
-        public void PdfWithDashedLines()
+        public Task PdfWithDashedLines()
         {
             Bill bill = SampleData.CreateExample1();
-            GenerateAndCompareBill(bill, GraphicsFormat.PDF, SeparatorType.DashedLineWithScissors, "linestyle_1.pdf");
+            return GenerateAndCompareBill(bill, GraphicsFormat.PDF, SeparatorType.DashedLineWithScissors);
         }
 
         [Fact]
-        public void PdfWithDottedLines()
+        public Task PdfWithDottedLines()
         {
             Bill bill = SampleData.CreateExample1();
-            GenerateAndCompareBill(bill, GraphicsFormat.PDF, SeparatorType.DottedLine, "linestyle_2.pdf");
+            return GenerateAndCompareBill(bill, GraphicsFormat.PDF, SeparatorType.DottedLine);
         }
 
         [Fact]
-        public void PngWithDashedLines()
+        public Task PngWithDashedLines()
         {
             Bill bill = SampleData.CreateExample1();
-            GenerateAndComparePngBill(bill, SeparatorType.DashedLine, "linestyle_1.png");
+            return GenerateAndComparePngBill(bill, SeparatorType.DashedLine);
         }
 
         [Fact]
-        public void PngWithDottedLines()
+        public Task PngWithDottedLines()
         {
             Bill bill = SampleData.CreateExample2();
-            GenerateAndComparePngBill(bill, SeparatorType.DottedLineWithScissors, "linestyle_2.png");
+            return GenerateAndComparePngBill(bill, SeparatorType.DottedLineWithScissors);
         }
 
-        private void GenerateAndCompareBill(Bill bill, GraphicsFormat graphicsFormat, SeparatorType separatorType,
-                                            string expectedFileName)
+        private Task GenerateAndCompareBill(Bill bill, GraphicsFormat graphicsFormat, SeparatorType separatorType)
         {
             bill.Format.GraphicsFormat = graphicsFormat;
             bill.Format.SeparatorType = separatorType;
             byte[] imageData = QRBill.Generate(bill);
-            FileComparison.AssertFileContentsEqual(imageData, expectedFileName);
+            return graphicsFormat switch
+            {
+                GraphicsFormat.SVG => VerifySvg(imageData),
+                GraphicsFormat.PNG => VerifyPng(imageData),
+                GraphicsFormat.PDF => VerifyPdf(imageData),
+                _ => throw new ArgumentOutOfRangeException(nameof(graphicsFormat), graphicsFormat, null)
+            };
         }
 
-        private void GenerateAndComparePngBill(Bill bill, SeparatorType separatorType,
-                                            string expectedFileName)
+        private Task GenerateAndComparePngBill(Bill bill, SeparatorType separatorType)
         {
             bill.Format.SeparatorType = separatorType;
             using (PNGCanvas canvas =
                 new PNGCanvas(QRBill.A4PortraitWidth, QRBill.A4PortraitHeight, 288, "Arial,Helvetica"))
             {
                 QRBill.Draw(bill, canvas);
-                FileComparison.AssertGrayscaleImageContentsEqual(canvas.ToByteArray(), expectedFileName);
+                return VerifyPng(canvas.ToByteArray());
             }
         }
     }

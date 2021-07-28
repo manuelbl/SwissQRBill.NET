@@ -5,51 +5,53 @@
 // https://opensource.org/licenses/MIT
 //
 
+using System.Threading.Tasks;
 using Codecrete.SwissQRBill.Generator;
 using Xunit;
 
 namespace Codecrete.SwissQRBill.GeneratorTest
 {
-    public class QRCodeTest
+    [VerifyXunit.UsesVerify]
+    public class QRCodeTest : VerifyTest
     {
         [Fact]
-        public void QrCodeAsSvg1()
+        public Task QrCodeAsSvg1()
         {
             Bill bill = SampleData.CreateExample1();
             bill.Format.OutputSize = OutputSize.QrCodeOnly;
             bill.Format.GraphicsFormat = GraphicsFormat.SVG;
             byte[] svg = QRBill.Generate(bill);
-            FileComparison.AssertFileContentsEqual(svg, "qrcode_ex1.svg");
+            return VerifySvg(svg);
         }
 
         [Fact]
-        public void QrCodeAsSvg2()
+        public Task QrCodeAsSvg2()
         {
             Bill bill = SampleData.CreateExample2();
             bill.Format.OutputSize = OutputSize.QrCodeOnly;
             bill.Format.GraphicsFormat = GraphicsFormat.SVG;
             byte[] svg = QRBill.Generate(bill);
-            FileComparison.AssertFileContentsEqual(svg, "qrcode_ex2.svg");
+            return VerifySvg(svg);
         }
 
         [Fact]
-        public void QrCodeAsSvg3()
+        public Task QrCodeAsSvg3()
         {
             Bill bill = SampleData.CreateExample3();
             bill.Format.OutputSize = OutputSize.QrCodeOnly;
             bill.Format.GraphicsFormat = GraphicsFormat.SVG;
             byte[] svg = QRBill.Generate(bill);
-            FileComparison.AssertFileContentsEqual(svg, "qrcode_ex3.svg");
+            return VerifySvg(svg);
         }
 
         [Fact]
-        public void QrCodeAsSvg4()
+        public Task QrCodeAsSvg4()
         {
             Bill bill = SampleData.CreateExample4();
             bill.Format.OutputSize = OutputSize.QrCodeOnly;
             bill.Format.GraphicsFormat = GraphicsFormat.SVG;
             byte[] svg = QRBill.Generate(bill);
-            FileComparison.AssertFileContentsEqual(svg, "qrcode_ex4.svg");
+            return VerifySvg(svg);
         }
     }
 }
