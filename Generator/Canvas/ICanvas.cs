@@ -25,8 +25,13 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
     /// the QR bill (regular and bold font weight).
     /// </para>
     /// </summary>
-    public interface ICanvas : IToByteArray, IDisposable
+    public interface ICanvas : IDisposable
     {
+        /// <summary>
+        /// Returns the result as a byte array.
+        /// </summary>
+        /// <returns>The result.</returns>
+        byte[] ToByteArray();
         /// <summary>
         /// Sets a translation, rotation and scaling for the subsequent operations.
         /// <para>
@@ -188,19 +193,4 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         /// <returns>The resulting array of text lines.</returns>
         string[] SplitLines(string text, double maxLength, int fontSize);
     }
-
-
-    /// <summary>
-    /// Interface implemented by canvas classes that can return the
-    /// resulting graphics as a byte array (e.g. PNG encoded image).
-    /// </summary>
-    public interface IToByteArray
-    {
-        /// <summary>
-        /// Returns the result as a byte array.
-        /// </summary>
-        /// <returns>The result.</returns>
-        byte[] ToByteArray();
-    }
-
 }
