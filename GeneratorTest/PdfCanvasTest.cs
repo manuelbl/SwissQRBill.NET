@@ -9,10 +9,13 @@ using Codecrete.SwissQRBill.Generator;
 using Codecrete.SwissQRBill.Generator.Canvas;
 using System.Globalization;
 using System.IO;
+using System.Threading.Tasks;
+using VerifyXunit;
 using Xunit;
 
 namespace Codecrete.SwissQRBill.GeneratorTest
 {
+    [UsesVerify]
     public class PdfCanvasTest
     {
         [Fact]
@@ -41,7 +44,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        public void LocaleIndependence()
+        public Task LocaleIndependence()
         {
             CultureInfo savedCurrentCulture = CultureInfo.CurrentCulture;
             CultureInfo savedCurrentUiCulture = CultureInfo.CurrentUICulture;
@@ -58,7 +61,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
                     CultureInfo.CurrentUICulture = culture;
 
                     QRBill.Draw(bill, canvas);
-                    FileComparison.AssertFileContentsEqual(canvas.ToByteArray(), "pdfcanvas-locale-1.pdf");
+                    return VerifyImages.VerifyPdf(canvas.ToByteArray());
                 }
                 finally
                 {

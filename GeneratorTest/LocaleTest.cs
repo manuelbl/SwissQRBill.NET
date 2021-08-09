@@ -7,37 +7,40 @@
 
 using Codecrete.SwissQRBill.Generator;
 using System.Globalization;
+using System.Threading.Tasks;
+using VerifyXunit;
 using Xunit;
 
 namespace Codecrete.SwissQRBill.GeneratorTest
 {
+    [UsesVerify]
     public class LocaleTest
     {
         [Fact]
-        public void DefaultIsDe()
+        public Task DefaultIsDe()
         {
-            GenerateQRBill("de-DE", "qrbill-locale-1.svg");
+            return GenerateQRBill("de-DE");
         }
 
         [Fact]
-        public void DefaultIsUs()
+        public Task DefaultIsUs()
         {
-            GenerateQRBill("en-US", "qrbill-locale-2.svg");
+            return GenerateQRBill("en-US");
         }
 
         [Fact]
-        public void DefaultIsDech()
+        public Task DefaultIsDech()
         {
-            GenerateQRBill("de-CH", "qrbill-locale-3.svg");
+            return GenerateQRBill("de-CH");
         }
 
         [Fact]
-        public void DefaultIsFrch()
+        public Task DefaultIsFrch()
         {
-            GenerateQRBill("fr-CH", "qrbill-locale-4.svg");
+            return GenerateQRBill("fr-CH");
         }
 
-        private void GenerateQRBill(string locale, string expectedFileName)
+        private Task GenerateQRBill(string locale)
         {
             CultureInfo savedCurrentCulture = CultureInfo.CurrentCulture;
             CultureInfo savedCurrentUiCulture = CultureInfo.CurrentUICulture;
@@ -53,7 +56,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
                 bill.Format.OutputSize = OutputSize.QrBillOnly;
                 bill.Format.GraphicsFormat = GraphicsFormat.SVG;
                 byte[] svg = QRBill.Generate(bill);
-                FileComparison.AssertFileContentsEqual(svg, expectedFileName);
+                return VerifyImages.VerifySvg(svg);
             }
             finally
             {

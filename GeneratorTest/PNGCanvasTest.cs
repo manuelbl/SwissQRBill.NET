@@ -8,14 +8,17 @@
 using Codecrete.SwissQRBill.Generator;
 using Codecrete.SwissQRBill.Generator.Canvas;
 using System.IO;
+using System.Threading.Tasks;
+using VerifyXunit;
 using Xunit;
 
 namespace Codecrete.SwissQRBill.GeneratorTest
 {
+    [UsesVerify]
     public class PNGCanvasTest
     {
         [Fact]
-        public void PngBillQrBill()
+        public Task PngBillQrBill()
         {
             Bill bill = SampleData.CreateExample1();
 
@@ -27,11 +30,11 @@ namespace Codecrete.SwissQRBill.GeneratorTest
                 png = canvas.ToByteArray();
             }
 
-            FileComparison.AssertGrayscaleImageContentsEqual(png, "qrbill_ex1.png");
+            return VerifyImages.VerifyPng(png);
         }
 
         [Fact]
-        public void PngBillA4()
+        public Task PngBillA4()
         {
             Bill bill = SampleData.CreateExample3();
             byte[] png;
@@ -43,7 +46,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
                 png = canvas.ToByteArray();
             }
 
-            FileComparison.AssertGrayscaleImageContentsEqual(png, "a4bill_ex3.png");
+            return VerifyImages.VerifyPng(png);
         }
 
         [Fact]

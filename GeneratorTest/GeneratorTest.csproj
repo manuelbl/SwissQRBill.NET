@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
@@ -25,100 +25,26 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="ReferenceFiles\a4bill_ex1.pdf" />
-    <None Remove="ReferenceFiles\a4bill_ex1.png" />
-    <None Remove="ReferenceFiles\a4bill_ex1.svg" />
-    <None Remove="ReferenceFiles\a4bill_ex2.pdf" />
-    <None Remove="ReferenceFiles\a4bill_ex2.svg" />
-    <None Remove="ReferenceFiles\a4bill_ex3.pdf" />
-    <None Remove="ReferenceFiles\a4bill_ex3.png" />
-    <None Remove="ReferenceFiles\a4bill_ex3.svg" />
-    <None Remove="ReferenceFiles\a4bill_ex4.pdf" />
-    <None Remove="ReferenceFiles\a4bill_ex4.svg" />
-    <None Remove="ReferenceFiles\a4bill_ex5.pdf" />
-    <None Remove="ReferenceFiles\a4bill_ex5.svg" />
-    <None Remove="ReferenceFiles\a4bill_ex6.pdf" />
-    <None Remove="ReferenceFiles\a4bill_ex6.svg" />
-    <None Remove="ReferenceFiles\a4bill_ma1.svg" />
-    <None Remove="ReferenceFiles\a4bill_ma2.svg" />
-    <None Remove="ReferenceFiles\a4bill_ma6.svg" />
-    <None Remove="ReferenceFiles\a4bill_postproc1.pdf" />
-    <None Remove="ReferenceFiles\a4bill_postproc2.pdf" />
-    <None Remove="ReferenceFiles\linestyle_1.pdf" />
-    <None Remove="ReferenceFiles\linestyle_1.png" />
-    <None Remove="ReferenceFiles\linestyle_1.svg" />
-    <None Remove="ReferenceFiles\linestyle_2.pdf" />
-    <None Remove="ReferenceFiles\linestyle_2.png" />
-    <None Remove="ReferenceFiles\linestyle_2.svg" />
-    <None Remove="ReferenceFiles\pdfcanvas-locale-1.pdf" />
-    <None Remove="ReferenceFiles\qrbill-locale-1.svg" />
-    <None Remove="ReferenceFiles\qrbill-locale-2.svg" />
-    <None Remove="ReferenceFiles\qrbill-locale-3.svg" />
-    <None Remove="ReferenceFiles\qrbill-locale-4.svg" />
-    <None Remove="ReferenceFiles\qrbill_ex1.png" />
-    <None Remove="ReferenceFiles\qrbill_ex1.svg" />
-    <None Remove="ReferenceFiles\qrbill_ex2.svg" />
-    <None Remove="ReferenceFiles\qrbill_ex3.svg" />
-    <None Remove="ReferenceFiles\qrbill_ex4.svg" />
-    <None Remove="ReferenceFiles\qrbill_ex5.svg" />
-    <None Remove="ReferenceFiles\qrbill_fr.svg" />
-    <None Remove="ReferenceFiles\qrbill_sc1.svg" />
-    <None Remove="ReferenceFiles\qrcode_ex1.svg" />
-    <None Remove="ReferenceFiles\qrcode_ex2.svg" />
-    <None Remove="ReferenceFiles\qrcode_ex3.svg" />
-    <None Remove="ReferenceFiles\qrcode_ex4.svg" />
+	  <None Update="**\*.verified.*">
+		  <ParentExtension>$(ProjectExt.Replace('proj', ''))</ParentExtension>
+		  <ParentFile>$([System.String]::Copy('%(FileName)').Split('.')[0])</ParentFile>
+		  <DependentUpon>%(ParentFile)%(ParentExtension)</DependentUpon>
+	  </None>
+	  <None Update="**\*.received.*">
+		  <ParentExtension>$(ProjectExt.Replace('proj', ''))</ParentExtension>
+		  <ParentFile>$([System.String]::Copy('%(FileName)').Split('.')[0])</ParentFile>
+		  <DependentUpon>%(ParentFile)%(ParentExtension)</DependentUpon>
+	  </None>
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="ReferenceFiles\a4bill_ex1.pdf" />
-    <EmbeddedResource Include="ReferenceFiles\a4bill_ex1.png" />
-    <EmbeddedResource Include="ReferenceFiles\a4bill_ex1.svg" />
-    <EmbeddedResource Include="ReferenceFiles\a4bill_ex2.pdf" />
-    <EmbeddedResource Include="ReferenceFiles\a4bill_ex2.svg" />
-    <EmbeddedResource Include="ReferenceFiles\a4bill_ex3.pdf" />
-    <EmbeddedResource Include="ReferenceFiles\a4bill_ex3.png" />
-    <EmbeddedResource Include="ReferenceFiles\a4bill_ex3.svg" />
-    <EmbeddedResource Include="ReferenceFiles\a4bill_ex4.pdf" />
-    <EmbeddedResource Include="ReferenceFiles\a4bill_ex4.svg" />
-    <EmbeddedResource Include="ReferenceFiles\a4bill_ex5.pdf" />
-    <EmbeddedResource Include="ReferenceFiles\a4bill_ex5.svg" />
-    <EmbeddedResource Include="ReferenceFiles\a4bill_ex6.pdf" />
-    <EmbeddedResource Include="ReferenceFiles\a4bill_ex6.svg" />
-    <EmbeddedResource Include="ReferenceFiles\a4bill_ma1.svg" />
-    <EmbeddedResource Include="ReferenceFiles\a4bill_ma2.svg" />
-    <EmbeddedResource Include="ReferenceFiles\a4bill_ma6.svg" />
-    <EmbeddedResource Include="ReferenceFiles\a4bill_postproc1.pdf" />
-    <EmbeddedResource Include="ReferenceFiles\a4bill_postproc2.pdf" />
-    <EmbeddedResource Include="ReferenceFiles\linestyle_1.pdf" />
-    <EmbeddedResource Include="ReferenceFiles\linestyle_1.png" />
-    <EmbeddedResource Include="ReferenceFiles\linestyle_1.svg" />
-    <EmbeddedResource Include="ReferenceFiles\linestyle_2.pdf" />
-    <EmbeddedResource Include="ReferenceFiles\linestyle_2.png" />
-    <EmbeddedResource Include="ReferenceFiles\linestyle_2.svg" />
-    <EmbeddedResource Include="ReferenceFiles\pdfcanvas-locale-1.pdf" />
-    <EmbeddedResource Include="ReferenceFiles\qrbill-locale-1.svg" />
-    <EmbeddedResource Include="ReferenceFiles\qrbill-locale-2.svg" />
-    <EmbeddedResource Include="ReferenceFiles\qrbill-locale-3.svg" />
-    <EmbeddedResource Include="ReferenceFiles\qrbill-locale-4.svg" />
-    <EmbeddedResource Include="ReferenceFiles\qrbill_ex1.png" />
-    <EmbeddedResource Include="ReferenceFiles\qrbill_ex1.svg" />
-    <EmbeddedResource Include="ReferenceFiles\qrbill_ex2.svg" />
-    <EmbeddedResource Include="ReferenceFiles\qrbill_ex3.svg" />
-    <EmbeddedResource Include="ReferenceFiles\qrbill_ex4.svg" />
-    <EmbeddedResource Include="ReferenceFiles\qrbill_ex5.svg" />
-    <EmbeddedResource Include="ReferenceFiles\qrbill_fr.svg" />
-    <EmbeddedResource Include="ReferenceFiles\qrbill_sc1.svg" />
-    <EmbeddedResource Include="ReferenceFiles\qrcode_ex1.svg" />
-    <EmbeddedResource Include="ReferenceFiles\qrcode_ex2.svg" />
-    <EmbeddedResource Include="ReferenceFiles\qrcode_ex3.svg" />
-    <EmbeddedResource Include="ReferenceFiles\qrcode_ex4.svg" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.9.0" />
-    <PackageReference Include="System.Text.Encoding.CodePages" Version="4.5.1" />
+    <PackageReference Include="DiffEngine" Version="7.1.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.10.0" />
+    <PackageReference Include="System.Text.Encoding.CodePages" Version="5.0.0" />
+    <PackageReference Include="Verify.ImageMagick" Version="2.8.0" />
+    <PackageReference Include="Verify.Xunit" Version="11.23.0" />
     <PackageReference Include="xunit" Version="2.4.1" />
-    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.1">
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>

@@ -6,50 +6,53 @@
 //
 
 using Codecrete.SwissQRBill.Generator;
+using System.Threading.Tasks;
+using VerifyXunit;
 using Xunit;
 
 namespace Codecrete.SwissQRBill.GeneratorTest
 {
+    [UsesVerify]
     public class QRCodeTest
     {
         [Fact]
-        public void QrCodeAsSvg1()
+        public Task QrCodeAsSvg1()
         {
             Bill bill = SampleData.CreateExample1();
             bill.Format.OutputSize = OutputSize.QrCodeOnly;
             bill.Format.GraphicsFormat = GraphicsFormat.SVG;
             byte[] svg = QRBill.Generate(bill);
-            FileComparison.AssertFileContentsEqual(svg, "qrcode_ex1.svg");
+            return VerifyImages.VerifySvg(svg);
         }
 
         [Fact]
-        public void QrCodeAsSvg2()
+        public Task QrCodeAsSvg2()
         {
             Bill bill = SampleData.CreateExample2();
             bill.Format.OutputSize = OutputSize.QrCodeOnly;
             bill.Format.GraphicsFormat = GraphicsFormat.SVG;
             byte[] svg = QRBill.Generate(bill);
-            FileComparison.AssertFileContentsEqual(svg, "qrcode_ex2.svg");
+            return VerifyImages.VerifySvg(svg);
         }
 
         [Fact]
-        public void QrCodeAsSvg3()
+        public Task QrCodeAsSvg3()
         {
             Bill bill = SampleData.CreateExample3();
             bill.Format.OutputSize = OutputSize.QrCodeOnly;
             bill.Format.GraphicsFormat = GraphicsFormat.SVG;
             byte[] svg = QRBill.Generate(bill);
-            FileComparison.AssertFileContentsEqual(svg, "qrcode_ex3.svg");
+            return VerifyImages.VerifySvg(svg);
         }
 
         [Fact]
-        public void QrCodeAsSvg4()
+        public Task QrCodeAsSvg4()
         {
             Bill bill = SampleData.CreateExample4();
             bill.Format.OutputSize = OutputSize.QrCodeOnly;
             bill.Format.GraphicsFormat = GraphicsFormat.SVG;
             byte[] svg = QRBill.Generate(bill);
-            FileComparison.AssertFileContentsEqual(svg, "qrcode_ex4.svg");
+            return VerifyImages.VerifySvg(svg);
         }
     }
 }

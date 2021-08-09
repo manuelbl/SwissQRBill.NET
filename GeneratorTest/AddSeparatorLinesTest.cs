@@ -8,14 +8,17 @@
 using Codecrete.SwissQRBill.Generator;
 using Codecrete.SwissQRBill.Generator.Canvas;
 using System.IO;
+using System.Threading.Tasks;
+using VerifyXunit;
 using Xunit;
 
 namespace Codecrete.SwissQRBill.GeneratorTest
 {
+    [UsesVerify]
     public class AddSeparatorLinesTest
     {
         [Fact]
-        public void AddBothSeparators()
+        public Task AddBothSeparators()
         {
             var bill = SampleData.CreateExample1();
             bill.Format.SeparatorType = SeparatorType.None;
@@ -29,12 +32,12 @@ namespace Codecrete.SwissQRBill.GeneratorTest
                 MemoryStream ms = new MemoryStream();
                 canvas.WriteTo(ms);
 
-                FileComparison.AssertFileContentsEqual(ms.ToArray(), "a4bill_postproc1.pdf");
+                return VerifyImages.VerifyPdf(ms.ToArray());
             }
         }
 
         [Fact]
-        public void AddVerticalSeparator()
+        public Task AddVerticalSeparator()
         {
             var bill = SampleData.CreateExample1();
             bill.Format.SeparatorType = SeparatorType.None;
@@ -48,7 +51,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
                 MemoryStream ms = new MemoryStream();
                 canvas.WriteTo(ms);
 
-                FileComparison.AssertFileContentsEqual(ms.ToArray(), "a4bill_postproc2.pdf");
+                return VerifyImages.VerifyPdf(ms.ToArray());
             }
         }
     }

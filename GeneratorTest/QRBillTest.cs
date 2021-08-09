@@ -6,65 +6,68 @@
 //
 
 using Codecrete.SwissQRBill.Generator;
+using System.Threading.Tasks;
+using VerifyXunit;
 using Xunit;
 
 
 namespace Codecrete.SwissQRBill.GeneratorTest
 {
+    [UsesVerify]
     public class QRBillTest
     {
         [Fact]
-        public void CreateQrBill1()
+        public Task CreateQrBill1()
         {
             Bill bill = SampleData.CreateExample1();
             bill.Format.OutputSize = OutputSize.QrBillOnly;
             bill.Format.GraphicsFormat = GraphicsFormat.SVG;
             byte[] svg = QRBill.Generate(bill);
-            FileComparison.AssertFileContentsEqual(svg, "qrbill_ex1.svg");
+            return VerifyImages.VerifySvg(svg);
         }
 
         [Fact]
-        public void CreateQrBill2()
+        public Task CreateQrBill2()
         {
             Bill bill = SampleData.CreateExample2();
             bill.Format.OutputSize = OutputSize.QrBillOnly;
             bill.Format.GraphicsFormat = GraphicsFormat.SVG;
             byte[] svg = QRBill.Generate(bill);
-            FileComparison.AssertFileContentsEqual(svg, "qrbill_ex2.svg");
+            return VerifyImages.VerifySvg(svg);
         }
 
         [Fact]
-        public void CreateQrBill3()
+        public Task CreateQrBill3()
         {
             Bill bill = SampleData.CreateExample3();
             bill.Format.OutputSize = OutputSize.QrBillOnly;
             bill.Format.GraphicsFormat = GraphicsFormat.SVG;
             byte[] svg = QRBill.Generate(bill);
-            FileComparison.AssertFileContentsEqual(svg, "qrbill_ex3.svg");
+            return VerifyImages.VerifySvg(svg);
         }
 
         [Fact]
-        public void CreateQrBill4()
+        public Task CreateQrBill4()
         {
             Bill bill = SampleData.CreateExample4();
             bill.Format.OutputSize = OutputSize.QrBillOnly;
             bill.Format.GraphicsFormat = GraphicsFormat.SVG;
             byte[] svg = QRBill.Generate(bill);
-            FileComparison.AssertFileContentsEqual(svg, "qrbill_ex4.svg");
+            return VerifyImages.VerifySvg(svg);
         }
 
         [Fact]
-        public void CreateQrBill5a()
+        public Task CreateQrBill5a()
         {
             Bill bill = SampleData.CreateExample3();
             bill.Format.OutputSize = OutputSize.QrBillExtraSpace;
             bill.Format.GraphicsFormat = GraphicsFormat.SVG;
             byte[] svg = QRBill.Generate(bill);
-            FileComparison.AssertFileContentsEqual(svg, "qrbill_ex5.svg");
+            return VerifyImages.VerifySvg(svg);
         }
 
         [Fact]
-        public void CreateQrBill5b()
+        public Task CreateQrBill5b()
         {
             Bill bill = SampleData.CreateExample3();
 #pragma warning disable CS0618 // Type or member is obsolete
@@ -72,17 +75,17 @@ namespace Codecrete.SwissQRBill.GeneratorTest
 #pragma warning restore CS0618 // Type or member is obsolete
             bill.Format.GraphicsFormat = GraphicsFormat.SVG;
             byte[] svg = QRBill.Generate(bill);
-            FileComparison.AssertFileContentsEqual(svg, "qrbill_ex5.svg");
+            return VerifyImages.VerifySvg(svg);
         }
 
         [Fact]
-        public void CreateQrBillFrench()
+        public Task CreateQrBillFrench()
         {
             Bill bill = SampleData.CreateExample1();
             bill.Format.GraphicsFormat = GraphicsFormat.SVG;
             bill.Format.Language = Language.FR;
             byte[] svg = QRBill.Generate(bill);
-            FileComparison.AssertFileContentsEqual(svg, "qrbill_fr.svg");
+            return VerifyImages.VerifySvg(svg);
         }
 
         [Fact]

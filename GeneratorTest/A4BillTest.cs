@@ -6,104 +6,106 @@
 //
 
 using Codecrete.SwissQRBill.Generator;
+using System.Threading.Tasks;
+using VerifyXunit;
 using Xunit;
 
 namespace Codecrete.SwissQRBill.GeneratorTest
 {
+    [UsesVerify]
     public class A4BillTest
     {
 
         [Fact]
-        public void CreateA4SvgBill1()
+        public Task CreateA4SvgBill1()
         {
-            GenerateAndCompareBill(SampleData.CreateExample1(), OutputSize.A4PortraitSheet, GraphicsFormat.SVG, "a4bill_ex1.svg");
+            return GenerateAndCompareBill(SampleData.CreateExample1(), OutputSize.A4PortraitSheet, GraphicsFormat.SVG);
         }
 
         [Fact]
-        public void CreateA4PdfBill1()
+        public Task CreateA4PdfBill1()
         {
-            GenerateAndCompareBill(SampleData.CreateExample1(), OutputSize.A4PortraitSheet, GraphicsFormat.PDF, "a4bill_ex1.pdf");
+            return GenerateAndCompareBill(SampleData.CreateExample1(), OutputSize.A4PortraitSheet, GraphicsFormat.PDF);
         }
 
         [Fact]
-        public void CreateA4PngBill1()
+        public Task CreateA4PngBill1()
         {
-            GenerateAndCompareBill(SampleData.CreateExample1(), OutputSize.A4PortraitSheet, GraphicsFormat.PNG, "a4bill_ex1.png");
+            return GenerateAndCompareBill(SampleData.CreateExample1(), OutputSize.A4PortraitSheet, GraphicsFormat.PNG);
         }
 
         [Fact]
-        public void CreateA4SvgBill2()
+        public Task CreateA4SvgBill2()
         {
             Bill bill = SampleData.CreateExample2();
             bill.Format.FontFamily = "Liberation Sans, Arial, Helvetica";
-            GenerateAndCompareBill(bill, OutputSize.A4PortraitSheet, GraphicsFormat.SVG, "a4bill_ex2.svg");
+            return GenerateAndCompareBill(bill, OutputSize.A4PortraitSheet, GraphicsFormat.SVG);
         }
 
         [Fact]
-        public void CreateA4PdfBill2()
+        public Task CreateA4PdfBill2()
         {
-            GenerateAndCompareBill(SampleData.CreateExample2(), OutputSize.A4PortraitSheet, GraphicsFormat.PDF, "a4bill_ex2.pdf");
+            return GenerateAndCompareBill(SampleData.CreateExample2(), OutputSize.A4PortraitSheet, GraphicsFormat.PDF);
         }
 
         [Fact]
-        public void CreateA4SvgBill3()
+        public Task CreateA4SvgBill3()
         {
-            GenerateAndCompareBill(SampleData.CreateExample3(), OutputSize.A4PortraitSheet, GraphicsFormat.SVG, "a4bill_ex3.svg");
+            return GenerateAndCompareBill(SampleData.CreateExample3(), OutputSize.A4PortraitSheet, GraphicsFormat.SVG);
         }
 
         [Fact]
-        public void CreateA4PdfBill3()
+        public Task CreateA4PdfBill3()
         {
             Bill bill = SampleData.CreateExample3();
             bill.Format.FontFamily = "Arial";
-            GenerateAndCompareBill(bill, OutputSize.A4PortraitSheet, GraphicsFormat.PDF, "a4bill_ex3.pdf");
+            return GenerateAndCompareBill(bill, OutputSize.A4PortraitSheet, GraphicsFormat.PDF);
         }
 
         [Fact]
-        public void CreateA4SvgBill4()
+        public Task CreateA4SvgBill4()
         {
             Bill bill = SampleData.CreateExample4();
             bill.Format.FontFamily = "Frutiger";
-            GenerateAndCompareBill(bill, OutputSize.A4PortraitSheet, GraphicsFormat.SVG, "a4bill_ex4.svg");
+            return GenerateAndCompareBill(bill, OutputSize.A4PortraitSheet, GraphicsFormat.SVG);
         }
 
         [Fact]
-        public void CreateA4PdfBill4()
+        public Task CreateA4PdfBill4()
         {
-            GenerateAndCompareBill(SampleData.CreateExample4(), OutputSize.A4PortraitSheet, GraphicsFormat.PDF, "a4bill_ex4.pdf");
+            return GenerateAndCompareBill(SampleData.CreateExample4(), OutputSize.A4PortraitSheet, GraphicsFormat.PDF);
         }
 
         [Fact]
-        public void CreateA4SvgBill5()
+        public Task CreateA4SvgBill5()
         {
-            GenerateAndCompareBill(SampleData.CreateExample5(), OutputSize.A4PortraitSheet, GraphicsFormat.SVG, "a4bill_ex5.svg");
+            return GenerateAndCompareBill(SampleData.CreateExample5(), OutputSize.A4PortraitSheet, GraphicsFormat.SVG);
         }
 
         [Fact]
-        public void CreateA4PdfBill5()
+        public Task CreateA4PdfBill5()
         {
-            GenerateAndCompareBill(SampleData.CreateExample5(), OutputSize.A4PortraitSheet, GraphicsFormat.PDF, "a4bill_ex5.pdf");
+            return GenerateAndCompareBill(SampleData.CreateExample5(), OutputSize.A4PortraitSheet, GraphicsFormat.PDF);
         }
 
         [Fact]
-        public void CreateA4SvgBill6()
+        public Task CreateA4SvgBill6()
         {
-            GenerateAndCompareBill(SampleData.CreateExample6(), OutputSize.A4PortraitSheet, GraphicsFormat.SVG, "a4bill_ex6.svg");
+            return GenerateAndCompareBill(SampleData.CreateExample6(), OutputSize.A4PortraitSheet, GraphicsFormat.SVG);
         }
 
         [Fact]
-        public void CreateA4PdfBill6()
+        public Task CreateA4PdfBill6()
         {
-            GenerateAndCompareBill(SampleData.CreateExample6(), OutputSize.A4PortraitSheet, GraphicsFormat.PDF, "a4bill_ex6.pdf");
+            return GenerateAndCompareBill(SampleData.CreateExample6(), OutputSize.A4PortraitSheet, GraphicsFormat.PDF);
         }
 
-        private void GenerateAndCompareBill(Bill bill, OutputSize outputSize, GraphicsFormat graphicsFormat,
-                                            string expectedFileName)
+        private Task GenerateAndCompareBill(Bill bill, OutputSize outputSize, GraphicsFormat graphicsFormat)
         {
             bill.Format.OutputSize = outputSize;
             bill.Format.GraphicsFormat = graphicsFormat;
             byte[] imageData = QRBill.Generate(bill);
-            FileComparison.AssertFileContentsEqual(imageData, expectedFileName);
+            return VerifyImages.Verify(imageData, graphicsFormat);
         }
     }
 }
