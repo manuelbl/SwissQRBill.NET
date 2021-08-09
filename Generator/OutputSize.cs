@@ -6,7 +6,6 @@
 //
 
 using System;
-using System.IO;
 
 namespace Codecrete.SwissQRBill.Generator
 {

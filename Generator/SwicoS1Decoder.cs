@@ -221,7 +221,7 @@ namespace Codecrete.SwissQRBill.Generator
             {
                 return null;
             }
-            
+
             if (dateText.Length == 6) // Consistent with specifications
             {
                 // Validation with 

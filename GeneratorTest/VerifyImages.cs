@@ -5,8 +5,8 @@
 // https://opensource.org/licenses/MIT
 //
 
-using System.Runtime.CompilerServices;
 using Codecrete.SwissQRBill.Generator;
+using System.Runtime.CompilerServices;
 using VerifyTests;
 using VerifyXunit;
 
