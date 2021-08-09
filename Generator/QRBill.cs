@@ -120,7 +120,7 @@ namespace Codecrete.SwissQRBill.Generator
                 try
                 {
                     ValidateAndGenerate(bill, canvas);
-                    return (canvas as IToByteArray)?.ToByteArray();
+                    return canvas.ToByteArray();
                 }
                 catch (QRBillValidationException)
                 {
