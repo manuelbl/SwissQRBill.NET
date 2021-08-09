@@ -324,12 +324,17 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
 
         private static string FormatNumber(double value)
         {
+            if (Math.Abs(value) < 0.0005)
+            {
+                return "0";
+            }
+
             return value.ToString("0.###", CultureInfo.InvariantCulture.NumberFormat);
         }
 
         private static string FormatCoordinate(double value)
         {
-            return (value * MmToPt).ToString("0.###", CultureInfo.InvariantCulture.NumberFormat);
+            return FormatNumber(value * MmToPt);
         }
 
         private static string FormatColor(int color)

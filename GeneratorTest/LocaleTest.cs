@@ -16,31 +16,12 @@ namespace Codecrete.SwissQRBill.GeneratorTest
     [UsesVerify]
     public class LocaleTest
     {
-        [Fact]
-        public Task DefaultIsDe()
-        {
-            return GenerateQRBill("de-DE");
-        }
-
-        [Fact]
-        public Task DefaultIsUs()
-        {
-            return GenerateQRBill("en-US");
-        }
-
-        [Fact]
-        public Task DefaultIsDech()
-        {
-            return GenerateQRBill("de-CH");
-        }
-
-        [Fact]
-        public Task DefaultIsFrch()
-        {
-            return GenerateQRBill("fr-CH");
-        }
-
-        private Task GenerateQRBill(string locale)
+        [Theory]
+        [InlineData("de-DE")]
+        [InlineData("en-US")]
+        [InlineData("de-CH")]
+        [InlineData("fr-CH")]
+        public Task CurrentCulture(string locale)
         {
             CultureInfo savedCurrentCulture = CultureInfo.CurrentCulture;
             CultureInfo savedCurrentUiCulture = CultureInfo.CurrentUICulture;
@@ -56,7 +37,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
                 bill.Format.OutputSize = OutputSize.QrBillOnly;
                 bill.Format.GraphicsFormat = GraphicsFormat.SVG;
                 byte[] svg = QRBill.Generate(bill);
-                return VerifyImages.VerifySvg(svg);
+                return VerifyImages.VerifySvg(svg).UseParameters(locale);
             }
             finally
             {

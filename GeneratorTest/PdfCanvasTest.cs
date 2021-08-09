@@ -22,25 +22,21 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         public void PdfWriteTo()
         {
             Bill bill = SampleData.CreateExample3();
-            using (PDFCanvas canvas =
-                new PDFCanvas(QRBill.A4PortraitWidth, QRBill.A4PortraitHeight))
-            {
-                QRBill.Draw(bill, canvas);
-                MemoryStream ms = new MemoryStream();
-                canvas.WriteTo(ms);
-            }
+            using PDFCanvas canvas =
+                new PDFCanvas(QRBill.A4PortraitWidth, QRBill.A4PortraitHeight);
+            QRBill.Draw(bill, canvas);
+            MemoryStream ms = new MemoryStream();
+            canvas.WriteTo(ms);
         }
 
         [Fact]
         public void PdfSaveAs()
         {
             Bill bill = SampleData.CreateExample4();
-            using (PDFCanvas canvas =
-                new PDFCanvas(QRBill.A4PortraitWidth, QRBill.A4PortraitHeight))
-            {
-                QRBill.Draw(bill, canvas);
-                canvas.SaveAs("qrbill.pdf");
-            }
+            using PDFCanvas canvas =
+                new PDFCanvas(QRBill.A4PortraitWidth, QRBill.A4PortraitHeight);
+            QRBill.Draw(bill, canvas);
+            canvas.SaveAs("qrbill.pdf");
         }
 
         [Fact]
@@ -52,22 +48,20 @@ namespace Codecrete.SwissQRBill.GeneratorTest
             CultureInfo culture = CultureInfo.CreateSpecificCulture("de-DE");
 
             Bill bill = SampleData.CreateExample4();
-            using (PDFCanvas canvas =
-                new PDFCanvas(QRBill.A4PortraitWidth, QRBill.A4PortraitHeight))
+            using PDFCanvas canvas =
+                new PDFCanvas(QRBill.A4PortraitWidth, QRBill.A4PortraitHeight);
+            try
             {
-                try
-                {
-                    CultureInfo.CurrentCulture = culture;
-                    CultureInfo.CurrentUICulture = culture;
+                CultureInfo.CurrentCulture = culture;
+                CultureInfo.CurrentUICulture = culture;
 
-                    QRBill.Draw(bill, canvas);
-                    return VerifyImages.VerifyPdf(canvas.ToByteArray());
-                }
-                finally
-                {
-                    CultureInfo.CurrentCulture = savedCurrentCulture;
-                    CultureInfo.CurrentUICulture = savedCurrentUiCulture;
-                }
+                QRBill.Draw(bill, canvas);
+                return VerifyImages.VerifyPdf(canvas.ToByteArray());
+            }
+            finally
+            {
+                CultureInfo.CurrentCulture = savedCurrentCulture;
+                CultureInfo.CurrentUICulture = savedCurrentUiCulture;
             }
         }
     }

@@ -6,7 +6,6 @@
 //
 
 using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
 using Codecrete.SwissQRBill.Generator;
 using VerifyTests;
 using VerifyXunit;
@@ -36,7 +35,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         protected static readonly VerifySettings PngSettings;
         protected static readonly VerifySettings PdfSettings;
 
-        public static Task Verify(byte[] imageData, GraphicsFormat format, [CallerFilePath] string sourceFile = "")
+        public static SettingsTask Verify(byte[] imageData, GraphicsFormat format, [CallerFilePath] string sourceFile = "")
         {
             VerifySettings settings;
             if (format == GraphicsFormat.SVG)
@@ -55,17 +54,17 @@ namespace Codecrete.SwissQRBill.GeneratorTest
             return Verifier.Verify(imageData, settings, sourceFile);
         }
 
-        public static Task VerifySvg(byte[] svg, [CallerFilePath] string sourceFile = "")
+        public static SettingsTask VerifySvg(byte[] svg, [CallerFilePath] string sourceFile = "")
         {
             return Verifier.Verify(svg, SvgSettings, sourceFile);
         }
 
-        public static Task VerifyPng(byte[] png, [CallerFilePath] string sourceFile = "")
+        public static SettingsTask VerifyPng(byte[] png, [CallerFilePath] string sourceFile = "")
         {
             return Verifier.Verify(png, PngSettings, sourceFile);
         }
 
-        public static Task VerifyPdf(byte[] pdf, [CallerFilePath] string sourceFile = "")
+        public static SettingsTask VerifyPdf(byte[] pdf, [CallerFilePath] string sourceFile = "")
         {
             return Verifier.Verify(pdf, PdfSettings, sourceFile);
         }

@@ -69,12 +69,10 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         private Task GenerateAndComparePngBill(Bill bill, SeparatorType separatorType)
         {
             bill.Format.SeparatorType = separatorType;
-            using (PNGCanvas canvas =
-                new PNGCanvas(QRBill.A4PortraitWidth, QRBill.A4PortraitHeight, 288, "Arial,Helvetica"))
-            {
-                QRBill.Draw(bill, canvas);
-                return VerifyImages.VerifyPng(canvas.ToByteArray());
-            }
+            using PNGCanvas canvas =
+                new PNGCanvas(QRBill.A4PortraitWidth, QRBill.A4PortraitHeight, 288, "Arial,Helvetica");
+            QRBill.Draw(bill, canvas);
+            return VerifyImages.VerifyPng(canvas.ToByteArray());
         }
     }
 }

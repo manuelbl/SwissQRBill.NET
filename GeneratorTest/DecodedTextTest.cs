@@ -165,7 +165,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        public void decodeIgnoreMinorVersion()
+        public void DecodeIgnoreMinorVersion()
         {
             Bill bill = SampleQRCodeText.CreateBillData1();
             TestHelper.NormalizeSourceBill(bill);

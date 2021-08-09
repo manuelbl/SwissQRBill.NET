@@ -60,7 +60,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
             Bill bill = SampleData.CreateExample2();
             TestHelper.NormalizeSourceBill(bill);
             string qrText = QRBill.EncodeQrCodeText(bill);
-            qrText = qrText.Substring(0, qrText.Length - 1);
+            qrText = qrText[0..^1];
             Assert.EndsWith("EPD", qrText);
 
             Bill bill2 = QRBill.DecodeQrCodeText(qrText);
@@ -75,7 +75,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
             bill.UnstructuredMessage = null;
             TestHelper.NormalizeSourceBill(bill);
             string qrText = QRBill.EncodeQrCodeText(bill);
-            qrText = qrText.Substring(0, qrText.Length - 5);
+            qrText = qrText[0..^5];
             QRBillValidationException err = Assert.Throws<QRBillValidationException>(
                         () => QRBill.DecodeQrCodeText(qrText));
             TestHelper.AssertSingleError(err.Result, ValidationConstants.KeyValidDataStructure, ValidationConstants.FieldQrType);

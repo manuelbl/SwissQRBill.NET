@@ -53,25 +53,21 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         public void PngWriteTo()
         {
             Bill bill = SampleData.CreateExample5();
-            using (PNGCanvas canvas =
-                new PNGCanvas(QRBill.A4PortraitWidth, QRBill.A4PortraitHeight, 144, "Helvetica, Arial, Sans"))
-            {
-                QRBill.Draw(bill, canvas);
-                MemoryStream ms = new MemoryStream();
-                canvas.WriteTo(ms);
-            }
+            using PNGCanvas canvas =
+                new PNGCanvas(QRBill.A4PortraitWidth, QRBill.A4PortraitHeight, 144, "Helvetica, Arial, Sans");
+            QRBill.Draw(bill, canvas);
+            MemoryStream ms = new MemoryStream();
+            canvas.WriteTo(ms);
         }
 
         [Fact]
         public void PngSaveAs()
         {
             Bill bill = SampleData.CreateExample6();
-            using (PNGCanvas canvas =
-                new PNGCanvas(QRBill.QrBillWidth, QRBill.QrBillHeight, 144, "Helvetica, Arial, Sans"))
-            {
-                QRBill.Draw(bill, canvas);
-                canvas.SaveAs("qrbill.png");
-            }
+            using PNGCanvas canvas =
+                new PNGCanvas(QRBill.QrBillWidth, QRBill.QrBillHeight, 144, "Helvetica, Arial, Sans");
+            QRBill.Draw(bill, canvas);
+            canvas.SaveAs("qrbill.png");
         }
 
     }
