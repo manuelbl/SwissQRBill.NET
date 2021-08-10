@@ -237,12 +237,73 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             _pathTypes.Add((byte)PathPointType.Bezier);
         }
 
+        /// <summary>
+        /// Checks if the current path consists of horizontal and vertical line segments only.
+        /// </summary>
+        /// <returns><c>true</c> if rectangular, <c>false</c> otherwise</returns>
+        private bool IsRectangularPath()
+        {
+            int n = _pathPoints.Count;
+            int subpathStartIndex = 0;
+            for (int i = 1; i < n; i++)
+            {
+                byte type = _pathTypes[i];
+                bool isCloseSubPath = (type & (byte)PathPointType.CloseSubpath) != 0;
+
+                if (isCloseSubPath)
+                {
+                    if (_pathPoints[i].X - _pathPoints[subpathStartIndex].X != 0
+                        && _pathPoints[i].Y - _pathPoints[subpathStartIndex].Y != 0)
+                    {
+                        return false;
+                    }
+                }
+
+                byte mask = 255 ^ (byte)PathPointType.CloseSubpath;
+                type &= mask;
+
+                if (type == (byte)PathPointType.Start)
+                {
+                    subpathStartIndex = i;
+                }
+                else if (type == (byte)PathPointType.Line)
+                {
+                    if (_pathPoints[i].X - _pathPoints[i - 1].X != 0
+                        && _pathPoints[i].Y - _pathPoints[i - 1].Y != 0)
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
         public override void FillPath(int color)
         {
+            bool isRectangular = IsRectangularPath();
+            // turn off antialiasing for rectangular paths
+            if (isRectangular)
+            {
+                _graphics.SmoothingMode = SmoothingMode.None;
+                _graphics.PixelOffsetMode = PixelOffsetMode.HighSpeed;
+            }
+
             using (SolidBrush brush = new SolidBrush(Color.FromArgb(color - 16777216)))
             using (GraphicsPath path = new GraphicsPath(_pathPoints.ToArray(), _pathTypes.ToArray(), FillMode.Winding))
             {
                 _graphics.FillPath(brush, path);
+            }
+
+            // turn antialiasing on
+            if (isRectangular)
+            {
+                _graphics.SmoothingMode = SmoothingMode.HighQuality;
+                _graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
             }
         }
 
@@ -253,6 +314,14 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
 
         public override void StrokePath(double strokeWidth, int color, LineStyle lineStyle)
         {
+            bool isRectangular = IsRectangularPath();
+            // turn off antialiasing for rectangular paths
+            if (isRectangular && lineStyle != LineStyle.Dotted)
+            {
+                _graphics.SmoothingMode = SmoothingMode.None;
+                _graphics.PixelOffsetMode = PixelOffsetMode.HighSpeed;
+            }
+
             float width = (float)strokeWidth * _fontScale;
 
             using (Pen pen = new Pen(Color.FromArgb(color - 16777216), width))
@@ -276,6 +345,13 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
                 {
                     _graphics.DrawPath(pen, path);
                 }
+            }
+
+            // turn antialiasing on
+            if (isRectangular && lineStyle != LineStyle.Dotted)
+            {
+                _graphics.SmoothingMode = SmoothingMode.HighQuality;
+                _graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
             }
         }
 
