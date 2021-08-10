@@ -6,7 +6,6 @@
 //
 
 using Codecrete.SwissQRBill.Generator.PDF;
-using System;
 using System.IO;
 
 namespace Codecrete.SwissQRBill.Generator.Canvas

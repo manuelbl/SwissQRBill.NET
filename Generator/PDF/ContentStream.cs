@@ -6,6 +6,7 @@
 //
 
 using Codecrete.SwissQRBill.Generator.Canvas;
+using System;
 using System.IO;
 using System.IO.Compression;
 using static System.FormattableString;
@@ -223,7 +224,14 @@ namespace Codecrete.SwissQRBill.Generator.PDF
 
         private void WriteOperand(float val)
         {
-            _contentWriter.Write(Invariant($"{val:0.###} "));
+            if (Math.Abs(val) < 0.0005)
+            {
+                _contentWriter.Write("0 ");
+            }
+            else
+            {
+                _contentWriter.Write(Invariant($"{val:0.###} "));
+            }
         }
 
         private void WriteOperand(float[] array)
