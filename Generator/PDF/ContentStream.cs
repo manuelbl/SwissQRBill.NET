@@ -5,7 +5,7 @@
 // https://opensource.org/licenses/MIT
 //
 
-using System.Drawing.Drawing2D;
+using Codecrete.SwissQRBill.Generator.Canvas;
 using System.IO;
 using System.IO.Compression;
 using static System.FormattableString;
@@ -43,11 +43,11 @@ namespace Codecrete.SwissQRBill.Generator.PDF
             WriteOperator("Q");
         }
 
-        public void Transform(Matrix matrix)
+        public void Transform(TransformationMatrix matrix)
         {
-            foreach (float f in matrix.Elements)
+            foreach (double f in matrix.Elements)
             {
-                WriteOperand(f);
+                WriteOperand((float)f);
             }
 
             WriteOperator("cm");

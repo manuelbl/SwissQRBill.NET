@@ -7,7 +7,6 @@
 
 using Codecrete.SwissQRBill.Generator.PDF;
 using System;
-using System.Drawing.Drawing2D;
 using System.IO;
 
 namespace Codecrete.SwissQRBill.Generator.Canvas
@@ -67,21 +66,12 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             _contentStream.SaveGraphicsState();
             _hasSavedGraphicsState = true;
 
-            using (Matrix matrix = new Matrix())
-            {
-                matrix.Translate((float)translateX, (float)translateY);
-                if (rotate != 0)
-                {
-                    matrix.Rotate((float)(rotate / Math.PI * 180));
-                }
+            TransformationMatrix matrix = new TransformationMatrix();
+            matrix.Translate(translateX, translateY);
+            matrix.Rotate(rotate);
+            matrix.Scale(scaleX, scaleY);
 
-                if (scaleX != 1 || scaleY != 1)
-                {
-                    matrix.Scale((float)scaleX, (float)scaleY);
-                }
-
-                _contentStream.Transform(matrix);
-            }
+            _contentStream.Transform(matrix);
         }
 
         private void SetFont(bool isBold, int fontSize)
