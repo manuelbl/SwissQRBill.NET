@@ -358,7 +358,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         public override void PutText(string text, double x, double y, int fontSize, bool isBold)
         {
             FontStyle style = isBold ? FontStyle.Bold : FontStyle.Regular;
-            using (Font font = new Font(_fontFamily, fontSize, style, GraphicsUnit.Point))
+            using (Font font = new Font(_fontFamily, fontSize * _fontScale, style, GraphicsUnit.Pixel))
             {
                 float ascent = _fontFamily.GetCellAscent(style) / 2048.0f * fontSize * _fontScale;
                 x *= _coordinateScale;
