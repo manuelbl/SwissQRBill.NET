@@ -38,3 +38,9 @@ jobs:
         with:
           name: TestResults-${{ matrix.os }}.html
           path: TestResults-${{ matrix.os }}.html
+      - name: Upload received files from failing tests
+        uses: actions/upload-artifact@v2
+        if: always()
+        with:
+          name: Received
+          path: "**/*.received.*"
