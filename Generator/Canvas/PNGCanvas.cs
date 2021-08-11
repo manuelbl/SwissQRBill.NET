@@ -1,17 +1,15 @@
 ﻿//
 // Swiss QR Bill Generator for .NET
-// Copyright (c) 2018 Manuel Bleichenbacher
+// Copyright (c) 2021 Manuel Bleichenbacher
 // Licensed under MIT License
 // https://opensource.org/licenses/MIT
 //
 
+using SkiaSharp;
 using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Drawing.Imaging;
-using System.Drawing.Text;
 using System.IO;
+using System.Text.RegularExpressions;
 
 namespace Codecrete.SwissQRBill.Generator.Canvas
 {
@@ -24,14 +22,18 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
     /// </remarks>
     public class PNGCanvas : AbstractCanvas
     {
-        private readonly int _resolution;
+        private readonly int _dpi;
         private readonly float _coordinateScale;
         private readonly float _fontScale;
-        private Bitmap _bitmap;
-        private Graphics _graphics;
-        private List<PointF> _pathPoints;
-        private List<byte> _pathTypes;
-        private FontFamily _fontFamily;
+        private SKCanvas _canvas;
+        private SKPath _path;
+        private SKPaint _strokePaint;
+        private SKPaint _fillPaint;
+        private SKPaint _textPaint;
+        private SKBitmap _bitmap;
+        private SKTypeface _regularTypeface;
+        private SKTypeface _boldTypeface;
+
 
         /// <summary>
         /// Initializes a new instance of a PNG canvas with the given size, resolution and font family.
@@ -48,35 +50,91 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         /// <param name="fontFamilyList">A list font family names, separated by comma (same syntax as for CSS). The first font family will be used.</param>
         public PNGCanvas(double width, double height, int resolution, string fontFamilyList)
         {
+            _dpi = resolution;
+
             // setup font metrics
-            SetupFontMetrics(fontFamilyList);
-            _fontFamily = new FontFamily(FontMetrics.FirstFontFamily);
+            SetupFontMetrics(FindFontFamily(fontFamilyList));
+            _regularTypeface = SKTypeface.FromFamilyName(FontMetrics.FirstFontFamily);
+            _boldTypeface = SKTypeface.FromFamilyName(FontMetrics.FirstFontFamily, SKFontStyle.Bold);
+
+            // create paints
+            _fillPaint = new SKPaint
+            {
+                Style = SKPaintStyle.Fill,
+                Color = SKColors.Black,
+                IsAntialias = true
+            };
+
+            _strokePaint = new SKPaint
+            {
+                Style = SKPaintStyle.Stroke,
+                Color = SKColors.Black,
+                IsAntialias = true
+            };
+
+            _textPaint = new SKPaint
+            {
+                Style = SKPaintStyle.Fill,
+                Color = SKColors.Black,
+                IsAntialias = true,
+                SubpixelText = true,
+                Typeface = _regularTypeface
+            };
 
             // create image
-            _resolution = resolution;
             _coordinateScale = (float)(resolution / 25.4);
             _fontScale = (float)(resolution / 72.0);
             int w = (int)(width * _coordinateScale + 0.5);
             int h = (int)(height * _coordinateScale + 0.5);
-            _bitmap = new Bitmap(w, h);
-            _bitmap.SetResolution(_resolution, _resolution);
+            _bitmap = new SKBitmap(w, h, SKColorType.Rgb888x, SKAlphaType.Opaque);
 
-            // create graphics context
-            _graphics = Graphics.FromImage(_bitmap);
-
-            // clear background
-            _graphics.FillRectangle(Brushes.White, 0, 0, w, h);
-
-            // enable high quality output
-            _graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
-            _graphics.SmoothingMode = SmoothingMode.HighQuality;
-            _graphics.TextRenderingHint = TextRenderingHint.AntiAlias;
+            // create canvas
+            _canvas = new SKCanvas(_bitmap);
+            _canvas.Clear(SKColors.White);
 
             // initialize transformation
-            Matrix matrix = new Matrix();
-            matrix.Translate(0, _bitmap.Height);
-            _graphics.Transform = matrix;
+            _canvas.Translate(0, _bitmap.Height);
         }
+        /// <summary>
+        /// Finds the first font family from the specified list that is installed and not replaced with an alternative font.
+        /// </summary>
+        /// <param name="fontFamilyList">A list font family names, separated by comma (same syntax as for CSS). The first font family will be used.</param>
+        /// <returns>font family name (if font is installed), or unchanged font family list (if none of the fonts is found)</returns>
+        private static string FindFontFamily(string fontFamilyList)
+        {
+            foreach (string fontFamily in SplitCommaSeparated(fontFamilyList))
+            {
+                string family = fontFamily.Trim();
+                using (SKTypeface typeface = SKTypeface.FromFamilyName(family, SKFontStyle.Normal))
+                {
+                    if (typeface.FamilyName.Equals(family, StringComparison.InvariantCultureIgnoreCase))
+                    {
+                        return family;
+                    }
+                }
+            }
+
+            return fontFamilyList;
+        }
+
+        private static readonly Regex quotedSplitter = new Regex("(?:^|,)(\"(?:[^\"]+|\"\")*\"|[^,]*)", RegexOptions.Compiled);
+
+        /// <summary>
+        /// Splits the comma separated list into its components.
+        /// <para>
+        /// A component may use double quotes (similar to CSV formats).
+        /// </para>
+        /// </summary>
+        /// <param name="input">comma separated list</param>
+        /// <returns>list of components</returns>
+        private static IEnumerable<string> SplitCommaSeparated(string input)
+        {
+            foreach (Match match in quotedSplitter.Matches(input))
+            {
+                yield return match.Value.TrimStart(',');
+            }
+        }
+
 
         /// <summary>
         /// Gets the resulting graphics encoded as a PNG image in a byte array.
@@ -86,13 +144,21 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         /// <returns>The byte array containing the PNG image</returns>
         public override byte[] ToByteArray()
         {
-            _graphics.Dispose();
-            _graphics = null;
+            _canvas.Dispose();
+            _canvas = null;
+            byte[] result;
 
-            MemoryStream stream = new MemoryStream();
-            _bitmap.Save(stream, ImageFormat.Png);
+            using (SKImage image = SKImage.FromBitmap(_bitmap))
+            using (SKData data = image.Encode(SKEncodedImageFormat.Png, 90))
+            using (Stream imageDataStream = data.AsStream())
+            {
+                MemoryStream buffer = new MemoryStream();
+                PngProcessor.InsertDpi(imageDataStream, buffer, _dpi);
+                result = buffer.ToArray();
+            }
+
             Close();
-            return stream.ToArray();
+            return result;
         }
 
         /// <summary>
@@ -103,9 +169,16 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         /// <param name="stream">The stream to write to.</param>
         public void WriteTo(Stream stream)
         {
-            _graphics.Dispose();
-            _graphics = null;
-            _bitmap.Save(stream, ImageFormat.Png);
+            _canvas.Dispose();
+            _canvas = null;
+
+            using (SKImage image = SKImage.FromBitmap(_bitmap))
+            using (SKData data = image.Encode(SKEncodedImageFormat.Png, 90))
+            using (Stream imageDataStream = data.AsStream())
+            {
+                PngProcessor.InsertDpi(imageDataStream, stream, _dpi);
+            }
+
             Close();
         }
 
@@ -117,28 +190,49 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         /// <param name="path">The path (file name) to write to.</param>
         public void SaveAs(string path)
         {
-            _graphics.Dispose();
-            _graphics = null;
-            _bitmap.Save(path, ImageFormat.Png);
+            _canvas.Dispose();
+            _canvas = null;
+
+            using (SKImage image = SKImage.FromBitmap(_bitmap))
+            using (SKData data = image.Encode(SKEncodedImageFormat.Png, 90))
+            using (Stream imageDataStream = data.AsStream())
+            using (FileStream stream = File.OpenWrite(path))
+            {
+                PngProcessor.InsertDpi(imageDataStream, stream, _dpi);
+            }
+
             Close();
         }
 
         protected void Close()
         {
-            if (_graphics != null)
+            if (_canvas != null)
             {
-                _graphics.Dispose();
-                _graphics = null;
+                _canvas.Dispose();
+                _canvas = null;
             }
             if (_bitmap != null)
             {
                 _bitmap.Dispose();
                 _bitmap = null;
             }
-            if (_fontFamily != null)
+            if (_path != null)
             {
-                _fontFamily.Dispose();
-                _fontFamily = null;
+                _path.Dispose();
+                _path = null;
+            }
+            if (_strokePaint != null)
+            {
+                _strokePaint.Dispose();
+                _strokePaint = null;
+                _fillPaint.Dispose();
+                _fillPaint = null;
+                _textPaint.Dispose();
+                _textPaint = null;
+                _regularTypeface.Dispose();
+                _regularTypeface = null;
+                _boldTypeface.Dispose();
+                _boldTypeface = null;
             }
         }
 
@@ -154,33 +248,25 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             translateX *= _coordinateScale;
             translateY *= _coordinateScale;
 
-            Matrix matrix = new Matrix();
-            matrix.Translate((float)translateX, _bitmap.Height - (float)translateY);
-            if (rotate != 0)
-            {
-                matrix.Rotate((float)(-rotate / Math.PI * 180));
-            }
-
-            if (scaleX != 1 || scaleY != 1)
-            {
-                matrix.Scale((float)scaleX, (float)scaleY);
-            }
-
-            _graphics.Transform = matrix;
+            TransformationMatrix matrix = new TransformationMatrix();
+            matrix.Translate(translateX, _bitmap.Height - translateY);
+            matrix.Rotate(-rotate);
+            matrix.Scale(scaleX, scaleY);
+            double[] elems = matrix.Elements;
+            SKMatrix skMatrix = new SKMatrix((float)elems[0], (float)elems[2], (float)elems[4], (float)elems[1], (float)elems[3], (float)elems[5], 0, 0, 1);
+            _canvas.SetMatrix(skMatrix);
         }
 
         public override void StartPath()
         {
-            _pathPoints = new List<PointF>();
-            _pathTypes = new List<byte>();
+            if (_path != null)
+                _path.Dispose();
+            _path = new SKPath();
         }
 
         public override void CloseSubpath()
         {
-            int lastIndex = _pathTypes.Count - 1;
-            byte pathType = _pathTypes[lastIndex];
-            pathType |= (byte)PathPointType.CloseSubpath;
-            _pathTypes[lastIndex] = pathType;
+            _path.Close();
         }
 
         public override void MoveTo(double x, double y)
@@ -188,8 +274,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             x *= _coordinateScale;
             y *= -_coordinateScale;
 
-            _pathPoints.Add(new PointF((float)x, (float)y));
-            _pathTypes.Add((byte)PathPointType.Start);
+            _path.MoveTo((float)x, (float)y);
         }
 
         public override void LineTo(double x, double y)
@@ -197,8 +282,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             x *= _coordinateScale;
             y *= -_coordinateScale;
 
-            _pathPoints.Add(new PointF((float)x, (float)y));
-            _pathTypes.Add((byte)PathPointType.Line);
+            _path.LineTo((float)x, (float)y);
         }
 
         public override void AddRectangle(double x, double y, double width, double height)
@@ -208,16 +292,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             width *= _coordinateScale;
             height *= -_coordinateScale;
 
-            _pathPoints.Add(new PointF((float)x, (float)y));
-            _pathTypes.Add((byte)PathPointType.Start);
-            _pathPoints.Add(new PointF((float)(x + width), (float)y));
-            _pathTypes.Add((byte)PathPointType.Line);
-            _pathPoints.Add(new PointF((float)(x + width), (float)(y + height)));
-            _pathTypes.Add((byte)PathPointType.Line);
-            _pathPoints.Add(new PointF((float)x, (float)(y + height)));
-            _pathTypes.Add((byte)PathPointType.Line);
-            _pathPoints.Add(new PointF((float)x, (float)y));
-            _pathTypes.Add((byte)PathPointType.Line | (byte)PathPointType.CloseSubpath);
+            _path.AddRect(new SKRect((float)x, (float)(y + height), (float)(x + width), (float)y));
         }
 
         public override void CubicCurveTo(double x1, double y1, double x2, double y2, double x, double y)
@@ -229,82 +304,57 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             x *= _coordinateScale;
             y *= -_coordinateScale;
 
-            _pathPoints.Add(new PointF((float)x1, (float)y1));
-            _pathTypes.Add((byte)PathPointType.Bezier);
-            _pathPoints.Add(new PointF((float)x2, (float)y2));
-            _pathTypes.Add((byte)PathPointType.Bezier);
-            _pathPoints.Add(new PointF((float)x, (float)y));
-            _pathTypes.Add((byte)PathPointType.Bezier);
+            _path.CubicTo((float)x1, (float)y1, (float)x2, (float)y2, (float)x, (float)y);
         }
 
-        /// <summary>
-        /// Checks if the current path consists of horizontal and vertical line segments only.
-        /// </summary>
-        /// <returns><c>true</c> if rectangular, <c>false</c> otherwise</returns>
         private bool IsRectangularPath()
         {
-            int n = _pathPoints.Count;
-            int subpathStartIndex = 0;
-            for (int i = 1; i < n; i++)
+            float startX = 0;
+            float startY = 0;
+
+            Span<SKPoint> points = new Span<SKPoint>(new SKPoint[4]);
+            using (SKPath.RawIterator it = _path.CreateRawIterator())
             {
-                byte type = _pathTypes[i];
-                bool isCloseSubPath = (type & (byte)PathPointType.CloseSubpath) != 0;
-
-                if (isCloseSubPath)
+                while (true)
                 {
-                    if (_pathPoints[i].X - _pathPoints[subpathStartIndex].X != 0
-                        && _pathPoints[i].Y - _pathPoints[subpathStartIndex].Y != 0)
+                    var verb = it.Next(points);
+                    switch (verb)
                     {
-                        return false;
-                    }
-                }
+                        case SKPathVerb.Move:
+                            startX = points[0].X;
+                            startY = points[0].Y;
+                            break;
 
-                byte mask = 255 ^ (byte)PathPointType.CloseSubpath;
-                type &= mask;
+                        case SKPathVerb.Line:
+                            if (points[0].X != points[1].X && points[0].Y != points[1].Y)
+                            {
+                                return false;
+                            }
+                            break;
 
-                if (type == (byte)PathPointType.Start)
-                {
-                    subpathStartIndex = i;
-                }
-                else if (type == (byte)PathPointType.Line)
-                {
-                    if (_pathPoints[i].X - _pathPoints[i - 1].X != 0
-                        && _pathPoints[i].Y - _pathPoints[i - 1].Y != 0)
-                    {
-                        return false;
+                        case SKPathVerb.Close:
+                            if (startX != points[1].X && startY != points[1].Y)
+                            {
+                                return false;
+                            }
+                            break;
+
+                        case SKPathVerb.Done:
+                            return true;
+
+                        default:
+                            return false;
                     }
-                }
-                else
-                {
-                    return false;
                 }
             }
-
-            return true;
         }
 
         public override void FillPath(int color)
         {
-            bool isRectangular = IsRectangularPath();
-            // turn off antialiasing for rectangular paths
-            if (isRectangular)
-            {
-                _graphics.SmoothingMode = SmoothingMode.None;
-                _graphics.PixelOffsetMode = PixelOffsetMode.HighSpeed;
-            }
-
-            using (SolidBrush brush = new SolidBrush(Color.FromArgb(color - 16777216)))
-            using (GraphicsPath path = new GraphicsPath(_pathPoints.ToArray(), _pathTypes.ToArray(), FillMode.Winding))
-            {
-                _graphics.FillPath(brush, path);
-            }
-
-            // turn antialiasing on
-            if (isRectangular)
-            {
-                _graphics.SmoothingMode = SmoothingMode.HighQuality;
-                _graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
-            }
+            _path.Close();
+            _fillPaint.IsAntialias = !IsRectangularPath();
+            _fillPaint.Color = new SKColor((uint)(color - 16777216));
+            _canvas.DrawPath(_path, _fillPaint);
         }
 
         public override void StrokePath(double strokeWidth, int color)
@@ -314,59 +364,37 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
 
         public override void StrokePath(double strokeWidth, int color, LineStyle lineStyle)
         {
-            bool isRectangular = IsRectangularPath();
-            // turn off antialiasing for rectangular paths
-            if (isRectangular && lineStyle != LineStyle.Dotted)
-            {
-                _graphics.SmoothingMode = SmoothingMode.None;
-                _graphics.PixelOffsetMode = PixelOffsetMode.HighSpeed;
-            }
-
             float width = (float)strokeWidth * _fontScale;
+            _strokePaint.Color = new SKColor((uint)(color - 16777216));
+            _strokePaint.StrokeWidth = width;
+            _strokePaint.IsAntialias = !IsRectangularPath();
 
-            using (Pen pen = new Pen(Color.FromArgb(color - 16777216), width))
+            switch (lineStyle)
             {
-                switch (lineStyle)
-                {
-                    case LineStyle.Dashed:
-                        pen.DashPattern = new float[] { 4, 4 };
-                        break;
-                    case LineStyle.Dotted:
-                        pen.StartCap = LineCap.Round;
-                        pen.EndCap = LineCap.Round;
-                        pen.DashCap = DashCap.Round;
-                        pen.DashPattern = new float[] { 0.01f, 2 };
-                        break;
-                    default:
-                        break;
-                }
-
-                using (GraphicsPath path = new GraphicsPath(_pathPoints.ToArray(), _pathTypes.ToArray()))
-                {
-                    _graphics.DrawPath(pen, path);
-                }
+                case LineStyle.Dashed:
+                    _strokePaint.PathEffect = SKPathEffect.CreateDash(new float[] { 4 * width, 4 * width }, 0);
+                    _strokePaint.StrokeCap = SKStrokeCap.Round;
+                    break;
+                case LineStyle.Dotted:
+                    _strokePaint.PathEffect = SKPathEffect.CreateDash(new float[] { 0.01f * width, 2 * width }, 0);
+                    _strokePaint.StrokeCap = SKStrokeCap.Butt;
+                    break;
+                default:
+                    _strokePaint.PathEffect = null;
+                    _strokePaint.StrokeCap = SKStrokeCap.Butt;
+                    break;
             }
 
-            // turn antialiasing on
-            if (isRectangular && lineStyle != LineStyle.Dotted)
-            {
-                _graphics.SmoothingMode = SmoothingMode.HighQuality;
-                _graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
-            }
+            _canvas.DrawPath(_path, _strokePaint);
         }
 
         public override void PutText(string text, double x, double y, int fontSize, bool isBold)
         {
-            FontStyle style = isBold ? FontStyle.Bold : FontStyle.Regular;
-            using (Font font = new Font(_fontFamily, fontSize, style, GraphicsUnit.Point))
-            {
-                float ascent = _fontFamily.GetCellAscent(style) / 2048.0f * fontSize * _fontScale;
-                x *= _coordinateScale;
-                y *= -_coordinateScale;
-                y -= ascent;
-
-                _graphics.DrawString(text, font, Brushes.Black, (float)x, (float)y, StringFormat.GenericTypographic);
-            }
+            _textPaint.Typeface = isBold ? _boldTypeface : _regularTypeface;
+            _textPaint.TextSize = fontSize * _fontScale;
+            x *= _coordinateScale;
+            y *= -_coordinateScale;
+            _canvas.DrawText(text, (float)x, (float)y, _textPaint);
         }
     }
 }
