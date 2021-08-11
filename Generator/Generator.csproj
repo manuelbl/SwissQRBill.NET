@@ -52,11 +52,7 @@ The Swiss QR bill library:
   <ItemGroup>
     <None Include="Images\logo.png">
       <Pack>True</Pack>
-      <PackagePath></PackagePath>
-    </None>
-    <None Include="Images\logo.png">
-      <Pack>True</Pack>
-      <PackagePath></PackagePath>
+      <PackagePath />
     </None>
   </ItemGroup>
 
