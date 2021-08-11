@@ -1,12 +1,19 @@
-﻿//
+//
 // Swiss QR Bill Generator for .NET
 // Copyright (c) 2021 Manuel Bleichenbacher
 // Licensed under MIT License
 // https://opensource.org/licenses/MIT
 //
 
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using Codecrete.SwissQRBill.Generator;
 using System.Runtime.CompilerServices;
+using Docnet.Core;
+using Docnet.Core.Models;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.PixelFormats;
 using VerifyTests;
 using VerifyXunit;
 
@@ -16,7 +23,8 @@ namespace Codecrete.SwissQRBill.GeneratorTest
     {
         static VerifyImages()
         {
-            VerifyImageMagick.RegisterComparers();
+            VerifierSettings.RegisterFileConverter("pdf", ConvertPdfToPng);
+            VerifyImageMagick.RegisterComparers(threshold: 0.07, ImageMagick.ErrorMetric.PerceptualHash);
 
             SvgSettings = new VerifySettings();
             SvgSettings.UseExtension("svg");
@@ -29,6 +37,26 @@ namespace Codecrete.SwissQRBill.GeneratorTest
             PdfSettings = new VerifySettings();
             PdfSettings.UseExtension("pdf");
             PdfSettings.UseDirectory("ReferenceFiles");
+        }
+
+        private static ConversionResult ConvertPdfToPng(Stream stream, IReadOnlyDictionary<string,object> context)
+        {
+            var pngStreams = new List<Stream>();
+
+            using var docReader = DocLib.Instance.GetDocReader(stream.ToArray(), new PageDimensions(scalingFactor: 2));
+            for (var pageIndex = 0; pageIndex < docReader.GetPageCount(); pageIndex++)
+            {
+                using var pageReader = docReader.GetPageReader(pageIndex);
+                var width = pageReader.GetPageWidth();
+                var height = pageReader.GetPageHeight();
+                var pixelData = pageReader.GetImage();
+                var image = Image.LoadPixelData<Bgra32>(pixelData, width, height);
+                var pngStream = new MemoryStream();
+                image.SaveAsPng(pngStream);
+                pngStreams.Add(pngStream);
+            }
+
+            return new ConversionResult(null, pngStreams.Select(e => new Target("png", e)));
         }
 
         protected static readonly VerifySettings SvgSettings;
