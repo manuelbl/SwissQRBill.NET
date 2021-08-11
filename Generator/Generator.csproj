@@ -37,6 +37,13 @@ The Swiss QR bill library:
     <FileVersion>2.5.3.0</FileVersion>
   </PropertyGroup>
 
+  <PropertyGroup Label="Restoring">
+    <DisableImplicitNuGetFallbackFolder>true</DisableImplicitNuGetFallbackFolder>
+    <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+    <!-- https://devblogs.microsoft.com/nuget/enable-repeatable-package-restores-using-a-lock-file/#how-does-nuget-use-the-lock-file -->
+    <RestoreLockedMode Condition="$(ContinuousIntegrationBuild) == 'true'">true</RestoreLockedMode>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="Net.Codecrete.QrCodeGenerator" Version="1.6.1" />
     <PackageReference Include="System.Drawing.Common" Version="4.5.1" />
