@@ -17,6 +17,9 @@ jobs:
     runs-on: ${{ matrix.os }}
     name: Build and run tests
     steps:
+      - name: Install fonts for SkiaSharp
+        if: runner.os == 'Linux'
+        run: sudo apt-get install -y libfontconfig1
       - name: Checkout git repository
         uses: actions/checkout@v2
         with:
