@@ -41,7 +41,7 @@
     <PackageReference Include="DiffEngine" Version="7.1.0" />
     <PackageReference Include="Docnet.Core" Version="2.3.1" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.10.0" />
-    <PackageReference Include="runtime.osx.10.10-x64.CoreCompat.System.Drawing" Version="5.8.64" />
+    <PackageReference Include="SkiaSharp.NativeAssets.Linux" Version="2.80.3" />
     <PackageReference Include="SixLabors.ImageSharp" Version="1.0.3" />
     <PackageReference Include="Verify.ImageMagick" Version="2.8.0" />
     <PackageReference Include="Verify.Xunit" Version="11.23.0" />
