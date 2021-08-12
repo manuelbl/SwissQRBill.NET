@@ -5,15 +5,15 @@
 // https://opensource.org/licenses/MIT
 //
 
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using Codecrete.SwissQRBill.Generator;
-using System.Runtime.CompilerServices;
 using Docnet.Core;
 using Docnet.Core.Models;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Runtime.CompilerServices;
 using VerifyTests;
 using VerifyXunit;
 
@@ -39,7 +39,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
             PdfSettings.UseDirectory("ReferenceFiles");
         }
 
-        private static ConversionResult ConvertPdfToPng(Stream stream, IReadOnlyDictionary<string,object> context)
+        private static ConversionResult ConvertPdfToPng(Stream stream, IReadOnlyDictionary<string, object> context)
         {
             var pngStreams = new List<Stream>();
 
@@ -65,19 +65,12 @@ namespace Codecrete.SwissQRBill.GeneratorTest
 
         public static SettingsTask Verify(byte[] imageData, GraphicsFormat format, [CallerFilePath] string sourceFile = "")
         {
-            VerifySettings settings;
-            if (format == GraphicsFormat.SVG)
+            VerifySettings settings = format switch
             {
-                settings = SvgSettings;
-            }
-            else if (format == GraphicsFormat.PNG)
-            {
-                settings = PngSettings;
-            }
-            else
-            {
-                settings = PdfSettings;
-            }
+                GraphicsFormat.SVG => SvgSettings,
+                GraphicsFormat.PNG => PngSettings,
+                _ => PdfSettings
+            };
 
             return Verifier.Verify(imageData, settings, sourceFile);
         }
