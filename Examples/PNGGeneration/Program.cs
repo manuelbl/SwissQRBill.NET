@@ -6,7 +6,6 @@
 //
 
 using Codecrete.SwissQRBill.Generator;
-using Codecrete.SwissQRBill.Generator.Canvas;
 using System;
 using System.IO;
 
@@ -14,7 +13,7 @@ namespace Codecrete.SwissQRBill.Examples.PNGGeneration
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
             // Setup bill data
             Bill bill = new Bill
@@ -44,17 +43,21 @@ namespace Codecrete.SwissQRBill.Examples.PNGGeneration
 
                 // more payment data
                 Reference = "210000000003139471430009017",
-                UnstructuredMessage = "Abonnement für 2020"
+                UnstructuredMessage = "Abonnement für 2020",
+
+                Format = new BillFormat
+                {
+                    GraphicsFormat = GraphicsFormat.PNG,
+                    Resolution = 288
+                }
             };
 
             // Generate QR bill
-            string path = "qrbill.png";
-            using (PNGCanvas canvas = new PNGCanvas(QRBill.QrBillWidth, QRBill.QrBillHeight, 144, "Arial"))
-            {
-                QRBill.Draw(bill, canvas);
-                canvas.SaveAs(path);
-            }
+            byte[] png = QRBill.Generate(bill);
 
+            // Save generated png file
+            string path = "qrbill.png";
+            File.WriteAllBytes(path, png);
             Console.WriteLine($"QR bill saved at {Path.GetFullPath(path)}");
         }
     }
