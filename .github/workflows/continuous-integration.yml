@@ -44,3 +44,5 @@ jobs:
         with:
           name: Received-${{ matrix.os }}.zip
           path: "**/*.received.*"
+      - name: Create and validate NuGet package
+        run: dotnet pack --no-build --verbosity normal
