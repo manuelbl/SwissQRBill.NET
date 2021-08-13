@@ -42,7 +42,7 @@ jobs:
         uses: actions/upload-artifact@v2
         if: always()
         with:
-          name: Received-${{ matrix.os }}.zip
+          name: Received-${{ matrix.os }}
           path: "**/*.received.*"
       - name: Create and validate NuGet package
         run: dotnet pack --no-build --verbosity normal
