@@ -31,18 +31,18 @@ jobs:
       - name: Build solution
         run: dotnet build --verbosity normal
       - name: Run tests
-        run: dotnet test --no-build --verbosity normal --logger:"html;LogFileName=../../TestResults-${{ matrix.os }}.html"
+        run: dotnet test --no-build --verbosity normal --logger:"html;LogFileName=../../TestResults-${{ runner.os }}.html"
       - name: Upload test results
         uses: actions/upload-artifact@v2
         if: always()
         with:
-          name: TestResults-${{ matrix.os }}.html
-          path: TestResults-${{ matrix.os }}.html
+          name: TestResults-${{ runner.os }}
+          path: TestResults-${{ runner.os }}.html
       - name: Upload received files from failing tests
         uses: actions/upload-artifact@v2
         if: always()
         with:
-          name: Received-${{ matrix.os }}
+          name: Received-${{ runner.os }}
           path: "**/*.received.*"
       - name: Create and validate NuGet package
         run: dotnet pack --no-build --verbosity normal
