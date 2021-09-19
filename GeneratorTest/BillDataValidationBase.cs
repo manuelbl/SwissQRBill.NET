@@ -44,9 +44,9 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         /// <param name="messageKey">the message key of the validation error</param>
         public void AssertSingleErrorMessage(string field, string messageKey)
         {
-            Assert.True(Result.HasErrors);
-            Assert.False(Result.HasWarnings);
-            Assert.True(Result.HasMessages);
+            Assert.True(Result.HasErrors, "has errors");
+            Assert.False(Result.HasWarnings, "has no warnings");
+            Assert.True(Result.HasMessages, "has messages");
             Assert.Single(Result.ValidationMessages);
 
             ValidationMessage msg = Result.ValidationMessages[0];

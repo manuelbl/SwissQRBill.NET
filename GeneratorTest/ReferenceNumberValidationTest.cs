@@ -15,7 +15,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
     {
 
         [Fact]
-        public void ValidQrReference()
+        public void ValidQrRef_Ok()
         {
             SourceBill = SampleData.CreateExample1();
             SourceBill.Reference = "210000000003139471430009017";
@@ -25,7 +25,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        public void ValidQrReferenceWithSpaces()
+        public void ValidQrRefWithSpaces_Ok()
         {
             SourceBill = SampleData.CreateExample1();
             SourceBill.Reference = "21 00000 00003 13947 14300 09017";
@@ -35,7 +35,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        public void ValidCreditorReference()
+        public void ValidCreditorRef_Ok()
         {
             SourceBill = SampleData.CreateExample3();
             SourceBill.Reference = "RF18539007547034";
@@ -45,7 +45,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        public void QrIbanNoAndQrReference()
+        public void NonQrIbanAndNoRef_Ok()
         {
             SourceBill = SampleData.CreateExample1();
             SourceBill.Account = "CH3709000000304442225"; // non QR-IBAN
@@ -56,7 +56,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        public void WhitespaceReference()
+        public void NonQrIbanAndWhitespaceRef_Ok()
         {
             SourceBill = SampleData.CreateExample1();
             SourceBill.Account = "CH3709000000304442225"; // non QR-IBAN
@@ -67,76 +67,116 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        public void MissingReferenceForQriban()
-        {
-            SourceBill = SampleData.CreateExample1();
-            SourceBill.Account = "CH4431999123000889012"; // QR-IBAN
-            SourceBill.Reference = null;
-            Validate();
-            AssertSingleErrorMessage(ValidationConstants.FieldReference, "mandatory_for_qr_iban");
-        }
-
-        [Fact]
-        public void WhitespaceReferenceForQriban()
-        {
-            SourceBill = SampleData.CreateExample1();
-            SourceBill.Reference = "   ";
-            Validate();
-            AssertSingleErrorMessage(ValidationConstants.FieldReference, "mandatory_for_qr_iban");
-        }
-
-        [Fact]
-        public void InvalidReference()
+        public void InvalidRef_RefIsValidErr()
         {
             SourceBill = SampleData.CreateExample1();
             SourceBill.Reference = "ABC";
             Validate();
-            AssertSingleErrorMessage(ValidationConstants.FieldReference, "valid_qr_ref_no");
+            AssertSingleErrorMessage(ValidationConstants.FieldReference, "ref_is_invalid");
         }
 
         [Fact]
-        public void InvalidNumericReference()
+        public void InvalidNumericRef_ReffIsValidErr()
         {
             SourceBill = SampleData.CreateExample1();
             SourceBill.Reference = "1234567890";
             Validate();
-            AssertSingleErrorMessage(ValidationConstants.FieldReference, "valid_qr_ref_no");
+            AssertSingleErrorMessage(ValidationConstants.FieldReference, "ref_is_invalid");
         }
 
         [Fact]
-        public void InvalidNonNumericReference()
+        public void InvalidAlphaNumericRef_RefIsValidErr()
         {
             SourceBill = SampleData.CreateExample1();
             SourceBill.Reference = "123ABC7890";
             Validate();
-            AssertSingleErrorMessage(ValidationConstants.FieldReference, "valid_qr_ref_no");
+            AssertSingleErrorMessage(ValidationConstants.FieldReference, "ref_is_invalid");
         }
 
         [Fact]
-        public void InvalidCharsInCreditorReference()
+        public void InvalidCharInRef_RefIsValidErr()
         {
             SourceBill = SampleData.CreateExample3();
             SourceBill.Reference = "RF38302!!3393";
             Validate();
-            AssertSingleErrorMessage(ValidationConstants.FieldReference, "valid_iso11649_creditor_ref");
+            AssertSingleErrorMessage(ValidationConstants.FieldReference, "ref_is_invalid");
         }
 
         [Fact]
-        public void InvalidCreditorReference()
+        public void InvalidCreditorRef_RefIsValidErr()
         {
             SourceBill = SampleData.CreateExample3();
             SourceBill.Reference = "RF00539007547034";
             Validate();
-            AssertSingleErrorMessage(ValidationConstants.FieldReference, "valid_iso11649_creditor_ref");
+            AssertSingleErrorMessage(ValidationConstants.FieldReference, "ref_is_invalid");
         }
 
         [Fact]
-        public void InvalidReferenceType()
+        public void MissingRefForQrIban_QrRefIsMandatoryErr()
+        {
+            SourceBill = SampleData.CreateExample1();
+            SourceBill.Account = "CH4431999123000889012";  // QR-IBAN
+            SourceBill.Reference = null;
+            Validate();
+            AssertSingleErrorMessage(ValidationConstants.FieldReference, "qr_ref_is_missing");
+        }
+
+        [Fact]
+        public void WhitespaceRefForQrIban_QrRefIsMandatoryErr()
+        {
+            SourceBill = SampleData.CreateExample1();
+            SourceBill.Reference = "   ";
+            Validate();
+            AssertSingleErrorMessage(ValidationConstants.FieldReference, "qr_ref_is_missing");
+        }
+
+        [Fact]
+        public void CreditRefForQrIban_UseQrRefForQrIbanErr()
+        {
+            SourceBill = SampleData.CreateExample1();
+            SourceBill.Account = "CH4431999123000889012"; // QR-IBAN
+            SourceBill.Reference = "RF18539007547034";
+            Validate();
+            AssertSingleErrorMessage(ValidationConstants.FieldReference, "cred_ref_used_for_qr_iban");
+        }
+
+        [Fact]
+        public void QrRefForNonQrIban_UseQrIbanForQrRefErr()
+        {
+            SourceBill = SampleData.CreateExample1();
+            SourceBill.Account = "CH3709000000304442225"; // non QR-IBAN
+            SourceBill.Reference = "210000000003139471430009017";
+            Validate();
+            AssertSingleErrorMessage(ValidationConstants.FieldReference, "qr_ref_used_for_non_qr_iban");
+        }
+
+        [Fact]
+        public void InvalidRefType_RefTypeIsValidErr()
         {
             SourceBill = SampleData.CreateExample3();
             SourceBill.ReferenceType = "ABC";
             Validate();
-            AssertSingleErrorMessage(ValidationConstants.FieldReferenceType, "valid_ref_type");
+            AssertSingleErrorMessage(ValidationConstants.FieldReferenceType, "invalid_ref_type");
+        }
+
+        [Fact]
+        public void InvalidRefTypeForCredRef_RefTypeIsValidErr()
+        {
+            SourceBill = SampleData.CreateExample3();
+            SourceBill.ReferenceType = "QRR";
+            Validate();
+            AssertSingleErrorMessage(ValidationConstants.FieldReferenceType, "invalid_ref_type");
+        }
+
+        [Fact]
+        public void InvalidRefTypeForQrRef_RefTypeIsValidErr()
+        {
+            SourceBill = SampleData.CreateExample3();
+            SourceBill.Account = "CH4431999123000889012"; // non QR-IBAN
+            SourceBill.Reference = "210000000003139471430009017";
+            SourceBill.ReferenceType = "SCOR";
+            Validate();
+            AssertSingleErrorMessage(ValidationConstants.FieldReferenceType, "invalid_ref_type");
         }
     }
 }
