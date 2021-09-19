@@ -72,7 +72,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
             SourceBill = SampleData.CreateExample1();
             SourceBill.Reference = "ABC";
             Validate();
-            AssertSingleErrorMessage(ValidationConstants.FieldReference, "ref_is_invalid");
+            AssertSingleErrorMessage(ValidationConstants.FieldReference, ValidationConstants.KeyRefInvalid);
         }
 
         [Fact]
@@ -81,7 +81,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
             SourceBill = SampleData.CreateExample1();
             SourceBill.Reference = "1234567890";
             Validate();
-            AssertSingleErrorMessage(ValidationConstants.FieldReference, "ref_is_invalid");
+            AssertSingleErrorMessage(ValidationConstants.FieldReference, ValidationConstants.KeyRefInvalid);
         }
 
         [Fact]
@@ -90,7 +90,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
             SourceBill = SampleData.CreateExample1();
             SourceBill.Reference = "123ABC7890";
             Validate();
-            AssertSingleErrorMessage(ValidationConstants.FieldReference, "ref_is_invalid");
+            AssertSingleErrorMessage(ValidationConstants.FieldReference, ValidationConstants.KeyRefInvalid);
         }
 
         [Fact]
@@ -99,7 +99,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
             SourceBill = SampleData.CreateExample3();
             SourceBill.Reference = "RF38302!!3393";
             Validate();
-            AssertSingleErrorMessage(ValidationConstants.FieldReference, "ref_is_invalid");
+            AssertSingleErrorMessage(ValidationConstants.FieldReference, ValidationConstants.KeyRefInvalid);
         }
 
         [Fact]
@@ -108,7 +108,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
             SourceBill = SampleData.CreateExample3();
             SourceBill.Reference = "RF00539007547034";
             Validate();
-            AssertSingleErrorMessage(ValidationConstants.FieldReference, "ref_is_invalid");
+            AssertSingleErrorMessage(ValidationConstants.FieldReference, ValidationConstants.KeyRefInvalid);
         }
 
         [Fact]
@@ -118,7 +118,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
             SourceBill.Account = "CH4431999123000889012";  // QR-IBAN
             SourceBill.Reference = null;
             Validate();
-            AssertSingleErrorMessage(ValidationConstants.FieldReference, "qr_ref_is_missing");
+            AssertSingleErrorMessage(ValidationConstants.FieldReference, ValidationConstants.KeyQrRefMissing);
         }
 
         [Fact]
@@ -127,7 +127,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
             SourceBill = SampleData.CreateExample1();
             SourceBill.Reference = "   ";
             Validate();
-            AssertSingleErrorMessage(ValidationConstants.FieldReference, "qr_ref_is_missing");
+            AssertSingleErrorMessage(ValidationConstants.FieldReference, ValidationConstants.KeyQrRefMissing);
         }
 
         [Fact]
@@ -137,7 +137,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
             SourceBill.Account = "CH4431999123000889012"; // QR-IBAN
             SourceBill.Reference = "RF18539007547034";
             Validate();
-            AssertSingleErrorMessage(ValidationConstants.FieldReference, "cred_ref_used_for_qr_iban");
+            AssertSingleErrorMessage(ValidationConstants.FieldReference, ValidationConstants.KeyCredRefInvalidUseForQrIban);
         }
 
         [Fact]
@@ -147,7 +147,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
             SourceBill.Account = "CH3709000000304442225"; // non QR-IBAN
             SourceBill.Reference = "210000000003139471430009017";
             Validate();
-            AssertSingleErrorMessage(ValidationConstants.FieldReference, "qr_ref_used_for_non_qr_iban");
+            AssertSingleErrorMessage(ValidationConstants.FieldReference, ValidationConstants.KeyQrRefInvalidUseForNonQrIban);
         }
 
         [Fact]
@@ -156,7 +156,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
             SourceBill = SampleData.CreateExample3();
             SourceBill.ReferenceType = "ABC";
             Validate();
-            AssertSingleErrorMessage(ValidationConstants.FieldReferenceType, "invalid_ref_type");
+            AssertSingleErrorMessage(ValidationConstants.FieldReferenceType, ValidationConstants.KeyRefTypeInvalid);
         }
 
         [Fact]
@@ -165,7 +165,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
             SourceBill = SampleData.CreateExample3();
             SourceBill.ReferenceType = "QRR";
             Validate();
-            AssertSingleErrorMessage(ValidationConstants.FieldReferenceType, "invalid_ref_type");
+            AssertSingleErrorMessage(ValidationConstants.FieldReferenceType, ValidationConstants.KeyRefTypeInvalid);
         }
 
         [Fact]
@@ -176,7 +176,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
             SourceBill.Reference = "210000000003139471430009017";
             SourceBill.ReferenceType = "SCOR";
             Validate();
-            AssertSingleErrorMessage(ValidationConstants.FieldReferenceType, "invalid_ref_type");
+            AssertSingleErrorMessage(ValidationConstants.FieldReferenceType, ValidationConstants.KeyRefTypeInvalid);
         }
     }
 }

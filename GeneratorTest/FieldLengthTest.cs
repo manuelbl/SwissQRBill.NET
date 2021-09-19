@@ -34,7 +34,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
             address.Name = "Name5678901234567890123456789012345678901234567890123456789012345678901";
             SourceBill.Creditor = address;
             Validate();
-            AssertSingleWarningMessage(ValidationConstants.FieldCreditorName, "field_clipped");
+            AssertSingleWarningMessage(ValidationConstants.FieldCreditorName, ValidationConstants.KeyFieldValueClipped);
             Assert.Equal("Name567890123456789012345678901234567890123456789012345678901234567890",
                     ValidatedBill.Creditor.Name);
         }
@@ -60,7 +60,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
             address.Street = "Street78901234567890123456789012345678901234567890123456789012345678901";
             SourceBill.Creditor = address;
             Validate();
-            AssertSingleWarningMessage(ValidationConstants.FieldCreditorStreet, "field_clipped");
+            AssertSingleWarningMessage(ValidationConstants.FieldCreditorStreet, ValidationConstants.KeyFieldValueClipped);
             Assert.Equal("Street7890123456789012345678901234567890123456789012345678901234567890",
                     ValidatedBill.Creditor.Street);
         }
@@ -85,7 +85,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
             address.HouseNo = "HouseNo8901234567";
             SourceBill.Creditor = address;
             Validate();
-            AssertSingleWarningMessage(ValidationConstants.FieldCreditorHouseNo, "field_clipped");
+            AssertSingleWarningMessage(ValidationConstants.FieldCreditorHouseNo, ValidationConstants.KeyFieldValueClipped);
             Assert.Equal("HouseNo890123456", ValidatedBill.Creditor.HouseNo);
         }
 
@@ -109,7 +109,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
             address.PostalCode = "Postal78901234567";
             SourceBill.Creditor = address;
             Validate();
-            AssertSingleWarningMessage(ValidationConstants.FieldCreditorPostalCode, "field_clipped");
+            AssertSingleWarningMessage(ValidationConstants.FieldCreditorPostalCode, ValidationConstants.KeyFieldValueClipped);
             Assert.Equal("Postal7890123456", ValidatedBill.Creditor.PostalCode);
         }
 
@@ -133,7 +133,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
             address.Town = "City56789012345678901234567890123456";
             SourceBill.Creditor = address;
             Validate();
-            AssertSingleWarningMessage(ValidationConstants.FieldCreditorTown, "field_clipped");
+            AssertSingleWarningMessage(ValidationConstants.FieldCreditorTown, ValidationConstants.KeyFieldValueClipped);
             Assert.Equal("City5678901234567890123456789012345", ValidatedBill.Creditor.Town);
         }
     }

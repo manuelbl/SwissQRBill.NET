@@ -139,13 +139,13 @@ namespace Codecrete.SwissQRBill.Generator
                         sb.Append("; ");
 
                     string desc = ErrorMessages.ContainsKey(message.MessageKey) ? ErrorMessages[message.MessageKey] : "Unknown error";
-                    if (message.MessageKey == ValidationConstants.KeyFieldIsMissing
+                    if (message.MessageKey == ValidationConstants.KeyFieldValueMissing
                         || message.MessageKey == ValidationConstants.KeyReplacedUnsupportedCharacters)
                     {
                         desc = string.Format(desc, message.Field);
                     }
-                    else if (message.MessageKey == ValidationConstants.KeyFieldTooLong
-                        || message.MessageKey == ValidationConstants.KeyFieldClipped)
+                    else if (message.MessageKey == ValidationConstants.KeyFieldValueTooLong
+                        || message.MessageKey == ValidationConstants.KeyFieldValueClipped)
                     {
                         desc = string.Format(desc, message.Field, message.MessageParameters[0]);
                     }
@@ -162,20 +162,20 @@ namespace Codecrete.SwissQRBill.Generator
 
         private static readonly Dictionary<string, string> ErrorMessages = new Dictionary<string, string>()
         {
-            { ValidationConstants.KeyCurrencyIsNotChfOrEur, "currency should be \"CHF\" or \"EUR\"" },
-            { ValidationConstants.KeyAmountIsOutsideValidRange, "amount should be between 0.01 and 999 999 999.99" },
-            { ValidationConstants.KeyAccountIsNotChLiIban, "account number should start with \"CH\" or \"LI\"" },
-            { ValidationConstants.KeyAccountHasInvalidIban, "account number is not a valid IBAN (invalid format or checksum)" },
-            { ValidationConstants.KeyRefIsInvalid, "reference is invalid; it is neither a valid QR reference nor a valid ISO 11649 reference" },
-            { ValidationConstants.KeyQrRefIsMissing, "QR reference is missing; it is mandatory for payments to a QR-IBAN account" },
-            { ValidationConstants.KeyCredRefUsedForQrIban, "for payments to a QR-IBAN account, a QR reference is required (an ISO 11649 reference may not be used)" },
-            { ValidationConstants.KeyQrRefUsedForNonQrIban, "a QR reference is only allowed for payments to a QR-IBAN account" },
-            { ValidationConstants.KeyInvalidRefType, "reference type should be one of \"QRR\", \"SCOR\" and \"NON\" and match the reference" },
-            { ValidationConstants.KeyFieldIsMissing, "field \"{0}\" may not be empty" },
+            { ValidationConstants.KeyCurrencyNotChfOrEur, "currency should be \"CHF\" or \"EUR\"" },
+            { ValidationConstants.KeyAmountOutsideValidRange, "amount should be between 0.01 and 999 999 999.99" },
+            { ValidationConstants.KeyAccountIbanNotFromChOrLi, "account number should start with \"CH\" or \"LI\"" },
+            { ValidationConstants.KeyAccountIbanInvalid, "account number is not a valid IBAN (invalid format or checksum)" },
+            { ValidationConstants.KeyRefInvalid, "reference is invalid; it is neither a valid QR reference nor a valid ISO 11649 reference" },
+            { ValidationConstants.KeyQrRefMissing, "QR reference is missing; it is mandatory for payments to a QR-IBAN account" },
+            { ValidationConstants.KeyCredRefInvalidUseForQrIban, "for payments to a QR-IBAN account, a QR reference is required (an ISO 11649 reference may not be used)" },
+            { ValidationConstants.KeyQrRefInvalidUseForNonQrIban, "a QR reference is only allowed for payments to a QR-IBAN account" },
+            { ValidationConstants.KeyRefTypeInvalid, "reference type should be one of \"QRR\", \"SCOR\" and \"NON\" and match the reference" },
+            { ValidationConstants.KeyFieldValueMissing, "field \"{0}\" may not be empty" },
             { ValidationConstants.KeyAddressTypeConflict, "fields for either structured address or combined elements address may be filled but not both" },
-            { ValidationConstants.KeyInvalidCountryCode, "country code is invalid; it should consist of two letters" },
-            { ValidationConstants.KeyFieldClipped, "the value for field \"{0}\" has been clipped to not exceed the maximum length of {1} characters" },
-            { ValidationConstants.KeyFieldTooLong, "the value for field \"{0}\" should not exceed a length of {1} characters" },
+            { ValidationConstants.KeyCountryCodeInvalid, "country code is invalid; it should consist of two letters" },
+            { ValidationConstants.KeyFieldValueClipped, "the value for field \"{0}\" has been clipped to not exceed the maximum length of {1} characters" },
+            { ValidationConstants.KeyFieldValueTooLong, "the value for field \"{0}\" should not exceed a length of {1} characters" },
             { ValidationConstants.KeyAdditionalInfoTooLong, "the additional information and the structured bill information combined should not exceed 140 characters" },
             { ValidationConstants.KeyReplacedUnsupportedCharacters, "unsupported characters have been replaced in field \"{0}\"" },
             { ValidationConstants.KeyAltSchemeMaxExceeded, "no more than two alternative schemes may be used" },

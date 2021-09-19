@@ -30,7 +30,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
             SourceBill = SampleData.CreateExample1();
             SourceBill.Currency = null;
             Validate();
-            AssertSingleErrorMessage(ValidationConstants.FieldCurrency, "field_is_missing");
+            AssertSingleErrorMessage(ValidationConstants.FieldCurrency, ValidationConstants.KeyFieldValueMissing);
         }
 
         [Fact]
@@ -39,7 +39,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
             SourceBill = SampleData.CreateExample1();
             SourceBill.Currency = "USD";
             Validate();
-            AssertSingleErrorMessage(ValidationConstants.FieldCurrency, "currency_is_not_chf_or_eur");
+            AssertSingleErrorMessage(ValidationConstants.FieldCurrency, ValidationConstants.KeyCurrencyNotChfOrEur);
         }
 
         [Fact]
@@ -68,7 +68,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
             SourceBill = SampleData.CreateExample1();
             SourceBill.Amount = -0.01m;
             Validate();
-            AssertSingleErrorMessage(ValidationConstants.FieldAmount, "amount_is_outside_valid_range");
+            AssertSingleErrorMessage(ValidationConstants.FieldAmount, ValidationConstants.KeyAmountOutsideValidRange);
         }
 
         [Fact]
@@ -77,7 +77,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
             SourceBill = SampleData.CreateExample1();
             SourceBill.Amount = 1000000000.0m;
             Validate();
-            AssertSingleErrorMessage(ValidationConstants.FieldAmount, "amount_is_outside_valid_range");
+            AssertSingleErrorMessage(ValidationConstants.FieldAmount, ValidationConstants.KeyAmountOutsideValidRange);
         }
 
         [Fact]
@@ -116,7 +116,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
             SourceBill = SampleData.CreateExample1();
             SourceBill.Account = null;
             Validate();
-            AssertSingleErrorMessage(ValidationConstants.FieldAccount, "field_is_missing");
+            AssertSingleErrorMessage(ValidationConstants.FieldAccount, ValidationConstants.KeyFieldValueMissing);
         }
 
         [Fact]
@@ -125,7 +125,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
             SourceBill = SampleData.CreateExample1();
             SourceBill.Account = "DE68 2012 0700 3100 7555 55";
             Validate();
-            AssertSingleErrorMessage(ValidationConstants.FieldAccount, "account_is_not_ch_li_iban");
+            AssertSingleErrorMessage(ValidationConstants.FieldAccount, ValidationConstants.KeyAccountIbanNotFromChOrLi);
         }
 
         [Fact]
@@ -134,7 +134,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
             SourceBill = SampleData.CreateExample1();
             SourceBill.Account = "CH0031999123000889012";
             Validate();
-            AssertSingleErrorMessage(ValidationConstants.FieldAccount, "account_has_invalid_iban");
+            AssertSingleErrorMessage(ValidationConstants.FieldAccount, ValidationConstants.KeyAccountIbanInvalid);
         }
 
         [Fact]
@@ -143,7 +143,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
             SourceBill = SampleData.CreateExample1();
             SourceBill.Account = "CH503199912300088333339012";
             Validate();
-            AssertSingleErrorMessage(ValidationConstants.FieldAccount, "account_has_invalid_iban");
+            AssertSingleErrorMessage(ValidationConstants.FieldAccount, ValidationConstants.KeyAccountIbanInvalid);
         }
 
         [Fact]
@@ -184,7 +184,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
             SourceBill.UnstructuredMessage = null;
             SourceBill.BillInformation = "//AA4567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789x";
             Validate();
-            AssertSingleErrorMessage(ValidationConstants.FieldBillInformation, "field_too_long");
+            AssertSingleErrorMessage(ValidationConstants.FieldBillInformation, ValidationConstants.KeyFieldValueTooLong);
         }
 
         [Fact]
@@ -193,7 +193,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
             SourceBill = SampleData.CreateExample1();
             SourceBill.BillInformation = "ABCD";
             Validate();
-            AssertSingleErrorMessage(ValidationConstants.FieldBillInformation, "bill_info_invalid");
+            AssertSingleErrorMessage(ValidationConstants.FieldBillInformation, ValidationConstants.KeyBillInfoInvalid);
         }
 
         [Fact]
@@ -202,7 +202,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
             SourceBill = SampleData.CreateExample1();
             SourceBill.BillInformation = "//A";
             Validate();
-            AssertSingleErrorMessage(ValidationConstants.FieldBillInformation, "bill_info_invalid");
+            AssertSingleErrorMessage(ValidationConstants.FieldBillInformation, ValidationConstants.KeyBillInfoInvalid);
         }
 
         [Fact]
@@ -239,7 +239,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
                 new AlternativeScheme{ Name = "Too Much", Instruction = "TM/asdfa/asdfa/" }
             };
             Validate();
-            AssertSingleErrorMessage(ValidationConstants.FieldAlternativeSchemes, "alt_scheme_max_exceed");
+            AssertSingleErrorMessage(ValidationConstants.FieldAlternativeSchemes, ValidationConstants.KeyAltSchemeMaxExceeded);
         }
 
         [Fact]
@@ -252,7 +252,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
                 new AlternativeScheme{ Name = "Xing Yong", Instruction = "XY;XYService;54321" }
             };
             Validate();
-            AssertSingleErrorMessage(ValidationConstants.FieldAlternativeSchemes, "field_too_long");
+            AssertSingleErrorMessage(ValidationConstants.FieldAlternativeSchemes, ValidationConstants.KeyFieldValueTooLong);
         }
     }
 }
