@@ -237,57 +237,10 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             _pathTypes.Add((byte)PathPointType.Bezier);
         }
 
-        /// <summary>
-        /// Checks if the current path consists of horizontal and vertical line segments only.
-        /// </summary>
-        /// <returns><c>true</c> if rectangular, <c>false</c> otherwise</returns>
-        private bool IsRectangularPath()
+        public override void FillPath(int color, bool smoothing)
         {
-            int n = _pathPoints.Count;
-            int subpathStartIndex = 0;
-            for (int i = 1; i < n; i++)
-            {
-                byte type = _pathTypes[i];
-                bool isCloseSubPath = (type & (byte)PathPointType.CloseSubpath) != 0;
-
-                if (isCloseSubPath)
-                {
-                    if (_pathPoints[i].X - _pathPoints[subpathStartIndex].X != 0
-                        && _pathPoints[i].Y - _pathPoints[subpathStartIndex].Y != 0)
-                    {
-                        return false;
-                    }
-                }
-
-                byte mask = 255 ^ (byte)PathPointType.CloseSubpath;
-                type &= mask;
-
-                if (type == (byte)PathPointType.Start)
-                {
-                    subpathStartIndex = i;
-                }
-                else if (type == (byte)PathPointType.Line)
-                {
-                    if (_pathPoints[i].X - _pathPoints[i - 1].X != 0
-                        && _pathPoints[i].Y - _pathPoints[i - 1].Y != 0)
-                    {
-                        return false;
-                    }
-                }
-                else
-                {
-                    return false;
-                }
-            }
-
-            return true;
-        }
-
-        public override void FillPath(int color)
-        {
-            bool isRectangular = IsRectangularPath();
-            // turn off antialiasing for rectangular paths
-            if (isRectangular)
+            // turn off antialiasing if smoothing is not desired
+            if (!smoothing)
             {
                 _graphics.SmoothingMode = SmoothingMode.None;
                 _graphics.PixelOffsetMode = PixelOffsetMode.HighSpeed;
@@ -300,23 +253,17 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             }
 
             // turn antialiasing on
-            if (isRectangular)
+            if (!smoothing)
             {
                 _graphics.SmoothingMode = SmoothingMode.HighQuality;
                 _graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
             }
         }
 
-        public override void StrokePath(double strokeWidth, int color)
+        public override void StrokePath(double strokeWidth, int color, LineStyle lineStyle, bool smoothing)
         {
-            StrokePath(strokeWidth, color, LineStyle.Solid);
-        }
-
-        public override void StrokePath(double strokeWidth, int color, LineStyle lineStyle)
-        {
-            bool isRectangular = IsRectangularPath();
-            // turn off antialiasing for rectangular paths
-            if (isRectangular && lineStyle != LineStyle.Dotted)
+            // turn off antialiasing if smoothing is not desired
+            if (!smoothing && lineStyle != LineStyle.Dotted)
             {
                 _graphics.SmoothingMode = SmoothingMode.None;
                 _graphics.PixelOffsetMode = PixelOffsetMode.HighSpeed;
@@ -348,7 +295,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             }
 
             // turn antialiasing on
-            if (isRectangular && lineStyle != LineStyle.Dotted)
+            if (!smoothing && lineStyle != LineStyle.Dotted)
             {
                 _graphics.SmoothingMode = SmoothingMode.HighQuality;
                 _graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;

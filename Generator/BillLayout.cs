@@ -478,7 +478,7 @@ namespace Codecrete.SwissQRBill.Generator
                 }
                 _graphics.LineTo(SlipWidth, SlipHeight);
             }
-            _graphics.StrokePath(lineWidth, 0, lineStyle);
+            _graphics.StrokePath(lineWidth, 0, lineStyle, false);
 
             // Draw scissors
             if (hasScissors)
@@ -670,7 +670,7 @@ namespace Codecrete.SwissQRBill.Generator
             _graphics.LineTo(x + lwh, y + height - lwh);
             _graphics.LineTo(x + lwh, y + height - s);
 
-            _graphics.StrokePath(CornerStrokeWidth, 0);
+            _graphics.StrokePath(CornerStrokeWidth, 0, LineStyle.Solid, false);
         }
 
         private static string FormatAmountForDisplay(decimal amount)

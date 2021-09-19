@@ -23,7 +23,6 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         private StreamWriter _stream;
         private bool _isInGroup;
         private bool _isFirstMoveInPath;
-        private bool _isRectangularPath;
         private double _lastPositionX;
         private double _lastPositionY;
         private int _approxPathLength;
@@ -127,7 +126,6 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         public override void StartPath()
         {
             _isFirstMoveInPath = true;
-            _isRectangularPath = true;
             _approxPathLength = 0;
             _path = new StringBuilder();
         }
@@ -164,7 +162,6 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             _path.Append(FormatCoordinate(x - _lastPositionX));
             _path.Append(",");
             _path.Append(FormatCoordinate(y - _lastPositionY));
-            _isRectangularPath = _isRectangularPath && (_lastPositionX == x || _lastPositionY == y);
             _lastPositionX = x;
             _lastPositionY = y;
             _approxPathLength += 16;
@@ -188,7 +185,6 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             _path.Append(FormatCoordinate(x - _lastPositionX));
             _path.Append(",");
             _path.Append(FormatCoordinate(y - _lastPositionY));
-            _isRectangularPath = false;
             _lastPositionX = x;
             _lastPositionY = y;
             _approxPathLength += 48;
@@ -224,13 +220,11 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             }
         }
 
-        public override void FillPath(int color)
+        public override void FillPath(int color, bool smoothing)
         {
             _stream.Write("<path fill=\"#");
             _stream.Write(FormatColor(color));
-            // If the path consist of rectangular line segments only, the crispEdges
-            // attribute is added for better rendering on low resolution displays.
-            if (_isRectangularPath)
+            if (!smoothing)
                 _stream.Write("\" shape-rendering=\"crispEdges");
             _stream.Write("\"\nd=\"");
             _stream.Write(_path.ToString());
@@ -239,12 +233,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             _isFirstMoveInPath = true;
         }
 
-        public override void StrokePath(double strokeWidth, int color)
-        {
-            StrokePath(strokeWidth, color, LineStyle.Solid);
-        }
-
-        public override void StrokePath(double strokeWidth, int color, LineStyle lineStyle)
+        public override void StrokePath(double strokeWidth, int color, LineStyle lineStyle, bool smoothing)
         {
             _stream.Write("<path stroke=\"#");
             _stream.Write(FormatColor(color));
@@ -263,6 +252,8 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
                 _stream.Write("\" stroke-linecap=\"round\" stroke-dasharray=\"0 ");
                 _stream.Write(FormatNumber(strokeWidth * 3));
             }
+            if (!smoothing)
+                _stream.Write("\" shape-rendering=\"crispEdges");
             _stream.Write("\" fill=\"none\"\nd=\"");
             _stream.Write(_path.ToString());
             _stream.Write("\"/>\n");

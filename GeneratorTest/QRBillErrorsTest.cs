@@ -108,7 +108,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
                 // be nice
             }
 
-            public override void FillPath(int color)
+            public override void FillPath(int color, bool smoothing)
             {
                 throw new NotImplementedException();
             }
@@ -138,7 +138,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
                 throw new NotImplementedException();
             }
 
-            public override void StrokePath(double strokeWidth, int color)
+            public override void StrokePath(double strokeWidth, int color, LineStyle lineStyle, bool smoothing)
             {
                 throw new NotImplementedException();
             }

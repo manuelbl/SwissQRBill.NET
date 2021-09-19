@@ -169,7 +169,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             _contentStream.ClosePath();
         }
 
-        public override void FillPath(int color)
+        public override void FillPath(int color, bool smoothing)
         {
             if (color != _lastNonStrokingColor)
             {
@@ -182,12 +182,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             _contentStream.Fill();
         }
 
-        public override void StrokePath(double strokeWidth, int color)
-        {
-            StrokePath(strokeWidth, color, LineStyle.Solid);
-        }
-
-        public override void StrokePath(double strokeWidth, int color, LineStyle lineStyle)
+        public override void StrokePath(double strokeWidth, int color, LineStyle lineStyle, bool smoothing)
         {
             if (color != _lastStrokingColor)
             {
