@@ -14,12 +14,9 @@
       },
       "Net.Codecrete.QrCodeGenerator": {
         "type": "Direct",
-        "requested": "[1.6.1, )",
-        "resolved": "1.6.1",
-        "contentHash": "xB2BRqgJ+DX4wJwHGckQx59JayEQ8vWJ6raV7FdK81d+krFMLxcKsuGRbIxtBcpa4Z925D/8pNP8qQ2N5JW5YQ==",
-        "dependencies": {
-          "System.Drawing.Common": "4.5.1"
-        }
+        "requested": "[2.0.0-rc.1, )",
+        "resolved": "2.0.0-rc.1",
+        "contentHash": "3Iu1rceO/XdXpfW8or9qPlsX+V5oVFQgq2T+V8nt6ip9uRgGvLmbSdoG6eEIMN2am2kcrUJ6yOz2OXob4646XA=="
       },
       "NETStandard.Library": {
         "type": "Direct",
