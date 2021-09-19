@@ -12,6 +12,7 @@ using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.Drawing.Text;
 using System.IO;
+using System.Text.RegularExpressions;
 
 namespace Codecrete.SwissQRBill.Generator.Canvas
 {
@@ -49,7 +50,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         public PNGCanvas(double width, double height, int resolution, string fontFamilyList)
         {
             // setup font metrics
-            SetupFontMetrics(fontFamilyList);
+            SetupFontMetrics(FindInstalledFontFamily(fontFamilyList));
             _fontFamily = new FontFamily(FontMetrics.FirstFontFamily);
 
             // create image
@@ -76,6 +77,55 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             Matrix matrix = new Matrix();
             matrix.Translate(0, _bitmap.Height);
             _graphics.Transform = matrix;
+        }
+
+        /// <summary>
+        /// Finds the first font family from the specified list that is installed and not replaced with an alternative font.
+        /// </summary>
+        /// <param name="fontFamilyList">A list font family names, separated by comma (same syntax as for CSS). The first font family will be used.</param>
+        /// <returns>font family name (if font is installed), or unchanged font family list (if none of the fonts is found)</returns>
+        private static string FindInstalledFontFamily(string fontFamilyList)
+        {
+            foreach (string family in SplitCommaSeparated(fontFamilyList))
+            {
+                string trimmedFamily = family.Trim();
+                try
+                {
+                    using (FontFamily fontFamily = new FontFamily(trimmedFamily))
+                    {
+                        return trimmedFamily;
+                    }
+                }
+                catch (ArgumentException)
+                {
+                    // font was not found; try next one
+                }
+            }
+
+            return fontFamilyList;
+        }
+
+        private static readonly Regex quotedSplitter = new Regex("(?:^|,)(\"[^\"]*\"|[^,]*)", RegexOptions.Compiled);
+
+        /// <summary>
+        /// Splits the comma separated list into its components.
+        /// <para>
+        /// A component may use double quotes (similar to CSV formats).
+        /// </para>
+        /// </summary>
+        /// <param name="input">comma separated list</param>
+        /// <returns>list of components</returns>
+        private static IEnumerable<string> SplitCommaSeparated(string input)
+        {
+            foreach (Match match in quotedSplitter.Matches(input))
+            {
+                string component = match.Groups[1].Value;
+                if (component[0] == '"' && component[component.Length - 1] == '"')
+                {
+                    component = component.Substring(1, component.Length - 2);
+                }
+                yield return component;
+            }
         }
 
         /// <summary>

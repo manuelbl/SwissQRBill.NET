@@ -23,7 +23,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
             Bill bill = SampleData.CreateExample1();
 
             byte[] png;
-            using (PNGCanvas canvas = new PNGCanvas(QRBill.QrBillWidth, QRBill.QrBillHeight, 300, "Arial"))
+            using (PNGCanvas canvas = new PNGCanvas(QRBill.QrBillWidth, QRBill.QrBillHeight, 300, "\"Liberation Sans\",Arial, Helvetica"))
             {
                 bill.Format.OutputSize = OutputSize.QrBillOnly;
                 QRBill.Draw(bill, canvas);
@@ -39,7 +39,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
             Bill bill = SampleData.CreateExample3();
             byte[] png;
             using (PNGCanvas canvas =
-                new PNGCanvas(QRBill.A4PortraitWidth, QRBill.A4PortraitHeight, 144, "Arial,Helvetica"))
+                new PNGCanvas(QRBill.A4PortraitWidth, QRBill.A4PortraitHeight, 144, "Arial,\"Liberation Sans\",Helvetica"))
             {
                 bill.Format.OutputSize = OutputSize.A4PortraitSheet;
                 QRBill.Draw(bill, canvas);
@@ -54,7 +54,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         {
             Bill bill = SampleData.CreateExample5();
             using PNGCanvas canvas =
-                new PNGCanvas(QRBill.A4PortraitWidth, QRBill.A4PortraitHeight, 144, "Helvetica, Arial, Sans");
+                new PNGCanvas(QRBill.A4PortraitWidth, QRBill.A4PortraitHeight, 144, "Helvetica, Arial, \"Liberation Sans\"");
             QRBill.Draw(bill, canvas);
             MemoryStream ms = new MemoryStream();
             canvas.WriteTo(ms);
@@ -65,7 +65,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         {
             Bill bill = SampleData.CreateExample6();
             using PNGCanvas canvas =
-                new PNGCanvas(QRBill.QrBillWidth, QRBill.QrBillHeight, 144, "Helvetica, Arial, Sans");
+                new PNGCanvas(QRBill.QrBillWidth, QRBill.QrBillHeight, 144, "Helvetica, Arial, \"Liberation Sans\"");
             QRBill.Draw(bill, canvas);
             canvas.SaveAs("qrbill.png");
         }
