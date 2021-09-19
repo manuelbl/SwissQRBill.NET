@@ -79,7 +79,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
             address.Name = "abc\r\ndef";
             SourceBill.Creditor = address;
             Validate();
-            AssertSingleWarningMessage(ValidationConstants.FieldCreditorName, "replaced_unsupported_characters");
+            AssertSingleWarningMessage(ValidationConstants.FieldCreditorName, ValidationConstants.KeyReplacedUnsupportedCharacters);
             Assert.Equal("abc def", ValidatedBill.Creditor.Name);
         }
 
@@ -91,7 +91,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
             address.Street = "abc€def©ghi^";
             SourceBill.Creditor = address;
             Validate();
-            AssertSingleWarningMessage(ValidationConstants.FieldCreditorStreet, "replaced_unsupported_characters");
+            AssertSingleWarningMessage(ValidationConstants.FieldCreditorStreet, ValidationConstants.KeyReplacedUnsupportedCharacters);
             Assert.Equal("abc.def.ghi.", ValidatedBill.Creditor.Street);
         }
 
@@ -101,7 +101,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
             SourceBill = SampleData.CreateExample1();
             SourceBill.UnstructuredMessage = "Thanks 🙏 Lisa";
             Validate();
-            AssertSingleWarningMessage(ValidationConstants.FieldUnstructuredMessage, "replaced_unsupported_characters");
+            AssertSingleWarningMessage(ValidationConstants.FieldUnstructuredMessage, ValidationConstants.KeyReplacedUnsupportedCharacters);
             Assert.Equal("Thanks . Lisa", ValidatedBill.UnstructuredMessage);
         }
 
@@ -111,7 +111,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
             SourceBill = SampleData.CreateExample1();
             SourceBill.BillInformation = "//AZ/400€/123";
             Validate();
-            AssertSingleWarningMessage(ValidationConstants.FieldBillInformation, "replaced_unsupported_characters");
+            AssertSingleWarningMessage(ValidationConstants.FieldBillInformation, ValidationConstants.KeyReplacedUnsupportedCharacters);
             Assert.Equal("//AZ/400./123", ValidatedBill.BillInformation);
         }
 
@@ -123,7 +123,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
             address.PostalCode = "\uD83D\uDC80"; // surrogate pair (1 code point but 2 UTF-16 words)
             SourceBill.Creditor = address;
             Validate();
-            AssertSingleWarningMessage(ValidationConstants.FieldCreditorPostalCode, "replaced_unsupported_characters");
+            AssertSingleWarningMessage(ValidationConstants.FieldCreditorPostalCode, ValidationConstants.KeyReplacedUnsupportedCharacters);
             Assert.Equal(".", ValidatedBill.Creditor.PostalCode);
         }
 
@@ -135,7 +135,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
             address.Town = "\uD83C\uDDE8\uD83C\uDDED"; // two surrogate pairs
             SourceBill.Creditor = address;
             Validate();
-            AssertSingleWarningMessage(ValidationConstants.FieldCreditorTown, "replaced_unsupported_characters");
+            AssertSingleWarningMessage(ValidationConstants.FieldCreditorTown, ValidationConstants.KeyReplacedUnsupportedCharacters);
             Assert.Equal("..", ValidatedBill.Creditor.Town);
         }
 
@@ -147,7 +147,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
             address.Town = "-- \uD83D\uDC68\uD83C\uDFFB --"; // two surrogate pairs
             SourceBill.Creditor = address;
             Validate();
-            AssertSingleWarningMessage(ValidationConstants.FieldCreditorTown, "replaced_unsupported_characters");
+            AssertSingleWarningMessage(ValidationConstants.FieldCreditorTown, ValidationConstants.KeyReplacedUnsupportedCharacters);
             Assert.Equal("-- .. --", ValidatedBill.Creditor.Town);
         }
 
@@ -160,7 +160,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
             address.Street = "ABC" + invalidChar + "QRS";
             SourceBill.Creditor = address;
             Validate();
-            AssertSingleWarningMessage(ValidationConstants.FieldCreditorStreet, "replaced_unsupported_characters");
+            AssertSingleWarningMessage(ValidationConstants.FieldCreditorStreet, ValidationConstants.KeyReplacedUnsupportedCharacters);
             Assert.Equal("ABC.QRS", ValidatedBill.Creditor.Street);
         }
 

@@ -70,7 +70,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
             address.Name = "  ";
             SourceBill.Creditor = address;
             Validate();
-            AssertSingleErrorMessage(ValidationConstants.FieldCreditorName, "field_is_missing");
+            AssertSingleErrorMessage(ValidationConstants.FieldCreditorName, ValidationConstants.KeyFieldValueMissing);
         }
 
         [Fact]
@@ -103,7 +103,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
             address.PostalCode = "";
             SourceBill.Creditor = address;
             Validate();
-            AssertSingleErrorMessage(ValidationConstants.FieldCreditorPostalCode, "field_is_missing");
+            AssertSingleErrorMessage(ValidationConstants.FieldCreditorPostalCode, ValidationConstants.KeyFieldValueMissing);
         }
 
         [Fact]
@@ -114,7 +114,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
             address.Town = null;
             SourceBill.Creditor = address;
             Validate();
-            AssertSingleErrorMessage(ValidationConstants.FieldCreditorTown, "field_is_missing");
+            AssertSingleErrorMessage(ValidationConstants.FieldCreditorTown, ValidationConstants.KeyFieldValueMissing);
         }
 
         [Fact]
@@ -125,7 +125,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
             address.CountryCode = "  ";
             SourceBill.Creditor = address;
             Validate();
-            AssertSingleErrorMessage(ValidationConstants.FieldCreditorCountryCode, "field_is_missing");
+            AssertSingleErrorMessage(ValidationConstants.FieldCreditorCountryCode, ValidationConstants.KeyFieldValueMissing);
         }
 
         [Fact]
@@ -136,7 +136,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
             address.CountryCode = "Schweiz";
             SourceBill.Creditor = address;
             Validate();
-            AssertSingleErrorMessage(ValidationConstants.FieldCreditorCountryCode, "invalid_country_code");
+            AssertSingleErrorMessage(ValidationConstants.FieldCreditorCountryCode, ValidationConstants.KeyCountryCodeInvalid);
         }
 
         [Fact]
@@ -147,7 +147,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
             address.CountryCode = "R!";
             SourceBill.Creditor = address;
             Validate();
-            AssertSingleErrorMessage(ValidationConstants.FieldCreditorCountryCode, "invalid_country_code");
+            AssertSingleErrorMessage(ValidationConstants.FieldCreditorCountryCode, ValidationConstants.KeyCountryCodeInvalid);
         }
 
         [Fact]
@@ -163,7 +163,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
             foreach (ValidationMessage msg in Result.ValidationMessages)
             {
                 Assert.Equal(MessageType.Error, msg.Type);
-                Assert.Equal("address_type_conflict", msg.MessageKey);
+                Assert.Equal(ValidationConstants.KeyAddressTypeConflict, msg.MessageKey);
                 Assert.StartsWith(ValidationConstants.FieldRootCreditor, msg.Field);
             }
         }
@@ -177,7 +177,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
             foreach (ValidationMessage msg in Result.ValidationMessages)
             {
                 Assert.Equal(MessageType.Error, msg.Type);
-                Assert.Equal("field_is_missing", msg.MessageKey);
+                Assert.Equal(ValidationConstants.KeyFieldValueMissing, msg.MessageKey);
                 Assert.StartsWith(ValidationConstants.FieldRootCreditor, msg.Field);
             }
         }

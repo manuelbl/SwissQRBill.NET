@@ -36,7 +36,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
             var exception = Assert.Throws<QRBillValidationException>(
                 () => GenerateWithInvalidData1()
             );
-            Assert.Equal("QR bill data is invalid: field \"creditor.name\" may not be empty (field_is_missing)", exception.Message);
+            Assert.Equal("QR bill data is invalid: field \"creditor.name\" may not be empty (field_value_missing)", exception.Message);
         }
 
         private static void GenerateWithInvalidData1()
@@ -54,7 +54,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
             var exception = Assert.Throws<QRBillValidationException>(
                 () => GenerateWithInvalidData2()
             );
-            Assert.Equal("QR bill data is invalid: the value for field \"billInformation\" should not exceed a length of 140 characters (field_too_long)", exception.Message);
+            Assert.Equal("QR bill data is invalid: the value for field \"billInformation\" should not exceed a length of 140 characters (field_value_too_long)", exception.Message);
         }
 
         private static void GenerateWithInvalidData2()
@@ -73,7 +73,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
             var exception = Assert.Throws<QRBillValidationException>(
                 () => GenerateWithInvalidData3()
             );
-            Assert.Equal("QR bill data is invalid: currency should be \"CHF\" or \"EUR\" (currency_is_not_chf_or_eur); reference is invalid; it is neither a valid QR reference nor a valid ISO 11649 reference (ref_is_invalid)", exception.Message);
+            Assert.Equal("QR bill data is invalid: currency should be \"CHF\" or \"EUR\" (currency_not_chf_or_eur); reference is invalid; it is neither a valid QR reference nor a valid ISO 11649 reference (ref_invalid)", exception.Message);
         }
 
         private static void GenerateWithInvalidData3()

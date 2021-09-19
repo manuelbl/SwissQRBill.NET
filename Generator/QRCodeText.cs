@@ -140,23 +140,23 @@ namespace Codecrete.SwissQRBill.Generator
                 // A line feed at the end is illegal (cf 4.2.3) but found in practice. Don't be too strict.
                 if (!(lines.Length == 35 && lines[34].Length == 0))
                 {
-                    ThrowSingleValidationError(ValidationConstants.FieldQrType, ValidationConstants.KeyInvalidDataStructure);
+                    ThrowSingleValidationError(ValidationConstants.FieldQrType, ValidationConstants.KeyDataStructureInvalid);
                 }
             }
 
             if ("SPC" != lines[0])
             {
-                ThrowSingleValidationError(ValidationConstants.FieldQrType, ValidationConstants.KeyInvalidDataStructure);
+                ThrowSingleValidationError(ValidationConstants.FieldQrType, ValidationConstants.KeyDataStructureInvalid);
             }
 
             if (!ValidVersion.IsMatch(lines[1]))
             {
-                ThrowSingleValidationError(ValidationConstants.FieldVersion, ValidationConstants.KeyUnsupportedVersion);
+                ThrowSingleValidationError(ValidationConstants.FieldVersion, ValidationConstants.KeyVersionUnsupported);
             }
 
             if ("1" != lines[2])
             {
-                ThrowSingleValidationError(ValidationConstants.FieldCodingType, ValidationConstants.KeyUnsupportedCodingType);
+                ThrowSingleValidationError(ValidationConstants.FieldCodingType, ValidationConstants.KeyCodingTypeUnsupported);
             }
 
             Bill billData = new Bill
@@ -176,7 +176,7 @@ namespace Codecrete.SwissQRBill.Generator
                 }
                 else
                 {
-                    ThrowSingleValidationError(ValidationConstants.FieldAmount, ValidationConstants.KeyInvalidNumber);
+                    ThrowSingleValidationError(ValidationConstants.FieldAmount, ValidationConstants.KeyNumberInvalid);
                 }
             }
             else
@@ -195,7 +195,7 @@ namespace Codecrete.SwissQRBill.Generator
             billData.UnstructuredMessage = lines[29];
             if ("EPD" != lines[30])
             {
-                ThrowSingleValidationError(ValidationConstants.FieldTrailer, ValidationConstants.KeyInvalidDataStructure);
+                ThrowSingleValidationError(ValidationConstants.FieldTrailer, ValidationConstants.KeyDataStructureInvalid);
             }
 
             billData.BillInformation = lines.Length > 31 ? lines[31] : "";

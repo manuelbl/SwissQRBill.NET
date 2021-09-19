@@ -63,7 +63,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
             address.Name = "  ";
             SourceBill.Debtor = address;
             Validate();
-            AssertSingleErrorMessage(ValidationConstants.FieldDebtorName, "field_is_missing");
+            AssertSingleErrorMessage(ValidationConstants.FieldDebtorName, ValidationConstants.KeyFieldValueMissing);
         }
 
         [Fact]
@@ -74,7 +74,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
             address.Town = null;
             SourceBill.Debtor = address;
             Validate();
-            AssertSingleErrorMessage(ValidationConstants.FieldDebtorTown, "field_is_missing");
+            AssertSingleErrorMessage(ValidationConstants.FieldDebtorTown, ValidationConstants.KeyFieldValueMissing);
         }
 
         [Fact]
@@ -96,7 +96,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
             address.CountryCode = "00";
             SourceBill.Debtor = address;
             Validate();
-            AssertSingleErrorMessage(ValidationConstants.FieldDebtorCountryCode, "invalid_country_code");
+            AssertSingleErrorMessage(ValidationConstants.FieldDebtorCountryCode, ValidationConstants.KeyCountryCodeInvalid);
         }
 
         [Fact]
@@ -107,7 +107,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
             address.CountryCode = "aà";
             SourceBill.Creditor = address;
             Validate();
-            AssertSingleErrorMessage(ValidationConstants.FieldCreditorCountryCode, "invalid_country_code");
+            AssertSingleErrorMessage(ValidationConstants.FieldCreditorCountryCode, ValidationConstants.KeyCountryCodeInvalid);
         }
     }
 }

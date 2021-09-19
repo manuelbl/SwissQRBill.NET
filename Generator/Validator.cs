@@ -70,7 +70,7 @@ namespace Codecrete.SwissQRBill.Generator
             currency = currency.ToUpperInvariant();
             if (currency != "CHF" && currency != "EUR")
             {
-                _validationResult.AddMessage(MessageType.Error, ValidationConstants.FieldCurrency, ValidationConstants.KeyCurrencyIsNotChfOrEur);
+                _validationResult.AddMessage(MessageType.Error, ValidationConstants.FieldCurrency, ValidationConstants.KeyCurrencyNotChfOrEur);
             }
             else
             {
@@ -91,7 +91,7 @@ namespace Codecrete.SwissQRBill.Generator
                 amt = Math.Round(amt, 2, MidpointRounding.AwayFromZero); // round to multiple of 0.01
                 if (amt < 0.00m || amt > 999999999.99m)
                 {
-                    _validationResult.AddMessage(MessageType.Error, ValidationConstants.FieldAmount, ValidationConstants.KeyAmountIsOutsideValidRange);
+                    _validationResult.AddMessage(MessageType.Error, ValidationConstants.FieldAmount, ValidationConstants.KeyAmountOutsideValidRange);
                 }
                 else
                 {
@@ -116,11 +116,11 @@ namespace Codecrete.SwissQRBill.Generator
 
             if (!account.StartsWith("CH") && !account.StartsWith("LI"))
             {
-                _validationResult.AddMessage(MessageType.Error, ValidationConstants.FieldAccount, ValidationConstants.KeyAccountIsNotChLiIban);
+                _validationResult.AddMessage(MessageType.Error, ValidationConstants.FieldAccount, ValidationConstants.KeyAccountIbanNotFromChOrLi);
             }
             else if (account.Length != 21)
             {
-                _validationResult.AddMessage(MessageType.Error, ValidationConstants.FieldAccount, ValidationConstants.KeyAccountHasInvalidIban);
+                _validationResult.AddMessage(MessageType.Error, ValidationConstants.FieldAccount, ValidationConstants.KeyAccountIbanInvalid);
             }
             else
             {
@@ -162,18 +162,18 @@ namespace Codecrete.SwissQRBill.Generator
             {
                 if (Bill.ReferenceTypeNoRef == _billOut.ReferenceType && !hasReferenceError)
                 {
-                    _validationResult.AddMessage(MessageType.Error, ValidationConstants.FieldReference, ValidationConstants.KeyQrRefIsMissing);
+                    _validationResult.AddMessage(MessageType.Error, ValidationConstants.FieldReference, ValidationConstants.KeyQrRefMissing);
                 }
                 else if (Bill.ReferenceTypeCredRef == _billOut.ReferenceType)
                 {
-                    _validationResult.AddMessage(MessageType.Error, ValidationConstants.FieldReference, ValidationConstants.KeyCredRefUsedForQrIban);
+                    _validationResult.AddMessage(MessageType.Error, ValidationConstants.FieldReference, ValidationConstants.KeyCredRefInvalidUseForQrIban);
                 }
             }
             else if (isValidAccount)
             {
                 if (Bill.ReferenceTypeQrRef == _billOut.ReferenceType)
                 {
-                    _validationResult.AddMessage(MessageType.Error, ValidationConstants.FieldReference, ValidationConstants.KeyQrRefUsedForNonQrIban);
+                    _validationResult.AddMessage(MessageType.Error, ValidationConstants.FieldReference, ValidationConstants.KeyQrRefInvalidUseForNonQrIban);
                 }
             }
         }
@@ -187,13 +187,13 @@ namespace Codecrete.SwissQRBill.Generator
 
             if (!Payments.IsValidQrReference(cleanedReference))
             {
-                _validationResult.AddMessage(MessageType.Error, ValidationConstants.FieldReference, ValidationConstants.KeyRefIsInvalid);
+                _validationResult.AddMessage(MessageType.Error, ValidationConstants.FieldReference, ValidationConstants.KeyRefInvalid);
             }
             else
             {
                 _billOut.Reference = cleanedReference;
                 if (Bill.ReferenceTypeQrRef != _billIn.ReferenceType)
-                    _validationResult.AddMessage(MessageType.Error, ValidationConstants.FieldReferenceType, ValidationConstants.KeyInvalidRefType);
+                    _validationResult.AddMessage(MessageType.Error, ValidationConstants.FieldReferenceType, ValidationConstants.KeyRefTypeInvalid);
             }
         }
 
@@ -201,13 +201,13 @@ namespace Codecrete.SwissQRBill.Generator
         {
             if (!Payments.IsValidIso11649Reference(cleanedReference))
             {
-                _validationResult.AddMessage(MessageType.Error, ValidationConstants.FieldReference, ValidationConstants.KeyRefIsInvalid);
+                _validationResult.AddMessage(MessageType.Error, ValidationConstants.FieldReference, ValidationConstants.KeyRefInvalid);
             }
             else
             {
                 _billOut.Reference = cleanedReference;
                 if (Bill.ReferenceTypeCredRef != _billIn.ReferenceType)
-                    _validationResult.AddMessage(MessageType.Error, ValidationConstants.FieldReferenceType, ValidationConstants.KeyInvalidRefType);
+                    _validationResult.AddMessage(MessageType.Error, ValidationConstants.FieldReferenceType, ValidationConstants.KeyRefTypeInvalid);
             }
         }
 
@@ -323,7 +323,7 @@ namespace Codecrete.SwissQRBill.Generator
                     && (addressOut.CountryCode.Length != 2 || !Payments.IsAlpha(addressOut.CountryCode)))
             {
                 _validationResult.AddMessage(MessageType.Error, fieldRoot + ValidationConstants.SubFieldCountryCode,
-                        ValidationConstants.KeyInvalidCountryCode);
+                        ValidationConstants.KeyCountryCodeInvalid);
             }
 
             CleanAddressFields(addressOut, fieldRoot);
@@ -335,11 +335,11 @@ namespace Codecrete.SwissQRBill.Generator
         {
             if (mandatory)
             {
-                _validationResult.AddMessage(MessageType.Error, fieldRoot + ValidationConstants.SubFieldName, ValidationConstants.KeyFieldIsMissing);
-                _validationResult.AddMessage(MessageType.Error, fieldRoot + ValidationConstants.SubFieldPostalCode, ValidationConstants.KeyFieldIsMissing);
-                _validationResult.AddMessage(MessageType.Error, fieldRoot + ValidationConstants.SubFieldAddressLine2, ValidationConstants.KeyFieldIsMissing);
-                _validationResult.AddMessage(MessageType.Error, fieldRoot + ValidationConstants.SubFieldTown, ValidationConstants.KeyFieldIsMissing);
-                _validationResult.AddMessage(MessageType.Error, fieldRoot + ValidationConstants.SubFieldCountryCode, ValidationConstants.KeyFieldIsMissing);
+                _validationResult.AddMessage(MessageType.Error, fieldRoot + ValidationConstants.SubFieldName, ValidationConstants.KeyFieldValueMissing);
+                _validationResult.AddMessage(MessageType.Error, fieldRoot + ValidationConstants.SubFieldPostalCode, ValidationConstants.KeyFieldValueMissing);
+                _validationResult.AddMessage(MessageType.Error, fieldRoot + ValidationConstants.SubFieldAddressLine2, ValidationConstants.KeyFieldValueMissing);
+                _validationResult.AddMessage(MessageType.Error, fieldRoot + ValidationConstants.SubFieldTown, ValidationConstants.KeyFieldValueMissing);
+                _validationResult.AddMessage(MessageType.Error, fieldRoot + ValidationConstants.SubFieldCountryCode, ValidationConstants.KeyFieldValueMissing);
             }
         }
 
@@ -419,7 +419,7 @@ namespace Codecrete.SwissQRBill.Generator
                 return true;
             }
 
-            _validationResult.AddMessage(MessageType.Error, ValidationConstants.FieldAccount, ValidationConstants.KeyAccountHasInvalidIban);
+            _validationResult.AddMessage(MessageType.Error, ValidationConstants.FieldAccount, ValidationConstants.KeyAccountIbanInvalid);
             return false;
         }
 
@@ -488,7 +488,7 @@ namespace Codecrete.SwissQRBill.Generator
                 return true;
             }
 
-            _validationResult.AddMessage(MessageType.Error, field, ValidationConstants.KeyFieldIsMissing);
+            _validationResult.AddMessage(MessageType.Error, field, ValidationConstants.KeyFieldValueMissing);
             return false;
 
         }
@@ -497,7 +497,7 @@ namespace Codecrete.SwissQRBill.Generator
         {
             if (string.IsNullOrEmpty(value))
             {
-                _validationResult.AddMessage(MessageType.Error, fieldRoot + subfield, ValidationConstants.KeyFieldIsMissing);
+                _validationResult.AddMessage(MessageType.Error, fieldRoot + subfield, ValidationConstants.KeyFieldValueMissing);
             }
         }
 
@@ -508,7 +508,7 @@ namespace Codecrete.SwissQRBill.Generator
                 return true;
             }
 
-            _validationResult.AddMessage(MessageType.Error, field, ValidationConstants.KeyFieldTooLong,
+            _validationResult.AddMessage(MessageType.Error, field, ValidationConstants.KeyFieldValueTooLong,
                 new[] { maxLength.ToString() });
             return false;
 
@@ -521,7 +521,7 @@ namespace Codecrete.SwissQRBill.Generator
                 return value;
             }
 
-            _validationResult.AddMessage(MessageType.Warning, field, ValidationConstants.KeyFieldClipped,
+            _validationResult.AddMessage(MessageType.Warning, field, ValidationConstants.KeyFieldValueClipped,
                 new[] { maxLength.ToString() });
             return value.Substring(0, maxLength);
 
@@ -534,7 +534,7 @@ namespace Codecrete.SwissQRBill.Generator
                 return value;
             }
 
-            _validationResult.AddMessage(MessageType.Warning, fieldRoot + subfield, ValidationConstants.KeyFieldClipped,
+            _validationResult.AddMessage(MessageType.Warning, fieldRoot + subfield, ValidationConstants.KeyFieldValueClipped,
                 new[] { maxLength.ToString() });
             return value.Substring(0, maxLength);
 
