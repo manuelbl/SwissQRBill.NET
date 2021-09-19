@@ -63,7 +63,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
             address.Name = "  ";
             SourceBill.Debtor = address;
             Validate();
-            AssertSingleErrorMessage(ValidationConstants.FieldDebtorName, "field_is_mandatory");
+            AssertSingleErrorMessage(ValidationConstants.FieldDebtorName, "field_is_missing");
         }
 
         [Fact]
@@ -74,7 +74,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
             address.Town = null;
             SourceBill.Debtor = address;
             Validate();
-            AssertSingleErrorMessage(ValidationConstants.FieldDebtorTown, "field_is_mandatory");
+            AssertSingleErrorMessage(ValidationConstants.FieldDebtorTown, "field_is_missing");
         }
 
         [Fact]
@@ -86,6 +86,28 @@ namespace Codecrete.SwissQRBill.GeneratorTest
             Validate();
             AssertNoMessages();
             Assert.Null(ValidatedBill.Debtor);
+        }
+
+        [Fact]
+        public void DebtorWithInvalidCountryCode()
+        {
+            SourceBill = SampleData.CreateExample1();
+            Address address = CreateValidPerson();
+            address.CountryCode = "00";
+            SourceBill.Debtor = address;
+            Validate();
+            AssertSingleErrorMessage(ValidationConstants.FieldDebtorCountryCode, "invalid_country_code");
+        }
+
+        [Fact]
+        public void CreditorWithInvalidCountryCode2()
+        {
+            SourceBill = SampleData.CreateExample1();
+            Address address = CreateValidPerson();
+            address.CountryCode = "aà";
+            SourceBill.Creditor = address;
+            Validate();
+            AssertSingleErrorMessage(ValidationConstants.FieldCreditorCountryCode, "invalid_country_code");
         }
     }
 }

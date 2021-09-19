@@ -44,9 +44,15 @@ The Swiss QR bill library:
     <RestoreLockedMode Condition="$(ContinuousIntegrationBuild) == 'true'">true</RestoreLockedMode>
   </PropertyGroup>
 
+  <PropertyGroup Label="Packaging">
+    <DebugType>embedded</DebugType>
+    <EmbedAllSources>true</EmbedAllSources>
+  </PropertyGroup>
+
   <ItemGroup>
-    <PackageReference Include="Net.Codecrete.QrCodeGenerator" Version="1.6.1" />
     <PackageReference Include="SkiaSharp" Version="2.80.3" />
+    <PackageReference Include="Net.Codecrete.QrCodeGenerator" Version="2.0.0-rc.1" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="all" />
   </ItemGroup>
 
   <ItemGroup>
@@ -55,5 +61,10 @@ The Swiss QR bill library:
       <PackagePath />
     </None>
   </ItemGroup>
+
+  <Target Name="ValidateNuGetPackage" AfterTargets="Pack">
+    <Exec Command="dotnet tool restore" />
+    <Exec Command="dotnet validate package local $([MSBuild]::EnsureTrailingSlash($(PackageOutputPath)))$(PackageId).$(PackageVersion).nupkg" />
+  </Target>
 
 </Project>

@@ -127,17 +127,8 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         /// Fills the current path and discards it.
         /// </summary>
         /// <param name="color">The fill color (expressed similar to HTML, e.g. 0xffffff for white).</param>
-        void FillPath(int color);
-
-        /// <summary>
-        /// Strokes the current path and discards it.
-        /// </summary>
-        /// <para>
-        /// The path is stroked with a solid line.
-        /// </para>
-        /// <param name="strokeWidth">The stroke width (in pt).</param>
-        /// <param name="color">The stroke color (expressed similar to HTML, e.g. 0xffffff for white).</param>
-        void StrokePath(double strokeWidth, int color);
+        /// <param name="smoothing"><c>true</c> for using smoothing techniques such as antialiasing, <c>false</c> otherwise</param>
+        void FillPath(int color, bool smoothing = true);
 
         /// <summary>
         /// Strokes the current path and discards it.
@@ -145,7 +136,8 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         /// <param name="strokeWidth">The stroke width (in pt).</param>
         /// <param name="color">The stroke color (expressed similar to HTML, e.g. 0xffffff for white).</param>
         /// <param name="lineStyle">The line style</param>
-        void StrokePath(double strokeWidth, int color, LineStyle lineStyle);
+        /// <param name="smoothing"><c>true</c> for using smoothing techniques such as antialiasing, <c>false</c> otherwise</param>
+        void StrokePath(double strokeWidth, int color, LineStyle lineStyle = LineStyle.Solid, bool smoothing = true);
 
         /// <summary>
         /// Gets the distance between the baseline and the top of the tallest letter.

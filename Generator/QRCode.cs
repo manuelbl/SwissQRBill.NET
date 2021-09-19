@@ -53,19 +53,19 @@ namespace Codecrete.SwissQRBill.Generator
             graphics.SetTransformation(offsetX, offsetY, 0, Size / modulesPerSide / 25.4 * 72, Size / modulesPerSide / 25.4 * 72);
             graphics.StartPath();
             DrawModulesPath(graphics, modules);
-            graphics.FillPath(0);
+            graphics.FillPath(0, false);
             graphics.SetTransformation(offsetX, offsetY, 0, 1, 1);
 
             // Swiss cross
             graphics.StartPath();
             graphics.AddRectangle(20, 20, 6, 6);
-            graphics.FillPath(0);
+            graphics.FillPath(0, false);
             const double barWidth = 7 / 6.0;
             const double barLength = 35 / 9.0;
             graphics.StartPath();
             graphics.AddRectangle(23 - barWidth / 2, 23 - barLength / 2, barWidth, barLength);
             graphics.AddRectangle(23 - barLength / 2, 23 - barWidth / 2, barLength, barWidth);
-            graphics.FillPath(0xffffff);
+            graphics.FillPath(0xffffff, false);
         }
 
         private static void DrawModulesPath(ICanvas graphics, bool[,] modules)

@@ -40,7 +40,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
             string qrText = QRBill.EncodeQrCodeText(bill) + "\n ";
             QRBillValidationException err = Assert.Throws<QRBillValidationException>(
                         () => QRBill.DecodeQrCodeText(qrText));
-            TestHelper.AssertSingleError(err.Result, ValidationConstants.KeyValidDataStructure, ValidationConstants.FieldQrType);
+            TestHelper.AssertSingleError(err.Result, ValidationConstants.KeyInvalidDataStructure, ValidationConstants.FieldQrType);
         }
 
         [Fact]
@@ -51,7 +51,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
             string qrText = QRBill.EncodeQrCodeText(bill) + "\n\n";
             QRBillValidationException err = Assert.Throws<QRBillValidationException>(
                         () => QRBill.DecodeQrCodeText(qrText));
-            TestHelper.AssertSingleError(err.Result, ValidationConstants.KeyValidDataStructure, ValidationConstants.FieldQrType);
+            TestHelper.AssertSingleError(err.Result, ValidationConstants.KeyInvalidDataStructure, ValidationConstants.FieldQrType);
         }
 
         [Fact]
@@ -78,7 +78,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
             qrText = qrText[0..^5];
             QRBillValidationException err = Assert.Throws<QRBillValidationException>(
                         () => QRBill.DecodeQrCodeText(qrText));
-            TestHelper.AssertSingleError(err.Result, ValidationConstants.KeyValidDataStructure, ValidationConstants.FieldQrType);
+            TestHelper.AssertSingleError(err.Result, ValidationConstants.KeyInvalidDataStructure, ValidationConstants.FieldQrType);
         }
     }
 }

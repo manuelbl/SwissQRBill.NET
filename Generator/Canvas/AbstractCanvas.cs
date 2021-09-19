@@ -68,14 +68,8 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         public abstract void CubicCurveTo(double x1, double y1, double x2, double y2, double x, double y);
         public abstract void AddRectangle(double x, double y, double width, double height);
         public abstract void CloseSubpath();
-        public abstract void FillPath(int color);
-        public abstract void StrokePath(double strokeWidth, int color);
-
-        public virtual void StrokePath(double strokeWidth, int color, LineStyle lineStyle)
-        {
-            // default implementation for backward compatibility
-            StrokePath(strokeWidth, color);
-        }
+        public abstract void FillPath(int color, bool smoothing = true);
+        public abstract void StrokePath(double strokeWidth, int color, LineStyle lineStyle = LineStyle.Solid, bool smoothing = true);
 
         public abstract byte[] ToByteArray();
 

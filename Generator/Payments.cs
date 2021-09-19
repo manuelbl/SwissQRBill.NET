@@ -162,7 +162,6 @@ namespace Codecrete.SwissQRBill.Generator
         /// <returns><c>true</c> if the IBAN is valid, <c>false</c> otherwise.</returns>
         public static bool IsValidIban(string iban)
         {
-
             iban = iban.WhiteSpaceRemoved();
 
             int len = iban.Length;
@@ -195,6 +194,26 @@ namespace Codecrete.SwissQRBill.Generator
             }
 
             return HasValidMod97CheckDigits(iban);
+        }
+
+        /// <summary>
+        /// Indicates if the string is a valid QR-IBAN.
+        /// <para>
+        /// QR-IBANs are IBANs with an institution ID in the range 30000 to 31999
+        /// and a country code for Switzerland or Liechtenstein.
+        /// Thus, they must have the format "CH..30...", "CH..31...", "LI..30..." or "LI..31...".
+        /// </para>
+        /// </summary>
+        /// <param name="iban">account number to check</param>
+        /// <returns><c>true</c> for valid QR-IBANs, <c>false</c> otherwise</returns>
+        public static bool IsQrIban(string iban)
+        {
+            iban = iban.WhiteSpaceRemoved().ToUpperInvariant();
+
+            return IsValidIban(iban)
+                    && (iban.StartsWith("CH") || iban.StartsWith("LI"))
+                    && iban[4] == '3'
+                    && (iban[5] == '0' || iban[5] == '1');
         }
 
         /// <summary>
@@ -432,7 +451,7 @@ namespace Codecrete.SwissQRBill.Generator
             return sb.ToString();
         }
 
-        private static bool IsNumeric(string value)
+        internal static bool IsNumeric(string value)
         {
             int len = value.Length;
             for (int i = 0; i < len; i++)
@@ -473,6 +492,28 @@ namespace Codecrete.SwissQRBill.Generator
         }
 
 #pragma warning disable S3776
+
+        internal static bool IsAlpha(string value)
+        {
+            int len = value.Length;
+            for (int i = 0; i < len; i++)
+            {
+                char ch = value[i];
+                if (ch >= 'A' && ch <= 'Z')
+                {
+                    continue;
+                }
+
+                if (ch >= 'a' && ch <= 'z')
+                {
+                    continue;
+                }
+
+                return false;
+            }
+            return true;
+        }
+
 
         private static bool IsValidQrBillCharacter(char ch)
         {

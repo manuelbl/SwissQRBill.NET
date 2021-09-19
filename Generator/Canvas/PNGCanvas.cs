@@ -53,7 +53,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             _dpi = resolution;
 
             // setup font metrics
-            SetupFontMetrics(FindFontFamily(fontFamilyList));
+            SetupFontMetrics(FindInstalledFontFamily(fontFamilyList));
             _regularTypeface = SKTypeface.FromFamilyName(FontMetrics.FirstFontFamily);
             _boldTypeface = SKTypeface.FromFamilyName(FontMetrics.FirstFontFamily, SKFontStyle.Bold);
 
@@ -100,7 +100,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         /// </summary>
         /// <param name="fontFamilyList">A list font family names, separated by comma (same syntax as for CSS). The first font family will be used.</param>
         /// <returns>font family name (if font is installed), or unchanged font family list (if none of the fonts is found)</returns>
-        private static string FindFontFamily(string fontFamilyList)
+        private static string FindInstalledFontFamily(string fontFamilyList)
         {
             foreach (string fontFamily in SplitCommaSeparated(fontFamilyList))
             {
@@ -117,7 +117,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             return fontFamilyList;
         }
 
-        private static readonly Regex quotedSplitter = new Regex("(?:^|,)(\"(?:[^\"]+|\"\")*\"|[^,]*)", RegexOptions.Compiled);
+        private static readonly Regex quotedSplitter = new Regex("(?:^|,)(\"[^\"]*\"|[^,]*)", RegexOptions.Compiled);
 
         /// <summary>
         /// Splits the comma separated list into its components.
@@ -131,10 +131,14 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         {
             foreach (Match match in quotedSplitter.Matches(input))
             {
-                yield return match.Value.TrimStart(',');
+                string component = match.Groups[1].Value;
+                if (component[0] == '"' && component[component.Length - 1] == '"')
+                {
+                    component = component.Substring(1, component.Length - 2);
+                }
+                yield return component;
             }
         }
-
 
         /// <summary>
         /// Gets the resulting graphics encoded as a PNG image in a byte array.
@@ -307,67 +311,20 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             _path.CubicTo((float)x1, (float)y1, (float)x2, (float)y2, (float)x, (float)y);
         }
 
-        private bool IsRectangularPath()
-        {
-            float startX = 0;
-            float startY = 0;
-
-            Span<SKPoint> points = new Span<SKPoint>(new SKPoint[4]);
-            using (SKPath.RawIterator it = _path.CreateRawIterator())
-            {
-                while (true)
-                {
-                    var verb = it.Next(points);
-                    switch (verb)
-                    {
-                        case SKPathVerb.Move:
-                            startX = points[0].X;
-                            startY = points[0].Y;
-                            break;
-
-                        case SKPathVerb.Line:
-                            if (points[0].X != points[1].X && points[0].Y != points[1].Y)
-                            {
-                                return false;
-                            }
-                            break;
-
-                        case SKPathVerb.Close:
-                            if (startX != points[1].X && startY != points[1].Y)
-                            {
-                                return false;
-                            }
-                            break;
-
-                        case SKPathVerb.Done:
-                            return true;
-
-                        default:
-                            return false;
-                    }
-                }
-            }
-        }
-
-        public override void FillPath(int color)
+        public override void FillPath(int color, bool smoothing)
         {
             _path.Close();
-            _fillPaint.IsAntialias = !IsRectangularPath();
+            _fillPaint.IsAntialias = smoothing;
             _fillPaint.Color = new SKColor((uint)(color - 16777216));
             _canvas.DrawPath(_path, _fillPaint);
         }
 
-        public override void StrokePath(double strokeWidth, int color)
-        {
-            StrokePath(strokeWidth, color, LineStyle.Solid);
-        }
-
-        public override void StrokePath(double strokeWidth, int color, LineStyle lineStyle)
+        public override void StrokePath(double strokeWidth, int color, LineStyle lineStyle, bool smoothing)
         {
             float width = (float)strokeWidth * _fontScale;
             _strokePaint.Color = new SKColor((uint)(color - 16777216));
             _strokePaint.StrokeWidth = width;
-            _strokePaint.IsAntialias = !IsRectangularPath();
+            _strokePaint.IsAntialias = smoothing || lineStyle == LineStyle.Dotted;
 
             switch (lineStyle)
             {

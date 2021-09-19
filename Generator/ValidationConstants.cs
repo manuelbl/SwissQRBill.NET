@@ -14,44 +14,47 @@ namespace Codecrete.SwissQRBill.Generator
     public static class ValidationConstants
     {
         /// <summary>
-        /// Validation message key: currency must be "CHF" or "EUR"
+        /// Validation message key: currency should be "CHF" or "EUR"
         /// </summary>
-        public const string KeyCurrencyIsCHFOrEUR = "currency_is_chf_or_eur";
+        public const string KeyCurrencyIsNotChfOrEur = "currency_is_not_chf_or_eur";
         /// <summary>
-        /// Validation message key: amount must be between 0.01 and 999999999.99
+        /// Validation message key: amount should be between 0.01 and 999999999.99
         /// </summary>
-        public const string KeyAmountIsInValidRange = "amount_in_valid_range";
+        public const string KeyAmountIsOutsideValidRange = "amount_is_outside_valid_range";
         /// <summary>
-        /// Validation message key: IBAN must be from bank in Switzerland or
-        /// Liechtenstein
+        /// Validation message key: account number should start with "CH" or "LI"
         /// </summary>
-        public const string KeyAccountIsCH_LI_IBAN = "account_is_ch_li_iban";
+        public const string KeyAccountIsNotChLiIban = "account_is_not_ch_li_iban";
         /// <summary>
-        /// Validation message key: IBAN must have valid format and check digit
+        /// Validation message key: IBAN has invalid format and check digit
         /// </summary>
-        public const string KeyAccountIsValidIBAN = "account_is_valid_iban";
+        public const string KeyAccountHasInvalidIban = "account_has_invalid_iban";
         /// <summary>
-        /// Validation message key: Due to regular IBAN (outside QR-IID range) an ISO 11649 references is expected
-        /// but it has invalid format or check digit
+        /// Validation message key: The reference is invalid. It is neither a valid QR reference nor a valid ISO 11649
+        /// reference.
         /// </summary>
-        public const string KeyValidISO11649CreditorRef = "valid_iso11649_creditor_ref";
+        public const string KeyRefIsInvalid = "ref_is_invalid";
         /// <summary>
-        /// Validation message key: Due to QR-IBAN (IBAN in QR-IID range) a QR reference number is expected
-        /// but it has invalid format or check digit
+        /// Validation message key: QR reference is missing; it is mandatory for payments to a QR-IBAN account.
         /// </summary>
-        public const string KeyValidQRRefNo = "valid_qr_ref_no";
+        public const string KeyQrRefIsMissing = "qr_ref_is_missing";
         /// <summary>
-        /// Validation message key: For QR-IBANs (IBAN in QR-IID range) a QR reference is mandatory
+        /// Validation message key: For payments to a QR-IBAN account, a QR reference is required. An ISO 11649 reference
+        /// may not be used.
         /// </summary>
-        public const string KeyMandatoryForQRIBAN = "mandatory_for_qr_iban";
+        public const string KeyCredRefUsedForQrIban = "cred_ref_used_for_qr_iban";
         /// <summary>
-        /// Validation message key: Reference type must be one of "QRR", "SCOR" and "NON" and match the reference
+        /// Validation message key: A QR reference is only allowed for payments to a QR-IBAN account.
         /// </summary>
-        public const string KeyValidRefType = "valid_ref_type";
+        public const string KeyQrRefUsedForNonQrIban = "qr_ref_used_for_non_qr_iban";
         /// <summary>
-        /// Validation message key: Field is mandatory
+        /// Validation message key: Reference type should be one of "QRR", "SCOR" and "NON" and match the reference.
         /// </summary>
-        public const string KeyFieldIsMandatory = "field_is_mandatory";
+        public const string KeyInvalidRefType = "invalid_ref_type";
+        /// <summary>
+        /// Validation message key: Field must not be empty
+        /// </summary>
+        public const string KeyFieldIsMissing = "field_is_missing";
         /// <summary>
         /// Validation message key: Conflicting fields for both structured and combined elements address type have been used
         /// </summary>
@@ -59,18 +62,17 @@ namespace Codecrete.SwissQRBill.Generator
         /// <summary>
         /// Validation message key: Country code must consist of two letters
         /// </summary>
-        public const string KeyValidCountryCode = "valid_country_code";
+        public const string KeyInvalidCountryCode = "invalid_country_code";
         /// <summary>
-        /// Validation message key: Field has been clipped to not exceed the maximum
-        /// length
+        /// Validation message key: Field has been clipped to not exceed the maximum length
         /// </summary>
         public const string KeyFieldClipped = "field_clipped";
         /// <summary>
         /// Validation message key: Field value exceed the maximum length
         /// </summary>
-        public const string KeyFieldTooLong = "field_value_too_long";
+        public const string KeyFieldTooLong = "field_too_long";
         /// <summary>
-        /// Validation message key: The unstructured message and the bill information combined exceed 140 characters
+        /// Validation message key: Unstructured message and bill information combined exceed the maximum length
         /// </summary>
         public const string KeyAdditionalInfoTooLong = "additional_info_too_long";
         /// <summary>
@@ -78,26 +80,26 @@ namespace Codecrete.SwissQRBill.Generator
         /// </summary>
         public const string KeyReplacedUnsupportedCharacters = "replaced_unsupported_characters";
         /// <summary>
-        /// Validation message key: Valid data structure starts with "SPC" and consists
+        /// Validation message key: Invalid data structure; it must start with "SPC" and consists
         /// of 32 to 34 lines of text (with exceptions)
         /// </summary>
-        public const string KeyValidDataStructure = "valid_data_structure";
+        public const string KeyInvalidDataStructure = "invalid_data_structure";
         /// <summary>
         /// Validation message key: Version 02.00 is supported only
         /// </summary>
-        public const string KeySupportedVersion = "supported_version";
+        public const string KeyUnsupportedVersion = "unsupported_version";
         /// <summary>
         /// Validation message key: Coding type 1 is supported only
         /// </summary>
-        public const string KeySupportedCodingType = "supported_coding_type";
+        public const string KeyUnsupportedCodingType = "unsupported_coding_type";
         /// <summary>
         /// Validation message key: Valid number required (nnnnn.nn)
         /// </summary>
-        public const string KeyValidNumber = "valid_number";
+        public const string KeyInvalidNumber = "invalid_number";
         /// <summary>
         /// Validation message key: The maximum of 2 alternative schemes has been exceeded
         /// </summary>
-        public const string KeyAltSchemeExceeded = "alt_scheme_max_exceed";
+        public const string KeyAltSchemeMaxExceeded = "alt_scheme_max_exceed";
         /// <summary>
         /// Validation message key: The bill information is invalid (does not start with // or is too short)
         /// </summary>

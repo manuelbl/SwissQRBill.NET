@@ -127,7 +127,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         public void DecodeInvalidFormat1()
         {
             QRBillValidationException err = Assert.Throws<QRBillValidationException>(() => QRBill.DecodeQrCodeText("garbage"));
-            TestHelper.AssertSingleError(err.Result, ValidationConstants.KeyValidDataStructure, ValidationConstants.FieldQrType);
+            TestHelper.AssertSingleError(err.Result, ValidationConstants.KeyInvalidDataStructure, ValidationConstants.FieldQrType);
         }
 
         [Fact]
@@ -135,7 +135,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         {
             QRBillValidationException err = Assert.Throws<QRBillValidationException>(
                     () => QRBill.DecodeQrCodeText("SPC\r\n0100\r\n\r\n\r\n"));
-            TestHelper.AssertSingleError(err.Result, ValidationConstants.KeyValidDataStructure, ValidationConstants.FieldQrType);
+            TestHelper.AssertSingleError(err.Result, ValidationConstants.KeyInvalidDataStructure, ValidationConstants.FieldQrType);
         }
 
         [Fact]
@@ -143,7 +143,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         {
             QRBillValidationException err = Assert.Throws<QRBillValidationException>(() => QRBill.DecodeQrCodeText(
                        "SPC1\r\n0200\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n"));
-            TestHelper.AssertSingleError(err.Result, ValidationConstants.KeyValidDataStructure, ValidationConstants.FieldQrType);
+            TestHelper.AssertSingleError(err.Result, ValidationConstants.KeyInvalidDataStructure, ValidationConstants.FieldQrType);
         }
 
         [Fact]
@@ -151,7 +151,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         {
             QRBillValidationException err = Assert.Throws<QRBillValidationException>(() => QRBill.DecodeQrCodeText(
                        "SPC1\r\n0200\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n"));
-            TestHelper.AssertSingleError(err.Result, ValidationConstants.KeyValidDataStructure, ValidationConstants.FieldQrType);
+            TestHelper.AssertSingleError(err.Result, ValidationConstants.KeyInvalidDataStructure, ValidationConstants.FieldQrType);
         }
 
         [Theory]
@@ -161,7 +161,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         public void DecodeInvalidVersion(string qrCodeText)
         {
             QRBillValidationException err = Assert.Throws<QRBillValidationException>(() => QRBill.DecodeQrCodeText(qrCodeText));
-            TestHelper.AssertSingleError(err.Result, ValidationConstants.KeySupportedVersion, ValidationConstants.FieldVersion);
+            TestHelper.AssertSingleError(err.Result, ValidationConstants.KeyUnsupportedVersion, ValidationConstants.FieldVersion);
         }
 
         [Fact]
@@ -181,7 +181,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         {
             QRBillValidationException err = Assert.Throws<QRBillValidationException>(() => QRBill.DecodeQrCodeText(
                        "SPC\r\n0200\r\n0\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n"));
-            TestHelper.AssertSingleError(err.Result, ValidationConstants.KeySupportedCodingType, ValidationConstants.FieldCodingType);
+            TestHelper.AssertSingleError(err.Result, ValidationConstants.KeyUnsupportedCodingType, ValidationConstants.FieldCodingType);
         }
 
         [Fact]
@@ -190,7 +190,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
             string invalidText = SampleQRCodeText.CreateQrCodeText1(false).Replace("3949.75", "1239d49.75");
             QRBillValidationException err = Assert.Throws<QRBillValidationException>(
                         () => QRBill.DecodeQrCodeText(invalidText));
-            TestHelper.AssertSingleError(err.Result, ValidationConstants.KeyValidNumber, ValidationConstants.FieldAmount);
+            TestHelper.AssertSingleError(err.Result, ValidationConstants.KeyInvalidNumber, ValidationConstants.FieldAmount);
         }
 
         [Fact]
@@ -199,7 +199,7 @@ namespace Codecrete.SwissQRBill.GeneratorTest
             string invalidText = SampleQRCodeText.CreateQrCodeText1(false).Replace("EPD", "E_P");
             QRBillValidationException err = Assert.Throws<QRBillValidationException>(
                         () => QRBill.DecodeQrCodeText(invalidText));
-            TestHelper.AssertSingleError(err.Result, ValidationConstants.KeyValidDataStructure, ValidationConstants.FieldTrailer);
+            TestHelper.AssertSingleError(err.Result, ValidationConstants.KeyInvalidDataStructure, ValidationConstants.FieldTrailer);
         }
     }
 }
