@@ -6,13 +6,13 @@
 //
 
 using Codecrete.SwissQRBill.Generator;
-using Codecrete.SwissQRBill.Generator.Canvas;
+using Codecrete.SwissQRBill.PixelCanvas;
 using System.IO;
 using System.Threading.Tasks;
 using VerifyXunit;
 using Xunit;
 
-namespace Codecrete.SwissQRBill.GeneratorTest
+namespace Codecrete.SwissQRBill.PixelCanvasTest
 {
     [UsesVerify]
     public class PNGCanvasTest

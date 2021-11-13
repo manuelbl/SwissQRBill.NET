@@ -7,7 +7,7 @@
 
 using System.IO;
 
-namespace Codecrete.SwissQRBill.GeneratorTest
+namespace Codecrete.SwissQRBill.PixelCanvasTest
 {
     public static class StreamExtensions
     {

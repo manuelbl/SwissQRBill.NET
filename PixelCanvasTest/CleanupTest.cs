@@ -6,12 +6,12 @@
 //
 
 using Codecrete.SwissQRBill.Generator;
-using Codecrete.SwissQRBill.Generator.Canvas;
+using Codecrete.SwissQRBill.PixelCanvas;
 using System;
 using System.Reflection;
 using Xunit;
 
-namespace Codecrete.SwissQRBill.GeneratorTest
+namespace Codecrete.SwissQRBill.PixelCanvasTest
 {
     public class CleanupTest
     {

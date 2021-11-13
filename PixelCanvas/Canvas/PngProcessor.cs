@@ -9,7 +9,7 @@ using System;
 using System.IO;
 using System.Text;
 
-namespace Codecrete.SwissQRBill.Generator.Canvas
+namespace Codecrete.SwissQRBill.PixelCanvas
 {
     /// <summary>
     /// Processes PNG imagate data.

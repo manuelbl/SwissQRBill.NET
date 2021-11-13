@@ -104,9 +104,7 @@ namespace Codecrete.SwissQRBill.Generator
         /// validation</a>
         /// </para>
         /// <para>
-        /// The graphics format is specified in <c>bill.Format.GraphicsFormat</c>. This method
-        /// only supports the generation of SVG images and PDF files. For other graphics
-        /// formats (in particular PNG), use <see cref="Draw(Bill, ICanvas)"/>.
+        /// The graphics format is specified in <c>bill.Format.GraphicsFormat</c>.
         /// </para>
         /// </summary>
         /// <param name="bill">The data for the bill.</param>
@@ -302,21 +300,25 @@ namespace Codecrete.SwissQRBill.Generator
                     break;
             }
 
-            ICanvas canvas;
-            switch (format.GraphicsFormat)
+            ICanvas canvas = CanvasCreator.Create(format, drawingWidth, drawingHeight);
+
+            if (canvas == null)
             {
-                case GraphicsFormat.SVG:
-                    canvas = new SVGCanvas(drawingWidth, drawingHeight, format.FontFamily);
-                    break;
-                case GraphicsFormat.PNG:
-                    canvas = new PNGCanvas(drawingWidth, drawingHeight, format.Resolution, format.FontFamily);
-                    break;
-                case GraphicsFormat.PDF:
-                    canvas = new PDFCanvas(drawingWidth, drawingHeight);
-                    break;
-                default:
+                if (format.GraphicsFormat == GraphicsFormat.PNG)
+                {
+                    // The PNG canvas factory is provided by a separate assembly / NuGet package.
+                    // Try to load the factory dynamically, and if it still fails, print a message with specific hint.
+                    CanvasCreator.RegisterPixelCanvasFactory();
+                    canvas = CanvasCreator.Create(format, drawingWidth, drawingHeight);
+                    if (canvas == null)
+                        throw new QRBillGenerationException("Grapics format PNG not available (are you missing the NuGet package Codecrete.SwissQRBill.PixelCanvas?)");
+                }
+                else
+                {
                     throw new QRBillGenerationException("Invalid graphics format specified");
+                }
             }
+
             return canvas;
         }
 

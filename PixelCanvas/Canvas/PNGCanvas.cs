@@ -5,13 +5,14 @@
 // https://opensource.org/licenses/MIT
 //
 
+using Codecrete.SwissQRBill.Generator.Canvas;
 using SkiaSharp;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
 
-namespace Codecrete.SwissQRBill.Generator.Canvas
+namespace Codecrete.SwissQRBill.PixelCanvas
 {
     /// <summary>
     /// Canvas for generating PNG files.

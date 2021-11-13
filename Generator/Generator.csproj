@@ -13,11 +13,11 @@
     <PackageTags>Swiss-QR-Bill, Payment, ISO-20022, QR-Code, QRCode, SIX</PackageTags>
     <PackageReleaseNotes>New in releases 2.5.3:
 - Improved QR code rendering for SVGs on low resolution displays</PackageReleaseNotes>
-    <Version>2.5.3</Version>
+    <Version>3.0.0-rc1</Version>
     <Description>Library to generate the new QR bill used for invoicing in Switzerland.
 
 The Swiss QR bill library:
-- generates PDF, SVG and PNG files
+- generates PDF and SVG files (and PNG with an add-on)
 - generates payment slip (105mm by 210mm), A4 sheets or QR code only
 - is multilingual: German, French, Italian, English
 - validates the invoice data and provides detailed validation information
@@ -50,7 +50,6 @@ The Swiss QR bill library:
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="SkiaSharp" Version="2.80.3" />
     <PackageReference Include="Net.Codecrete.QrCodeGenerator" Version="2.0.0-rc.1" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="all" />
   </ItemGroup>

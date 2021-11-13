@@ -29,12 +29,6 @@ namespace Codecrete.SwissQRBill.GeneratorTest
         }
 
         [Fact]
-        public Task CreateA4PngBill1()
-        {
-            return GenerateAndCompareBill(SampleData.CreateExample1(), OutputSize.A4PortraitSheet, GraphicsFormat.PNG);
-        }
-
-        [Fact]
         public Task CreateA4SvgBill2()
         {
             Bill bill = SampleData.CreateExample2();
