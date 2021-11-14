@@ -284,9 +284,6 @@ namespace Codecrete.SwissQRBill.Generator
                     drawingHeight = QrBillHeight;
                     break;
                 case OutputSize.QrBillExtraSpace:
-#pragma warning disable CS0618 // Type or member is obsolete
-                case OutputSize.QrBillWithHorizontalLine:
-#pragma warning restore CS0618 // Type or member is obsolete
                     drawingWidth = QrBillWithHoriLineWidth;
                     drawingHeight = QrBillWithHoriLineHeight;
                     break;

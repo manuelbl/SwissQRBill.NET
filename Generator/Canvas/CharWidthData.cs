@@ -651,13 +651,6 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         /// <summary>
         /// Default character width for Arial Bold.
         /// </summary>
-        /// <remarks>Keeping for backward compatibility.</remarks>
-        [Obsolete("Use the properly spelled ArialBoldDefaultWidth instead.")]
-        public static readonly ushort ArialBoldDefaultWdith = 611;
-
-        /// <summary>
-        /// Default character width for Arial Bold.
-        /// </summary>
         public static readonly ushort ArialBoldDefaultWidth = 611;
 
         /// <summary>
