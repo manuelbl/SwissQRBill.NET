@@ -27,11 +27,13 @@ jobs:
           path: ~/.nuget/packages
           key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
       - name: Restore NuGet packages
-        run: dotnet restore --verbosity normal
+        run: dotnet restore GeneratorTest/GeneratorTest.csproj --verbosity normal
       - name: Build solution
-        run: dotnet build --verbosity normal
+        run: dotnet build GeneratorTest/GeneratorTest.csproj --verbosity normal
       - name: Run tests
-        run: dotnet test --no-build --verbosity normal --logger:"html;LogFileName=../../TestResults-${{ runner.os }}.html"
+        run: dotnet test GeneratorTest/GeneratorTest.csproj --no-build --verbosity normal --logger:"html;LogFileName=../../TestResults-${{ runner.os }}.html"
+      - name: Create NuGet package
+        run: dotnet pack Generator/Generator.csproj --verbosity normal
       - name: Upload received files from failing tests
         uses: actions/upload-artifact@v2
         if: failure()

@@ -29,12 +29,11 @@ The Swiss QR bill library:
 - is built for .NET Standard 2.0 and runs on all modern .NET platforms
 - has a single non-Microsoft dependency: Net.Codecrete.QrCodeGenerator</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageIconUrl />
     <PackageIcon>logo.png</PackageIcon>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>Key.snk</AssemblyOriginatorKeyFile>
     <AssemblyVersion>2.4.0.0</AssemblyVersion>
-    <FileVersion>2.5.3.0</FileVersion>
+    <FileVersion>3.0.0.0</FileVersion>
   </PropertyGroup>
 
   <PropertyGroup Label="Restoring">
@@ -47,11 +46,12 @@ The Swiss QR bill library:
   <PropertyGroup Label="Packaging">
     <DebugType>embedded</DebugType>
     <EmbedAllSources>true</EmbedAllSources>
+    <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Net.Codecrete.QrCodeGenerator" Version="2.0.0-rc.1" />
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="all" />
+    <PackageReference Include="Net.Codecrete.QrCodeGenerator" Version="2.*" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.*" PrivateAssets="all" />
   </ItemGroup>
 
   <ItemGroup>

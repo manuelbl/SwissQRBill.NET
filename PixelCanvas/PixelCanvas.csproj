@@ -7,7 +7,7 @@
     <DebugType>embedded</DebugType>
     <SignAssembly>True</SignAssembly>
     <AssemblyOriginatorKeyFile>Key.snk</AssemblyOriginatorKeyFile>
-    <Version>3.0.0</Version>
+    <Version>3.0.0-rc1</Version>
     <Authors>Manuel Bleichenbacher</Authors>
     <Company>Codecrete</Company>
     <Product>Swiss QR Bill</Product>
@@ -24,17 +24,25 @@ The add-on library:
     <PackageTags>Swiss-QR-Bill, Payment, ISO-20022, QR-Code, QRCode, SIX</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageIcon>logo.png</PackageIcon>
+    <AssemblyVersion>3.0.0.0</AssemblyVersion>
+    <FileVersion>3.0.0.0</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Codecrete.SwissQRBill.Generator" Version="3.0.0-rc1" />
-    <PackageReference Include="SkiaSharp" Version="2.80.3" />
+    <PackageReference Include="SkiaSharp" Version="2.*" />
   </ItemGroup>
 
+  <PropertyGroup Label="Packaging">
+    <DebugType>embedded</DebugType>
+    <EmbedAllSources>true</EmbedAllSources>
+    <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+  </PropertyGroup>
+
   <ItemGroup>
-    <None Update="Images\logo.png">
+    <None Include="Images\logo.png">
       <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
+      <PackagePath />
     </None>
   </ItemGroup>
 
