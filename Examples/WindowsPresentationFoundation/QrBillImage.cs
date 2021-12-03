@@ -24,7 +24,7 @@ namespace Codecrete.SwissQRBill.Examples.Wpf
     /// </summary>
     internal class QrBillImage : AbstractCanvas
     {
-        private const double scale = 25.4 / 96.0;
+        private const double scale = 96.0 / 25.4;
         private const double fontScale = 25.4 / 72.0;
         private const string fontFamilyName = "Arial";
         private static readonly FontFamily fontFamily = new FontFamily(fontFamilyName);
@@ -37,22 +37,24 @@ namespace Codecrete.SwissQRBill.Examples.Wpf
         /// Creates an image for the specified QR bill.
         /// <para>
         /// The image will only comprise the QR bill itself and have a size of 210 by 105 mm.
-        /// It is opaque and has a white background.
         /// </para>
         /// <para>
-        /// If the QR bill contains invalid data, the resulting image will only
-        /// contain the white background.
+        /// If the QR bill contains invalid data, the resulting image will be empty
+        /// (except for possibly the background).
         /// </para>
         /// </summary>
         /// <param name="bill">QR bill</param>
+        /// <param name="transparent">indicates if the images should have a transparent or white background</param>
         /// <returns></returns>
         public static DrawingImage CreateImage(Bill bill)
         {
+            var bounds = new Rect(0, 0, 210 * scale, 105 * scale);
+
             DrawingGroup group = new DrawingGroup();
             using (DrawingContext dc = group.Open())
             {
                 // draw white background
-                dc.DrawRectangle(Brushes.White, null, new Rect(0, 0, 210 * scale, 105 * scale));
+                dc.DrawRectangle(Brushes.White, null, bounds);
 
                 using var canvas = new QrBillImage(dc, 105);
                 var savedOutputSize = bill.Format.OutputSize;
@@ -66,10 +68,11 @@ namespace Codecrete.SwissQRBill.Examples.Wpf
                     // ignore
                 }
                 bill.Format.OutputSize = savedOutputSize;
-
             }
 
-            return new DrawingImage(group);
+            var image = new DrawingImage(group);
+            image.Freeze();
+            return image;
         }
 
         /// <summary>

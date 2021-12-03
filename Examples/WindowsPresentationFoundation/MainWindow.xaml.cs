@@ -15,12 +15,14 @@ namespace Codecrete.SwissQRBill.Examples.Wpf
     /// </summary>
     public partial class MainWindow : Window
     {
+        private Bill bill;
+
         public MainWindow()
         {
             InitializeComponent();
 
             // create bill data
-            var bill = new Bill
+            bill = new Bill
             {
                 // creditor data
                 Account = "CH4431999123000889012",
@@ -51,6 +53,11 @@ namespace Codecrete.SwissQRBill.Examples.Wpf
             };
 
             billImage.Source = QrBillImage.CreateImage(bill);
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            QrBillPrinting.Print(bill);
         }
     }
 }

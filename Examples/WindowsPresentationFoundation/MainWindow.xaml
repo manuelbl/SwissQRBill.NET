@@ -5,10 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Codecrete.SwissQRBill.Examples.Wpf"
         mc:Ignorable="d"
-        Title="Swiss QR Bill" Height="450" Width="800">
+        Title="Swiss QR Bill" Height="450" Width="658">
     <Grid Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}">
         <Label Content="Swiss QR Bill" HorizontalAlignment="Left" Margin="20,16,0,0" VerticalAlignment="Top" FontSize="18" FontWeight="Bold"/>
         <Image x:Name="billImage" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="20,60,20,50"/>
+        <Button Content="Print" HorizontalAlignment="Right" Margin="0,0,20,20" VerticalAlignment="Bottom" Padding="10,2" Click="Button_Click"/>
 
     </Grid>
 </Window>
