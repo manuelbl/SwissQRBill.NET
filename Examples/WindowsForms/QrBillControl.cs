@@ -19,6 +19,8 @@ namespace Codecrete.SwissQRBill.Examples.WindowsForms
     public class QrBillControl : Control
     {
 
+        private Bill _bill;
+
         public QrBillControl()
         {
             ResizeRedraw = true;
@@ -42,12 +44,28 @@ namespace Codecrete.SwissQRBill.Examples.WindowsForms
         }
 
         /// <summary>
-        /// Bill data to display
+        /// Bill data to display.
+        /// <para>
+        /// Changing bill properties will not update the control.
+        /// To trigger an update, assign the bill instance again,
+        /// even if it is the same instance.
+        /// </para>
         /// </summary>
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public Bill Bill { get; set; }
+        public Bill Bill
+        {
+            get
+            {
+                return _bill;
+            }
+            set
+            {
+                _bill = value;
+                Invalidate();
+            }
+        }
 
         protected override void OnPaint(PaintEventArgs e)
         {

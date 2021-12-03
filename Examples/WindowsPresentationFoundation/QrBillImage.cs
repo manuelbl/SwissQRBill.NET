@@ -24,8 +24,8 @@ namespace Codecrete.SwissQRBill.Examples.Wpf
     /// </summary>
     internal class QrBillImage : AbstractCanvas
     {
-        private const double scale = 96.0 / 25.4;
-        private const double fontScale = 25.4 / 72.0;
+        private const double mmToDip = 96.0 / 25.4;
+        private const double ptToMm = 25.4 / 72.0;
         private const string fontFamilyName = "Arial";
         private static readonly FontFamily fontFamily = new FontFamily(fontFamilyName);
 
@@ -40,15 +40,14 @@ namespace Codecrete.SwissQRBill.Examples.Wpf
         /// </para>
         /// <para>
         /// If the QR bill contains invalid data, the resulting image will be empty
-        /// (except for possibly the background).
+        /// except for the white background.
         /// </para>
         /// </summary>
         /// <param name="bill">QR bill</param>
-        /// <param name="transparent">indicates if the images should have a transparent or white background</param>
         /// <returns></returns>
         public static DrawingImage CreateImage(Bill bill)
         {
-            var bounds = new Rect(0, 0, 210 * scale, 105 * scale);
+            var bounds = new Rect(0, 0, 210 * mmToDip, 105 * mmToDip);
 
             DrawingGroup group = new DrawingGroup();
             using (DrawingContext dc = group.Open())
@@ -89,7 +88,7 @@ namespace Codecrete.SwissQRBill.Examples.Wpf
             // and to put origin in bottom left corner
             Matrix matrix = new Matrix();
             matrix.Translate(0, height);
-            matrix.Scale(scale, scale);
+            matrix.Scale(mmToDip, mmToDip);
             dc.PushTransform(new MatrixTransform(matrix));
 
             // Dummy inner transformation
@@ -178,7 +177,7 @@ namespace Codecrete.SwissQRBill.Examples.Wpf
                     segment.IsStroked = true;
             }
 
-            Pen pen = new Pen(BrushFromRgb(color), strokeWidth * fontScale);
+            Pen pen = new Pen(BrushFromRgb(color), strokeWidth * ptToMm);
 
             switch (lineStyle)
             {
@@ -211,10 +210,10 @@ namespace Codecrete.SwissQRBill.Examples.Wpf
 
         public override void PutText(string text, double x, double y, int fontSize, bool isBold)
         {
-            double ascent = fontFamily.Baseline * fontSize * fontScale;
+            double ascent = fontFamily.Baseline * fontSize * ptToMm;
             var typeface = new Typeface(fontFamily, FontStyles.Normal, isBold ? FontWeights.Bold : FontWeights.Normal, FontStretches.Normal);
             var formattedText = new FormattedText(text, CultureInfo.GetCultureInfo("de-fr"), FlowDirection.LeftToRight,
-                typeface, fontSize * fontScale, Brushes.Black, 1);
+                typeface, fontSize * ptToMm, Brushes.Black, 1);
             _context.DrawText(formattedText, new Point(x, -y - ascent));
         }
 
