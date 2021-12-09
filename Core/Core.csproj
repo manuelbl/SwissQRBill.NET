@@ -1,8 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <AssemblyName>Codecrete.SwissQRBill.Generator</AssemblyName>
-    <RootNamespace>Codecrete.SwissQRBill.PixelCanvas</RootNamespace>
+    <AssemblyName>Codecrete.SwissQRBill.Core</AssemblyName>
+    <RootNamespace>Codecrete.SwissQRBill.Generator</RootNamespace>
     <Authors>Manuel Bleichenbacher</Authors>
     <Company>Codecrete</Company>
     <Product>Swiss QR Bill</Product>
@@ -18,7 +18,7 @@
     <Description>Library to generate the new QR bill used for invoicing in Switzerland.
 
 The Swiss QR bill library:
-- generates PDF, SVG and PNG files
+- generates PDF and SVG files (use Codecrete.SwissQRBill.Generator for PNG files)
 - generates payment slip (105mm by 210mm), A4 sheets or QR code only
 - is multilingual: German, French, Italian, English
 - validates the invoice data and provides detailed validation information
@@ -28,10 +28,10 @@ The Swiss QR bill library:
 - is small and fast
 - is free – even for commecial use (MIT License)
 - is built for .NET Standard 2.0 and runs on all modern .NET platforms
-- uses SkiaSharp for multi-platform support (use Codecrete.SwissQRBill.Core for minimal dependencies)</Description>
+- has a single non-Microsoft dependency: Net.Codecrete.QrCodeGenerator</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageIcon>logo.png</PackageIcon>
-    <SignAssembly>True</SignAssembly>
+    <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>Key.snk</AssemblyOriginatorKeyFile>
     <AssemblyVersion>2.4.0.0</AssemblyVersion>
     <FileVersion>3.0.0.0</FileVersion>
@@ -51,12 +51,8 @@ The Swiss QR bill library:
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="SkiaSharp" Version="2.*" />
+    <PackageReference Include="Net.Codecrete.QrCodeGenerator" Version="2.0.0" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.*" PrivateAssets="all" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Core\Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>

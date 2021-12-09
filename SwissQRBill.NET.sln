@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Generator", "Generator\Generator.csproj", "{AA301875-0B97-45C6-937C-4599C8696670}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core", "Core\Core.csproj", "{AA301875-0B97-45C6-937C-4599C8696670}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GeneratorTest", "GeneratorTest\GeneratorTest.csproj", "{AD4030A6-C687-4806-BF7A-709954BA7AAD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreTest", "CoreTest\CoreTest.csproj", "{AD4030A6-C687-4806-BF7A-709954BA7AAD}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PixelCanvas", "PixelCanvas\PixelCanvas.csproj", "{1DAA9A69-EB7D-4D16-A618-26F9C8D58EA0}"
 EndProject

@@ -75,7 +75,7 @@
         "resolved": "4.5.2",
         "contentHash": "wprSFgext8cwqymChhrBLu62LMg/1u92bU+VOwyfBimSPVFXtsNqEWC92Pf9ofzJFlk4IHmJA75EDJn1b2goAQ=="
       },
-      "Codecrete.SwissQRBill.Generator": {
+      "Codecrete.SwissQRBill.Core": {
         "type": "Project",
         "dependencies": {
           "Net.Codecrete.QrCodeGenerator": "2.0.0"

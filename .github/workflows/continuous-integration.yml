@@ -44,7 +44,7 @@ jobs:
         with:
           name: TestResults-${{ runner.os }}
           path: TestResults-${{ runner.os }}.html
-      - name: Create and validate NuGet package for Generator
-        run: dotnet pack --no-build --verbosity normal Generator/Generator.csproj
+      - name: Create and validate NuGet package for Core
+        run: dotnet pack --no-build --verbosity normal Core/Core.csproj
       - name: Create and validate NuGet package for PixelCanvas
         run: dotnet pack --no-build --verbosity normal PixelCanvas/PixelCanvas.csproj
