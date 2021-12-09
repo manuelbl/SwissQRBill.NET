@@ -62,7 +62,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             // Locate the PixelCanvas assembly and the PNGCanvasFactory class and register it
             foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())
             {
-                if (assembly.GetName().Name == "Codecrete.SwissQRBill.PixelCanvas")
+                if (assembly.GetName().Name == "Codecrete.SwissQRBill.Generator")
                 {
                     Type factoryType = assembly.GetType("Codecrete.SwissQRBill.PixelCanvas.PNGCanvasFactory");
                     if (factoryType != null)

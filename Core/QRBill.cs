@@ -308,7 +308,7 @@ namespace Codecrete.SwissQRBill.Generator
                     CanvasCreator.RegisterPixelCanvasFactory();
                     canvas = CanvasCreator.Create(format, drawingWidth, drawingHeight);
                     if (canvas == null)
-                        throw new QRBillGenerationException("Grapics format PNG not available (are you missing the NuGet package Codecrete.SwissQRBill.PixelCanvas?)");
+                        throw new QRBillGenerationException("Graphics format PNG not available (are you missing the NuGet package Codecrete.SwissQRBill.Generator?)");
                 }
                 else
                 {
