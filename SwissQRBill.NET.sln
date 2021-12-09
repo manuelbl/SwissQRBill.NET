@@ -7,6 +7,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Generator", "Generator\Gene
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GeneratorTest", "GeneratorTest\GeneratorTest.csproj", "{AD4030A6-C687-4806-BF7A-709954BA7AAD}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PixelCanvas", "PixelCanvas\PixelCanvas.csproj", "{1DAA9A69-EB7D-4D16-A618-26F9C8D58EA0}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PixelCanvasTest", "PixelCanvasTest\PixelCanvasTest.csproj", "{7D5D1D0D-7B04-44DE-B6FE-A79F4451396C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{AD4030A6-C687-4806-BF7A-709954BA7AAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AD4030A6-C687-4806-BF7A-709954BA7AAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AD4030A6-C687-4806-BF7A-709954BA7AAD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1DAA9A69-EB7D-4D16-A618-26F9C8D58EA0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1DAA9A69-EB7D-4D16-A618-26F9C8D58EA0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1DAA9A69-EB7D-4D16-A618-26F9C8D58EA0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1DAA9A69-EB7D-4D16-A618-26F9C8D58EA0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7D5D1D0D-7B04-44DE-B6FE-A79F4451396C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7D5D1D0D-7B04-44DE-B6FE-A79F4451396C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7D5D1D0D-7B04-44DE-B6FE-A79F4451396C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7D5D1D0D-7B04-44DE-B6FE-A79F4451396C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

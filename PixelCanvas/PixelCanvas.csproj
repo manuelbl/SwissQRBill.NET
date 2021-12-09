@@ -1,0 +1,66 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <AssemblyName>Codecrete.SwissQRBill.PixelCanvas</AssemblyName>
+    <RootNamespace>Codecrete.SwissQRBill.PixelCanvas</RootNamespace>
+    <Authors>Manuel Bleichenbacher</Authors>
+    <Company>Codecrete</Company>
+    <Product>Swiss QR Bill</Product>
+    <Copyright>Open source published under MIT license</Copyright>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <RepositoryUrl>https://github.com/manuelbl/SwissQRBill.NET</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/manuelbl/SwissQRBill.NET</PackageProjectUrl>
+    <PackageTags>Swiss-QR-Bill, Payment, ISO-20022, QR-Code, QRCode, SIX</PackageTags>
+    <PackageReleaseNotes>New in releases 2.5.3:
+- Improved QR code rendering for SVGs on low resolution displays</PackageReleaseNotes>
+    <Version>3.0.0-rc1</Version>
+    <Description>Add-on library for generating PNG files for the new QR bill used for invoicing in Switzerland.
+
+The add-on library:
+- extends the base library by generating PNG files
+- is free – even for commecial use (MIT License)
+- is built for .NET Standard 2.0 and runs on all modern .NET platforms
+</Description>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageIcon>logo.png</PackageIcon>
+    <SignAssembly>True</SignAssembly>
+    <AssemblyOriginatorKeyFile>Key.snk</AssemblyOriginatorKeyFile>
+    <AssemblyVersion>2.4.0.0</AssemblyVersion>
+    <FileVersion>3.0.0.0</FileVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Restoring">
+    <DisableImplicitNuGetFallbackFolder>true</DisableImplicitNuGetFallbackFolder>
+    <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+    <!-- https://devblogs.microsoft.com/nuget/enable-repeatable-package-restores-using-a-lock-file/#how-does-nuget-use-the-lock-file -->
+    <RestoreLockedMode Condition="$(ContinuousIntegrationBuild) == 'true'">true</RestoreLockedMode>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Packaging">
+    <DebugType>embedded</DebugType>
+    <EmbedAllSources>true</EmbedAllSources>
+    <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="SkiaSharp" Version="2.*" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.*" PrivateAssets="all" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Generator\Generator.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Images\logo.png">
+      <Pack>True</Pack>
+      <PackagePath />
+    </None>
+  </ItemGroup>
+
+  <Target Name="ValidateNuGetPackage" AfterTargets="Pack">
+    <Exec Command="dotnet tool restore" />
+    <Exec Command="dotnet validate package local $([MSBuild]::EnsureTrailingSlash($(PackageOutputPath)))$(PackageId).$(PackageVersion).nupkg" />
+  </Target>
+
+</Project>
