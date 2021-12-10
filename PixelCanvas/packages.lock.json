@@ -47,8 +47,8 @@
       },
       "Net.Codecrete.QrCodeGenerator": {
         "type": "Transitive",
-        "resolved": "2.0.0",
-        "contentHash": "Yd3w2rOW73SwxtJuDMlHnjefxBje7AecY+lrU64+NPch0mHQiKsuPJvuX8cw/2q6+bdrzZqf5BAU2UB/5miP+w=="
+        "resolved": "2.0.1",
+        "contentHash": "5dy3Jru2FOQKAQGuys5MwsOyTNLJJOgB011Wq5yC3Q6N5B7a3KpbJYDvCJFZ4FYqXJGlConCKYpEF9KwTQtQlQ=="
       },
       "System.Buffers": {
         "type": "Transitive",
@@ -78,7 +78,7 @@
       "Codecrete.SwissQRBill.Core": {
         "type": "Project",
         "dependencies": {
-          "Net.Codecrete.QrCodeGenerator": "2.0.0"
+          "Net.Codecrete.QrCodeGenerator": "2.0.1"
         }
       }
     }

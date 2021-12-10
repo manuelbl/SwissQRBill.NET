@@ -70,7 +70,6 @@ namespace Codecrete.SwissQRBill.Generator
         {
             _bill = bill;
             _qrCode = new QRCode(bill);
-            _qrCode = new QRCode(bill);
             _graphics = graphics;
             _resourceSet = MultilingualText.GetResourceSet(bill.Format.Language);
             _additionalLeftMargin = Math.Min(Math.Max(bill.Format.MarginLeft, 5.0), 12.0) - Margin;
