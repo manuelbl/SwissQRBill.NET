@@ -163,12 +163,7 @@ namespace Codecrete.SwissQRBill.Examples.Wpf
             _figure.IsClosed = true;
         }
 
-        public override void StrokePath(double strokeWidth, int color)
-        {
-            StrokePath(strokeWidth, color, LineStyle.Solid);
-        }
-
-        public override void StrokePath(double strokeWidth, int color, LineStyle lineStyle)
+        public override void StrokePath(double strokeWidth, int color, LineStyle lineStyle = LineStyle.Solid, bool smoothing = true)
         {
             // all segements in all figures need to be enabled for stroking
             foreach (var figure in _geometry.Figures)
@@ -199,7 +194,7 @@ namespace Codecrete.SwissQRBill.Examples.Wpf
             _figure = null;
         }
 
-        public override void FillPath(int color)
+        public override void FillPath(int color, bool smoothing = true)
         {
             _figure.IsClosed = true;
             _geometry.FillRule = FillRule.Nonzero;
@@ -224,6 +219,11 @@ namespace Codecrete.SwissQRBill.Examples.Wpf
             if (color == 0xffffff)
                 return Brushes.White;
             return new SolidColorBrush(Color.FromRgb((byte)(color >> 16), (byte)((color >> 8) & 0xff), (byte)(color & 0xff)));
+        }
+
+        public override byte[] ToByteArray()
+        {
+            throw new NotImplementedException();
         }
     }
 }

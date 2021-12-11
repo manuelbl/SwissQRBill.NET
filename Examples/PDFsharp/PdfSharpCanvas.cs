@@ -9,6 +9,7 @@
 using Codecrete.SwissQRBill.Generator.Canvas;
 using PdfSharp.Drawing;
 using PdfSharp.Pdf;
+using System;
 
 namespace PDFsharp
 {
@@ -96,17 +97,12 @@ namespace PDFsharp
             CurrentPath.CloseSubpath();
         }
 
-        public override void FillPath(int color)
+        public override void FillPath(int color, bool smoothing = true)
         {
             CurrentPath.Fill(XGraphics, new XSolidBrush(XColor.FromArgb(color)));
         }
 
-        public override void StrokePath(double strokeWidth, int color)
-        {
-            StrokePath(strokeWidth, color, LineStyle.Solid);
-        }
-
-        public override void StrokePath(double strokeWidth, int color, LineStyle lineStyle)
+        public override void StrokePath(double strokeWidth, int color, LineStyle lineStyle = LineStyle.Solid, bool smoothing = true)
         {
             var pen = new XPen(XColor.FromArgb(color), XUnit.FromPoint(strokeWidth).Millimeter);
             switch (lineStyle)
@@ -128,6 +124,11 @@ namespace PDFsharp
         {
             if (disposing)
                 XGraphics.Dispose();
+        }
+
+        public override byte[] ToByteArray()
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -168,21 +168,34 @@ namespace Codecrete.SwissQRBill.Examples.WindowsForms
             _pathTypes.Add((byte)PathPointType.Bezier);
         }
 
-        public override void FillPath(int color)
+        public override void FillPath(int color, bool smoothing = true)
         {
+            if (!smoothing)
+            {
+                _graphics.PixelOffsetMode = PixelOffsetMode.None;
+                _graphics.SmoothingMode = SmoothingMode.None;
+            }
+
             using SolidBrush brush = new SolidBrush(Color.FromArgb(color - 16777216));
             using GraphicsPath path = new GraphicsPath(_pathPoints!.ToArray(), _pathTypes!.ToArray(), FillMode.Winding);
             _graphics.FillPath(brush, path);
+
+            if (!smoothing)
+            {
+                _graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
+                _graphics.SmoothingMode = SmoothingMode.HighQuality;
+            }
         }
 
-        public override void StrokePath(double strokeWidth, int color)
-        {
-            StrokePath(strokeWidth, color, LineStyle.Solid);
-        }
-
-        public override void StrokePath(double strokeWidth, int color, LineStyle lineStyle)
+        public override void StrokePath(double strokeWidth, int color, LineStyle lineStyle = LineStyle.Solid, bool smoothing = true)
         {
             float width = (float)strokeWidth * _fontScale;
+
+            if (!smoothing)
+            {
+                _graphics.PixelOffsetMode = PixelOffsetMode.None;
+                _graphics.SmoothingMode = SmoothingMode.None;
+            }
 
             using Pen pen = new Pen(Color.FromArgb(color - 16777216), width);
             switch (lineStyle)
@@ -202,6 +215,13 @@ namespace Codecrete.SwissQRBill.Examples.WindowsForms
 
             using GraphicsPath path = new GraphicsPath(_pathPoints!.ToArray(), _pathTypes!.ToArray());
             _graphics.DrawPath(pen, path);
+
+
+            if (!smoothing)
+            {
+                _graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
+                _graphics.SmoothingMode = SmoothingMode.HighQuality;
+            }
         }
 
         public override void PutText(string text, double x, double y, int fontSize, bool isBold)
@@ -214,6 +234,11 @@ namespace Codecrete.SwissQRBill.Examples.WindowsForms
             y -= ascent;
 
             _graphics.DrawString(text, font, Brushes.Black, (float)x, (float)y, StringFormat.GenericTypographic);
+        }
+
+        public override byte[] ToByteArray()
+        {
+            throw new NotImplementedException();
         }
     }
 }

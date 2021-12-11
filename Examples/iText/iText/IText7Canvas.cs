@@ -36,6 +36,26 @@ namespace Codecrete.SwissQRBill.Examples.IText7
         private PdfFont _lastFont;
         private float _lastFontSize;
         private LineStyle _lastLineStyle;
+        private MemoryStream _memoryStream;
+
+        /// <summary>
+        /// Initializes a new instance of the PDF canvas with the specified page size.
+        /// <para>
+        /// A PDF with a single page of the specified size will be created. The QR bill
+        /// will be drawn in the bottom left corner of the page.
+        /// </para>
+        /// <para>
+        /// The created PDF can be retrieved with <see cref=""/>.
+        /// </para>
+        /// </summary>
+        /// <param name="width">The page width, in mm.</param>
+        /// <param name="height">The page height, in mm.</param>
+        public IText7Canvas(double width, double height)
+        {
+            _memoryStream = new MemoryStream();
+            PdfWriter writer = new PdfWriter(_memoryStream);
+            CreateDocument(writer, width, height);
+        }
 
         /// <summary>
         /// Initializes a new instance of the PDF canvas with the specified page size.
@@ -293,7 +313,7 @@ namespace Codecrete.SwissQRBill.Examples.IText7
             _canvas.ClosePath();
         }
 
-        public override void FillPath(int color)
+        public override void FillPath(int color, bool smoothing = true)
         {
             if (color != _lastNonStrokingColor)
             {
@@ -307,12 +327,7 @@ namespace Codecrete.SwissQRBill.Examples.IText7
             _canvas.Fill();
         }
 
-        public override void StrokePath(double strokeWidth, int color)
-        {
-            StrokePath(strokeWidth, color, LineStyle.Solid);
-        }
-
-        public override void StrokePath(double strokeWidth, int color, LineStyle lineStyle)
+        public override void StrokePath(double strokeWidth, int color, LineStyle lineStyle = LineStyle.Solid, bool smoothing = true)
         {
             if (color != _lastStrokingColor)
             {
@@ -326,19 +341,12 @@ namespace Codecrete.SwissQRBill.Examples.IText7
                 || (lineStyle != LineStyle.Solid && strokeWidth != _lastLineWidth))
             {
                 _lastLineStyle = lineStyle;
-                float[] pattern;
-                switch (lineStyle)
+                float[] pattern = lineStyle switch
                 {
-                    case LineStyle.Dashed:
-                        pattern = new float[] { 4 * (float)strokeWidth };
-                        break;
-                    case LineStyle.Dotted:
-                        pattern = new float[] { 0, 3 * (float)strokeWidth };
-                        break;
-                    default:
-                        pattern = new float[] { };
-                        break;
-                }
+                    LineStyle.Dashed => new float[] { 4 * (float)strokeWidth },
+                    LineStyle.Dotted => new float[] { 0, 3 * (float)strokeWidth },
+                    _ => new float[] { },
+                };
                 _canvas.SetLineCapStyle(lineStyle == LineStyle.Dotted ? 1 : 0);
                 _canvas.SetLineDash(pattern, 0);
             }
@@ -349,6 +357,15 @@ namespace Codecrete.SwissQRBill.Examples.IText7
             }
 
             _canvas.Stroke();
+        }
+
+        /// <inheritdoc />
+        public override byte[] ToByteArray()
+        {
+            var buffer = _memoryStream;
+            _memoryStream = null;
+            Close();
+            return buffer.ToArray();
         }
 
         protected void Close()
