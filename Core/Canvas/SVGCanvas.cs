@@ -63,6 +63,9 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             _stream.Write("<title>Swiss QR Bill</title>\n");
         }
 
+        /// <summary>
+        /// Closes the canvas and disposes resources.
+        /// </summary>
         protected void Close()
         {
             if (_isInGroup)
@@ -118,11 +121,13 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             File.WriteAllBytes(path, _buffer.ToArray());
         }
 
+        /// <inheritdoc />
         protected override void Dispose(bool disposing)
         {
             Close();
         }
 
+        /// <inheritdoc />
         public override void StartPath()
         {
             _isFirstMoveInPath = true;
@@ -130,6 +135,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             _path = new StringBuilder();
         }
 
+        /// <inheritdoc />
         public override void MoveTo(double x, double y)
         {
             y = -y;
@@ -154,6 +160,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             _approxPathLength += 16;
         }
 
+        /// <inheritdoc />
         public override void LineTo(double x, double y)
         {
             y = -y;
@@ -167,6 +174,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             _approxPathLength += 16;
         }
 
+        /// <inheritdoc />
         public override void CubicCurveTo(double x1, double y1, double x2, double y2, double x, double y)
         {
             y1 = -y1;
@@ -190,6 +198,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             _approxPathLength += 48;
         }
 
+        /// <inheritdoc />
         public override void AddRectangle(double x, double y, double width, double height)
         {
             AddPathNewlines(40);
@@ -204,6 +213,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             _approxPathLength += 24;
         }
 
+        /// <inheritdoc />
         public override void CloseSubpath()
         {
             AddPathNewlines(1);
@@ -220,6 +230,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             }
         }
 
+        /// <inheritdoc />
         public override void FillPath(int color, bool smoothing)
         {
             _stream.Write("<path fill=\"#");
@@ -233,6 +244,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             _isFirstMoveInPath = true;
         }
 
+        /// <inheritdoc />
         public override void StrokePath(double strokeWidth, int color, LineStyle lineStyle, bool smoothing)
         {
             _stream.Write("<path stroke=\"#");
@@ -261,6 +273,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             _isFirstMoveInPath = true;
         }
 
+        /// <inheritdoc />
         public override void PutText(string text, double x, double y, int fontSize, bool isBold)
         {
             y = -y;
@@ -280,6 +293,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             _stream.Write("</text>\n");
         }
 
+        /// <inheritdoc />
         public override void SetTransformation(double translateX, double translateY, double rotate, double scaleX, double scaleY)
         {
             if (_isInGroup)

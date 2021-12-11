@@ -29,6 +29,7 @@ namespace Codecrete.SwissQRBill.Generator
             _result = result;
         }
 
+        /// <inheritdoc />
         protected QRBillValidationException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
@@ -40,6 +41,7 @@ namespace Codecrete.SwissQRBill.Generator
         /// <value>The validation result.</value>
         public ValidationResult Result => _result;
 
+        /// <inheritdoc />
         public override string Message => "QR bill data is invalid: " + _result.Description;
     }
 }

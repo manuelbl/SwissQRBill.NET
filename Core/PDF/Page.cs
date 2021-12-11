@@ -17,6 +17,9 @@ namespace Codecrete.SwissQRBill.Generator.PDF
     {
         private readonly GeneralDict _dict;
 
+        /// <summary>
+        /// Gets the content stream for the page contents.
+        /// </summary>
         public ContentStream Contents { get; }
 
         internal Page(Document document, Reference parent, float width, float height)

@@ -209,6 +209,7 @@ namespace Codecrete.SwissQRBill.PixelCanvas
             Close();
         }
 
+        /// <inheritdoc />
         protected void Close()
         {
             if (_canvas != null)
@@ -241,11 +242,13 @@ namespace Codecrete.SwissQRBill.PixelCanvas
             }
         }
 
+        /// <inheritdoc />
         protected override void Dispose(bool disposing)
         {
             Close();
         }
 
+        /// <inheritdoc />
         public override void SetTransformation(double translateX, double translateY, double rotate, double scaleX, double scaleY)
         {
             // Our coordinate system extends from the bottom upwards. .NET's system
@@ -262,6 +265,7 @@ namespace Codecrete.SwissQRBill.PixelCanvas
             _canvas.SetMatrix(skMatrix);
         }
 
+        /// <inheritdoc />
         public override void StartPath()
         {
             if (_path != null)
@@ -269,11 +273,13 @@ namespace Codecrete.SwissQRBill.PixelCanvas
             _path = new SKPath();
         }
 
+        /// <inheritdoc />
         public override void CloseSubpath()
         {
             _path.Close();
         }
 
+        /// <inheritdoc />
         public override void MoveTo(double x, double y)
         {
             x *= _coordinateScale;
@@ -282,6 +288,7 @@ namespace Codecrete.SwissQRBill.PixelCanvas
             _path.MoveTo((float)x, (float)y);
         }
 
+        /// <inheritdoc />
         public override void LineTo(double x, double y)
         {
             x *= _coordinateScale;
@@ -290,6 +297,7 @@ namespace Codecrete.SwissQRBill.PixelCanvas
             _path.LineTo((float)x, (float)y);
         }
 
+        /// <inheritdoc />
         public override void AddRectangle(double x, double y, double width, double height)
         {
             x *= _coordinateScale;
@@ -300,6 +308,7 @@ namespace Codecrete.SwissQRBill.PixelCanvas
             _path.AddRect(new SKRect((float)x, (float)(y + height), (float)(x + width), (float)y));
         }
 
+        /// <inheritdoc />
         public override void CubicCurveTo(double x1, double y1, double x2, double y2, double x, double y)
         {
             x1 *= _coordinateScale;
@@ -312,6 +321,7 @@ namespace Codecrete.SwissQRBill.PixelCanvas
             _path.CubicTo((float)x1, (float)y1, (float)x2, (float)y2, (float)x, (float)y);
         }
 
+        /// <inheritdoc />
         public override void FillPath(int color, bool smoothing)
         {
             _path.Close();
@@ -320,6 +330,7 @@ namespace Codecrete.SwissQRBill.PixelCanvas
             _canvas.DrawPath(_path, _fillPaint);
         }
 
+        /// <inheritdoc />
         public override void StrokePath(double strokeWidth, int color, LineStyle lineStyle, bool smoothing)
         {
             float width = (float)strokeWidth * _fontScale;
@@ -346,6 +357,7 @@ namespace Codecrete.SwissQRBill.PixelCanvas
             _canvas.DrawPath(_path, _strokePaint);
         }
 
+        /// <inheritdoc />
         public override void PutText(string text, double x, double y, int fontSize, bool isBold)
         {
             _textPaint.Typeface = isBold ? _boldTypeface : _regularTypeface;

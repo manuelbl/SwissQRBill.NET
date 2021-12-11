@@ -34,16 +34,26 @@ namespace Codecrete.SwissQRBill.Generator.PDF
             _dict = new GeneralDict();
         }
 
+        /// <summary>
+        /// Saves the graphics state.
+        /// </summary>
         public void SaveGraphicsState()
         {
             WriteOperator("q");
         }
 
+        /// <summary>
+        /// Restores the graphics state.
+        /// </summary>
         public void RestoreGraphicsState()
         {
             WriteOperator("Q");
         }
 
+        /// <summary>
+        /// Sets the transfomation matrix.
+        /// </summary>
+        /// <param name="matrix">The transformation matrix.</param>
         public void Transform(TransformationMatrix matrix)
         {
             foreach (double f in matrix.Elements)
@@ -54,6 +64,12 @@ namespace Codecrete.SwissQRBill.Generator.PDF
             WriteOperator("cm");
         }
 
+        /// <summary>
+        /// Sets the stroking color.
+        /// </summary>
+        /// <param name="red">Red color component (between 0.0 and 1.0)</param>
+        /// <param name="green">Green color component (between 0.0 and 1.0)</param>
+        /// <param name="blue">Blue Color component (between 0.0 and 1.0)</param>
         public void SetStrokingColor(float red, float green, float blue)
         {
             WriteOperand(red);
@@ -62,6 +78,12 @@ namespace Codecrete.SwissQRBill.Generator.PDF
             WriteOperator("RG");
         }
 
+        /// <summary>
+        /// Sets the non-stroking color.
+        /// </summary>
+        /// <param name="red">Red color component (between 0.0 and 1.0)</param>
+        /// <param name="green">Green color component (between 0.0 and 1.0)</param>
+        /// <param name="blue">Blue Color component (between 0.0 and 1.0)</param>
         public void SetNonStrokingColor(float red, float green, float blue)
         {
             WriteOperand(red);
@@ -70,18 +92,31 @@ namespace Codecrete.SwissQRBill.Generator.PDF
             WriteOperator("rg");
         }
 
+        /// <summary>
+        /// Sets the line width.
+        /// </summary>
+        /// <param name="width">Line width, in point.</param>
         public void SetLineWidth(float width)
         {
             WriteOperand(width);
             WriteOperator("w");
         }
 
+        /// <summary>
+        /// Sets the line cap style.
+        /// </summary>
+        /// <param name="style">Line cap style (see PDF reference).</param>
         public void SetLineCapStyle(int style)
         {
             WriteOperand(style);
             WriteOperator("J");
         }
 
+        /// <summary>
+        /// Sets the line dash pattern.
+        /// </summary>
+        /// <param name="pattern">Array of on and off length.</param>
+        /// <param name="offset">Offset to first on element.</param>
         public void SetLineDashPattern(float[] pattern, float offset)
         {
             WriteOperand(pattern);
@@ -89,6 +124,11 @@ namespace Codecrete.SwissQRBill.Generator.PDF
             WriteOperator("d");
         }
 
+        /// <summary>
+        /// Moves the current point of the current path.
+        /// </summary>
+        /// <param name="x">x-coordinate</param>
+        /// <param name="y">y-coordinate</param>
         public void MoveTo(float x, float y)
         {
             WriteOperand(x);
@@ -96,6 +136,11 @@ namespace Codecrete.SwissQRBill.Generator.PDF
             WriteOperator("m");
         }
 
+        /// <summary>
+        /// Adds a straight line to the current path.
+        /// </summary>
+        /// <param name="x">x-coordinate</param>
+        /// <param name="y">y-coordinate</param>
         public void LineTo(float x, float y)
         {
             WriteOperand(x);
@@ -103,6 +148,15 @@ namespace Codecrete.SwissQRBill.Generator.PDF
             WriteOperator("l");
         }
 
+        /// <summary>
+        /// Adds a bezier curve to the current path.
+        /// </summary>
+        /// <param name="x1">x-coordinate of control point 1</param>
+        /// <param name="y1">y-coordinate of control point 1</param>
+        /// <param name="x2">x-coordinate of control point 2</param>
+        /// <param name="y2">y-coordinate of control point 2</param>
+        /// <param name="x">x-coordinate</param>
+        /// <param name="y">y-coordinate</param>
         public void CurveTo(float x1, float y1, float x2, float y2, float x, float y)
         {
             WriteOperand(x1);
@@ -114,24 +168,13 @@ namespace Codecrete.SwissQRBill.Generator.PDF
             WriteOperator("c");
         }
 
-        public void CurveTo2(float x2, float y2, float x, float y)
-        {
-            WriteOperand(x2);
-            WriteOperand(y2);
-            WriteOperand(x);
-            WriteOperand(y);
-            WriteOperator("v");
-        }
-
-        public void CurveTo1(float x1, float y1, float x, float y)
-        {
-            WriteOperand(x1);
-            WriteOperand(y1);
-            WriteOperand(x);
-            WriteOperand(y);
-            WriteOperator("y");
-        }
-
+        /// <summary>
+        /// Adds a closed rectangle to the current paht.
+        /// </summary>
+        /// <param name="x">x-coordinate</param>
+        /// <param name="y">y-coordinate</param>
+        /// <param name="width">The width.</param>
+        /// <param name="height">The height.</param>
         public void AddRect(float x, float y, float width, float height)
         {
             WriteOperand(x);
@@ -141,51 +184,83 @@ namespace Codecrete.SwissQRBill.Generator.PDF
             WriteOperator("re");
         }
 
+        /// <summary>
+        /// Closes the current path.
+        /// </summary>
         public void ClosePath()
         {
             WriteOperator("h");
         }
 
+        /// <summary>
+        /// Stores the current path.
+        /// </summary>
         public void Stroke()
         {
             WriteOperator("S");
         }
 
+        /// <summary>
+        /// Closes and strokes the current path.
+        /// </summary>
         public void CloseAndStroke()
         {
             WriteOperator("s");
         }
 
+        /// <summary>
+        /// Fills the current path using the non-zero winding rule.
+        /// </summary>
         public void Fill()
         {
             WriteOperator("f");
         }
 
+        /// <summary>
+        /// Closes the current path using the even-odd rule.
+        /// </summary>
         public void FillEvenOdd()
         {
             WriteOperator("f*");
         }
 
+        /// <summary>
+        /// Fills and strokes the current path using the non-zero winding rule.
+        /// </summary>
         public void FillAndStroke()
         {
             WriteOperator("B");
         }
 
+        /// <summary>
+        /// Closes and strokes the current path using the even-odd rule.
+        /// </summary>
         public void FillEvenOddAndStroke()
         {
             WriteOperator("B*");
         }
 
+        /// <summary>
+        /// Closes, fills and strokes the current path using the non-zero winding rule.
+        /// </summary>
         public void CloseAndFillAndStroke()
         {
             WriteOperator("b");
         }
 
+        /// <summary>
+        /// Closes, filles and strokes the current path using the even-odd rule.
+        /// </summary>
         public void CloseAndFillEvenOddAndStroke()
         {
             WriteOperator("b*");
         }
 
+        /// <summary>
+        /// Sets the current font.
+        /// </summary>
+        /// <param name="font">the font.</param>
+        /// <param name="fontSize">The font size.</param>
         public void SetFont(Font font, float fontSize)
         {
             Name fontName = _resources.AddFont(font);
@@ -194,16 +269,27 @@ namespace Codecrete.SwissQRBill.Generator.PDF
             WriteOperator("Tf");
         }
 
+        /// <summary>
+        /// Begins a text object.
+        /// </summary>
         public void BeginText()
         {
             WriteOperator("BT");
         }
 
+        /// <summary>
+        /// Ends a text object.
+        /// </summary>
         public void EndText()
         {
             WriteOperator("ET");
         }
 
+        /// <summary>
+        /// Moves to the next line, offset by the specified distance from the current one.
+        /// </summary>
+        /// <param name="tx">x-distance</param>
+        /// <param name="ty">y-distance</param>
         public void NewLineAtOffset(float tx, float ty)
         {
             WriteOperand(tx);
@@ -211,6 +297,10 @@ namespace Codecrete.SwissQRBill.Generator.PDF
             WriteOperator("Td");
         }
 
+        /// <summary>
+        /// Add the specified text to the curren text object.
+        /// </summary>
+        /// <param name="text">The text.</param>
         public void ShowText(string text)
         {
             WriteTextOperand(text);

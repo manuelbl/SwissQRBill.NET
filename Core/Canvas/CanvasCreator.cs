@@ -52,6 +52,12 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             return null;
         }
 
+        /// <summary>
+        /// Registers the canvas factory for PNG output.
+        /// <para>
+        /// The method checks if the Codecrete.SwissQRBill.Generator assembly is present.
+        /// </para>
+        /// </summary>
         public static void RegisterPixelCanvasFactory()
         {
             if (checkedForPixelCanvas)

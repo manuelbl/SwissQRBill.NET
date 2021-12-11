@@ -46,6 +46,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             _contentStream = page.Contents;
         }
 
+        /// <inheritdoc />
         public override void SetTransformation(double translateX, double translateY, double rotate, double scaleX, double scaleY)
         {
             translateX *= MmToPt;
@@ -86,6 +87,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             _lastFontSize = fontSize;
         }
 
+        /// <inheritdoc />
         public override void PutText(string text, double x, double y, int fontSize, bool isBold)
         {
             x *= MmToPt;
@@ -99,6 +101,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             _contentStream.EndText();
         }
 
+        /// <inheritdoc />
         public override void PutTextLines(string[] lines, double x, double y, int fontSize, double leading)
         {
             x *= MmToPt;
@@ -125,11 +128,13 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             _contentStream.EndText();
         }
 
+        /// <inheritdoc />
         public override void StartPath()
         {
             // path is start implicitly
         }
 
+        /// <inheritdoc />
         public override void MoveTo(double x, double y)
         {
             x *= MmToPt;
@@ -137,6 +142,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             _contentStream.MoveTo((float)x, (float)y);
         }
 
+        /// <inheritdoc />
         public override void LineTo(double x, double y)
         {
             x *= MmToPt;
@@ -144,6 +150,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             _contentStream.LineTo((float)x, (float)y);
         }
 
+        /// <inheritdoc />
         public override void CubicCurveTo(double x1, double y1, double x2, double y2, double x, double y)
         {
             x1 *= MmToPt;
@@ -155,6 +162,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             _contentStream.CurveTo((float)x1, (float)y1, (float)x2, (float)y2, (float)x, (float)y);
         }
 
+        /// <inheritdoc />
         public override void AddRectangle(double x, double y, double width, double height)
         {
             x *= MmToPt;
@@ -164,11 +172,13 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             _contentStream.AddRect((float)x, (float)y, (float)width, (float)height);
         }
 
+        /// <inheritdoc />
         public override void CloseSubpath()
         {
             _contentStream.ClosePath();
         }
 
+        /// <inheritdoc />
         public override void FillPath(int color, bool smoothing)
         {
             if (color != _lastNonStrokingColor)
@@ -182,6 +192,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             _contentStream.Fill();
         }
 
+        /// <inheritdoc />
         public override void StrokePath(double strokeWidth, int color, LineStyle lineStyle, bool smoothing)
         {
             if (color != _lastStrokingColor)
@@ -261,12 +272,14 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             Close();
         }
 
+        /// <inheritdoc />
         protected void Close()
         {
             _contentStream = null;
             _document = null;
         }
 
+        /// <inheritdoc />
         protected override void Dispose(bool disposing)
         {
             Close();

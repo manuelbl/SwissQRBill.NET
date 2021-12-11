@@ -38,6 +38,7 @@ namespace Codecrete.SwissQRBill.Generator
         {
         }
 
+        /// <inheritdoc />
         protected QRBillGenerationException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {

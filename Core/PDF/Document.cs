@@ -25,6 +25,10 @@ namespace Codecrete.SwissQRBill.Generator.PDF
         private readonly Reference _pagesRef;
         private readonly Dictionary<Font, Reference> _fontReferences;
 
+        /// <summary>
+        /// Create a new instance with the specified title.
+        /// </summary>
+        /// <param name="title">The title of the document.</param>
         public Document(string title)
         {
             _references = new List<Reference>();
@@ -45,6 +49,12 @@ namespace Codecrete.SwissQRBill.Generator.PDF
             _fontReferences = new Dictionary<Font, Reference>();
         }
 
+        /// <summary>
+        /// Creates a new page with the specified dimensions.
+        /// </summary>
+        /// <param name="width">The width, in point.</param>
+        /// <param name="height">The height, in point.</param>
+        /// <returns></returns>
         public Page CreatePage(float width, float height)
         {
             Page page = new Page(this, _pagesRef, width, height);
@@ -52,6 +62,10 @@ namespace Codecrete.SwissQRBill.Generator.PDF
             return page;
         }
 
+        /// <summary>
+        /// Saves the document to the specified stream.
+        /// </summary>
+        /// <param name="stream">The stream.</param>
         public void Save(Stream stream)
         {
             using (StreamWriter writer = new StreamWriter(stream, GetCodepage1252()))
