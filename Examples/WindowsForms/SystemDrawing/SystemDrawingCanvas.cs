@@ -12,18 +12,23 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Text;
 
-namespace Codecrete.SwissQRBill.Examples.WindowsForms
+namespace Codecrete.SwissQRBill.SystemDrawing
 {
     /// <summary>
-    /// Canvas for draing to a System.Drawing graphics surface.
+    /// Canvas for drawing to a System.Drawing / GDI+ graphics surface.
+    /// <para>
+    /// This class is also the base class for generating PNG files using System.Drawing,
+    /// for creating Windows Forms control, for generating GDI+ bitmaps and for
+    /// generating Windows Metafiles.</para>
     /// </summary>
     public class SystemDrawingCanvas : AbstractCanvas
     {
-        private readonly float _xOffset;
-        private readonly float _yOffset;
-        private readonly float _coordinateScale;
-        private readonly float _fontScale;
-        private readonly Graphics _graphics;
+        private float _xOffset;
+        private float _yOffset;
+        private float _coordinateScale;
+        private float _fontScale;
+        private Graphics _graphics;
+        private bool _ownsGraphics;
         private readonly FontFamily _fontFamily;
         private List<PointF> _pathPoints;
         private List<byte> _pathTypes;
@@ -43,16 +48,43 @@ namespace Codecrete.SwissQRBill.Examples.WindowsForms
         /// <param name="scale">The conversion factor from mm to the drawing surface coordinate system.</param>
         /// <param name="fontFamilyList">A list font family names, separated by comma (same syntax as for CSS). The first font family will be used.</param>
         public SystemDrawingCanvas(Graphics graphics, float xOffset, float yOffset, float scale, string fontFamilyList)
+            : this(fontFamilyList)
+        {
+            SetOffset(xOffset, yOffset);
+            InitGraphics(graphics, false, scale);
+        }
+
+        /// <summary>
+        /// Creates a new instance.
+        /// <para>
+        /// The offset is specified in the drawing surface coordinate system. Positive y coordinates point downwards.
+        /// </para>
+        /// <para>
+        /// Before calling any drawing methods, the graphics surface must be initialized using <see cref="InitGraphics(Graphics, bool, float)"/>.
+        /// </para>
+        /// </summary>
+        /// <param name="xOffset">The x-offset to the bottom left corner of the drawing area, in the drawing surface coordinate system.</param>
+        /// <param name="yOffset">The y-offset to the bottom left corner of the drawing area, in the drawing surface coordinate system.</param>
+        /// <param name="fontFamilyList">A list font family names, separated by comma (same syntax as for CSS). The first font family will be used.</param>
+        protected SystemDrawingCanvas(string fontFamilyList)
         {
             // setup font metrics
             SetupFontMetrics(fontFamilyList);
             _fontFamily = new FontFamily(FontMetrics.FirstFontFamily);
+        }
 
-            _xOffset = xOffset;
-            _yOffset = yOffset;
+        /// <summary>
+        /// Initializes the graphics surfaces.
+        /// </summary>
+        /// <param name="graphics">The graphics surface to draw to.</param>
+        /// <param name="ownsGraphics">If <c>true</c>, this instance will own the graphics surface and dispose it on closing.</param>
+        /// <param name="scale">The conversion factor from mm to the drawing surface coordinate system.</param>
+        protected void InitGraphics(Graphics graphics, bool ownsGraphics, float scale)
+        {
+            _graphics = graphics;
+            _ownsGraphics = ownsGraphics;
             _coordinateScale = scale;
             _fontScale = (float)(scale * 25.4 / 72.0);
-            _graphics = graphics;
 
             // enable high quality output
             _graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
@@ -61,8 +93,22 @@ namespace Codecrete.SwissQRBill.Examples.WindowsForms
 
             // initialize transformation
             Matrix matrix = new Matrix();
-            matrix.Translate(xOffset, yOffset);
+            matrix.Translate(_xOffset, _yOffset);
             _graphics.Transform = matrix;
+        }
+
+        /// <summary>
+        /// Sets the offset to the bottom left corner of the drawing area.
+        /// <para>
+        /// Ths function must be called before calling <see cref="InitGraphics(Graphics, bool, float)"/>.
+        /// </para>
+        /// </summary>
+        /// <param name="xOffset">The x-offset to the bottom left corner of the drawing area, in the drawing surface coordinate system.</param>
+        /// <param name="yOffset">The y-offset to the bottom left corner of the drawing area, in the drawing surface coordinate system.</param>
+        protected void SetOffset(float xOffset, float yOffset)
+        {
+            _xOffset = xOffset;
+            _yOffset = yOffset;
         }
 
         protected void Close()
@@ -70,6 +116,10 @@ namespace Codecrete.SwissQRBill.Examples.WindowsForms
             if (_fontFamily != null)
             {
                 _fontFamily.Dispose();
+            }
+            if (_ownsGraphics && _graphics != null)
+            {
+                _graphics.Dispose();
             }
         }
 

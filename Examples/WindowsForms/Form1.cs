@@ -6,16 +6,19 @@
 //
 
 using Codecrete.SwissQRBill.Generator;
+using Codecrete.SwissQRBill.SystemDrawing;
 using System;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.Drawing.Printing;
+using System.IO;
 using System.Windows.Forms;
 
 namespace Codecrete.SwissQRBill.Examples.WindowsForms
 {
     public partial class Form1 : Form
     {
-        Bill bill;
+        private readonly Bill bill;
 
         public Form1()
         {
@@ -56,12 +59,12 @@ namespace Codecrete.SwissQRBill.Examples.WindowsForms
             qrBillControl1.Bill = bill;
         }
 
-        private void printButton_Click(object sender, EventArgs e)
+        private void PrintButton_Click(object sender, EventArgs e)
         {
             try
             {
                 PrintDocument pd = new PrintDocument();
-                pd.PrintPage += new PrintPageEventHandler(printDocument_PrintPage);
+                pd.PrintPage += new PrintPageEventHandler(PrintDocument_PrintPage);
                 pd.Print();
                 MessageBox.Show("QR bill successfully printed");
             }
@@ -70,7 +73,7 @@ namespace Codecrete.SwissQRBill.Examples.WindowsForms
                 MessageBox.Show(ex.Message);
             }
         }
-        private void printDocument_PrintPage(object sender, PrintPageEventArgs e)
+        private void PrintDocument_PrintPage(object sender, PrintPageEventArgs e)
         {
             using Font font = new Font("Arial", 18, FontStyle.Bold);
             e.Graphics.DrawString("Swiss QR Bill", font, Brushes.Black, 30, 80, new StringFormat());
@@ -88,6 +91,33 @@ namespace Codecrete.SwissQRBill.Examples.WindowsForms
             float scale = bounds.Width / 210f; // scale to full width
             using SystemDrawingCanvas canvas = new SystemDrawingCanvas(e.Graphics, 0, 297 * scale, scale, "Arial");
             QRBill.Draw(bill, canvas);
+        }
+
+        private void CopyButton_Click(object sender, EventArgs e)
+        {
+            using Metafile metafile = CreateMetafile();
+            using Bitmap bitmap = CreateBitmap();
+            ClipboardMetafileHelper.PutOnClipboard(this.Handle, metafile, bitmap);
+        }
+
+        private Bitmap CreateBitmap()
+        {
+            // ouput size for QR bill only: 210 x 110mm
+            bill.Format.OutputSize = OutputSize.QrBillExtraSpace;
+            const int dpi = 192;
+            using BitmapCanvas canvas = new BitmapCanvas((int)Math.Round(210 / 25.4 * dpi),
+                (int)Math.Round(110 / 25.4 * dpi), dpi, "Arial");
+            QRBill.Draw(bill, canvas);
+            return canvas.ToBitmap();
+        }
+
+        private Metafile CreateMetafile()
+        {
+            // ouput size for QR bill only: 210 x 110mm
+            bill.Format.OutputSize = OutputSize.QrBillExtraSpace;
+            using MetafileCanvas canvas = new MetafileCanvas(210, 110, "Arial");
+            QRBill.Draw(bill, canvas);
+            return canvas.ToMetafile();
         }
     }
 }

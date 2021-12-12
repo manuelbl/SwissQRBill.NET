@@ -38,6 +38,7 @@ namespace Codecrete.SwissQRBill.Examples.WindowsForms
             this.titleLabel = new System.Windows.Forms.Label();
             this.qrBillControl1 = new Codecrete.SwissQRBill.Examples.WindowsForms.QrBillControl();
             this.printButton = new System.Windows.Forms.Button();
+            this.copyButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // titleLabel
@@ -70,13 +71,25 @@ namespace Codecrete.SwissQRBill.Examples.WindowsForms
             this.printButton.TabIndex = 2;
             this.printButton.Text = "Print";
             this.printButton.UseVisualStyleBackColor = true;
-            this.printButton.Click += new System.EventHandler(this.printButton_Click);
+            this.printButton.Click += new System.EventHandler(this.PrintButton_Click);
+            // 
+            // copyButton
+            // 
+            this.copyButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.copyButton.Location = new System.Drawing.Point(1122, 846);
+            this.copyButton.Name = "copyButton";
+            this.copyButton.Size = new System.Drawing.Size(244, 46);
+            this.copyButton.TabIndex = 2;
+            this.copyButton.Text = "Copy to Clipboard";
+            this.copyButton.UseVisualStyleBackColor = true;
+            this.copyButton.Click += new System.EventHandler(this.CopyButton_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(13F, 32F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1597, 923);
+            this.Controls.Add(this.copyButton);
             this.Controls.Add(this.printButton);
             this.Controls.Add(this.qrBillControl1);
             this.Controls.Add(this.titleLabel);
@@ -92,5 +105,6 @@ namespace Codecrete.SwissQRBill.Examples.WindowsForms
         private System.Windows.Forms.Label titleLabel;
         private QrBillControl qrBillControl1;
         private System.Windows.Forms.Button printButton;
+        private System.Windows.Forms.Button copyButton;
     }
 }
