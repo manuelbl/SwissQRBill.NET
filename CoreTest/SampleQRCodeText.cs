@@ -42,7 +42,7 @@ namespace Codecrete.SwissQRBill.CoreTest
             "NON\n" +
             "\n" +
             "Bill no. 3139 for gardening work and disposal of waste material\n" +
-            "EPD\n";
+            "EPD";
 
         public static string CreateQrCodeText1(bool withCrLf)
         {
@@ -193,7 +193,7 @@ namespace Codecrete.SwissQRBill.CoreTest
             "NON\n" +
             "\n" +
             "Donnation to the Winterfest campaign\n" +
-            "EPD\n";
+            "EPD";
 
         public static string CreateQrCodeText3(bool withCrLf)
         {
@@ -250,7 +250,7 @@ namespace Codecrete.SwissQRBill.CoreTest
             "SCOR\n" +
             "RF18539007547034\n" +
             "\n" +
-            "EPD\n";
+            "EPD";
 
         public static string CreateQrCodeText4(bool withCrLf)
         {
@@ -318,7 +318,7 @@ namespace Codecrete.SwissQRBill.CoreTest
             "SCOR\n" +
             "RF18539007547034\n" +
             "\n" +
-            "EPD\n";
+            "EPD";
 
         public static string CreateQrCodeText5(bool withCrLf)
         {

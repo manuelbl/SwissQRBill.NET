@@ -74,6 +74,28 @@ namespace Codecrete.SwissQRBill.CoreTest
         }
 
         [Fact]
+        public void DecodeTextB1C()
+        {
+            Bill bill = SampleQRCodeText.CreateBillData1();
+            TestHelper.NormalizeSourceBill(bill);
+            // QR code text with invalid NL at the end
+            Bill bill2 = QRBill.DecodeQrCodeText(SampleQRCodeText.CreateQrCodeText1(false) + "\n");
+            TestHelper.NormalizeDecodedBill(bill2);
+            Assert.Equal(bill, bill2);
+        }
+
+        [Fact]
+        public void DecodeTextB1D()
+        {
+            Bill bill = SampleQRCodeText.CreateBillData1();
+            TestHelper.NormalizeSourceBill(bill);
+            // QR code text with invalid CRNL at the end
+            Bill bill2 = QRBill.DecodeQrCodeText(SampleQRCodeText.CreateQrCodeText1(true) + "\r\n");
+            TestHelper.NormalizeDecodedBill(bill2);
+            Assert.Equal(bill, bill2);
+        }
+
+        [Fact]
         public void DecodeTextB2()
         {
             Bill bill = SampleQRCodeText.CreateBillData2();

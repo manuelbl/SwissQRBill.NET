@@ -60,7 +60,6 @@ namespace Codecrete.SwissQRBill.CoreTest
             Bill bill = SampleData.CreateExample2();
             TestHelper.NormalizeSourceBill(bill);
             string qrText = QRBill.EncodeQrCodeText(bill);
-            qrText = qrText[0..^1];
             Assert.EndsWith("EPD", qrText);
 
             Bill bill2 = QRBill.DecodeQrCodeText(qrText);

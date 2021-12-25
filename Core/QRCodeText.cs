@@ -66,10 +66,14 @@ namespace Codecrete.SwissQRBill.Generator
             // AddInf
             AppendDataField(_bill.UnstructuredMessage); // Unstrd
             AppendDataField("EPD"); // Trailer
-            AppendDataField(_bill.BillInformation); // StrdBkgInf
+            bool hasAlternativeSchemes = _bill.AlternativeSchemes != null && _bill.AlternativeSchemes.Count > 0;
+            if (hasAlternativeSchemes || _bill.BillInformation != null)
+            {
+                AppendDataField(_bill.BillInformation); // StrdBkgInf
+            }
 
             // AltPmtInf
-            if (_bill.AlternativeSchemes != null && _bill.AlternativeSchemes.Count > 0)
+            if (hasAlternativeSchemes)
             {
                 AppendDataField(_bill.AlternativeSchemes[0].Instruction); // AltPmt
                 if (_bill.AlternativeSchemes.Count > 1)
