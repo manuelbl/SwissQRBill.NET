@@ -116,11 +116,11 @@ namespace Codecrete.SwissQRBill.Examples.Basic
 
 4. Run it
 
-## API Documention
+## API documention
 
 See DocFX [API Documentation](https://codecrete.net/SwissQRBill.NET/api/index.html)
 
-## PNG Generation
+## PNG generation
 
 PNG generation requires a raster graphics library. Starting with .NET 6, the *System.Drawing* classes have become a Windows-only technology and standard .NET no longer supports raster graphics out-of-the-box. With this library, you have several options:
 
@@ -128,7 +128,7 @@ PNG generation requires a raster graphics library. Starting with .NET 6, the *Sy
 - If you need PNG generation, you can use the enhanced version: **Codecrete.SwissQRBill.Generator**. It uses [SkiaSharp](https://github.com/mono/SkiaSharp) as a platform independent raster graphics library. Note that on Linux, SkiaSharp depends on native libraries that might not be installed on your machine. The easiest solution is to add the NuGet package [SkiaSharp.NativeAssets.Linux.NoDependencies](https://www.nuget.org/packages/SkiaSharp.NativeAssets.Linux.NoDependencies) to your project.
 - If you are on Windows and prefer to use the *System.Drawing* classes, you can use the light-weight core library **Codecrete.SwissQRBill.Core** and then add the classes in the [*SystemDrawing* folder](Examples/WindowsForms/SystemDrawing) of the *WindowsForms* example. Call `PngCanvasFactory.Register()` at the start of your program to enable PNG generation. For more information, see [example's README](Examples/WindowsForms/README.md)
 
-## PDF Generation
+## PDF generation
 
 To generate QR bills as PDF files, this library uses its own, minimal PDF generator that requires no further dependencies and comes with the same permissive license as the rest of this library.
 
@@ -139,9 +139,9 @@ If you are already using [iText](https://itextpdf.com/en) or [PDFsharp](http://w
 
 These examples also support adding a QR bill to an existing PDF document.
 
-## Examples
+## Code examples
 
-This library comes with multiple examples:
+This library comes with multiple code examples:
 
 - [Basic](Examples/Basic): A basic example showing how to generate a QR bill.
 
@@ -149,9 +149,9 @@ This library comes with multiple examples:
 
 - [WindowsPresentationFoundation](Examples/WindowsPresentationFoundation): An example for Windows Presentation Foundation (WPF) applications. It shows how to display and print QR bills.
 
-- [iText]((Examples/iText): Example showing how to generate PDFs using the [iText](https://itextpdf.com/en) library, including how to add a QR bill to an existing PDF document.
+- [iText](Examples/iText): Example showing how to generate PDFs using the [iText](https://itextpdf.com/en) library, including how to add a QR bill to an existing PDF document.
 
-- [PDFsharp]((Examples/PDFsharp): Example showing how to generate PDFs using the [PDFsharp](http://www.pdfsharp.net) library, including how to add a QR bill to an existing PDF document.
+- [PDFsharp](Examples/PDFsharp): Example showing how to generate PDFs using the [PDFsharp](http://www.pdfsharp.net) library, including how to add a QR bill to an existing PDF document.
 
 ## More information
 
