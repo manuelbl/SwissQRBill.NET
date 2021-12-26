@@ -6,7 +6,9 @@ Try it yourself and [create a QR bill](https://www.codecrete.net/qrbill). The co
 
 ## Introduction
 
-The Swiss QR bill is the new QR code based payment format that will replace the current payment slip starting on 30 June, 2020. The new payment slip will in most cases be sent electronically. But it can still be printed at the bottom of an invoice or added to the invoice on a separate sheet. The payer scans the QR code with his/her mobile banking app to initiate the payment. The payment just needs to be confirmed.
+The Swiss QR bill is the new QR code based payment format that started on 30 June, 2020. The old payment slip will no longer be accepted after 30 September 2022.
+
+The new payment slip will be sent electronically in most cases. But it can still be printed at the bottom of an invoice or added to the invoice on a separate sheet. The payer scans the QR code with his/her mobile banking app to initiate the payment. The payment just needs to be confirmed.
 
 If the invoicing party adds structured bill information (VAT rates, payment conditions etc.) to the QR bill, the payer can automate booking in accounts payable. The invoicing party can also automate the accounts receivable processing as the payment includes all relevant data including a reference number. The Swiss QR bill is convenient for the payer and payee.
 
@@ -18,7 +20,7 @@ If the invoicing party adds structured bill information (VAT rates, payment cond
 
 The Swiss QR bill library:
 
-- generates PDF, SVG and PNG files
+- generates QR bills as PDF, SVG and PNG files
 - generates payment slip (105mm by 210mm), A4 sheets or QR code only
 - multilingual: German, French, Italian, English
 - validates the invoice data and provides detailed validation information
@@ -28,8 +30,10 @@ The Swiss QR bill library:
 - is small and fast
 - is free – even for commecial use (MIT License)
 - is built for .NET Standard 2.0, i.e. it runs with .NET Core 2.0 or higher, .NET Framework 4.6.1 or higher, Mono 5.4 or higher, Universal Windows Platform 10.0.16299 or higher, Xamarin etc.
-- has a single non-Microsoft dependency: Net.Codecrete.QrCodeGenerator
-- available as a [NuGet package](https://www.nuget.org/packages/Codecrete.SwissQRBill.Generator/) (named *Codecrete.SwissQRBill.Generator*)
+- core library is light-weight and has a single dependency: Net.Codecrete.QrCodeGenerator
+- enhanced version uses SkiaSharp for PNG file generation
+- available as a NuGet packages: [core library](https://www.nuget.org/packages/Codecrete.SwissQRBill.Core/) (named *Codecrete.SwissQRBill.Core*) and [enhanced version](https://www.nuget.org/packages/Codecrete.SwissQRBill.Generator/) (named *Codecrete.SwissQRBill.Generator*)
+
 
 ## Getting started
 
@@ -42,7 +46,7 @@ The Swiss QR bill library:
    Or by running a command in the Package Manager Console
 
 ```
-Install-Package Codecrete.SwissQRBill.Generator -Version 2.5.3
+Install-Package Codecrete.SwissQRBill.Generator -Version 3.0.0
 ```
 
 3. Add the code:
@@ -86,7 +90,16 @@ namespace Codecrete.SwissQRBill.Examples.Basic
 
                 // more payment data
                 Reference = "210000000003139471430009017",
-                UnstructuredMessage = "Abonnement für 2020"
+                UnstructuredMessage = "Abonnement für 2020",
+
+
+                // output format
+                Format = new BillFormat
+                {
+                    Language = Language.DE,
+                    GraphicsFormat = GraphicsFormat.SVG,
+                    OutputSize = OutputSize.QrBillOnly
+                }
             };
 
             // Generate QR bill
@@ -107,7 +120,15 @@ namespace Codecrete.SwissQRBill.Examples.Basic
 
 See DocFX [API Documentation](https://codecrete.net/SwissQRBill.NET/api/index.html)
 
-## PDF Library
+## PNG Generation
+
+PNG generation requires a raster graphics library. Starting with .NET 6, the *System.Drawing* classes have become a Windows-only technology and standard .NET no longer supports raster graphics out-of-the-box. With this library, you have several options:
+
+- If you do not need PNG generation, you can use the light-weight core library: **Codecrete.SwissQRBill.Core**.
+- If you need PNG generation, you can use the enhanced version: **Codecrete.SwissQRBill.Generator**. It uses [SkiaSharp](https://github.com/mono/SkiaSharp) as a platform independent raster graphics library. Note that on Linux, SkiaSharp depends on native libraries that might not be installed on your machine. The easiest solution is to add the NuGet package [SkiaSharp.NativeAssets.Linux.NoDependencies](https://www.nuget.org/packages/SkiaSharp.NativeAssets.Linux.NoDependencies) to your project.
+- If you are on Windows and prefer to use the *System.Drawing* classes, you can use the light-weight core library **Codecrete.SwissQRBill.Core** and then add the classes in the [*SystemDrawing* folder](Examples/WindowsForms/SystemDrawing) of the *WindowsForms* example. Call `PngCanvasFactory.Register()` at the start of your program to enable PNG generation. For more information, see [example's README](Examples/WindowsForms/README.md)
+
+## PDF Generation
 
 To generate QR bills as PDF files, this library uses its own, minimal PDF generator that requires no further dependencies and comes with the same permissive license as the rest of this library.
 
@@ -115,6 +136,22 @@ If you are already using [iText](https://itextpdf.com/en) or [PDFsharp](http://w
 
 - iText: https://github.com/manuelbl/SwissQRBill.NET/tree/master/Examples/iText
 - PDFsharp: https://github.com/manuelbl/SwissQRBill.NET/tree/master/Examples/PDFsharp
+
+These examples also support adding a QR bill to an existing PDF document.
+
+## Examples
+
+This library comes with multiple examples:
+
+- [Basic](Examples/Basic): A basic example showing how to generate a QR bill.
+
+- [WindowsForms](Examples/WindowsForms): An extensive example showing how to use this library in a Windows Forms application (display of QR bills, printing, working with the clipboard). Even if you do not use Windows Forms, you might be interested in the code for generating Metafiles/EMF files or copying to the clipboard.
+
+- [WindowsPresentationFoundation](Examples/WindowsPresentationFoundation): An example for Windows Presentation Foundation (WPF) applications. It shows how to display and print QR bills.
+
+- [iText]((Examples/iText): Example showing how to generate PDFs using the [iText](https://itextpdf.com/en) library, including how to add a QR bill to an existing PDF document.
+
+- [PDFsharp]((Examples/PDFsharp): Example showing how to generate PDFs using the [PDFsharp](http://www.pdfsharp.net) library, including how to add a QR bill to an existing PDF document.
 
 ## More information
 

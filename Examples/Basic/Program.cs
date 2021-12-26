@@ -44,6 +44,8 @@ namespace Codecrete.SwissQRBill.Examples.Basic
                 // more payment data
                 Reference = "210000000003139471430009017",
                 UnstructuredMessage = "Abonnement für 2020",
+
+                // output format
                 Format = new BillFormat
                 {
                     Language = Language.DE,
