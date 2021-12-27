@@ -5,25 +5,21 @@
 // https://opensource.org/licenses/MIT
 //
 using PdfSharp.Drawing;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PDFsharp
 {
     /// <summary>
     /// Wrapper for PDFsharp's XGraphicsPath to work around a bug
-    /// </summary>
     /// <para>
     /// <c>XGraphicsPath.StartFigure()</c> is not correctly implemented. It does nothing.
     /// This prevents the use of subpaths that are not closed.
     /// </para>
     /// <para>
-    /// This wrapper records the entire path. Once it's clear if the path is filled or stroked,
+    /// This wrapper records the entire path. Once it's known if the path is filled or stroked,
     /// it is replayed 1:1 (filled path) or split into separate paths (stroked path).
     /// </para>
+    /// </summary>
     class GraphicsPath
     {
         enum Command
@@ -35,8 +31,8 @@ namespace PDFsharp
             Rectangle
         }
 
-        private List<XPoint> Points = new List<XPoint>();
-        private List<Command> Commands = new List<Command>();
+        private readonly List<XPoint> Points = new List<XPoint>();
+        private readonly List<Command> Commands = new List<Command>();
 
 
         public void MoveTo(XPoint pt)
@@ -73,8 +69,10 @@ namespace PDFsharp
 
         public void Fill(XGraphics graphics, XBrush brush)
         {
-            XGraphicsPath path = new XGraphicsPath();
-            path.FillMode = XFillMode.Winding;
+            XGraphicsPath path = new XGraphicsPath
+            {
+                FillMode = XFillMode.Winding
+            };
             bool hasFigure = false;
             int ptIndex = 0;
 

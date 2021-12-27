@@ -11,9 +11,19 @@ using System.IO;
 
 namespace Codecrete.SwissQRBill.Examples.Basic
 {
+    /// <summary>
+    /// Console application generating a QR bill.
+    /// <para>
+    /// The QR bill is saved in the working directory.
+    /// The path to the file is printed to the console.
+    /// </para>
+    /// </summary>
     class Program
     {
-        static void Main(string[] args)
+        /// <summary>
+        /// Generates a QR bill and saves it as a SVG file.
+        /// </summary>
+        static void Main()
         {
             // Setup bill data
             Bill bill = new Bill

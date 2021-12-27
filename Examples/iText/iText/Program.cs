@@ -25,6 +25,7 @@ namespace Codecrete.SwissQRBill.Examples.IText7
         {
             Bill bill = CreateBillData();
 
+            // Add QR bill to a copy of an existing PDF file
             string destPath = "invoice-with-qr-bill.pdf";
             using (FileStream fs = new FileStream(destPath, FileMode.Create))
             using (IText7Canvas canvas = new IText7Canvas(OpenPdfInvoice("invoice-without-qr-bill.pdf"), fs, IText7Canvas.LastPage))
