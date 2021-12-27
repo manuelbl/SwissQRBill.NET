@@ -45,6 +45,7 @@ namespace Codecrete.SwissQRBill.Generator
         /// </para>
         /// </summary>
         /// <value>The output size.</value>
+        /// <seealso href="https://github.com/manuelbl/SwissQRBill/wiki/Output-Sizes">Output Sizes (in Wiki)</seealso>
         public OutputSize OutputSize { get; set; } = OutputSize.QrBillOnly;
 
         /// <summary>

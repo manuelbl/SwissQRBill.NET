@@ -12,6 +12,7 @@ namespace Codecrete.SwissQRBill.Generator
     /// <summary>
     /// The output size of the QR bill or QR code.
     /// </summary>
+    /// <seealso href="https://github.com/manuelbl/SwissQRBill/wiki/Output-Sizes">Output Sizes (in Wiki)</seealso>
     public enum OutputSize
     {
         /// <summary>
