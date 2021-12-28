@@ -13,7 +13,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Codecrete.SwissQRBill.Generator" Version="3.0.0-rc1" />
+    <PackageReference Include="Codecrete.SwissQRBill.Generator" Version="3.0.0" />
   </ItemGroup>
 
 </Project>
