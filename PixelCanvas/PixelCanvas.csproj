@@ -13,22 +13,23 @@
     <PackageTags>Swiss-QR-Bill, Payment, ISO-20022, QR-Code, QRCode, SIX</PackageTags>
     <PackageReleaseNotes>New in releases 3.0.0:
 - Compatible with .NET 6 (no dependency on System.Drawing)
-- Improved error messages</PackageReleaseNotes>
-    <Version>3.0.0-rc1</Version>
-    <Description>Library to generate the new QR bill used for invoicing in Switzerland.
+- Improved validation messages</PackageReleaseNotes>
+    <Version>3.0.0</Version>
+    <Description>Generates the new QR bills for invoicing in Switzerland.
 
 The Swiss QR bill library:
-- generates PDF, SVG and PNG files
-- generates payment slip (105mm by 210mm), A4 sheets or QR code only
-- is multilingual: German, French, Italian, English
-- validates the invoice data and provides detailed validation information
-- adds and retrieves structured bill information (according to Swico S1)
-- parses the invoice data embedded in the QR code
-- is easy to use and comes with many examples
-- is small and fast
-- is free – even for commecial use (MIT License)
-- is built for .NET Standard 2.0 and runs on all modern .NET platforms
-- uses SkiaSharp for multi-platform support (use Codecrete.SwissQRBill.Core for minimal dependencies)</Description>
+- generates PDF, SVG and PNG files,
+- parses the invoice data embedded in the QR code,
+- generates payment slips (105mm by 210mm), A4 sheets or QR codes,
+- is multilingual: German, French, Italian, English,
+- validates the invoice data and provides detailed validation information,
+- adds and retrieves structured bill information (according to Swico S1),
+- is easy to use and comes with many examples,
+- is small and fast,
+- is free – even for commecial use (MIT License),
+- is built for .NET Standard 2.0 and runs on all modern .NET platforms,
+- uses SkiaSharp for multi-platform support (use Codecrete.SwissQRBill.Core for minimal dependencies).</Description>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageIcon>logo.png</PackageIcon>
     <SignAssembly>True</SignAssembly>
@@ -61,10 +62,8 @@ The Swiss QR bill library:
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="Images\logo.png">
-      <Pack>True</Pack>
-      <PackagePath />
-    </None>
+    <None Include="docs\logo.png" Pack="True" PackagePath="\" />
+    <None Include="docs\README.md" Pack="True" PackagePath="\" />
   </ItemGroup>
 
   <Target Name="ValidateNuGetPackage" AfterTargets="Pack">
