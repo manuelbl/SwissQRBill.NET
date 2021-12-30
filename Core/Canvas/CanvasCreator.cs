@@ -65,6 +65,17 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
 
             checkedForPixelCanvas = true;
 
+            // Load the assembly; most likely it has not been loaded yet as there is no direct reference to it
+            try
+            {
+                Assembly.Load("Codecrete.SwissQRBill.Generator, Version=2.4.0.0, Culture=neutral, PublicKeyToken=6aa6bd7a159d47c2");
+            }
+            catch
+            {
+                // Ignore if we are unable to load the assembly.
+                // A more meaningful exception is thrown outside this code.
+            }
+
             // Locate the PixelCanvas assembly and the PNGCanvasFactory class and register it
             foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())
             {
@@ -75,6 +86,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
                     {
                         ICanvasFactory factory = (ICanvasFactory)Activator.CreateInstance(factoryType);
                         Register(factory);
+                        return;
                     }
                 }
             }

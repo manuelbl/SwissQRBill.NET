@@ -11,8 +11,10 @@
     <RepositoryUrl>https://github.com/manuelbl/SwissQRBill.NET</RepositoryUrl>
     <PackageProjectUrl>https://github.com/manuelbl/SwissQRBill.NET</PackageProjectUrl>
     <PackageTags>Swiss-QR-Bill, Payment, ISO-20022, QR-Code, QRCode, SIX</PackageTags>
-    <PackageReleaseNotes>New light-weight version without any dependency on a raster graphics library</PackageReleaseNotes>
-    <Version>3.0.0</Version>
+    <PackageReleaseNotes>New light-weight version without any dependency on a raster graphics library
+New in version 3.0.1:
+- Fix for PNG generation</PackageReleaseNotes>
+    <Version>3.0.1</Version>
     <Description>Generates the new QR bills for invoicing in Switzerland.
 
 The Swiss QR bill library:
@@ -33,7 +35,7 @@ The Swiss QR bill library:
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>Key.snk</AssemblyOriginatorKeyFile>
     <AssemblyVersion>2.4.0.0</AssemblyVersion>
-    <FileVersion>3.0.0.0</FileVersion>
+    <FileVersion>3.0.1.0</FileVersion>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
   </PropertyGroup>
 

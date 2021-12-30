@@ -64,13 +64,22 @@ namespace Codecrete.SwissQRBill.Examples.Basic
                 }
             };
 
-            // Generate QR bill
+            // Generate QR bill as SVG
             byte[] svg = QRBill.Generate(bill);
 
             // Save generated SVG file
             const string path = "qrbill.svg";
             File.WriteAllBytes(path, svg);
-            Console.WriteLine($"QR bill saved at { Path.GetFullPath(path) }");
+            Console.WriteLine($"SVG QR bill saved at { Path.GetFullPath(path) }");
+
+            // Generate QR bill as PNG
+            bill.Format.GraphicsFormat = GraphicsFormat.PNG;
+            byte[] png = QRBill.Generate(bill);
+
+            // Save generated PNG file
+            const string pngPath = "qrbill.png";
+            File.WriteAllBytes(pngPath, png);
+            Console.WriteLine($"PNG QR bill saved at { Path.GetFullPath(pngPath) }");
         }
     }
 }
