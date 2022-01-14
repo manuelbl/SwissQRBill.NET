@@ -93,28 +93,29 @@ namespace Codecrete.SwissQRBill.Generator.PDF
                 switch (ch)
                 {
                     case '(':
-                        replacement = "\\(";
+                        replacement = "(";
                         break;
                     case ')':
-                        replacement = "\\)";
+                        replacement = ")";
                         break;
                     case '\\':
-                        replacement = "\\\\";
+                        replacement = "\\";
                         break;
                     case '\n':
-                        replacement = "\\n";
+                        replacement = "n";
                         break;
                     case '\r':
-                        replacement = "\\r";
+                        replacement = "r";
                         break;
                     case '\t':
-                        replacement = "\\t";
+                        replacement = "t";
                         break;
                     default:
                         replacement = "000" + Convert.ToString(ch, 8);
                         replacement = replacement.Substring(replacement.Length - 3);
                         break;
                 }
+                result.Append('\\');
                 result.Append(replacement);
                 lastCopiedPosition = i + 1;
             }
