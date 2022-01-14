@@ -186,7 +186,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
                 _lastNonStrokingColor = color;
                 float r = ColorScale * ((color >> 16) & 0xff);
                 float g = ColorScale * ((color >> 8) & 0xff);
-                float b = ColorScale * ((color >> 8) & 0xff);
+                float b = ColorScale * ((color >> 0) & 0xff);
                 _contentStream.SetNonStrokingColor(r, g, b);
             }
             _contentStream.Fill();
@@ -200,7 +200,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
                 _lastStrokingColor = color;
                 float r = ColorScale * ((color >> 16) & 0xff);
                 float g = ColorScale * ((color >> 8) & 0xff);
-                float b = ColorScale * ((color >> 8) & 0xff);
+                float b = ColorScale * ((color >> 0) & 0xff);
                 _contentStream.SetStrokingColor(r, g, b);
             }
             if (lineStyle != _lastLineStyle
