@@ -30,21 +30,28 @@ namespace TestQrCode
 
 
 
-        public static byte[] GetQrBill()
+        public static byte[] GetQrBill(object obj)
         {
-            byte[] png = libQrCodeGenerator.Tests.GenerateQrBill();
+
+            string schuldner = System.Convert.ToString(obj, System.Globalization.CultureInfo.InvariantCulture);
+            byte[] png = libQrCodeGenerator.Tests.GenerateQrBill(schuldner);
 
             return png;
         }
 
 
-        public static string GetQrBill2()
+        public static string GetQrBill2(object obj)
         {
             byte[] png = null;
 
             try
             {
-                png = libQrCodeGenerator.Tests.GenerateQrBill();
+                string schuldner = System.Convert.ToString(obj, System.Globalization.CultureInfo.InvariantCulture);
+
+                if (string.IsNullOrEmpty(schuldner) || schuldner.Trim() == string.Empty)
+                    schuldner = "UNBEKANNT";
+
+                png = libQrCodeGenerator.Tests.GenerateQrBill(schuldner);
             }
             catch (System.Exception ex)
             {
@@ -56,7 +63,7 @@ namespace TestQrCode
         }
 
 
-        
+
         // Copy CorQrCode.dll, libQrCodeGenerator.dll to both: 
         // C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\SSRS
         // C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\PublicAssemblies
@@ -64,11 +71,13 @@ namespace TestQrCode
 
         // In Report, Register System.Drawing (NET40), libQrCodeGenerator.dll
 
-        //Function GetQrBill2() As String
+        //Function GetQrBill2(ByVal obj As Object) As String
         //    Dim png As Byte() = Nothing
 
         //    Try
-        //        png = libQrCodeGenerator.Tests.GenerateQrBill()
+        //        Dim schuldner As String = System.Convert.ToString(obj, System.Globalization.CultureInfo.InvariantCulture)
+        //        If String.IsNullOrEmpty(schuldner) OrElse schuldner.Trim() = String.Empty Then schuldner = "UNBEKANNT"
+        //        png = libQrCodeGenerator.Tests.GenerateQrBill(schuldner)
         //    Catch ex As System.Exception
         //        Return ex.Message & System.Environment.NewLine & ex.StackTrace
         //    End Try
@@ -77,10 +86,15 @@ namespace TestQrCode
         //End Function
 
 
-        // Function GetQrBill() As Byte()
-        //      Dim png As Byte() = libQrCodeGenerator.Tests.GenerateQrBill()
+        // Function GetQrBill(ByVal obj As Object) As Byte()
+        //      Dim schuldner As String = System.Convert.ToString(obj, System.Globalization.CultureInfo.InvariantCulture)
+        //      If String.IsNullOrEmpty(schuldner) OrElse schuldner.Trim() = String.Empty Then schuldner = "UNBEKANNT"
+        //      Dim png As Byte() = libQrCodeGenerator.Tests.GenerateQrBill(schuldner)
         //      Return png
         // End Function
+
+
+
 
 
 
@@ -98,7 +112,7 @@ namespace TestQrCode
 #endif
 
 
-            byte[] png = GetQrBill();
+            byte[] png = GetQrBill("Pia-Maria Rutschmann-Schnyder");
             System.IO.File.WriteAllBytes(@"D:\QrBill.png", png);
 
 

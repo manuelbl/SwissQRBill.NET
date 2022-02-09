@@ -11,7 +11,7 @@ namespace libQrCodeGenerator
     {
 
 
-        private static Bill CreateExample1()
+        private static Bill CreateExample1(string schuldner)
         {
             Address creditor = new Address
             {
@@ -24,18 +24,18 @@ namespace libQrCodeGenerator
             };
             Address debtor = new Address
             {
-                Name = "Pia-Maria Rutschmann-Schnyder",
-                Street = "Grosse Marktgasse",
-                HouseNo = "28",
-                PostalCode = "9400",
-                Town = " Rorschach",
+                Name = schuldner,
+                Street = "Fabrikstrasse",
+                HouseNo = "1",
+                PostalCode = "8586",
+                Town = " Erlen",
                 CountryCode = "CH"
             };
             Bill bill = new Bill
             {
                 Account = "CH44 3199 9123 0008  89012",
                 Creditor = creditor,
-                Amount = 123949.75m,
+                Amount = 123456.78m,
                 Currency = "CHF",
                 Debtor = debtor,
                 Reference = "210000 000 00313 9471430009017",
@@ -52,12 +52,12 @@ namespace libQrCodeGenerator
             return bill;
         }
 
-
-        public static byte[] GenerateQrBill()
+        
+        public static byte[] GenerateQrBill(string schuldner)
         {
             byte[] png;
 
-            Bill bill = CreateExample1();
+            Bill bill = CreateExample1(schuldner);
 
             // using (PNGCanvas canvas = new PNGCanvas(QRBill.QrBillWidth, QRBill.QrBillHeight, 300, "\"Liberation Sans\",Arial, Helvetica"))
             // const int dpi = 192;
