@@ -1,0 +1,110 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{32DD91B8-4C61-4DE0-BD85-132893E25293}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>libQrCodeGenerator</RootNamespace>
+    <AssemblyName>libQrCodeGenerator</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Drawing" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Core\Address.cs" />
+    <Compile Include="Core\AlternativeScheme.cs" />
+    <Compile Include="Core\Bill.cs" />
+    <Compile Include="Core\BillFormat.cs" />
+    <Compile Include="Core\BillLayout.cs" />
+    <Compile Include="Core\Canvas\AbstractCanvas.cs" />
+    <Compile Include="Core\Canvas\CanvasCreator.cs" />
+    <Compile Include="Core\Canvas\CharWidthData.cs" />
+    <Compile Include="Core\Canvas\FontMetrics.cs" />
+    <Compile Include="Core\Canvas\ICanvas.cs" />
+    <Compile Include="Core\Canvas\ICanvasFactory.cs" />
+    <Compile Include="Core\Canvas\LineStyle.cs" />
+    <Compile Include="Core\Canvas\PDFCanvas.cs" />
+    <Compile Include="Core\Canvas\PDFCanvasFactory.cs" />
+    <Compile Include="Core\Canvas\SVGCanvas.cs" />
+    <Compile Include="Core\Canvas\SVGCanvasFactory.cs" />
+    <Compile Include="Core\Canvas\TransformationMatrix.cs" />
+    <Compile Include="Core\GraphicsFormat.cs" />
+    <Compile Include="Core\Language.cs" />
+    <Compile Include="Core\MultilingualText.cs" />
+    <Compile Include="Core\OutputSize.cs" />
+    <Compile Include="Core\Payments.cs" />
+    <Compile Include="Core\PDF\ContentStream.cs" />
+    <Compile Include="Core\PDF\Document.cs" />
+    <Compile Include="Core\PDF\Font.cs" />
+    <Compile Include="Core\PDF\GeneralDict.cs" />
+    <Compile Include="Core\PDF\IWritable.cs" />
+    <Compile Include="Core\PDF\Name.cs" />
+    <Compile Include="Core\PDF\Page.cs" />
+    <Compile Include="Core\PDF\PageCollection.cs" />
+    <Compile Include="Core\PDF\Reference.cs" />
+    <Compile Include="Core\PDF\ResourceDict.cs" />
+    <Compile Include="Core\PDF\WriterHelper.cs" />
+    <Compile Include="Core\QRBill.cs" />
+    <Compile Include="Core\QRBillGenerationException.cs" />
+    <Compile Include="Core\QRBillValidationException.cs" />
+    <Compile Include="Core\QRCode.cs" />
+    <Compile Include="Core\QRCodeText.cs" />
+    <Compile Include="Core\SeparatorType.cs" />
+    <Compile Include="Core\StringExtensions.cs" />
+    <Compile Include="Core\SwicoBillInformation.cs" />
+    <Compile Include="Core\SwicoS1Decoder.cs" />
+    <Compile Include="Core\SwicoS1Encoder.cs" />
+    <Compile Include="Core\ValidationConstants.cs" />
+    <Compile Include="Core\ValidationMessage.cs" />
+    <Compile Include="Core\ValidationResult.cs" />
+    <Compile Include="Core\Validator.cs" />
+    <Compile Include="PixelCanvas\PNGCanvasSystemDrawing.cs" />
+    <Compile Include="PixelCanvas\PNGCanvasSkiaSharp.cs" />
+    <Compile Include="PixelCanvas\PNGCanvasFactory.cs" />
+    <Compile Include="PixelCanvas\PngProcessor.cs" />
+    <Compile Include="QrCodeGenerator\BitArrayExtensions.cs" />
+    <Compile Include="Tests.cs" />
+    <Compile Include="QrCodeGenerator\DataTooLongException.cs" />
+    <Compile Include="QrCodeGenerator\Objects.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="QrCodeGenerator\QrCode.cs" />
+    <Compile Include="QrCodeGenerator\QrSegment.cs" />
+    <Compile Include="QrCodeGenerator\QrSegmentAdvanced.cs" />
+    <Compile Include="QrCodeGenerator\ReedSolomonGenerator.cs" />
+    <Compile Include="_backport\System.ValueTuple.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\QRBillText-de.resx" />
+    <EmbeddedResource Include="Resources\QRBillText-en.resx" />
+    <EmbeddedResource Include="Resources\QRBillText-fr.resx" />
+    <EmbeddedResource Include="Resources\QRBillText-it.resx" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

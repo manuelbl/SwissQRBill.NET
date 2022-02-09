@@ -1,162 +1,168 @@
-# Swiss QR Bill for .NET
+# QR Code Generator for .NET
 
-Open-source .NET library to generate Swiss QR bills (jointly developed with the [Java version](https://github.com/manuelbl/SwissQRBill)).
+Open-source library for generating QR codes from text strings and byte arrays.
 
-Try it yourself and [create a QR bill](https://www.codecrete.net/qrbill). The code for this demonstration (Angular UI and RESTful service) can be found on [GitHub](https://github.com/manuelbl/SwissQRBillDemo) as well.
+The library is built for .NET Standard 2.0 and therefore runs on most modern .NET platforms (.NET Core, .NET Framework, Mono etc.) including .NET 6 on all platforms.
 
-## Introduction
+It is mostly a translation of Project Nayuki's Java version of the QR code generator. The project provides implementations for
+many more programming languages, and the [Project Nayuki web site](https://www.nayuki.io/page/qr-code-generator-library) has additional information about the implementation.
 
-The Swiss QR bill is the new QR code based payment format that started on 30 June, 2020. The old payment slip will no longer be accepted after 30 September 2022.
-
-The new payment slip will be sent electronically in most cases. But it can still be printed at the bottom of an invoice or added to the invoice on a separate sheet. The payer scans the QR code with his/her mobile banking app to initiate the payment. The payment just needs to be confirmed.
-
-If the invoicing party adds structured bill information (VAT rates, payment conditions etc.) to the QR bill, the payer can automate booking in accounts payable. The invoicing party can also automate the accounts receivable processing as the payment includes all relevant data including a reference number. The Swiss QR bill is convenient for the payer and payee.
-
-![QR Bill](https://raw.githubusercontent.com/wiki/manuelbl/SwissQRBill/images/qr-invoice-e1.svg?sanitize=true)
-
-*More [examples](https://github.com/manuelbl/SwissQRBill/wiki/Swiss-QR-Invoice-Examples) can be found in the [Wiki](https://github.com/manuelbl/SwissQRBill/wiki)*
 
 ## Features
 
-The Swiss QR bill library:
+Core features:
 
-- generates QR bills as PDF, SVG and PNG files
-- generates payment slip (105mm by 210mm), A4 sheets or QR code only
-- multilingual: German, French, Italian, English
-- validates the invoice data and provides detailed validation information
-- adds or retrieves structured bill information (according to Swico S1)
-- parses the invoice data embedded in the QR code
-- is easy to use (see example below)
-- is small and fast
-- is free – even for commecial use (MIT License)
-- is built for .NET Standard 2.0, i.e. it runs with .NET Core 2.0 or higher, .NET Framework 4.6.1 or higher, Mono 5.4 or higher, Universal Windows Platform 10.0.16299 or higher, Xamarin etc.
-- core library is light-weight and has a single dependency: Net.Codecrete.QrCodeGenerator
-- enhanced version uses SkiaSharp for PNG file generation
-- available as a NuGet packages: [core library](https://www.nuget.org/packages/Codecrete.SwissQRBill.Core/) (named *Codecrete.SwissQRBill.Core*) and [enhanced version](https://www.nuget.org/packages/Codecrete.SwissQRBill.Generator/) (named *Codecrete.SwissQRBill.Generator*)
+ * Supports encoding all 40 versions (sizes) and all 4 error correction levels, as per the QR Code Model 2 standard
+ * Output formats: Raw modules/pixels of the QR symbol, SVG XML string. For raster bitmaps, additional code is provided. See [below](#raster-images--bitmaps).
+ * Encodes numeric and special-alphanumeric text in less space than general text
+ * Open source code under the permissive *MIT License*
+ * Significantly shorter code but more documentation compared to competing libraries
+ * Available as a [NuGet package](https://www.nuget.org/packages/Net.Codecrete.QrCodeGenerator/) (named *Net.Codecrete.QrCodeGenerator*)
+
+Manual parameters:
+
+ * You can specify the minimum and maximum *version number* allowed, and the library will automatically choose the smallest version in the range that fits the data.
+ * You can specify the *mask pattern* manually, otherwise library will automatically evaluate all 8 masks and select the optimal one.
+ * You can specify an *error correction level*, or optionally allow the library to boost it if it doesn't increase the version number.
+ * You can create a list of *data segments* manually and add *ECI segments*.
+
+Optional advanced features:
+
+ * Encodes Japanese Unicode text in *Kanji mode* to save a lot of space compared to UTF-8 bytes
+ * Computes *optimal segment mode* switching for text with mixed numeric/alphanumeric/general/kanji parts
+
 
 
 ## Getting started
 
-1. Create a new Visual Studio project for .NET Core 2.x (*File > New > Project...* / *Visual C# > .NET Core > Console App (.NET Core)*)
+1. Create a new Visual Studio project for .NET Core 3.1 (or higher) (*File > New > Project...* / *Visual C# > .NET Core > Console App (.NET Core)*)
 
 2. Add the library via NuGet:
 
-   Either via *Project > Manage NuGet Packages...* / *Browse* / search for *qrbill* / *Install*
+   Either via *Project > Manage NuGet Packages...* / *Browse* / search for *qrcodegenerator* / *Install*
    
    Or by running a command in the Package Manager Console
 
 ```
-Install-Package Codecrete.SwissQRBill.Generator -Version 3.0.1
+Install-Package Net.Codecrete.QrCodeGenerator -Version 2.0.1
 ```
+3. Add the code from the example below
 
-3. Add the code:
+4. Run it
 
-```c#
-using Codecrete.SwissQRBill.Generator;
-using System;
-using System.IO;
 
-namespace Codecrete.SwissQRBill.Examples.Basic
+## API Documention
+
+See [API Documentation](https://codecrete.net/QrCodeGenerator/api/index.html)
+
+
+## Examples
+
+**Simple operation**
+
+```cslang
+using Net.Codecrete.QrCodeGenerator;
+
+namespace Examples
 {
-    class Program
+    class SimpleOperation
     {
-        static void Main(string[] args)
+        static void Main()
         {
-            // Setup bill data
-            Bill bill = new Bill
-            {
-                // creditor data
-                Account = "CH4431999123000889012",
-                Creditor = new Address
-                {
-                    Name = "Robert Schneider AG",
-                    AddressLine1 = "Rue du Lac 1268/2/22",
-                    AddressLine2 = "2501 Biel",
-                    CountryCode = "CH"
-                },
-
-                // payment data
-                Amount = 199.95m,
-                Currency = "CHF",
-                
-                // debtor data
-                Debtor = new Address
-                {
-                    Name = "Pia-Maria Rutschmann-Schnyder",
-                    AddressLine1 = "Grosse Marktgasse 28",
-                    AddressLine2 = "9400 Rorschach",
-                    CountryCode = "CH"
-                },
-
-                // more payment data
-                Reference = "210000000003139471430009017",
-                UnstructuredMessage = "Abonnement für 2020",
-
-
-                // output format
-                Format = new BillFormat
-                {
-                    Language = Language.DE,
-                    GraphicsFormat = GraphicsFormat.SVG,
-                    OutputSize = OutputSize.QrBillOnly
-                }
-            };
-
-            // Generate QR bill
-            byte[] svg = QRBill.Generate(bill);
-
-            // Save generated SVG file
-            const string path = "qrbill.svg";
-            File.WriteAllBytes(path, svg);
-            Console.WriteLine($"QR bill saved at { Path.GetFullPath(path) }");
+            var qr = QrCode.EncodeText("Hello, world!", QrCode.Ecc.Medium);
+            string svg = qr.ToSvgString(4);
+            File.WriteAllText("hello-world-qr.svg", svg, Encoding.UTF8);
         }
     }
 }
 ```
 
-4. Run it
+**Manual operation**
 
-## API documention
+```cslang
+using Net.Codecrete.QrCodeGenerator;
 
-See DocFX [API Documentation](https://codecrete.net/SwissQRBill.NET/api/index.html)
+namespace Examples
+{
+    class ManualOperation
+    {
+        static void Main()
+        {
+            var segments = QrCode.MakeSegments("3141592653589793238462643383");
+            var qr = QrCode.EncodeSegments(segments, QrCode.Ecc.High, 5, 5, 2, false);
+            for (int y = 0; y < qr.Size; y++)
+            {
+                for (int x = 0; x < qr.Size; x++)
+                {
+                    ... paint qr.GetModule(x,y) ...
+                }
+            }
+        }
+    }
+}
+```
 
-## PNG generation
 
-PNG generation requires a raster graphics library. Starting with .NET 6, the *System.Drawing* classes have become a Windows-only technology and standard .NET no longer supports raster graphics out-of-the-box. With this library, you have several options:
+## Requirements
 
-- If you do not need PNG generation, you can use the light-weight core library: **Codecrete.SwissQRBill.Core**.
-- If you need PNG generation, you can use the enhanced version: **Codecrete.SwissQRBill.Generator**. It uses [SkiaSharp](https://github.com/mono/SkiaSharp) as a platform independent raster graphics library. Note that on Linux, SkiaSharp depends on native libraries that might not be installed on your machine. The easiest solution is to add the NuGet package [SkiaSharp.NativeAssets.Linux.NoDependencies](https://www.nuget.org/packages/SkiaSharp.NativeAssets.Linux.NoDependencies) to your project.
-- If you are on Windows and prefer to use the *System.Drawing* classes, you can use the light-weight core library **Codecrete.SwissQRBill.Core** and then add the classes in the [*SystemDrawing* folder](Examples/WindowsForms/SystemDrawing) of the *WindowsForms* example. Call `PngCanvasFactory.Register()` at the start of your program to enable PNG generation. For more information, see [example's README](Examples/WindowsForms/README.md)
+QR Code Generator for .NET requires a .NET implementation compatible with .NET Standard 2.0 or higher, i.e. any of:
 
-## PDF generation
+- .NET Core 2.0 or higher
+- .NET Framework 4.6.1 or higher
+- Mono 5.4 or higher
+- Universal Windows Platform 10.0.16299 or higher
+- Xamarin
 
-To generate QR bills as PDF files, this library uses its own, minimal PDF generator that requires no further dependencies and comes with the same permissive license as the rest of this library.
+### Raster Images / Bitmaps
 
-If you are already using [iText](https://itextpdf.com/en) or [PDFsharp](http://www.pdfsharp.net/), then have a look at the respective examples:
+Starting with .NET 6, *System.Drawing* is only supported on Windows operating system and thus cannot be used for multi-platform libraries like this one. Therefore, `ToBitmap()` has been removed and three options are now offered in the form of method extensions.
 
-- iText: https://github.com/manuelbl/SwissQRBill.NET/tree/master/Examples/iText
-- PDFsharp: https://github.com/manuelbl/SwissQRBill.NET/tree/master/Examples/PDFsharp
+To use it:
 
-These examples also support adding a QR bill to an existing PDF document.
+- Select one of the imaging libraries below
+- Add the NuGet dependencies to your project
+- Copy the appropriate `QrCodeBitmapExtensions.cs` file to your project
 
-## Code examples
+| Imaging library | Recommendation | NuGet dependencies | Extension file |
+| ------- | -------------- | ------------------ | -------------- |
+| **System.Drawing** | For Windows only projects | `System.Drawing.Common` | [QrCodeBitmapExtensions.cs](Demo-System-Drawing/QrCodeBitmapExtensions.cs) |
+| **SkiaSharp** | For macOS, Linux, iOS, Android and multi-platform projects | `SkiaSharp` and `SkiaSharp.NativeAssets.Linux` (for Linux only) | [QrCodeBitmapExtensions.cs](Demo-SkiaSharp/QrCodeBitmapExtensions.cs) |
+| **ImageSharp** | Currently in beta state | `SixLabors.ImageSharp.Drawing` | [QrCodeBitmapExtensions.cs](Demo-ImageSharp/QrCodeBitmapExtensions.cs) |
 
-This library comes with multiple code examples:
+Using these extension methods, generating PNG images is straight-forward:
 
-- [Basic](Examples/Basic): A basic example showing how to generate a QR bill.
+```cslang
+using Net.Codecrete.QrCodeGenerator;
 
-- [WindowsForms](Examples/WindowsForms): An extensive example showing how to use this library in a Windows Forms application (display of QR bills, printing, working with the clipboard). Even if you do not use Windows Forms, you might be interested in the code for generating Metafiles/EMF files or copying to the clipboard.
+namespace Examples
+{
+    class PngImage
+    {
+        static void Main()
+        {
+            var qr = QrCode.EncodeText("Hello, world!", QrCode.Ecc.Medium);
+            qr.SaveAsPng("hello-world-qr.png", 10, 3);
+        }
+    }
+}
+```
 
-- [WindowsPresentationFoundation](Examples/WindowsPresentationFoundation): An example for Windows Presentation Foundation (WPF) applications. It shows how to display and print QR bills.
+## Examples
 
-- [iText](Examples/iText): Example showing how to generate PDFs using the [iText](https://itextpdf.com/en) library, including how to add a QR bill to an existing PDF document.
+Several example projects are provided:
 
-- [PDFsharp](Examples/PDFsharp): Example showing how to generate PDFs using the [PDFsharp](http://www.pdfsharp.net) library, including how to add a QR bill to an existing PDF document.
+- [Demo-QRCode-Variety](Demo-QRCode-Variety): Demonstrates how QR codes with different encodings, error correction and masks can be generated. All QR codes are saved as SVG files.
 
-## More information
+- [Demo-WindowsPresentationFoundation](Demo-WindowsPresentationFoundation): Demonstrates how QR codes can be used in WPF applications (incl. copying to the clipboard).
 
-This library is the .NET version of Swiss QR Bill. There is also a [Java version](https://github.com/manuelbl/SwissQRBill) with the same features. More information about both libraries can be found in the [Wiki](https://github.com/manuelbl/SwissQRBill/wiki).
+- [Demo-WinForms](Demo-WinForms): Demonstrates how QR codes can be used in Windows Forms applications (incl. copying to the clipboard).
 
-## Other programming languages
+- [Demo-ASP.NET-Core](Demo-ASP.NET-Core): Demonstrates how to create QR codes in a web application implemented using ASP.NET Core.
 
-If you are looking for a library for yet another programming language or for a library with professional services, you might want to check out [Services & Tools](https://www.moneytoday.ch/iso20022/movers-shakers/software-hersteller/services-tools/) on [MoneyToday.ch](https://www.moneytoday.ch).
+- [Demo-VCard](Demo-VCard): Demonstrates how contact data (similar to business cards) can be saved in a QR Code using the VCard standard.
+
+- [Demo-System-Drawing](Demo-System-Drawing): Demonstrates how a QR code can be saved a PNG file, using the *System.Drawing* classes, which have become a Windows only technology starting with .NET 6.
+
+- [Demo-SkiaSharp](Demo-SkiaSharp): Demonstrates how a QR code can be saved a PNG file, using the SkiaSharp multi-platform raster image library.
+
+- [Demo-ImageSharp](Demo-ImageSharp): Demonstrates how a QR code can be saved a PNG file, using the ImageSharp raster image library. Additionally, a QR code with an image in the center is created.
