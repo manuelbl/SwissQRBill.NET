@@ -29,6 +29,7 @@ namespace Codecrete.SwissQRBill.SystemDrawing
         private float _fontScale;
         private Graphics _graphics;
         private bool _ownsGraphics;
+        private GraphicsState _graphicsState;
         private readonly FontFamily _fontFamily;
         private List<PointF> _pathPoints;
         private List<byte> _pathTypes;
@@ -83,6 +84,7 @@ namespace Codecrete.SwissQRBill.SystemDrawing
         {
             _graphics = graphics;
             _ownsGraphics = ownsGraphics;
+            _graphicsState = _graphics.Save();
             _coordinateScale = scale;
             _fontScale = (float)(scale * 25.4 / 72.0);
 
@@ -113,6 +115,11 @@ namespace Codecrete.SwissQRBill.SystemDrawing
 
         protected void Close()
         {
+            if (_graphicsState != null)
+            {
+                _graphics.Restore(_graphicsState);
+                _graphicsState = null;
+            }
             if (_fontFamily != null)
             {
                 _fontFamily.Dispose();
