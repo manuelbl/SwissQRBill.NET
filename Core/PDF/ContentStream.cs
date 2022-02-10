@@ -7,9 +7,9 @@
 
 using Codecrete.SwissQRBill.Generator.Canvas;
 using System;
+using System.Globalization;
 using System.IO;
 using System.IO.Compression;
-using static System.FormattableString;
 
 namespace Codecrete.SwissQRBill.Generator.PDF
 {
@@ -320,7 +320,7 @@ namespace Codecrete.SwissQRBill.Generator.PDF
             }
             else
             {
-                _contentWriter.Write(Invariant($"{val:0.###} "));
+                _contentWriter.Write(string.Format(CultureInfo.InvariantCulture, "{0:0.###} ", val));
             }
         }
 
