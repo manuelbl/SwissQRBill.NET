@@ -29,6 +29,10 @@ namespace Codecrete.SwissQRBill.Generator
         // ReSharper disable once InconsistentNaming
         IT,
         /// <summary>
+        /// Romansh language.
+        /// </summary>
+        RM,
+        /// <summary>
         /// English language.
         /// </summary>
         // ReSharper disable once InconsistentNaming
