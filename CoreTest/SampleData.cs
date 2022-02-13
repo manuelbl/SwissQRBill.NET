@@ -164,7 +164,7 @@ namespace Codecrete.SwissQRBill.CoreTest
                 Reference = "210000 000 00313 9471430009017",
                 UnstructuredMessage = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed",
                 BillInformation = "//S1/10/10201409/11/190512/20/1400.0001-53/30/106017086/31/180508/32/7.7/40/0:30",
-                Format = { Language = Language.EN }
+                Format = { Language = Language.RM }
             };
             return bill;
         }
