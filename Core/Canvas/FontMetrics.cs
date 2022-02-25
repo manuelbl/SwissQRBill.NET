@@ -17,9 +17,9 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
     {
         private const double PtToMm = 25.4 / 72;
 
-        private readonly ushort[] _charWidthx20x7F;
-        private readonly ushort[] _charWidthxA0xFF;
-        private readonly ushort _charDefaultWidth;
+        private readonly short[] _charWidthx20x7F;
+        private readonly short[] _charWidthxA0xFF;
+        private readonly short _charDefaultWidth;
         private readonly FontMetrics _boldMetrics;
 
         /// <summary>
@@ -35,9 +35,9 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             FirstFontFamily = GetFirstFontFamily(fontFamilyList);
             string family = FirstFontFamily.ToLowerInvariant();
 
-            ushort[] boldCharWidthx20x7F;
-            ushort[] boldCharWidthxA0xFF;
-            ushort boldCharDefaultWidth;
+            short[] boldCharWidthx20x7F;
+            short[] boldCharWidthxA0xFF;
+            short boldCharDefaultWidth;
 
             if (family.Contains("arial"))
             {
@@ -79,7 +79,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             _boldMetrics = new FontMetrics(boldCharWidthx20x7F, boldCharWidthxA0xFF, boldCharDefaultWidth);
         }
 
-        private FontMetrics(ushort[] charWidthx20x7F, ushort[] charWidthxA0xFF, ushort charDefaultWidth)
+        private FontMetrics(short[] charWidthx20x7F, short[] charWidthxA0xFF, short charDefaultWidth)
         {
             FontFamilyList = null;
             FirstFontFamily = null;
@@ -317,9 +317,9 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         /// </summary>
         /// <param name="ch">The character to measure.</param>
         /// <returns>The width of the character.</returns>
-        private ushort CharWidth(char ch)
+        private short CharWidth(char ch)
         {
-            ushort width = 0;
+            short width = 0;
             if (ch >= 0x20 && ch <= 0x7f)
             {
                 width = _charWidthx20x7F[ch - 0x20];

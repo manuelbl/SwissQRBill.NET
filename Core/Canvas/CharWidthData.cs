@@ -24,12 +24,12 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         /// <summary>
         /// Default character width for Helvetica Normal.
         /// </summary>
-        public static readonly ushort HelveticaNormalDefaultWidth = 556;
+        public static readonly short HelveticaNormalDefaultWidth = 556;
 
         /// <summary>
         /// Character widths for Helvetica Normal (range 0x20 to 0x7f).
         /// </summary>
-        public static readonly ushort[] HelveticaNormal_20_7F = {
+        public static readonly short[] HelveticaNormal_20_7F = {
             278, // 0x20
             278, // 0x21 !
             355, // 0x22 "
@@ -131,7 +131,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         /// <summary>
         /// Character widths for Helvetica Normal (range 0xa0 to 0xff).
         /// </summary>
-        public static readonly ushort[] HelveticaNormal_A0_FF = {
+        public static readonly short[] HelveticaNormal_A0_FF = {
             0, // unused
             0, // unused
             0, // unused
@@ -233,12 +233,12 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         /// <summary>
         /// Default character width for Helvetica Bold.
         /// </summary>
-        public static readonly ushort HelveticaBoldDefaultWidth = 611;
+        public static readonly short HelveticaBoldDefaultWidth = 611;
 
         /// <summary>
         /// Character widths for Helvetica Bold (range 0x20 to 0x7f).
         /// </summary>
-        public static readonly ushort[] HelveticaBold_20_7F = {
+        public static readonly short[] HelveticaBold_20_7F = {
             278, // 0x20
             333, // 0x21 !
             474, // 0x22 "
@@ -340,7 +340,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         /// <summary>
         /// Character widths for Helvetica Bold (range 0xa0 to 0xff).
         /// </summary>
-        public static readonly ushort[] HelveticaBold_A0_FF = {
+        public static readonly short[] HelveticaBold_A0_FF = {
             0, // unused
             0, // unused
             0, // unused
@@ -442,12 +442,12 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         /// <summary>
         /// Default character width for Arial Normal.
         /// </summary>
-        public static readonly ushort ArialNormalDefaultWidth = 556;
+        public static readonly short ArialNormalDefaultWidth = 556;
 
         /// <summary>
         /// Character widths for Arial Normal (range 0x20 to 0x7f).
         /// </summary>
-        public static readonly ushort[] ArialNormal_20_7F = {
+        public static readonly short[] ArialNormal_20_7F = {
             278, // 0x20
             278, // 0x21 !
             355, // 0x22 "
@@ -549,7 +549,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         /// <summary>
         /// Character widths for Arial Normal (range 0xa0 to 0xff).
         /// </summary>
-        public static readonly ushort[] ArialNormal_A0_FF = {
+        public static readonly short[] ArialNormal_A0_FF = {
             0, // unused
             0, // unused
             0, // unused
@@ -651,12 +651,12 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         /// <summary>
         /// Default character width for Arial Bold.
         /// </summary>
-        public static readonly ushort ArialBoldDefaultWidth = 611;
+        public static readonly short ArialBoldDefaultWidth = 611;
 
         /// <summary>
         /// Character widths for Arial Bold (range 0x20 to 0x7f).
         /// </summary>
-        public static readonly ushort[] ArialBold_20_7F = {
+        public static readonly short[] ArialBold_20_7F = {
             278, // 0x20
             333, // 0x21 !
             474, // 0x22 "
@@ -758,7 +758,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         /// <summary>
         /// Character widths for Arial Bold (range 0xa0 to 0xff).
         /// </summary>
-        public static readonly ushort[] ArialBold_A0_FF = {
+        public static readonly short[] ArialBold_A0_FF = {
             0, // unused
             0, // unused
             0, // unused
@@ -860,12 +860,12 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         /// <summary>
         /// Default character width for Liberation Sans Normal.
         /// </summary>
-        public static readonly ushort LiberationSansNormalDefaultWidth = 556;
+        public static readonly short LiberationSansNormalDefaultWidth = 556;
 
         /// <summary>
         /// Character widths for Liberation Sans Normal (range 0x20 to 0x7f).
         /// </summary>
-        public static readonly ushort[] LiberationSansNormal_20_7F = {
+        public static readonly short[] LiberationSansNormal_20_7F = {
             278, // 0x20
             278, // 0x21 !
             355, // 0x22 "
@@ -967,7 +967,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         /// <summary>
         /// Character widths for Liberation Sans Normal (range 0xa0 to 0xff).
         /// </summary>
-        public static readonly ushort[] LiberationSansNormal_A0_FF = {
+        public static readonly short[] LiberationSansNormal_A0_FF = {
             0, // unused
             0, // unused
             0, // unused
@@ -1069,12 +1069,12 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         /// <summary>
         /// Default character width for Liberation Sans Bold.
         /// </summary>
-        public static readonly ushort LiberationSansBoldDefaultWidth = 611;
+        public static readonly short LiberationSansBoldDefaultWidth = 611;
 
         /// <summary>
         /// Character widths for Liberation Sans Bold (range 0x20 to 0x7f).
         /// </summary>
-        public static readonly ushort[] LiberationSansBold_20_7F = {
+        public static readonly short[] LiberationSansBold_20_7F = {
             278, // 0x20
             333, // 0x21 !
             474, // 0x22 "
@@ -1176,7 +1176,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         /// <summary>
         /// Character widths for Liberation Sans Bold (range 0xa0 to 0xff).
         /// </summary>
-        public static readonly ushort[] LiberationSansBold_A0_FF = {
+        public static readonly short[] LiberationSansBold_A0_FF = {
             0, // unused
             0, // unused
             0, // unused
@@ -1278,12 +1278,12 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         /// <summary>
         /// Default character width for Frutiger Normal.
         /// </summary>
-        public static readonly ushort FrutigerNormalDefaultWidth = 556;
+        public static readonly short FrutigerNormalDefaultWidth = 556;
 
         /// <summary>
         /// Character widths for Frutiger Normal (range 0x20 to 0x7f).
         /// </summary>
-        public static readonly ushort[] FrutigerNormal_20_7F = {
+        public static readonly short[] FrutigerNormal_20_7F = {
             278, // 0x20
             389, // 0x21 !
             556, // 0x22 "
@@ -1385,7 +1385,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         /// <summary>
         /// Character widths for Frutiger Normal (range 0xa0 to 0xff).
         /// </summary>
-        public static readonly ushort[] FrutigerNormal_A0_FF = {
+        public static readonly short[] FrutigerNormal_A0_FF = {
             0, // unused
             0, // unused
             0, // unused
@@ -1487,12 +1487,12 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         /// <summary>
         /// Default character width for Frutiger Bold.
         /// </summary>
-        public static readonly ushort FrutigerBoldDefaultWidth = 611;
+        public static readonly short FrutigerBoldDefaultWidth = 611;
 
         /// <summary>
         /// Character widths for Frutiger Bold (range 0x20 to 0x7f).
         /// </summary>
-        public static readonly ushort[] FrutigerBold_20_7F = {
+        public static readonly short[] FrutigerBold_20_7F = {
             278, // 0x20
             389, // 0x21 !
             481, // 0x22 "
@@ -1594,7 +1594,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         /// <summary>
         /// Character widths for Frutiger Bold (range 0xa0 to 0xff).
         /// </summary>
-        public static readonly ushort[] FrutigerBold_A0_FF = {
+        public static readonly short[] FrutigerBold_A0_FF = {
             0, // unused
             0, // unused
             0, // unused
