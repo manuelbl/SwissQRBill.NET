@@ -46,7 +46,7 @@ The Swiss QR bill library:
    Or by running a command in the Package Manager Console
 
 ```
-Install-Package Codecrete.SwissQRBill.Generator -Version 3.0.1
+Install-Package Codecrete.SwissQRBill.Generator -Version 3.0.2
 ```
 
 3. Add the code:
@@ -127,6 +127,8 @@ PNG generation requires a raster graphics library. Starting with .NET 6, the *Sy
 - If you do not need PNG generation, you can use the light-weight core library: **Codecrete.SwissQRBill.Core**.
 - If you need PNG generation, you can use the enhanced version: **Codecrete.SwissQRBill.Generator**. It uses [SkiaSharp](https://github.com/mono/SkiaSharp) as a platform independent raster graphics library. Note that on Linux, SkiaSharp depends on native libraries that might not be installed on your machine. The easiest solution is to add the NuGet package [SkiaSharp.NativeAssets.Linux.NoDependencies](https://www.nuget.org/packages/SkiaSharp.NativeAssets.Linux.NoDependencies) to your project.
 - If you are on Windows and prefer to use the *System.Drawing* classes, you can use the light-weight core library **Codecrete.SwissQRBill.Core** and then add the classes in the [*SystemDrawing* folder](Examples/WindowsForms/SystemDrawing) of the *WindowsForms* example. Call `PngCanvasFactory.Register()` at the start of your program to enable PNG generation. For more information, see [example's README](Examples/WindowsForms/README.md)
+
+**Note on strong-naming / assembly signature**: The latest version of *SkiaSharp* (version 2.80.3) has an invalid signature. Thus, the assembly cannot be loaded in an environment requiring a signature / strong-naming. To work around it, use the *NuGet Package Manager* and selectively downgrade SkiaSharp to version 2.80.2. This only works with *Codecrete.SwissQRBill.Generator* 3.0.2 and later.
 
 ## PDF generation
 

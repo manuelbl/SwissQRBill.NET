@@ -11,18 +11,18 @@
     <RepositoryUrl>https://github.com/manuelbl/SwissQRBill.NET</RepositoryUrl>
     <PackageProjectUrl>https://github.com/manuelbl/SwissQRBill.NET</PackageProjectUrl>
     <PackageTags>Swiss-QR-Bill, Payment, ISO-20022, QR-Code, QRCode, SIX</PackageTags>
-    <PackageReleaseNotes>New in releases 3.0.0 / 3.0.1:
-- Compatible with .NET 6 (no dependency on System.Drawing)
-- Improved validation messages
-- Fix for PNG generation</PackageReleaseNotes>
-    <Version>3.0.1</Version>
+    <PackageReleaseNotes>New in releases 3.0.2:
+- Additional language: Romansh
+- CLS compliance
+- Workaround for invalid strong name in SkiaSharp</PackageReleaseNotes>
+    <Version>3.0.2</Version>
     <Description>Generates the new QR bills for invoicing in Switzerland.
 
 The Swiss QR bill library:
 - generates PDF, SVG and PNG files,
 - parses the invoice data embedded in the QR code,
 - generates payment slips (105mm by 210mm), A4 sheets or QR codes,
-- is multilingual: German, French, Italian, English,
+- is multilingual: German, French, Italian, English, Romansh,
 - validates the invoice data and provides detailed validation information,
 - adds and retrieves structured bill information (according to Swico S1),
 - is easy to use and comes with many examples,
@@ -36,7 +36,7 @@ The Swiss QR bill library:
     <SignAssembly>True</SignAssembly>
     <AssemblyOriginatorKeyFile>Key.snk</AssemblyOriginatorKeyFile>
     <AssemblyVersion>2.4.0.0</AssemblyVersion>
-    <FileVersion>3.0.1.0</FileVersion>
+    <FileVersion>3.0.2.0</FileVersion>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
   </PropertyGroup>
 

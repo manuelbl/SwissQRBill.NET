@@ -36,7 +36,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Codecrete.SwissQRBill.Core, Version=2.4.0.0, Culture=neutral, PublicKeyToken=6aa6bd7a159d47c2, processorArchitecture=MSIL">
-      <HintPath>packages\Codecrete.SwissQRBill.Core.3.0.1\lib\netstandard2.0\Codecrete.SwissQRBill.Core.dll</HintPath>
+      <HintPath>packages\Codecrete.SwissQRBill.Core.3.0.2\lib\netstandard2.0\Codecrete.SwissQRBill.Core.dll</HintPath>
     </Reference>
     <Reference Include="PdfSharp, Version=1.50.5147.0, Culture=neutral, PublicKeyToken=f94615aa0424f9eb, processorArchitecture=MSIL">
       <HintPath>packages\PDFsharp.1.50.5147\lib\net20\PdfSharp.dll</HintPath>
