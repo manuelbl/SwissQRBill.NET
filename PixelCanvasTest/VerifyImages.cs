@@ -5,14 +5,6 @@
 // https://opensource.org/licenses/MIT
 //
 
-using Codecrete.SwissQRBill.Generator;
-using Docnet.Core;
-using Docnet.Core.Models;
-using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.PixelFormats;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Runtime.CompilerServices;
 using VerifyTests;
 using VerifyXunit;

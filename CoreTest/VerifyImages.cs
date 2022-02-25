@@ -24,7 +24,7 @@ namespace Codecrete.SwissQRBill.CoreTest
         static VerifyImages()
         {
             VerifierSettings.RegisterFileConverter("pdf", ConvertPdfToPng);
-            VerifyImageMagick.RegisterComparers(threshold: 0.6, ImageMagick.ErrorMetric.PerceptualHash);
+            VerifyImageMagick.RegisterComparers(threshold: 0.35, ImageMagick.ErrorMetric.PerceptualHash);
 
             SvgSettings = new VerifySettings();
             SvgSettings.UseExtension("svg");
