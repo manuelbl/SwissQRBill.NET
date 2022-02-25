@@ -54,7 +54,7 @@ The Swiss QR bill library:
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="SkiaSharp" Version="2.*" />
+    <PackageReference Include="SkiaSharp" Version="[2.80,2.999999]" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.*" PrivateAssets="all" />
   </ItemGroup>
 

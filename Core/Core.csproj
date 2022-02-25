@@ -53,7 +53,7 @@ The Swiss QR bill library:
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Net.Codecrete.QrCodeGenerator" Version="2.0.1" />
+    <PackageReference Include="Net.Codecrete.QrCodeGenerator" Version="[2.0, 2.999999]" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.*" PrivateAssets="all" />
   </ItemGroup>
 
