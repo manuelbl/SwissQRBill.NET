@@ -96,6 +96,7 @@ namespace Codecrete.SwissQRBill.PixelCanvas
             // initialize transformation
             _canvas.Translate(0, _bitmap.Height);
         }
+
         /// <summary>
         /// Finds the first font family from the specified list that is installed and not replaced with an alternative font.
         /// </summary>

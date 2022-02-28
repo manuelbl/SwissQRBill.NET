@@ -5,8 +5,6 @@
 // https://opensource.org/licenses/MIT
 //
 
-using System;
-
 namespace Codecrete.SwissQRBill.Generator
 {
     /// <summary>

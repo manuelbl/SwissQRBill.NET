@@ -1,0 +1,81 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <AssemblyName>Codecrete.SwissQRBill.Windows</AssemblyName>
+    <RootNamespace>Codecrete.SwissQRBill.Windows</RootNamespace>
+    <Authors>Manuel Bleichenbacher</Authors>
+    <Company>Codecrete</Company>
+    <Product>Swiss QR Bill</Product>
+    <Copyright>Open source published under MIT license</Copyright>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <RepositoryUrl>https://github.com/manuelbl/SwissQRBill.NET</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/manuelbl/SwissQRBill.NET</PackageProjectUrl>
+    <PackageTags>Swiss-QR-Bill, Payment, ISO-20022, QR-Code, QRCode, SIX</PackageTags>
+    <PackageReleaseNotes>New in releases 3.0.2:
+- Additional language: Romansh
+- CLS compliance
+- Workaround for invalid strong name in SkiaSharp</PackageReleaseNotes>
+    <Version>3.0.2</Version>
+    <Description>Generates the new QR bills for invoicing in Switzerland.
+
+The Swiss QR bill library:
+- generates PDF, SVG and PNG files,
+- parses the invoice data embedded in the QR code,
+- generates payment slips (105mm by 210mm), A4 sheets or QR codes,
+- is multilingual: German, French, Italian, English, Romansh,
+- validates the invoice data and provides detailed validation information,
+- adds and retrieves structured bill information (according to Swico S1),
+- is easy to use and comes with many examples,
+- is small and fast,
+- is free – even for commecial use (MIT License),
+- is built for .NET Standard 2.0 and runs on all modern .NET platforms,
+- uses SkiaSharp for multi-platform support (use Codecrete.SwissQRBill.Core for minimal dependencies).</Description>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageIcon>logo.png</PackageIcon>
+    <SignAssembly>True</SignAssembly>
+    <AssemblyOriginatorKeyFile>Key.snk</AssemblyOriginatorKeyFile>
+    <AssemblyVersion>2.4.0.0</AssemblyVersion>
+    <FileVersion>3.0.2.0</FileVersion>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Restoring">
+    <DisableImplicitNuGetFallbackFolder>true</DisableImplicitNuGetFallbackFolder>
+    <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+    <!-- https://devblogs.microsoft.com/nuget/enable-repeatable-package-restores-using-a-lock-file/#how-does-nuget-use-the-lock-file -->
+    <RestoreLockedMode Condition="$(ContinuousIntegrationBuild) == 'true'">true</RestoreLockedMode>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Packaging">
+    <DebugType>embedded</DebugType>
+    <EmbedAllSources>true</EmbedAllSources>
+    <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.*" PrivateAssets="all" />
+    <PackageReference Include="System.Drawing.Common" Version="4.5.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Core\Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="docs\logo.png" Pack="True" PackagePath="\" />
+    <None Include="docs\README.md" Pack="True" PackagePath="\" />
+  </ItemGroup>
+
+  <Target Name="ValidateNuGetPackage" AfterTargets="Pack">
+    <Exec Command="dotnet tool restore" />
+    <Exec Command="dotnet validate package local $([MSBuild]::EnsureTrailingSlash($(PackageOutputPath)))$(PackageId).$(PackageVersion).nupkg" />
+  </Target>
+
+  <ItemGroup>
+    <AssemblyAttribute Include="CLSCompliantAttribute">
+      <_Parameter1>true</_Parameter1>
+    </AssemblyAttribute>
+  </ItemGroup>
+
+</Project>

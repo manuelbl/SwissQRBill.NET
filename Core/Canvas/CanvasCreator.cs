@@ -65,23 +65,42 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
 
             checkedForPixelCanvas = true;
 
+            string factoryClass = null;
+            string assemblyName = null;
+
             // Load the assembly; most likely it has not been loaded yet as there is no direct reference to it
             try
             {
-                Assembly.Load("Codecrete.SwissQRBill.Generator, Version=2.4.0.0, Culture=neutral, PublicKeyToken=6aa6bd7a159d47c2");
+                Assembly.Load("Codecrete.SwissQRBill.Windows, Version=2.4.0.0, Culture=neutral, PublicKeyToken=6aa6bd7a159d47c2");
+                factoryClass = "Codecrete.SwissQRBill.Windows.PNGCanvasFactory";
+                assemblyName = "Codecrete.SwissQRBill.Windows";
             }
             catch
             {
-                // Ignore if we are unable to load the assembly.
-                // A more meaningful exception is thrown outside this code.
+                // Ignore as the next assembly is tried.
+            }
+
+            if (factoryClass == null)
+            {
+                try
+                {
+                    Assembly.Load("Codecrete.SwissQRBill.Generator, Version=2.4.0.0, Culture=neutral, PublicKeyToken=6aa6bd7a159d47c2");
+                    factoryClass = "Codecrete.SwissQRBill.PixelCanvas.PNGCanvasFactory";
+                    assemblyName = "Codecrete.SwissQRBill.Generator";
+                }
+                catch
+                {
+                    // Ignore if we are unable to load the assembly.
+                    // A more meaningful exception is thrown outside this code.
+                }
             }
 
             // Locate the PixelCanvas assembly and the PNGCanvasFactory class and register it
             foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())
             {
-                if (assembly.GetName().Name == "Codecrete.SwissQRBill.Generator")
+                if (assembly.GetName().Name == assemblyName)
                 {
-                    Type factoryType = assembly.GetType("Codecrete.SwissQRBill.PixelCanvas.PNGCanvasFactory");
+                    Type factoryType = assembly.GetType(factoryClass);
                     if (factoryType != null)
                     {
                         ICanvasFactory factory = (ICanvasFactory)Activator.CreateInstance(factoryType);

@@ -9,7 +9,7 @@ using System.Runtime.CompilerServices;
 using VerifyTests;
 using VerifyXunit;
 
-namespace Codecrete.SwissQRBill.PixelCanvasTest
+namespace Codecrete.SwissQRBill.WindowsTest
 {
     public class VerifyImages
     {
