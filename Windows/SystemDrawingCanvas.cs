@@ -48,7 +48,7 @@ namespace Codecrete.SwissQRBill.Windows
         /// <param name="xOffset">The x-offset to the bottom left corner of the drawing area, in the drawing surface coordinate system.</param>
         /// <param name="yOffset">The y-offset to the bottom left corner of the drawing area, in the drawing surface coordinate system.</param>
         /// <param name="scale">The conversion factor from mm to the drawing surface coordinate system.</param>
-        /// <param name="fontFamilyList">A list font family names, separated by comma (same syntax as for CSS). The first font family will be used.</param>
+        /// <param name="fontFamilyList">A list font family names, separated by comma (same syntax as for CSS). The first installed font family will be used.</param>
         public SystemDrawingCanvas(Graphics graphics, float xOffset, float yOffset, float scale, string fontFamilyList)
             : this(fontFamilyList)
         {
@@ -65,7 +65,7 @@ namespace Codecrete.SwissQRBill.Windows
         /// Before calling any drawing methods, the graphics surface must be initialized using <see cref="InitGraphics(Graphics, bool, float)"/>.
         /// </para>
         /// </summary>
-        /// <param name="fontFamilyList">A list font family names, separated by comma (same syntax as for CSS). The first font family will be used.</param>
+        /// <param name="fontFamilyList">A list font family names, separated by comma (same syntax as for CSS). The first installed font family will be used.</param>
         protected SystemDrawingCanvas(string fontFamilyList)
         {
             // setup font metrics
@@ -73,7 +73,7 @@ namespace Codecrete.SwissQRBill.Windows
         }
 
         /// <summary>
-        /// Finds the first font family from the specified list that is installed and not replaced with an alternative font.
+        /// Finds the first font family from the specified list that is installed.
         /// </summary>
         /// <param name="fontFamilyList">A list font family names, separated by comma (same syntax as for CSS). The first font family will be used.</param>
         private FontFamily SetupFont(string fontFamilyList)
@@ -84,8 +84,11 @@ namespace Codecrete.SwissQRBill.Windows
                 try
                 {
                     FontFamily family = new FontFamily(trimmedFamilyName);
-                    SetupFontMetrics(trimmedFamilyName);
-                    return family;
+                    if (family.IsStyleAvailable(FontStyle.Regular) && family.IsStyleAvailable(FontStyle.Bold))
+                    {
+                        SetupFontMetrics(trimmedFamilyName);
+                        return family;
+                    }
                 }
                 catch
                 {

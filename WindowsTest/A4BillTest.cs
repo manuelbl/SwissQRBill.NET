@@ -21,7 +21,7 @@ namespace Codecrete.SwissQRBill.WindowsTest
             return GenerateAndCompareBill(SampleData.CreateExample1(), OutputSize.A4PortraitSheet, GraphicsFormat.PNG);
         }
 
-        private Task GenerateAndCompareBill(Bill bill, OutputSize outputSize, GraphicsFormat graphicsFormat)
+        private static Task GenerateAndCompareBill(Bill bill, OutputSize outputSize, GraphicsFormat graphicsFormat)
         {
             bill.Format.OutputSize = outputSize;
             bill.Format.GraphicsFormat = graphicsFormat;

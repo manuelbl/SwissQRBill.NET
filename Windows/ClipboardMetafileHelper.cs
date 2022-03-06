@@ -82,7 +82,7 @@ namespace Codecrete.SwissQRBill.Windows
         /// <param name="hWnd">A Windows handle (used to access the clipboard)</param>
         /// <param name="metafile">The metafile.</param>
         /// <param name="bitmap">The bitmap, or <c>null</c>.</param>
-        /// <returns></returns>
+        /// <returns><c>true</c> if successful, <c>false</c> otherwise</returns>
         static public bool PutOnClipboard(IntPtr hWnd, Metafile metafile, Bitmap bitmap)
         {
             IntPtr hEmf = IntPtr.Zero;

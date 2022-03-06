@@ -14,6 +14,15 @@ namespace Codecrete.SwissQRBill.Windows
 {
     /// <summary>
     /// Canvas for generating Windows Metafiles (EMF).
+    /// <para>
+    /// For this class to generate correct EMF files, the application must be configured to be
+    /// *dpiAware*, either by adding an application manifest and uncommenting the relevant section
+    /// or by calling <c>SetProcessDPIAware()</c> at application start.
+    /// </para>
+    /// <code>
+    /// [System.Runtime.InteropServices.DllImport("user32.dll")]
+    /// private static extern bool SetProcessDPIAware();
+    /// </code>
     /// </summary>
     public class MetafileCanvas : SystemDrawingCanvas
     {
@@ -25,15 +34,13 @@ namespace Codecrete.SwissQRBill.Windows
         /// </summary>
         /// <param name="width">Width of resulting bitmap, in mm</param>
         /// <param name="height">Height of resulting bitmap, in mm</param>
-        /// <param name="fontFamilyList">A list font family names, separated by comma (same syntax as for CSS). The first font family will be used.</param>
+        /// <param name="fontFamilyList">A list font family names, separated by comma (same syntax as for CSS). The first installed font family will be used.</param>
         public MetafileCanvas(double width, double height, string fontFamilyList)
             : base(fontFamilyList)
         {
             _stream = new MemoryStream();
             using (Graphics offScreenGraphics = Graphics.FromHwndInternal(IntPtr.Zero))
             {
-                // The applied dpi seems to depend on the scaling of the screen.
-                // So it needs to be taken into consideration.
                 float scale = offScreenGraphics.DpiX / 25.4f;
                 _metafile = new Metafile(
                     _stream,
@@ -45,6 +52,7 @@ namespace Codecrete.SwissQRBill.Windows
                 offScreenGraphics.ReleaseHdc();
 
                 var graphics = Graphics.FromImage(_metafile);
+                graphics.PageUnit = GraphicsUnit.Pixel;
                 SetOffset(0, (float)height * scale);
                 InitGraphics(graphics, true, scale);
             }
@@ -69,7 +77,6 @@ namespace Codecrete.SwissQRBill.Windows
             _metafile.Dispose();
             _metafile = null;
             Stream stream = _stream;
-            _stream.Dispose();
             _stream = null;
             return stream;
         }
@@ -97,7 +104,7 @@ namespace Codecrete.SwissQRBill.Windows
         /// <inheritdoc />
         protected override void Dispose(bool disposing)
         {
-            base.Close();
+            Close();
 
             if (_metafile != null)
             {

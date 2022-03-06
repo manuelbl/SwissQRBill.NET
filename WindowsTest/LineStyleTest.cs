@@ -30,7 +30,7 @@ namespace Codecrete.SwissQRBill.WindowsTest
             return GenerateAndComparePngBill(bill, SeparatorType.DottedLineWithScissors);
         }
 
-        private Task GenerateAndComparePngBill(Bill bill, SeparatorType separatorType)
+        private static Task GenerateAndComparePngBill(Bill bill, SeparatorType separatorType)
         {
             bill.Format.SeparatorType = separatorType;
             using PNGCanvas canvas =
