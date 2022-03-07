@@ -26,12 +26,18 @@ jobs:
         with:
           path: ~/.nuget/packages
           key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
-      - name: Restore NuGet packages
-        run: dotnet restore --verbosity normal
-      - name: Build solution
-        run: dotnet build --verbosity normal
-      - name: Run tests
-        run: dotnet test --no-build --verbosity normal --logger:"html;LogFileName=../../TestResults-${{ runner.os }}.html"
+      - name: Restore NuGet packages for Core
+        run: dotnet restore CoreTest/CoreTest.csproj --verbosity normal
+      - name: Build solution for Core
+        run: dotnet build CoreTest/CoreTest.csproj --verbosity normal
+      - name: Run tests for Core
+        run: dotnet test CoreTest/CoreTest.csproj --no-build --verbosity normal --logger:"html;LogFileName=../../TestResults-${{ runner.os }}.html"
+      - name: Restore NuGet packages for PixelCanvas
+        run: dotnet restore PixelCanvas/PixelCanvas.csproj --verbosity normal
+      - name: Build solution for PixelCanvas
+        run: dotnet build PixelCanvas/PixelCanvas.csproj --verbosity normal
+      - name: Run tests for PixelCanvas
+        run: dotnet test PixelCanvas/PixelCanvas.csproj --no-build --verbosity normal --logger:"html;LogFileName=../../TestResults-${{ runner.os }}.html"
       - name: Upload received files from failing tests
         uses: actions/upload-artifact@v2
         if: failure()
