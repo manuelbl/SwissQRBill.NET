@@ -26,7 +26,7 @@ namespace Codecrete.SwissQRBill.WindowsTest
         }
 
         [Fact]
-        public Task EmfBillQrBill_ComparePng()
+        public Task QrBillExtraSpace_ComparePng()
         {
             Bill bill = SampleData.CreateExample5();
             bill.Format.OutputSize = OutputSize.QrBillExtraSpace;
@@ -42,7 +42,7 @@ namespace Codecrete.SwissQRBill.WindowsTest
         }
 
         [Fact]
-        public Task EmfBillA4_ComparePng()
+        public Task QrBillA4_ComparePng()
         {
             Bill bill = SampleData.CreateExample3();
             bill.Format.OutputSize = OutputSize.A4PortraitSheet;
@@ -58,7 +58,7 @@ namespace Codecrete.SwissQRBill.WindowsTest
         }
 
         [Fact]
-        public void EmfToStream_RunsSuccessfully()
+        public void ToStream_RunsSuccessfully()
         {
             Bill bill = SampleData.CreateExample5();
             bill.Format.OutputSize = OutputSize.A4PortraitSheet;
@@ -69,7 +69,7 @@ namespace Codecrete.SwissQRBill.WindowsTest
         }
 
         [Fact]
-        public void EmfToByteArray_CorrectFrame()
+        public void ToByteArray_CorrectFrame()
         {
             Bill bill = SampleData.CreateExample4();
             bill.Format.OutputSize = OutputSize.A4PortraitSheet;
@@ -91,7 +91,7 @@ namespace Codecrete.SwissQRBill.WindowsTest
         }
 
         [Fact]
-        public void EmfToMetafile_CorrectSize()
+        public void ToMetafile_CorrectFrame()
         {
             Bill bill = SampleData.CreateExample6();
             bill.Format.OutputSize = OutputSize.A4PortraitSheet;
