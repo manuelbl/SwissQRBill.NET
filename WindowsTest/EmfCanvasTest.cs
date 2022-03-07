@@ -26,7 +26,7 @@ namespace Codecrete.SwissQRBill.WindowsTest
         }
 
         [Fact]
-        public Task EmfBillQrBill()
+        public Task EmfBillQrBill_ComparePng()
         {
             Bill bill = SampleData.CreateExample5();
             bill.Format.OutputSize = OutputSize.QrBillExtraSpace;
@@ -42,7 +42,7 @@ namespace Codecrete.SwissQRBill.WindowsTest
         }
 
         [Fact]
-        public Task EmfBillA4()
+        public Task EmfBillA4_ComparePng()
         {
             Bill bill = SampleData.CreateExample3();
             bill.Format.OutputSize = OutputSize.A4PortraitSheet;
@@ -58,7 +58,7 @@ namespace Codecrete.SwissQRBill.WindowsTest
         }
 
         [Fact]
-        public void EmfWriteTo()
+        public void EmfToStream_RunsSuccessfully()
         {
             Bill bill = SampleData.CreateExample5();
             bill.Format.OutputSize = OutputSize.A4PortraitSheet;
@@ -69,7 +69,7 @@ namespace Codecrete.SwissQRBill.WindowsTest
         }
 
         [Fact]
-        public void SizeVerification()
+        public void EmfToByteArray_CorrectFrame()
         {
             Bill bill = SampleData.CreateExample4();
             bill.Format.OutputSize = OutputSize.A4PortraitSheet;
@@ -85,13 +85,13 @@ namespace Codecrete.SwissQRBill.WindowsTest
             Assert.Equal(0, frame.Left);
             Assert.Equal(0, frame.Top);
             int expectedWidth = (int)(QRBill.A4PortraitWidth * scale);
-            Assert.InRange(frame.Right, expectedWidth - 1, expectedWidth + 1);
+            Assert.InRange(frame.Right, expectedWidth - 2, expectedWidth + 2);
             int expectedHeight = (int)(QRBill.A4PortraitHeight * scale);
-            Assert.InRange(frame.Bottom, expectedHeight - 1, expectedHeight + 1);
+            Assert.InRange(frame.Bottom, expectedHeight - 2, expectedHeight + 2);
         }
 
         [Fact]
-        public void EmfMetaFile()
+        public void EmfToMetafile_CorrectSize()
         {
             Bill bill = SampleData.CreateExample6();
             bill.Format.OutputSize = OutputSize.A4PortraitSheet;
