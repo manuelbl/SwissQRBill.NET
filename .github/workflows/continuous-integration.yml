@@ -33,11 +33,20 @@ jobs:
       - name: Run tests for Core
         run: dotnet test CoreTest/CoreTest.csproj --no-build --verbosity normal --logger:"html;LogFileName=../../TestResults-${{ runner.os }}.html"
       - name: Restore NuGet packages for PixelCanvas
-        run: dotnet restore PixelCanvas/PixelCanvas.csproj --verbosity normal
+        run: dotnet restore PixelCanvasTest/PixelCanvasTest.csproj --verbosity normal
       - name: Build solution for PixelCanvas
-        run: dotnet build PixelCanvas/PixelCanvas.csproj --verbosity normal
+        run: dotnet build PixelCanvasTest/PixelCanvasTest.csproj --verbosity normal
       - name: Run tests for PixelCanvas
-        run: dotnet test PixelCanvas/PixelCanvas.csproj --no-build --verbosity normal --logger:"html;LogFileName=../../TestResults-${{ runner.os }}.html"
+        run: dotnet test PixelCanvasTest/PixelCanvasTest.csproj --no-build --verbosity normal --logger:"html;LogFileName=../../TestResults-${{ runner.os }}.html"
+      - name: Restore NuGet packages for Windows
+        run: dotnet restore WindowsTest/WindowsTest.csproj --verbosity normal
+        if: startsWith(matrix.os,'windows')
+      - name: Build solution for Windows
+        run: dotnet build WindowsTest/WindowsTest.csproj --verbosity normal
+        if: startsWith(matrix.os,'windows')
+      - name: Run tests for Windows
+        run: dotnet test WindowsTest/WindowsTest.csproj --no-build --verbosity normal --logger:"html;LogFileName=../../TestResults-${{ runner.os }}.html"
+        if: startsWith(matrix.os,'windows')
       - name: Upload received files from failing tests
         uses: actions/upload-artifact@v2
         if: failure()
@@ -54,3 +63,6 @@ jobs:
         run: dotnet pack --no-build --verbosity normal Core/Core.csproj
       - name: Create and validate NuGet package for PixelCanvas
         run: dotnet pack --no-build --verbosity normal PixelCanvas/PixelCanvas.csproj
+      - name: Create and validate NuGet package for Windows
+        run: dotnet pack --no-build --verbosity normal WindowsTest/WindowsTest.csproj
+        if: startsWith(matrix.os,'windows')
