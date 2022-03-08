@@ -62,9 +62,56 @@ namespace Codecrete.SwissQRBill.Generator
             graphics.FillPath(0, false);
             const double barWidth = 7 / 6.0;
             const double barLength = 35 / 9.0;
+            
             graphics.StartPath();
-            graphics.AddRectangle(23 - barWidth / 2, 23 - barLength / 2, barWidth, barLength);
-            graphics.AddRectangle(23 - barLength / 2, 23 - barWidth / 2, barLength, barWidth);
+            //       A----B
+            //       |    |
+            //       |    |
+            // K-----L    C-----D
+            // |                |
+            // |                |
+            // J-----I    F-----E
+            //       |    |
+            //       |    |
+            //       H----G
+            
+            // Center is (23;23)
+            // Start in A
+            graphics.MoveTo(23 - barWidth / 2, 23 - barLength / 2);
+
+            // Line to B
+            graphics.LineTo(23 + barWidth / 2, 23 - barLength / 2);
+
+            // Line to C
+            graphics.LineTo(23 + barWidth / 2, 23 - barWidth / 2);
+            
+            // Line to D
+            graphics.LineTo(23 + barLength / 2, 23 - barWidth / 2);
+
+            // Line to E
+            graphics.LineTo(23 + barLength / 2, 23 + barWidth / 2);
+            
+            // Line to F
+            graphics.LineTo(23 + barWidth / 2, 23 + barWidth / 2);
+            
+            // Line to G
+            graphics.LineTo(23 + barWidth / 2, 23 + barLength / 2);
+            
+            // Line to H
+            graphics.LineTo(23 - barWidth / 2, 23 + barLength / 2);
+            
+            // Line to I
+            graphics.LineTo(23 - barWidth / 2, 23 + barWidth / 2);
+            
+            // Line to J
+            graphics.LineTo(23 - barLength / 2, 23 + barWidth / 2);
+            
+            // Line to K
+            graphics.LineTo(23 - barLength / 2, 23 - barWidth / 2);
+            
+            // Line to K
+            graphics.LineTo(23 - barWidth / 2, 23 - barWidth / 2);
+            
             graphics.FillPath(0xffffff, false);
         }
 
