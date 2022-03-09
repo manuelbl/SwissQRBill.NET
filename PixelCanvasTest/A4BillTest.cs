@@ -25,6 +25,7 @@ namespace Codecrete.SwissQRBill.PixelCanvasTest
         {
             bill.Format.OutputSize = outputSize;
             bill.Format.GraphicsFormat = graphicsFormat;
+            bill.Format.FontFamily = "Arial,\"Liberation Sans\"";
             byte[] imageData = QRBill.Generate(bill);
             return VerifyImages.VerifyPng(imageData);
         }
