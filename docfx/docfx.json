@@ -4,14 +4,14 @@
       "src": [
         {
           "files": [
-            "**.csproj"
+            "Core/Core.csproj",
+            "PixelCanvas/PixelCanvas.csproj",
+            "Windows/Windows.csproj"
           ],
           "src": ".."
         }
       ],
-      "dest": "../obj/docfx/api",
-      "disableGitFeatures": false,
-      "disableDefaultFilter": false
+      "dest": "obj/api"
     }
   ],
   "build": {
@@ -20,7 +20,7 @@
         "files": [
           "api/**.yml"
         ],
-        "src": "../obj/docfx"
+        "src": "obj"
       },
       {
         "files": [
@@ -42,7 +42,7 @@
         ]
       }
     ],
-    "dest": "../bin/_site",
+    "dest": "bin/_site",
     "globalMetadataFiles": [],
     "fileMetadataFiles": [],
     "template": [
