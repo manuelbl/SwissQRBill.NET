@@ -14,7 +14,7 @@ using Word = Microsoft.Office.Interop.Word;
 using Office = Microsoft.Office.Core;
 using Microsoft.Office.Tools.Word;
 using Codecrete.SwissQRBill.Generator;
-using Codecrete.SwissQRBill.SystemDrawing;
+using Codecrete.SwissQRBill.Windows;
 using System.IO;
 using Microsoft.Office.Interop.Word;
 

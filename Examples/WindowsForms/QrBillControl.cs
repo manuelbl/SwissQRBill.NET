@@ -6,7 +6,7 @@
 //
 
 using Codecrete.SwissQRBill.Generator;
-using Codecrete.SwissQRBill.SystemDrawing;
+using Codecrete.SwissQRBill.Windows;
 using System;
 using System.ComponentModel;
 using System.Drawing;

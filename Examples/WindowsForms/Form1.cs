@@ -6,12 +6,11 @@
 //
 
 using Codecrete.SwissQRBill.Generator;
-using Codecrete.SwissQRBill.SystemDrawing;
+using Codecrete.SwissQRBill.Windows;
 using System;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Drawing.Printing;
-using System.IO;
 using System.Windows.Forms;
 
 namespace Codecrete.SwissQRBill.Examples.WindowsForms

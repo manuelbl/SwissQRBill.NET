@@ -126,12 +126,18 @@
     <Reference Include="Codecrete.SwissQRBill.Core, Version=2.4.0.0, Culture=neutral, PublicKeyToken=6aa6bd7a159d47c2, processorArchitecture=MSIL">
       <HintPath>packages\Codecrete.SwissQRBill.Core.3.0.2\lib\netstandard2.0\Codecrete.SwissQRBill.Core.dll</HintPath>
     </Reference>
+    <Reference Include="Codecrete.SwissQRBill.Windows, Version=2.4.0.0, Culture=neutral, PublicKeyToken=6aa6bd7a159d47c2, processorArchitecture=MSIL">
+      <HintPath>packages\Codecrete.SwissQRBill.Windows.3.0.2\lib\netstandard2.0\Codecrete.SwissQRBill.Windows.dll</HintPath>
+    </Reference>
     <Reference Include="QrCodeGenerator, Version=1.6.0.0, Culture=neutral, PublicKeyToken=6aa6bd7a159d47c2, processorArchitecture=MSIL">
       <HintPath>packages\Net.Codecrete.QrCodeGenerator.2.0.1\lib\netstandard2.0\QrCodeGenerator.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Drawing.Common, Version=4.0.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.Drawing.Common.4.5.1\lib\net461\System.Drawing.Common.dll</HintPath>
+    </Reference>
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
@@ -216,8 +222,6 @@
     <Compile Include="QrBillRibbon.Designer.cs">
       <DependentUpon>QrBillRibbon.cs</DependentUpon>
     </Compile>
-    <Compile Include="SystemDrawing\MetafileCanvas.cs" />
-    <Compile Include="SystemDrawing\SystemDrawingCanvas.cs" />
     <Compile Include="ThisAddIn.cs">
       <SubType>Code</SubType>
     </Compile>
