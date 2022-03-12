@@ -68,20 +68,6 @@ namespace Codecrete.SwissQRBill.Windows
         }
 
         /// <summary>
-        /// Returns the enhanded metafile content as a stream.
-        /// </summary>
-        /// <returns>The stream.</returns>
-        public Stream ToStream()
-        {
-            Close();
-            _metafile.Dispose();
-            _metafile = null;
-            Stream stream = _stream;
-            _stream = null;
-            return stream;
-        }
-
-        /// <summary>
         /// Returns the result as a metafile instance.
         /// <para>
         /// The caller must take ownership of the metafile and dispose it.
@@ -99,6 +85,44 @@ namespace Codecrete.SwissQRBill.Windows
             Close();
 
             return metafile;
+        }
+
+        /// <summary>
+        /// Writes the enhanced metafile (EMF) to the specified stream.
+        /// <para>
+        /// The canvas can no longer be used for drawing after calling this method.</para>
+        /// </summary>
+        /// <param name="stream">The stream to write to.</param>
+        public void WriteTo(Stream stream)
+        {
+            Close();
+
+            _metafile.Dispose();
+            _metafile = null;
+            _stream.CopyTo(stream);
+            _stream.Dispose();
+            _stream = null;
+        }
+
+        /// <summary>
+        /// Writes the enhanded metafile (EMF) to the specified file path.
+        /// <para>
+        /// The canvas can no longer be used for drawing after calling this method.</para>
+        /// </summary>
+        /// <param name="path">The path (file name) to write to.</param>
+        public void SaveAs(string path)
+        {
+            Close();
+
+            _metafile.Dispose();
+            _metafile = null;
+
+            using (FileStream stream = File.OpenWrite(path))
+            {
+                _stream.CopyTo(stream);
+            }
+            _stream.Dispose();
+            _stream = null;
         }
 
         /// <inheritdoc />

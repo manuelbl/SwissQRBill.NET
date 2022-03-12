@@ -65,7 +65,7 @@ namespace Codecrete.SwissQRBill.WindowsTest
             using MetafileCanvas canvas = new MetafileCanvas(QRBill.A4PortraitWidth, QRBill.A4PortraitHeight, "Helvetica, Arial, \"Liberation Sans\"");
             QRBill.Draw(bill, canvas);
             MemoryStream ms = new MemoryStream();
-            canvas.ToStream().CopyTo(ms);
+            canvas.WriteTo(ms);
         }
 
         [Fact]
