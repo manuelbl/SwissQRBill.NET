@@ -11,11 +11,9 @@
     <RepositoryUrl>https://github.com/manuelbl/SwissQRBill.NET</RepositoryUrl>
     <PackageProjectUrl>https://github.com/manuelbl/SwissQRBill.NET</PackageProjectUrl>
     <PackageTags>Swiss-QR-Bill, Payment, ISO-20022, QR-Code, QRCode, SIX</PackageTags>
-    <PackageReleaseNotes>New in releases 3.0.2:
-- Additional language: Romansh
-- CLS compliance
-- Workaround for invalid strong name in SkiaSharp</PackageReleaseNotes>
-    <Version>3.0.2</Version>
+    <PackageReleaseNotes>New in releases 3.0.3:
+- Initial release with Windows-specific classes for PNG, EMF and clipboard handling</PackageReleaseNotes>
+    <Version>3.0.3</Version>
     <Description>Generates the new QR bills for invoicing in Switzerland.
 
 The Swiss QR bill library:
@@ -37,7 +35,7 @@ See [home page](https://github.com/manuelbl/SwissQRBill.NET) for examples and pl
     <SignAssembly>True</SignAssembly>
     <AssemblyOriginatorKeyFile>Key.snk</AssemblyOriginatorKeyFile>
     <AssemblyVersion>2.4.0.0</AssemblyVersion>
-    <FileVersion>3.0.2.0</FileVersion>
+    <FileVersion>3.0.3.0</FileVersion>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
   </PropertyGroup>
 

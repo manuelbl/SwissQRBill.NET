@@ -84,9 +84,9 @@ namespace Codecrete.SwissQRBill.WordAddIn
                 Left: 0, Top: (297 - 110) / 25.4f * 72,
                 Width: 210 / 25.4f * 72, Height: 110 / 25.4f * 72);
             shape.RelativeHorizontalPosition = WdRelativeHorizontalPosition.wdRelativeHorizontalPositionPage;
-            shape.LeftRelative = 0;
+            shape.Left = -999998;
             shape.RelativeVerticalPosition = WdRelativeVerticalPosition.wdRelativeVerticalPositionPage;
-            shape.Top = (297 - 110) / 25.4f * 72;
+            shape.Top = -999997;
             shape.Select(true);
 
             // delete temporary file
