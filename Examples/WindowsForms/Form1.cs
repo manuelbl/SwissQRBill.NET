@@ -87,8 +87,9 @@ namespace Codecrete.SwissQRBill.Examples.WindowsForms
 
             // print QR bill at bottom of page
             Rectangle bounds = e.PageBounds;
-            float scale = bounds.Width / 210f; // scale to full width
-            using SystemDrawingCanvas canvas = new SystemDrawingCanvas(e.Graphics, 0, 297 * scale, scale, "Arial");
+            float mmToPixel = bounds.Width / 210f; // assuming we are printing to an A4 sheet
+            
+            using SystemDrawingCanvas canvas = new SystemDrawingCanvas(e.Graphics, 0, 297 * mmToPixel, mmToPixel, "Arial");
             QRBill.Draw(bill, canvas);
         }
 
