@@ -86,10 +86,8 @@ namespace Codecrete.SwissQRBill.Examples.WindowsForms
             bill.Format.OutputSize = OutputSize.A4PortraitSheet;
 
             // print QR bill at bottom of page
-            Rectangle bounds = e.PageBounds;
-            float mmToPixel = bounds.Width / 210f; // assuming we are printing to an A4 sheet
-            
-            using SystemDrawingCanvas canvas = new SystemDrawingCanvas(e.Graphics, 0, 297 * mmToPixel, mmToPixel, "Arial");
+            e.Graphics.PageUnit = GraphicsUnit.Millimeter;            
+            using SystemDrawingCanvas canvas = new SystemDrawingCanvas(e.Graphics, 0, 297, 1, "Arial");
             QRBill.Draw(bill, canvas);
         }
 
