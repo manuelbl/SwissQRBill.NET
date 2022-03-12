@@ -19,7 +19,7 @@ New in version 3.0.2:
     <Description>Generates the new QR bills for invoicing in Switzerland.
 
 The Swiss QR bill library:
-- generates PDF and SVG files (use Codecrete.SwissQRBill.Generator for PNG files),
+- is a minimal, platform-independent library supporting PDF and SVG (see homge page for PNG and EMF),
 - parses the invoice data embedded in the QR code,
 - generates payment slips (105mm by 210mm), A4 sheets or QR codes,
 - is multilingual: German, French, Italian, English, Romansh,
@@ -28,8 +28,9 @@ The Swiss QR bill library:
 - is easy to use and comes with many examples,
 - is small and fast,
 - is free – even for commecial use (MIT License),
-- is built for .NET Standard 2.0 and runs on all modern .NET platforms,
-- has a single dependency: Net.Codecrete.QrCodeGenerator.</Description>
+- is built for .NET Standard 2.0 and runs on all modern .NET platforms.
+
+See [home page](https://github.com/manuelbl/SwissQRBill.NET) for examples and other library versions.</Description>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageIcon>logo.png</PackageIcon>

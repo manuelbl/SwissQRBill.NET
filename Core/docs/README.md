@@ -8,7 +8,7 @@ The Swiss QR bill is the new QR code based payment format that started on 30 Jun
 
 The new payment slip will be sent electronically in most cases. But it can still be printed at the bottom of an invoice or added to the invoice on a separate sheet. The payer scans the QR code with his/her mobile banking app to initiate the payment. The payment just needs to be confirmed.
 
-If the invoicing party adds structured bill information (VAT rates, payment conditions etc.) to the QR bill, the payer can automate booking in accounts payable. The invoicing party can also automate the accounts receivable processing as the payment includes all relevant data including a reference number. The Swiss QR bill is convenient for the payer and payee.
+If the invoicing party adds structured bill information (VAT rates, payment conditions etc.) to the QR bill, posting in accounts payable can be automated. The invoicing party can also automate the accounts receivable processing as the payment includes all relevant data including a reference number. The Swiss QR bill is convenient for the payer and payee.
 
 ![QR Bill](https://raw.githubusercontent.com/wiki/manuelbl/SwissQRBill/images/qr-invoice-e1.svg?sanitize=true)
 
@@ -18,18 +18,18 @@ If the invoicing party adds structured bill information (VAT rates, payment cond
 
 The Swiss QR bill library:
 
-- generates QR bills as PDF and SVG files (see [Codecrete.SwissQRBill.Generator](https://www.nuget.org/packages/Codecrete.SwissQRBill.Generator/) for PNG)
+- generates QR bills as PDF and SVG files (see home page for PNG and EMF)
 - generates payment slips (105mm by 210mm), A4 sheets or QR codes
-- multilingual: German, French, Italian, English
+- multilingual: German, French, Italian, English, Romansh
 - validates the invoice data and provides detailed validation information
 - adds or retrieves structured bill information (according to Swico S1)
 - parses the invoice data embedded in the QR code
 - is easy to use (see example below)
 - is small and fast
-- is free – even for commecial use (MIT License)
+- is free – even for commercial use (MIT License)
 - is built for .NET Standard 2.0, i.e. it runs with .NET Core 2.0 or higher, .NET Framework 4.6.1 or higher, Mono 5.4 or higher, Universal Windows Platform 10.0.16299 or higher, Xamarin etc.
 - this **core library** is light-weight and has a single dependency: Net.Codecrete.QrCodeGenerator
-- [enhanced version](https://www.nuget.org/packages/Codecrete.SwissQRBill.Generator/) uses SkiaSharp for PNG file generation
+- see [home page](https://github.com/manuelbl/SwissQRBill.NET) for more examples and other library versions including PNG and EMF generation
 
 
 ## Getting started
