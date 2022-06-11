@@ -19,76 +19,21 @@ namespace Codecrete.SwissQRBill.CoreTest
             _fontMetrics = new FontMetrics("Helvetica");
         }
 
-        [Fact]
-        public void ShortOneLiner()
+        [Theory]
+        [InlineData("abc")]
+        [InlineData("abcdefghij")]
+        [InlineData("abcdef ghij")]
+        [InlineData(" abcdefghij")]
+        [InlineData("abcdefghij ")]
+        [InlineData("")]
+        [InlineData(" ")]
+        [InlineData("                           ")]
+        [InlineData("éà£$\uD83D\uDE03")]
+        public void Input_IsSingleLine(string input)
         {
-            string[] lines = _fontMetrics.SplitLines("abc", 50, 10);
+            string[] lines = _fontMetrics.SplitLines(input, 50, 10);
             Assert.Single(lines);
-            Assert.Equal("abc", lines[0]);
-        }
-
-        [Fact]
-        public void OneLiner()
-        {
-            string[] lines = _fontMetrics.SplitLines("abcdefghij", 50, 10);
-            Assert.Single(lines);
-            Assert.Equal("abcdefghij", lines[0]);
-        }
-
-        [Fact]
-        public void OneLinerWithTwoWords()
-        {
-            string[] lines = _fontMetrics.SplitLines("abcdef ghij", 50, 10);
-            Assert.Single(lines);
-            Assert.Equal("abcdef ghij", lines[0]);
-        }
-
-        [Fact]
-        public void LeadingSpaceOneLiner()
-        {
-            string[] lines = _fontMetrics.SplitLines(" abcdefghij", 50, 10);
-            Assert.Single(lines);
-            Assert.Equal("abcdefghij", lines[0]);
-        }
-
-        [Fact]
-        public void TrailingSpaceOneLiner()
-        {
-            string[] lines = _fontMetrics.SplitLines("abcdefghij ", 50, 10);
-            Assert.Single(lines);
-            Assert.Equal("abcdefghij", lines[0]);
-        }
-
-        [Fact]
-        public void EmptyLine()
-        {
-            string[] lines = _fontMetrics.SplitLines("", 50, 10);
-            Assert.Single(lines);
-            Assert.Equal("", lines[0]);
-        }
-
-        [Fact]
-        public void SingleSpace()
-        {
-            string[] lines = _fontMetrics.SplitLines(" ", 50, 10);
-            Assert.Single(lines);
-            Assert.Equal("", lines[0]);
-        }
-
-        [Fact]
-        public void ManySpaces()
-        {
-            string[] lines = _fontMetrics.SplitLines("                           ", 50, 10);
-            Assert.Single(lines);
-            Assert.Equal("", lines[0]);
-        }
-
-        [Fact]
-        public void OutsideAsciiRange()
-        {
-            string[] lines = _fontMetrics.SplitLines("éà£$\uD83D\uDE03", 50, 10);
-            Assert.Single(lines);
-            Assert.Equal("éà£$\uD83D\uDE03", lines[0]);
+            Assert.Equal(input.Trim(), lines[0]);
         }
 
         [Fact]

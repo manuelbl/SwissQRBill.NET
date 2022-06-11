@@ -145,34 +145,14 @@ namespace Codecrete.SwissQRBill.CoreTest
             Assert.Equal("XXXX", bill2.ReferenceType);
         }
 
-        [Fact]
-        public void DecodeInvalidFormat1()
+        [Theory]
+        [InlineData("garbage")]
+        [InlineData("SPC\r\n0100\r\n\r\n\r\n")]
+        [InlineData("SPC1\r\n0200\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n")]
+        [InlineData("SPC1\r\n0200\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n")]
+        public void InvalidText_KeyDataStructureInvalidError(string qrText)
         {
-            QRBillValidationException err = Assert.Throws<QRBillValidationException>(() => QRBill.DecodeQrCodeText("garbage"));
-            TestHelper.AssertSingleError(err.Result, ValidationConstants.KeyDataStructureInvalid, ValidationConstants.FieldQrType);
-        }
-
-        [Fact]
-        public void DecodeInvalidFormat2A()
-        {
-            QRBillValidationException err = Assert.Throws<QRBillValidationException>(
-                    () => QRBill.DecodeQrCodeText("SPC\r\n0100\r\n\r\n\r\n"));
-            TestHelper.AssertSingleError(err.Result, ValidationConstants.KeyDataStructureInvalid, ValidationConstants.FieldQrType);
-        }
-
-        [Fact]
-        public void DecodeInvalidFormat2B()
-        {
-            QRBillValidationException err = Assert.Throws<QRBillValidationException>(() => QRBill.DecodeQrCodeText(
-                       "SPC1\r\n0200\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n"));
-            TestHelper.AssertSingleError(err.Result, ValidationConstants.KeyDataStructureInvalid, ValidationConstants.FieldQrType);
-        }
-
-        [Fact]
-        public void DecodeInvalidFormat3()
-        {
-            QRBillValidationException err = Assert.Throws<QRBillValidationException>(() => QRBill.DecodeQrCodeText(
-                       "SPC1\r\n0200\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n"));
+            QRBillValidationException err = Assert.Throws<QRBillValidationException>(() => QRBill.DecodeQrCodeText(qrText));
             TestHelper.AssertSingleError(err.Result, ValidationConstants.KeyDataStructureInvalid, ValidationConstants.FieldQrType);
         }
 

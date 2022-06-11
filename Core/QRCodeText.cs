@@ -121,7 +121,7 @@ namespace Codecrete.SwissQRBill.Generator
             return string.Format(AmountNumberInfo, "{0:0.00}", amount);
         }
 
-        private static readonly Regex ValidVersion = new Regex(@"^02[0-9][0-9]$", RegexOptions.Compiled);
+        private static readonly Regex ValidVersion = new Regex(@"^02\d\d$", RegexOptions.Compiled);
 
         /// <summary>
         /// Decodes the specified text and returns the bill data.
