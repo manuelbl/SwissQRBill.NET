@@ -168,5 +168,12 @@ namespace Codecrete.SwissQRBill.CoreTest
             Assert.Equal("d", lines[3]);
             Assert.Equal("e", lines[4]);
         }
+
+        [Fact]
+        public void NewLines_HaveWidth0()
+        {
+            Assert.Equal(0, _fontMetrics.TextWidth("\n", 10, false));
+            Assert.Equal(0, _fontMetrics.TextWidth("\r", 10, false));
+        }
     }
 }

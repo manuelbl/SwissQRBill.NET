@@ -20,6 +20,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         private readonly short[] _charWidthx20x7F;
         private readonly short[] _charWidthxA0xFF;
         private readonly short _charDefaultWidth;
+        private readonly short _charNDashWidth;
         private readonly FontMetrics _boldMetrics;
 
         /// <summary>
@@ -38,54 +39,64 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             short[] boldCharWidthx20x7F;
             short[] boldCharWidthxA0xFF;
             short boldCharDefaultWidth;
+            short boldCharNDashWidth;
 
             if (family.Contains("arial"))
             {
                 _charWidthx20x7F = CharWidthData.ArialNormal_20_7F;
                 _charWidthxA0xFF = CharWidthData.ArialNormal_A0_FF;
                 _charDefaultWidth = CharWidthData.ArialNormalDefaultWidth;
+                _charNDashWidth = CharWidthData.ArialNormalNDashWidth;
                 boldCharWidthx20x7F = CharWidthData.ArialBold_20_7F;
                 boldCharWidthxA0xFF = CharWidthData.ArialBold_A0_FF;
                 boldCharDefaultWidth = CharWidthData.ArialBoldDefaultWidth;
+                boldCharNDashWidth = CharWidthData.ArialBoldNDashWidth;
             }
             else if (family.Contains("liberation") && family.Contains("sans"))
             {
                 _charWidthx20x7F = CharWidthData.LiberationSansNormal_20_7F;
                 _charWidthxA0xFF = CharWidthData.LiberationSansNormal_A0_FF;
                 _charDefaultWidth = CharWidthData.LiberationSansNormalDefaultWidth;
+                _charNDashWidth = CharWidthData.LiberationSansNormalNDashWidth;
                 boldCharWidthx20x7F = CharWidthData.LiberationSansBold_20_7F;
                 boldCharWidthxA0xFF = CharWidthData.LiberationSansBold_A0_FF;
                 boldCharDefaultWidth = CharWidthData.LiberationSansBoldDefaultWidth;
+                boldCharNDashWidth = CharWidthData.LiberationSansBoldNDashWidth;
             }
             else if (family.Contains("frutiger"))
             {
                 _charWidthx20x7F = CharWidthData.FrutigerNormal_20_7F;
                 _charWidthxA0xFF = CharWidthData.FrutigerNormal_A0_FF;
                 _charDefaultWidth = CharWidthData.FrutigerNormalDefaultWidth;
+                _charNDashWidth = CharWidthData.FrutigerNormalNDashWidth;
                 boldCharWidthx20x7F = CharWidthData.FrutigerBold_20_7F;
                 boldCharWidthxA0xFF = CharWidthData.FrutigerBold_A0_FF;
                 boldCharDefaultWidth = CharWidthData.FrutigerBoldDefaultWidth;
+                boldCharNDashWidth = CharWidthData.FrutigerBoldNDashWidth;
             }
             else
             {
                 _charWidthx20x7F = CharWidthData.HelveticaNormal_20_7F;
                 _charWidthxA0xFF = CharWidthData.HelveticaNormal_A0_FF;
                 _charDefaultWidth = CharWidthData.HelveticaNormalDefaultWidth;
+                _charNDashWidth = CharWidthData.HelveticaNormalNDashWidth;
                 boldCharWidthx20x7F = CharWidthData.HelveticaBold_20_7F;
                 boldCharWidthxA0xFF = CharWidthData.HelveticaBold_A0_FF;
                 boldCharDefaultWidth = CharWidthData.HelveticaBoldDefaultWidth;
+                boldCharNDashWidth = CharWidthData.HelveticaBoldNDashWidth;
             }
 
-            _boldMetrics = new FontMetrics(boldCharWidthx20x7F, boldCharWidthxA0xFF, boldCharDefaultWidth);
+            _boldMetrics = new FontMetrics(boldCharWidthx20x7F, boldCharWidthxA0xFF, boldCharDefaultWidth, boldCharNDashWidth);
         }
 
-        private FontMetrics(short[] charWidthx20x7F, short[] charWidthxA0xFF, short charDefaultWidth)
+        private FontMetrics(short[] charWidthx20x7F, short[] charWidthxA0xFF, short charDefaultWidth, short charNDashWidth)
         {
             FontFamilyList = null;
             FirstFontFamily = null;
             _charWidthx20x7F = charWidthx20x7F;
             _charWidthxA0xFF = charWidthxA0xFF;
             _charDefaultWidth = charDefaultWidth;
+            _charNDashWidth = charNDashWidth;
             _boldMetrics = null;
         }
 
@@ -328,7 +339,11 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             {
                 width = _charWidthxA0xFF[ch - 0xa0];
             }
-            if (width == 0)
+            else if (ch == 0x2013)
+            {
+                width = _charNDashWidth;
+            }
+            if (width == 0 && ch != '\n' && ch != '\r')
             {
                 width = _charDefaultWidth;
             }

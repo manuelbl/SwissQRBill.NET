@@ -560,7 +560,7 @@ namespace Codecrete.SwissQRBill.Generator
         private void PrepareText()
         {
             string account = Payments.FormatIban(_bill.Account);
-            _accountPayableTo = account + "\n" + FormatPersonForDisplay(_bill.Creditor);
+            _accountPayableTo = account + "\n" + FormatAddressForDisplay(_bill.Creditor, IsCreditorWithCountryCode());
 
             _reference = FormatReferenceNumber(_bill.Reference);
 
@@ -583,7 +583,7 @@ namespace Codecrete.SwissQRBill.Generator
 
             if (_bill.Debtor != null)
             {
-                _payableBy = FormatPersonForDisplay(_bill.Debtor);
+                _payableBy = FormatAddressForDisplay(_bill.Debtor, IsDebtorWithCountryCode());
             }
 
             if (_bill.Amount != null)
@@ -597,12 +597,12 @@ namespace Codecrete.SwissQRBill.Generator
             if (reduceBoth)
             {
                 string account = Payments.FormatIban(_bill.Account);
-                _accountPayableTo = account + "\n" + FormatPersonForDisplay(CreateReducedAddress(_bill.Creditor));
+                _accountPayableTo = account + "\n" + FormatAddressForDisplay(CreateReducedAddress(_bill.Creditor), IsCreditorWithCountryCode());
             }
 
             if (_bill.Debtor != null)
             {
-                _payableBy = FormatPersonForDisplay(CreateReducedAddress(_bill.Debtor));
+                _payableBy = FormatAddressForDisplay(CreateReducedAddress(_bill.Debtor), IsDebtorWithCountryCode());
             }
         }
 
@@ -678,7 +678,7 @@ namespace Codecrete.SwissQRBill.Generator
             return amount.ToString("N", AmountNumberInfo);
         }
 
-        private static string FormatPersonForDisplay(Address address)
+        private static string FormatAddressForDisplay(Address address, bool withCountryCode)
         {
             StringBuilder sb = new StringBuilder();
             sb.Append(address.Name);
@@ -698,10 +698,10 @@ namespace Codecrete.SwissQRBill.Generator
                     sb.Append(houseNo);
                 }
                 sb.Append("\n");
-                if ("CH" != address.CountryCode && "LI" != address.CountryCode)
+                if (withCountryCode)
                 {
                     sb.Append(address.CountryCode);
-                    sb.Append(" - ");
+                    sb.Append(" – ");
                 }
                 sb.Append(address.PostalCode);
                 sb.Append(" ");
@@ -716,10 +716,10 @@ namespace Codecrete.SwissQRBill.Generator
                     sb.Append(address.AddressLine1);
                 }
                 sb.Append("\n");
-                if ("CH" != address.CountryCode && "LI" != address.CountryCode)
+                if (withCountryCode)
                 {
                     sb.Append(address.CountryCode);
-                    sb.Append(" ");
+                    sb.Append(" – ");
                 }
                 sb.Append(address.AddressLine2);
             }
@@ -776,6 +776,22 @@ namespace Codecrete.SwissQRBill.Generator
             numberInfo.NumberDecimalSeparator = ".";
             numberInfo.NumberGroupSeparator = " ";
             return numberInfo;
+        }
+
+        private bool IsCreditorWithCountryCode()
+        {
+            // The creditor country code is even shown for a Swiss address if the debtor lives abroad
+            return IsForeignAddress(_bill.Creditor) || IsForeignAddress(_bill.Debtor);
+        }
+
+        private bool IsDebtorWithCountryCode()
+        {
+            return IsForeignAddress(_bill.Debtor);
+        }
+
+        private static bool IsForeignAddress(Address address)
+        {
+            return address != null && "CH" != address.CountryCode;
         }
     }
 }

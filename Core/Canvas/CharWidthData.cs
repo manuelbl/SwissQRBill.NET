@@ -24,6 +24,11 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         public static readonly short HelveticaNormalDefaultWidth = 556;
 
         /// <summary>
+        /// Width of n-dash for Helvetica Normal.
+        /// </summary>
+        public static readonly short HelveticaNormalNDashWidth = 556;
+
+        /// <summary>
         /// Character widths for Helvetica Normal (range 0x20 to 0x7f).
         /// </summary>
         public static readonly short[] HelveticaNormal_20_7F = {
@@ -89,7 +94,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             278, // 0x5B [
             278, // 0x5C \
             278, // 0x5D ]
-            0, // unused
+            469, // 0x5E ^
             556, // 0x5F _
             333, // 0x60 `
             556, // 0x61 a
@@ -119,7 +124,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             500, // 0x79 y
             500, // 0x7A z
             334, // 0x7B {
-            0, // unused
+            260, // 0x7C |
             334, // 0x7D }
             584, // 0x7E ~
             0 // unused
@@ -129,45 +134,45 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         /// Character widths for Helvetica Normal (range 0xa0 to 0xff).
         /// </summary>
         public static readonly short[] HelveticaNormal_A0_FF = {
-            0, // unused
-            0, // unused
-            0, // unused
+            278, // 0xA0 non-breaking space
+            333, // 0xA1 ¡
+            556, // 0xA2 ¢
             556, // 0xA3 £
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
+            556, // 0xA4 ¤
+            556, // 0xA5 ¥
+            260, // 0xA6 ¦
+            556, // 0xA7 §
+            333, // 0xA8 ¨
+            737, // 0xA9 ©
+            370, // 0xAA ª
+            556, // 0xAB «
+            584, // 0xAC ¬
+            333, // 0xAD soft hyphen
+            737, // 0xAE ®
+            333, // 0xAF ¯
+            400, // 0xB0 °
+            549, // 0xB1 ±
+            333, // 0xB2 ²
+            333, // 0xB3 ³
             333, // 0xB4 ´
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
+            576, // 0xB5 µ
+            537, // 0xB6 ¶
+            278, // 0xB7 ·
+            333, // 0xB8 ¸
+            333, // 0xB9 ¹
+            365, // 0xBA º
+            556, // 0xBB »
+            834, // 0xBC ¼
+            834, // 0xBD ½
+            834, // 0xBE ¾
+            611, // 0xBF ¿
             667, // 0xC0 À
             667, // 0xC1 Á
             667, // 0xC2 Â
-            0, // unused
+            667, // 0xC3 Ã
             667, // 0xC4 Ä
-            0, // unused
-            0, // unused
+            667, // 0xC5 Å
+            1000, // 0xC6 Æ
             722, // 0xC7 Ç
             667, // 0xC8 È
             667, // 0xC9 É
@@ -177,29 +182,29 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             278, // 0xCD Í
             278, // 0xCE Î
             278, // 0xCF Ï
-            0, // unused
+            722, // 0xD0 Ð
             722, // 0xD1 Ñ
             778, // 0xD2 Ò
             778, // 0xD3 Ó
             778, // 0xD4 Ô
-            0, // unused
+            778, // 0xD5 Õ
             778, // 0xD6 Ö
-            0, // unused
-            0, // unused
+            584, // 0xD7 ×
+            778, // 0xD8 Ø
             722, // 0xD9 Ù
             722, // 0xDA Ú
             722, // 0xDB Û
             722, // 0xDC Ü
-            0, // unused
-            0, // unused
+            667, // 0xDD Ý
+            667, // 0xDE Þ
             611, // 0xDF ß
             556, // 0xE0 à
             556, // 0xE1 á
             556, // 0xE2 â
-            0, // unused
+            556, // 0xE3 ã
             556, // 0xE4 ä
-            0, // unused
-            0, // unused
+            556, // 0xE5 å
+            889, // 0xE6 æ
             500, // 0xE7 ç
             556, // 0xE8 è
             556, // 0xE9 é
@@ -209,28 +214,33 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             278, // 0xED í
             278, // 0xEE î
             278, // 0xEF ï
-            0, // unused
+            556, // 0xF0 ð
             556, // 0xF1 ñ
             556, // 0xF2 ò
             556, // 0xF3 ó
             556, // 0xF4 ô
-            0, // unused
+            556, // 0xF5 õ
             556, // 0xF6 ö
             549, // 0xF7 ÷
-            0, // unused
+            611, // 0xF8 ø
             556, // 0xF9 ù
             556, // 0xFA ú
             556, // 0xFB û
             556, // 0xFC ü
             500, // 0xFD ý
-            0, // unused
-            0 // unused
+            556, // 0xFE þ
+            500 // 0xFF ÿ
         };
 
         /// <summary>
         /// Default character width for Helvetica Bold.
         /// </summary>
         public static readonly short HelveticaBoldDefaultWidth = 611;
+
+        /// <summary>
+        /// Width of n-dash for Helvetica Bold.
+        /// </summary>
+        public static readonly short HelveticaBoldNDashWidth = 556;
 
         /// <summary>
         /// Character widths for Helvetica Bold (range 0x20 to 0x7f).
@@ -298,7 +308,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             333, // 0x5B [
             278, // 0x5C \
             333, // 0x5D ]
-            0, // unused
+            584, // 0x5E ^
             556, // 0x5F _
             333, // 0x60 `
             556, // 0x61 a
@@ -328,7 +338,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             556, // 0x79 y
             500, // 0x7A z
             389, // 0x7B {
-            0, // unused
+            280, // 0x7C |
             389, // 0x7D }
             584, // 0x7E ~
             0 // unused
@@ -338,45 +348,45 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         /// Character widths for Helvetica Bold (range 0xa0 to 0xff).
         /// </summary>
         public static readonly short[] HelveticaBold_A0_FF = {
-            0, // unused
-            0, // unused
-            0, // unused
+            278, // 0xA0 non-breaking space
+            333, // 0xA1 ¡
+            556, // 0xA2 ¢
             556, // 0xA3 £
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
+            556, // 0xA4 ¤
+            556, // 0xA5 ¥
+            280, // 0xA6 ¦
+            556, // 0xA7 §
+            333, // 0xA8 ¨
+            737, // 0xA9 ©
+            370, // 0xAA ª
+            556, // 0xAB «
+            584, // 0xAC ¬
+            333, // 0xAD soft hyphen
+            737, // 0xAE ®
+            333, // 0xAF ¯
+            400, // 0xB0 °
+            549, // 0xB1 ±
+            333, // 0xB2 ²
+            333, // 0xB3 ³
             333, // 0xB4 ´
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
+            576, // 0xB5 µ
+            556, // 0xB6 ¶
+            278, // 0xB7 ·
+            333, // 0xB8 ¸
+            333, // 0xB9 ¹
+            365, // 0xBA º
+            556, // 0xBB »
+            834, // 0xBC ¼
+            834, // 0xBD ½
+            834, // 0xBE ¾
+            611, // 0xBF ¿
             722, // 0xC0 À
             722, // 0xC1 Á
             722, // 0xC2 Â
-            0, // unused
+            722, // 0xC3 Ã
             722, // 0xC4 Ä
-            0, // unused
-            0, // unused
+            722, // 0xC5 Å
+            1000, // 0xC6 Æ
             722, // 0xC7 Ç
             667, // 0xC8 È
             667, // 0xC9 É
@@ -386,29 +396,29 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             278, // 0xCD Í
             278, // 0xCE Î
             278, // 0xCF Ï
-            0, // unused
+            722, // 0xD0 Ð
             722, // 0xD1 Ñ
             778, // 0xD2 Ò
             778, // 0xD3 Ó
             778, // 0xD4 Ô
-            0, // unused
+            778, // 0xD5 Õ
             778, // 0xD6 Ö
-            0, // unused
-            0, // unused
+            584, // 0xD7 ×
+            778, // 0xD8 Ø
             722, // 0xD9 Ù
             722, // 0xDA Ú
             722, // 0xDB Û
             722, // 0xDC Ü
-            0, // unused
-            0, // unused
+            667, // 0xDD Ý
+            667, // 0xDE Þ
             611, // 0xDF ß
             556, // 0xE0 à
             556, // 0xE1 á
             556, // 0xE2 â
-            0, // unused
+            556, // 0xE3 ã
             556, // 0xE4 ä
-            0, // unused
-            0, // unused
+            556, // 0xE5 å
+            889, // 0xE6 æ
             556, // 0xE7 ç
             556, // 0xE8 è
             556, // 0xE9 é
@@ -418,28 +428,33 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             278, // 0xED í
             278, // 0xEE î
             278, // 0xEF ï
-            0, // unused
+            611, // 0xF0 ð
             611, // 0xF1 ñ
             611, // 0xF2 ò
             611, // 0xF3 ó
             611, // 0xF4 ô
-            0, // unused
+            611, // 0xF5 õ
             611, // 0xF6 ö
             549, // 0xF7 ÷
-            0, // unused
+            611, // 0xF8 ø
             611, // 0xF9 ù
             611, // 0xFA ú
             611, // 0xFB û
             611, // 0xFC ü
             556, // 0xFD ý
-            0, // unused
-            0 // unused
+            611, // 0xFE þ
+            556 // 0xFF ÿ
         };
 
         /// <summary>
         /// Default character width for Arial Normal.
         /// </summary>
         public static readonly short ArialNormalDefaultWidth = 556;
+
+        /// <summary>
+        /// Width of n-dash for Arial Normal.
+        /// </summary>
+        public static readonly short ArialNormalNDashWidth = 556;
 
         /// <summary>
         /// Character widths for Arial Normal (range 0x20 to 0x7f).
@@ -507,7 +522,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             278, // 0x5B [
             278, // 0x5C \
             278, // 0x5D ]
-            0, // unused
+            469, // 0x5E ^
             556, // 0x5F _
             333, // 0x60 `
             556, // 0x61 a
@@ -537,7 +552,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             500, // 0x79 y
             500, // 0x7A z
             334, // 0x7B {
-            0, // unused
+            260, // 0x7C |
             334, // 0x7D }
             584, // 0x7E ~
             0 // unused
@@ -547,45 +562,45 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         /// Character widths for Arial Normal (range 0xa0 to 0xff).
         /// </summary>
         public static readonly short[] ArialNormal_A0_FF = {
-            0, // unused
-            0, // unused
-            0, // unused
+            278, // 0xA0 non-breaking space
+            333, // 0xA1 ¡
+            556, // 0xA2 ¢
             556, // 0xA3 £
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
+            556, // 0xA4 ¤
+            556, // 0xA5 ¥
+            260, // 0xA6 ¦
+            556, // 0xA7 §
+            333, // 0xA8 ¨
+            737, // 0xA9 ©
+            370, // 0xAA ª
+            556, // 0xAB «
+            584, // 0xAC ¬
+            333, // 0xAD soft hyphen
+            737, // 0xAE ®
+            552, // 0xAF ¯
+            400, // 0xB0 °
+            549, // 0xB1 ±
+            333, // 0xB2 ²
+            333, // 0xB3 ³
             333, // 0xB4 ´
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
+            576, // 0xB5 µ
+            537, // 0xB6 ¶
+            333, // 0xB7 ·
+            333, // 0xB8 ¸
+            333, // 0xB9 ¹
+            365, // 0xBA º
+            556, // 0xBB »
+            834, // 0xBC ¼
+            834, // 0xBD ½
+            834, // 0xBE ¾
+            611, // 0xBF ¿
             667, // 0xC0 À
             667, // 0xC1 Á
             667, // 0xC2 Â
-            0, // unused
+            667, // 0xC3 Ã
             667, // 0xC4 Ä
-            0, // unused
-            0, // unused
+            667, // 0xC5 Å
+            1000, // 0xC6 Æ
             722, // 0xC7 Ç
             667, // 0xC8 È
             667, // 0xC9 É
@@ -595,29 +610,29 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             278, // 0xCD Í
             278, // 0xCE Î
             278, // 0xCF Ï
-            0, // unused
+            722, // 0xD0 Ð
             722, // 0xD1 Ñ
             778, // 0xD2 Ò
             778, // 0xD3 Ó
             778, // 0xD4 Ô
-            0, // unused
+            778, // 0xD5 Õ
             778, // 0xD6 Ö
-            0, // unused
-            0, // unused
+            584, // 0xD7 ×
+            778, // 0xD8 Ø
             722, // 0xD9 Ù
             722, // 0xDA Ú
             722, // 0xDB Û
             722, // 0xDC Ü
-            0, // unused
-            0, // unused
+            667, // 0xDD Ý
+            667, // 0xDE Þ
             611, // 0xDF ß
             556, // 0xE0 à
             556, // 0xE1 á
             556, // 0xE2 â
-            0, // unused
+            556, // 0xE3 ã
             556, // 0xE4 ä
-            0, // unused
-            0, // unused
+            556, // 0xE5 å
+            889, // 0xE6 æ
             500, // 0xE7 ç
             556, // 0xE8 è
             556, // 0xE9 é
@@ -627,28 +642,33 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             278, // 0xED í
             278, // 0xEE î
             278, // 0xEF ï
-            0, // unused
+            556, // 0xF0 ð
             556, // 0xF1 ñ
             556, // 0xF2 ò
             556, // 0xF3 ó
             556, // 0xF4 ô
-            0, // unused
+            556, // 0xF5 õ
             556, // 0xF6 ö
             549, // 0xF7 ÷
-            0, // unused
+            611, // 0xF8 ø
             556, // 0xF9 ù
             556, // 0xFA ú
             556, // 0xFB û
             556, // 0xFC ü
             500, // 0xFD ý
-            0, // unused
-            0 // unused
+            556, // 0xFE þ
+            500 // 0xFF ÿ
         };
 
         /// <summary>
         /// Default character width for Arial Bold.
         /// </summary>
         public static readonly short ArialBoldDefaultWidth = 611;
+
+        /// <summary>
+        /// Width of n-dash for Arial Bold.
+        /// </summary>
+        public static readonly short ArialBoldNDashWidth = 556;
 
         /// <summary>
         /// Character widths for Arial Bold (range 0x20 to 0x7f).
@@ -716,7 +736,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             333, // 0x5B [
             278, // 0x5C \
             333, // 0x5D ]
-            0, // unused
+            584, // 0x5E ^
             556, // 0x5F _
             333, // 0x60 `
             556, // 0x61 a
@@ -746,7 +766,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             556, // 0x79 y
             500, // 0x7A z
             389, // 0x7B {
-            0, // unused
+            280, // 0x7C |
             389, // 0x7D }
             584, // 0x7E ~
             0 // unused
@@ -756,45 +776,45 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         /// Character widths for Arial Bold (range 0xa0 to 0xff).
         /// </summary>
         public static readonly short[] ArialBold_A0_FF = {
-            0, // unused
-            0, // unused
-            0, // unused
+            278, // 0xA0 non-breaking space
+            333, // 0xA1 ¡
+            556, // 0xA2 ¢
             556, // 0xA3 £
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
+            556, // 0xA4 ¤
+            556, // 0xA5 ¥
+            280, // 0xA6 ¦
+            556, // 0xA7 §
+            333, // 0xA8 ¨
+            737, // 0xA9 ©
+            370, // 0xAA ª
+            556, // 0xAB «
+            584, // 0xAC ¬
+            333, // 0xAD soft hyphen
+            737, // 0xAE ®
+            552, // 0xAF ¯
+            400, // 0xB0 °
+            549, // 0xB1 ±
+            333, // 0xB2 ²
+            333, // 0xB3 ³
             333, // 0xB4 ´
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
+            576, // 0xB5 µ
+            556, // 0xB6 ¶
+            333, // 0xB7 ·
+            333, // 0xB8 ¸
+            333, // 0xB9 ¹
+            365, // 0xBA º
+            556, // 0xBB »
+            834, // 0xBC ¼
+            834, // 0xBD ½
+            834, // 0xBE ¾
+            611, // 0xBF ¿
             722, // 0xC0 À
             722, // 0xC1 Á
             722, // 0xC2 Â
-            0, // unused
+            722, // 0xC3 Ã
             722, // 0xC4 Ä
-            0, // unused
-            0, // unused
+            722, // 0xC5 Å
+            1000, // 0xC6 Æ
             722, // 0xC7 Ç
             667, // 0xC8 È
             667, // 0xC9 É
@@ -804,29 +824,29 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             278, // 0xCD Í
             278, // 0xCE Î
             278, // 0xCF Ï
-            0, // unused
+            722, // 0xD0 Ð
             722, // 0xD1 Ñ
             778, // 0xD2 Ò
             778, // 0xD3 Ó
             778, // 0xD4 Ô
-            0, // unused
+            778, // 0xD5 Õ
             778, // 0xD6 Ö
-            0, // unused
-            0, // unused
+            584, // 0xD7 ×
+            778, // 0xD8 Ø
             722, // 0xD9 Ù
             722, // 0xDA Ú
             722, // 0xDB Û
             722, // 0xDC Ü
-            0, // unused
-            0, // unused
+            667, // 0xDD Ý
+            667, // 0xDE Þ
             611, // 0xDF ß
             556, // 0xE0 à
             556, // 0xE1 á
             556, // 0xE2 â
-            0, // unused
+            556, // 0xE3 ã
             556, // 0xE4 ä
-            0, // unused
-            0, // unused
+            556, // 0xE5 å
+            889, // 0xE6 æ
             556, // 0xE7 ç
             556, // 0xE8 è
             556, // 0xE9 é
@@ -836,28 +856,33 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             278, // 0xED í
             278, // 0xEE î
             278, // 0xEF ï
-            0, // unused
+            611, // 0xF0 ð
             611, // 0xF1 ñ
             611, // 0xF2 ò
             611, // 0xF3 ó
             611, // 0xF4 ô
-            0, // unused
+            611, // 0xF5 õ
             611, // 0xF6 ö
             549, // 0xF7 ÷
-            0, // unused
+            611, // 0xF8 ø
             611, // 0xF9 ù
             611, // 0xFA ú
             611, // 0xFB û
             611, // 0xFC ü
             556, // 0xFD ý
-            0, // unused
-            0 // unused
+            611, // 0xFE þ
+            556 // 0xFF ÿ
         };
 
         /// <summary>
         /// Default character width for Liberation Sans Normal.
         /// </summary>
         public static readonly short LiberationSansNormalDefaultWidth = 556;
+
+        /// <summary>
+        /// Width of n-dash for Liberation Sans Normal.
+        /// </summary>
+        public static readonly short LiberationSansNormalNDashWidth = 556;
 
         /// <summary>
         /// Character widths for Liberation Sans Normal (range 0x20 to 0x7f).
@@ -925,7 +950,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             278, // 0x5B [
             278, // 0x5C \
             278, // 0x5D ]
-            0, // unused
+            469, // 0x5E ^
             556, // 0x5F _
             333, // 0x60 `
             556, // 0x61 a
@@ -955,7 +980,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             500, // 0x79 y
             500, // 0x7A z
             334, // 0x7B {
-            0, // unused
+            260, // 0x7C |
             334, // 0x7D }
             584, // 0x7E ~
             0 // unused
@@ -965,45 +990,45 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         /// Character widths for Liberation Sans Normal (range 0xa0 to 0xff).
         /// </summary>
         public static readonly short[] LiberationSansNormal_A0_FF = {
-            0, // unused
-            0, // unused
-            0, // unused
+            278, // 0xA0 non-breaking space
+            333, // 0xA1 ¡
+            556, // 0xA2 ¢
             556, // 0xA3 £
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
+            556, // 0xA4 ¤
+            556, // 0xA5 ¥
+            260, // 0xA6 ¦
+            556, // 0xA7 §
+            333, // 0xA8 ¨
+            737, // 0xA9 ©
+            370, // 0xAA ª
+            556, // 0xAB «
+            584, // 0xAC ¬
+            333, // 0xAD soft hyphen
+            737, // 0xAE ®
+            552, // 0xAF ¯
+            400, // 0xB0 °
+            549, // 0xB1 ±
+            333, // 0xB2 ²
+            333, // 0xB3 ³
             333, // 0xB4 ´
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
+            576, // 0xB5 µ
+            537, // 0xB6 ¶
+            333, // 0xB7 ·
+            333, // 0xB8 ¸
+            333, // 0xB9 ¹
+            365, // 0xBA º
+            556, // 0xBB »
+            834, // 0xBC ¼
+            834, // 0xBD ½
+            834, // 0xBE ¾
+            611, // 0xBF ¿
             667, // 0xC0 À
             667, // 0xC1 Á
             667, // 0xC2 Â
-            0, // unused
+            667, // 0xC3 Ã
             667, // 0xC4 Ä
-            0, // unused
-            0, // unused
+            667, // 0xC5 Å
+            1000, // 0xC6 Æ
             722, // 0xC7 Ç
             667, // 0xC8 È
             667, // 0xC9 É
@@ -1013,29 +1038,29 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             278, // 0xCD Í
             278, // 0xCE Î
             278, // 0xCF Ï
-            0, // unused
+            722, // 0xD0 Ð
             722, // 0xD1 Ñ
             778, // 0xD2 Ò
             778, // 0xD3 Ó
             778, // 0xD4 Ô
-            0, // unused
+            778, // 0xD5 Õ
             778, // 0xD6 Ö
-            0, // unused
-            0, // unused
+            584, // 0xD7 ×
+            778, // 0xD8 Ø
             722, // 0xD9 Ù
             722, // 0xDA Ú
             722, // 0xDB Û
             722, // 0xDC Ü
-            0, // unused
-            0, // unused
+            667, // 0xDD Ý
+            667, // 0xDE Þ
             611, // 0xDF ß
             556, // 0xE0 à
             556, // 0xE1 á
             556, // 0xE2 â
-            0, // unused
+            556, // 0xE3 ã
             556, // 0xE4 ä
-            0, // unused
-            0, // unused
+            556, // 0xE5 å
+            889, // 0xE6 æ
             500, // 0xE7 ç
             556, // 0xE8 è
             556, // 0xE9 é
@@ -1045,28 +1070,33 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             278, // 0xED í
             278, // 0xEE î
             278, // 0xEF ï
-            0, // unused
+            556, // 0xF0 ð
             556, // 0xF1 ñ
             556, // 0xF2 ò
             556, // 0xF3 ó
             556, // 0xF4 ô
-            0, // unused
+            556, // 0xF5 õ
             556, // 0xF6 ö
             549, // 0xF7 ÷
-            0, // unused
+            611, // 0xF8 ø
             556, // 0xF9 ù
             556, // 0xFA ú
             556, // 0xFB û
             556, // 0xFC ü
             500, // 0xFD ý
-            0, // unused
-            0 // unused
+            556, // 0xFE þ
+            500 // 0xFF ÿ
         };
 
         /// <summary>
         /// Default character width for Liberation Sans Bold.
         /// </summary>
         public static readonly short LiberationSansBoldDefaultWidth = 611;
+
+        /// <summary>
+        /// Width of n-dash for Liberation Sans Bold.
+        /// </summary>
+        public static readonly short LiberationSansBoldNDashWidth = 556;
 
         /// <summary>
         /// Character widths for Liberation Sans Bold (range 0x20 to 0x7f).
@@ -1134,7 +1164,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             333, // 0x5B [
             278, // 0x5C \
             333, // 0x5D ]
-            0, // unused
+            584, // 0x5E ^
             556, // 0x5F _
             333, // 0x60 `
             556, // 0x61 a
@@ -1164,7 +1194,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             556, // 0x79 y
             500, // 0x7A z
             389, // 0x7B {
-            0, // unused
+            280, // 0x7C |
             389, // 0x7D }
             584, // 0x7E ~
             0 // unused
@@ -1174,45 +1204,45 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         /// Character widths for Liberation Sans Bold (range 0xa0 to 0xff).
         /// </summary>
         public static readonly short[] LiberationSansBold_A0_FF = {
-            0, // unused
-            0, // unused
-            0, // unused
+            278, // 0xA0 non-breaking space
+            333, // 0xA1 ¡
+            556, // 0xA2 ¢
             556, // 0xA3 £
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
+            556, // 0xA4 ¤
+            556, // 0xA5 ¥
+            280, // 0xA6 ¦
+            556, // 0xA7 §
+            333, // 0xA8 ¨
+            737, // 0xA9 ©
+            370, // 0xAA ª
+            556, // 0xAB «
+            584, // 0xAC ¬
+            333, // 0xAD soft hyphen
+            737, // 0xAE ®
+            552, // 0xAF ¯
+            400, // 0xB0 °
+            549, // 0xB1 ±
+            333, // 0xB2 ²
+            333, // 0xB3 ³
             333, // 0xB4 ´
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
+            576, // 0xB5 µ
+            556, // 0xB6 ¶
+            333, // 0xB7 ·
+            333, // 0xB8 ¸
+            333, // 0xB9 ¹
+            365, // 0xBA º
+            556, // 0xBB »
+            834, // 0xBC ¼
+            834, // 0xBD ½
+            834, // 0xBE ¾
+            611, // 0xBF ¿
             722, // 0xC0 À
             722, // 0xC1 Á
             722, // 0xC2 Â
-            0, // unused
+            722, // 0xC3 Ã
             722, // 0xC4 Ä
-            0, // unused
-            0, // unused
+            722, // 0xC5 Å
+            1000, // 0xC6 Æ
             722, // 0xC7 Ç
             667, // 0xC8 È
             667, // 0xC9 É
@@ -1222,29 +1252,29 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             278, // 0xCD Í
             278, // 0xCE Î
             278, // 0xCF Ï
-            0, // unused
+            722, // 0xD0 Ð
             722, // 0xD1 Ñ
             778, // 0xD2 Ò
             778, // 0xD3 Ó
             778, // 0xD4 Ô
-            0, // unused
+            778, // 0xD5 Õ
             778, // 0xD6 Ö
-            0, // unused
-            0, // unused
+            584, // 0xD7 ×
+            778, // 0xD8 Ø
             722, // 0xD9 Ù
             722, // 0xDA Ú
             722, // 0xDB Û
             722, // 0xDC Ü
-            0, // unused
-            0, // unused
+            667, // 0xDD Ý
+            667, // 0xDE Þ
             611, // 0xDF ß
             556, // 0xE0 à
             556, // 0xE1 á
             556, // 0xE2 â
-            0, // unused
+            556, // 0xE3 ã
             556, // 0xE4 ä
-            0, // unused
-            0, // unused
+            556, // 0xE5 å
+            889, // 0xE6 æ
             556, // 0xE7 ç
             556, // 0xE8 è
             556, // 0xE9 é
@@ -1254,28 +1284,33 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             278, // 0xED í
             278, // 0xEE î
             278, // 0xEF ï
-            0, // unused
+            611, // 0xF0 ð
             611, // 0xF1 ñ
             611, // 0xF2 ò
             611, // 0xF3 ó
             611, // 0xF4 ô
-            0, // unused
+            611, // 0xF5 õ
             611, // 0xF6 ö
             549, // 0xF7 ÷
-            0, // unused
+            611, // 0xF8 ø
             611, // 0xF9 ù
             611, // 0xFA ú
             611, // 0xFB û
             611, // 0xFC ü
             556, // 0xFD ý
-            0, // unused
-            0 // unused
+            611, // 0xFE þ
+            556 // 0xFF ÿ
         };
 
         /// <summary>
         /// Default character width for Frutiger Normal.
         /// </summary>
         public static readonly short FrutigerNormalDefaultWidth = 556;
+
+        /// <summary>
+        /// Width of n-dash for Frutiger Normal.
+        /// </summary>
+        public static readonly short FrutigerNormalNDashWidth = 500;
 
         /// <summary>
         /// Character widths for Frutiger Normal (range 0x20 to 0x7f).
@@ -1343,7 +1378,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             278, // 0x5B [
             278, // 0x5C \
             278, // 0x5D ]
-            0, // unused
+            600, // 0x5E ^
             500, // 0x5F _
             222, // 0x60 `
             500, // 0x61 a
@@ -1373,7 +1408,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             444, // 0x79 y
             444, // 0x7A z
             278, // 0x7B {
-            0, // unused
+            222, // 0x7C |
             278, // 0x7D }
             600, // 0x7E ~
             0 // unused
@@ -1383,45 +1418,45 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         /// Character widths for Frutiger Normal (range 0xa0 to 0xff).
         /// </summary>
         public static readonly short[] FrutigerNormal_A0_FF = {
-            0, // unused
-            0, // unused
-            0, // unused
+            278, // 0xA0 non-breaking space
+            389, // 0xA1 ¡
+            556, // 0xA2 ¢
             556, // 0xA3 £
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
+            556, // 0xA4 ¤
+            556, // 0xA5 ¥
+            222, // 0xA6 ¦
+            556, // 0xA7 §
+            222, // 0xA8 ¨
+            800, // 0xA9 ©
+            325, // 0xAA ª
+            556, // 0xAB «
+            600, // 0xAC ¬
+            333, // 0xAD soft hyphen
+            800, // 0xAE ®
+            222, // 0xAF ¯
+            400, // 0xB0 °
+            600, // 0xB1 ±
+            361, // 0xB2 ²
+            361, // 0xB3 ³
             222, // 0xB4 ´
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
+            556, // 0xB5 µ
+            600, // 0xB6 ¶
+            278, // 0xB7 ·
+            222, // 0xB8 ¸
+            361, // 0xB9 ¹
+            361, // 0xBA º
+            556, // 0xBB »
+            834, // 0xBC ¼
+            834, // 0xBD ½
+            834, // 0xBE ¾
+            500, // 0xBF ¿
             667, // 0xC0 À
             667, // 0xC1 Á
             667, // 0xC2 Â
-            0, // unused
+            667, // 0xC3 Ã
             667, // 0xC4 Ä
-            0, // unused
-            0, // unused
+            667, // 0xC5 Å
+            889, // 0xC6 Æ
             667, // 0xC7 Ç
             500, // 0xC8 È
             500, // 0xC9 É
@@ -1431,29 +1466,29 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             222, // 0xCD Í
             222, // 0xCE Î
             222, // 0xCF Ï
-            0, // unused
+            667, // 0xD0 Ð
             667, // 0xD1 Ñ
             722, // 0xD2 Ò
             722, // 0xD3 Ó
             722, // 0xD4 Ô
-            0, // unused
+            722, // 0xD5 Õ
             722, // 0xD6 Ö
-            0, // unused
-            0, // unused
+            600, // 0xD7 ×
+            722, // 0xD8 Ø
             667, // 0xD9 Ù
             667, // 0xDA Ú
             667, // 0xDB Û
             667, // 0xDC Ü
-            0, // unused
-            0, // unused
+            611, // 0xDD Ý
+            500, // 0xDE Þ
             556, // 0xDF ß
             500, // 0xE0 à
             500, // 0xE1 á
             500, // 0xE2 â
-            0, // unused
+            500, // 0xE3 ã
             500, // 0xE4 ä
-            0, // unused
-            0, // unused
+            500, // 0xE5 å
+            833, // 0xE6 æ
             444, // 0xE7 ç
             500, // 0xE8 è
             500, // 0xE9 é
@@ -1463,28 +1498,33 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             222, // 0xED í
             222, // 0xEE î
             222, // 0xEF ï
-            0, // unused
+            556, // 0xF0 ð
             556, // 0xF1 ñ
             556, // 0xF2 ò
             556, // 0xF3 ó
             556, // 0xF4 ô
-            0, // unused
+            556, // 0xF5 õ
             556, // 0xF6 ö
             600, // 0xF7 ÷
-            0, // unused
+            556, // 0xF8 ø
             556, // 0xF9 ù
             556, // 0xFA ú
             556, // 0xFB û
             556, // 0xFC ü
             444, // 0xFD ý
-            0, // unused
-            0 // unused
+            556, // 0xFE þ
+            444 // 0xFF ÿ
         };
 
         /// <summary>
         /// Default character width for Frutiger Bold.
         /// </summary>
         public static readonly short FrutigerBoldDefaultWidth = 611;
+
+        /// <summary>
+        /// Width of n-dash for Frutiger Bold.
+        /// </summary>
+        public static readonly short FrutigerBoldNDashWidth = 500;
 
         /// <summary>
         /// Character widths for Frutiger Bold (range 0x20 to 0x7f).
@@ -1552,7 +1592,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             333, // 0x5B [
             389, // 0x5C \
             333, // 0x5D ]
-            0, // unused
+            600, // 0x5E ^
             500, // 0x5F _
             278, // 0x60 `
             556, // 0x61 a
@@ -1582,7 +1622,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             556, // 0x79 y
             500, // 0x7A z
             333, // 0x7B {
-            0, // unused
+            222, // 0x7C |
             333, // 0x7D }
             600, // 0x7E ~
             0 // unused
@@ -1592,45 +1632,45 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         /// Character widths for Frutiger Bold (range 0xa0 to 0xff).
         /// </summary>
         public static readonly short[] FrutigerBold_A0_FF = {
-            0, // unused
-            0, // unused
-            0, // unused
+            278, // 0xA0 non-breaking space
+            389, // 0xA1 ¡
+            556, // 0xA2 ¢
             556, // 0xA3 £
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
+            556, // 0xA4 ¤
+            556, // 0xA5 ¥
+            222, // 0xA6 ¦
+            556, // 0xA7 §
+            278, // 0xA8 ¨
+            800, // 0xA9 ©
+            361, // 0xAA ª
+            556, // 0xAB «
+            600, // 0xAC ¬
+            333, // 0xAD soft hyphen
+            800, // 0xAE ®
+            278, // 0xAF ¯
+            400, // 0xB0 °
+            600, // 0xB1 ±
+            361, // 0xB2 ²
+            361, // 0xB3 ³
             278, // 0xB4 ´
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
-            0, // unused
+            611, // 0xB5 µ
+            620, // 0xB6 ¶
+            278, // 0xB7 ·
+            278, // 0xB8 ¸
+            361, // 0xB9 ¹
+            397, // 0xBA º
+            556, // 0xBB »
+            834, // 0xBC ¼
+            834, // 0xBD ½
+            834, // 0xBE ¾
+            500, // 0xBF ¿
             722, // 0xC0 À
             722, // 0xC1 Á
             722, // 0xC2 Â
-            0, // unused
+            722, // 0xC3 Ã
             722, // 0xC4 Ä
-            0, // unused
-            0, // unused
+            722, // 0xC5 Å
+            944, // 0xC6 Æ
             611, // 0xC7 Ç
             556, // 0xC8 È
             556, // 0xC9 É
@@ -1640,29 +1680,29 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             278, // 0xCD Í
             278, // 0xCE Î
             278, // 0xCF Ï
-            0, // unused
+            722, // 0xD0 Ð
             722, // 0xD1 Ñ
             778, // 0xD2 Ò
             778, // 0xD3 Ó
             778, // 0xD4 Ô
-            0, // unused
+            778, // 0xD5 Õ
             778, // 0xD6 Ö
-            0, // unused
-            0, // unused
+            600, // 0xD7 ×
+            778, // 0xD8 Ø
             722, // 0xD9 Ù
             722, // 0xDA Ú
             722, // 0xDB Û
             722, // 0xDC Ü
-            0, // unused
-            0, // unused
+            667, // 0xDD Ý
+            556, // 0xDE Þ
             611, // 0xDF ß
             556, // 0xE0 à
             556, // 0xE1 á
             556, // 0xE2 â
-            0, // unused
+            556, // 0xE3 ã
             556, // 0xE4 ä
-            0, // unused
-            0, // unused
+            556, // 0xE5 å
+            889, // 0xE6 æ
             444, // 0xE7 ç
             556, // 0xE8 è
             556, // 0xE9 é
@@ -1672,23 +1712,24 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             278, // 0xED í
             278, // 0xEE î
             278, // 0xEF ï
-            0, // unused
+            611, // 0xF0 ð
             611, // 0xF1 ñ
             611, // 0xF2 ò
             611, // 0xF3 ó
             611, // 0xF4 ô
-            0, // unused
+            611, // 0xF5 õ
             611, // 0xF6 ö
             600, // 0xF7 ÷
-            0, // unused
+            611, // 0xF8 ø
             611, // 0xF9 ù
             611, // 0xFA ú
             611, // 0xFB û
             611, // 0xFC ü
             556, // 0xFD ý
-            0, // unused
-            0 // unused
+            611, // 0xFE þ
+            556 // 0xFF ÿ
         };
+
 
 #pragma warning restore S125
 
