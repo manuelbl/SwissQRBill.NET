@@ -124,10 +124,10 @@
   <ItemGroup>
     <Reference Include="Accessibility" />
     <Reference Include="Codecrete.SwissQRBill.Core, Version=2.4.0.0, Culture=neutral, PublicKeyToken=6aa6bd7a159d47c2, processorArchitecture=MSIL">
-      <HintPath>packages\Codecrete.SwissQRBill.Core.3.0.3\lib\netstandard2.0\Codecrete.SwissQRBill.Core.dll</HintPath>
+      <HintPath>packages\Codecrete.SwissQRBill.Core.3.0.4\lib\netstandard2.0\Codecrete.SwissQRBill.Core.dll</HintPath>
     </Reference>
     <Reference Include="Codecrete.SwissQRBill.Windows, Version=2.4.0.0, Culture=neutral, PublicKeyToken=6aa6bd7a159d47c2, processorArchitecture=MSIL">
-      <HintPath>packages\Codecrete.SwissQRBill.Windows.3.0.3\lib\netstandard2.0\Codecrete.SwissQRBill.Windows.dll</HintPath>
+      <HintPath>packages\Codecrete.SwissQRBill.Windows.3.0.4\lib\netstandard2.0\Codecrete.SwissQRBill.Windows.dll</HintPath>
     </Reference>
     <Reference Include="QrCodeGenerator, Version=1.6.0.0, Culture=neutral, PublicKeyToken=6aa6bd7a159d47c2, processorArchitecture=MSIL">
       <HintPath>packages\Net.Codecrete.QrCodeGenerator.2.0.1\lib\netstandard2.0\QrCodeGenerator.dll</HintPath>
