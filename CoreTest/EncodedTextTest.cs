@@ -16,35 +16,35 @@ namespace Codecrete.SwissQRBill.CoreTest
         public void CreateText1()
         {
             Bill bill = SampleQRCodeText.CreateBillData1();
-            Assert.Equal(SampleQRCodeText.CreateQrCodeText1(false), QRBill.EncodeQrCodeText(bill));
+            Assert.Equal(SampleQRCodeText.CreateQrCodeText1(), QRBill.EncodeQrCodeText(bill));
         }
 
         [Fact]
         public void CreateText2()
         {
             Bill bill = SampleQRCodeText.CreateBillData2();
-            Assert.Equal(SampleQRCodeText.CreateQrCodeText2(false), QRBill.EncodeQrCodeText(bill));
+            Assert.Equal(SampleQRCodeText.CreateQrCodeText2(), QRBill.EncodeQrCodeText(bill));
         }
 
         [Fact]
         public void CreateText3()
         {
             Bill bill = SampleQRCodeText.CreateBillData3();
-            Assert.Equal(SampleQRCodeText.CreateQrCodeText3(false), QRBill.EncodeQrCodeText(bill));
+            Assert.Equal(SampleQRCodeText.CreateQrCodeText3(), QRBill.EncodeQrCodeText(bill));
         }
 
         [Fact]
         public void CreateText4()
         {
             Bill bill = SampleQRCodeText.CreateBillData4();
-            Assert.Equal(SampleQRCodeText.CreateQrCodeText4(false), QRBill.EncodeQrCodeText(bill));
+            Assert.Equal(SampleQRCodeText.CreateQrCodeText4(), QRBill.EncodeQrCodeText(bill));
         }
 
         [Fact]
         public void CreateText5()
         {
             Bill bill = SampleQRCodeText.CreateBillData5();
-            Assert.Equal(SampleQRCodeText.CreateQrCodeText5(false), QRBill.EncodeQrCodeText(bill));
+            Assert.Equal(SampleQRCodeText.CreateQrCodeText5(), QRBill.EncodeQrCodeText(bill));
         }
 
         [Fact]
@@ -66,7 +66,7 @@ namespace Codecrete.SwissQRBill.CoreTest
             Assert.False(result.HasErrors);
             bill = result.CleanedBill;
             bill.Reference = "";
-            Assert.Equal(SampleQRCodeText.CreateQrCodeText3(false), QRBill.EncodeQrCodeText(bill));
+            Assert.Equal(SampleQRCodeText.CreateQrCodeText3(), QRBill.EncodeQrCodeText(bill));
         }
     }
 }

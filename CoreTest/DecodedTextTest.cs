@@ -53,84 +53,57 @@ namespace Codecrete.SwissQRBill.CoreTest
             Assert.Equal(bill, bill2);
         }
 
-        [Fact]
-        public void DecodeTextB1A()
+        [Theory]
+        [ClassData(typeof(NewLineTheoryData))]
+        public void DecodeText1NewLine(string newLine, bool extraNewLine)
         {
             Bill bill = SampleQRCodeText.CreateBillData1();
             TestHelper.NormalizeSourceBill(bill);
-            Bill bill2 = QRBill.DecodeQrCodeText(SampleQRCodeText.CreateQrCodeText1(false));
+            Bill bill2 = QRBill.DecodeQrCodeText(SampleQRCodeText.CreateQrCodeText1(newLine) + (extraNewLine ? newLine : ""));
             TestHelper.NormalizeDecodedBill(bill2);
             Assert.Equal(bill, bill2);
         }
 
-        [Fact]
-        public void DecodeTextB1B()
-        {
-            Bill bill = SampleQRCodeText.CreateBillData1();
-            TestHelper.NormalizeSourceBill(bill);
-            Bill bill2 = QRBill.DecodeQrCodeText(SampleQRCodeText.CreateQrCodeText1(true));
-            TestHelper.NormalizeDecodedBill(bill2);
-            Assert.Equal(bill, bill2);
-        }
-
-        [Fact]
-        public void DecodeTextB1C()
-        {
-            Bill bill = SampleQRCodeText.CreateBillData1();
-            TestHelper.NormalizeSourceBill(bill);
-            // QR code text with invalid NL at the end
-            Bill bill2 = QRBill.DecodeQrCodeText(SampleQRCodeText.CreateQrCodeText1(false) + "\n");
-            TestHelper.NormalizeDecodedBill(bill2);
-            Assert.Equal(bill, bill2);
-        }
-
-        [Fact]
-        public void DecodeTextB1D()
-        {
-            Bill bill = SampleQRCodeText.CreateBillData1();
-            TestHelper.NormalizeSourceBill(bill);
-            // QR code text with invalid CRNL at the end
-            Bill bill2 = QRBill.DecodeQrCodeText(SampleQRCodeText.CreateQrCodeText1(true) + "\r\n");
-            TestHelper.NormalizeDecodedBill(bill2);
-            Assert.Equal(bill, bill2);
-        }
-
-        [Fact]
-        public void DecodeTextB2()
+        [Theory]
+        [ClassData(typeof(NewLineTheoryData))]
+        public void DecodeText2NewLine(string newLine, bool extraNewLine)
         {
             Bill bill = SampleQRCodeText.CreateBillData2();
             TestHelper.NormalizeSourceBill(bill);
-            Bill bill2 = QRBill.DecodeQrCodeText(SampleQRCodeText.CreateQrCodeText2(false));
+            Bill bill2 = QRBill.DecodeQrCodeText(SampleQRCodeText.CreateQrCodeText2(newLine) + (extraNewLine ? newLine : ""));
             TestHelper.NormalizeDecodedBill(bill2);
             Assert.Equal(bill, bill2);
         }
 
-        [Fact]
-        public void DecodeTextB3()
+        [Theory]
+        [ClassData(typeof(NewLineTheoryData))]
+        public void DecodeText3NewLine(string newLine, bool extraNewLine)
         {
             Bill bill = SampleQRCodeText.CreateBillData3();
             TestHelper.NormalizeSourceBill(bill);
-            Bill bill2 = QRBill.DecodeQrCodeText(SampleQRCodeText.CreateQrCodeText3(false));
+            Bill bill2 = QRBill.DecodeQrCodeText(SampleQRCodeText.CreateQrCodeText3(newLine) + (extraNewLine ? newLine : ""));
             TestHelper.NormalizeDecodedBill(bill2);
             Assert.Equal(bill, bill2);
         }
 
-        [Fact]
-        public void DecodeTextB4()
+        [Theory]
+        [ClassData(typeof(NewLineTheoryData))]
+        public void DecodeText4NewLine(string newLine, bool extraNewLine)
         {
             Bill bill = SampleQRCodeText.CreateBillData4();
             TestHelper.NormalizeSourceBill(bill);
-            Bill bill2 = QRBill.DecodeQrCodeText(SampleQRCodeText.CreateQrCodeText4(false));
+            Bill bill2 = QRBill.DecodeQrCodeText(SampleQRCodeText.CreateQrCodeText4(newLine) + (extraNewLine ? newLine : ""));
             TestHelper.NormalizeDecodedBill(bill2);
             Assert.Equal(bill, bill2);
         }
 
-        [Fact]
-        public void DecodeTextB5()
+        [Theory]
+        [ClassData(typeof(NewLineTheoryData))]
+        public void DecodeText5NewLine(string newLine, bool extraNewLine)
         {
             Bill bill = SampleQRCodeText.CreateBillData5();
             TestHelper.NormalizeSourceBill(bill);
-            Bill bill2 = QRBill.DecodeQrCodeText(SampleQRCodeText.CreateQrCodeText5(false));
+            Bill bill2 = QRBill.DecodeQrCodeText(SampleQRCodeText.CreateQrCodeText5(newLine) + (extraNewLine ? newLine : ""));
             TestHelper.NormalizeDecodedBill(bill2);
             Assert.Equal(bill, bill2);
         }
@@ -171,7 +144,7 @@ namespace Codecrete.SwissQRBill.CoreTest
         {
             Bill bill = SampleQRCodeText.CreateBillData1();
             TestHelper.NormalizeSourceBill(bill);
-            string qrCodeText = SampleQRCodeText.CreateQrCodeText1(false);
+            string qrCodeText = SampleQRCodeText.CreateQrCodeText1();
             qrCodeText = qrCodeText.Replace("\n0200\n", "\n0201\n");
             Bill bill2 = QRBill.DecodeQrCodeText(qrCodeText);
             TestHelper.NormalizeDecodedBill(bill2);
@@ -189,7 +162,7 @@ namespace Codecrete.SwissQRBill.CoreTest
         [Fact]
         public void DecodeInvalidNumber()
         {
-            string invalidText = SampleQRCodeText.CreateQrCodeText1(false).Replace("3949.75", "1239d49.75");
+            string invalidText = SampleQRCodeText.CreateQrCodeText1().Replace("3949.75", "1239d49.75");
             QRBillValidationException err = Assert.Throws<QRBillValidationException>(
                         () => QRBill.DecodeQrCodeText(invalidText));
             TestHelper.AssertSingleError(err.Result, ValidationConstants.KeyNumberInvalid, ValidationConstants.FieldAmount);
@@ -198,10 +171,21 @@ namespace Codecrete.SwissQRBill.CoreTest
         [Fact]
         public void DecodeMissingEpd()
         {
-            string invalidText = SampleQRCodeText.CreateQrCodeText1(false).Replace("EPD", "E_P");
+            string invalidText = SampleQRCodeText.CreateQrCodeText1().Replace("EPD", "E_P");
             QRBillValidationException err = Assert.Throws<QRBillValidationException>(
                         () => QRBill.DecodeQrCodeText(invalidText));
             TestHelper.AssertSingleError(err.Result, ValidationConstants.KeyDataStructureInvalid, ValidationConstants.FieldTrailer);
+        }
+
+        private class NewLineTheoryData : TheoryData<string, bool>
+        {
+            public NewLineTheoryData()
+            {
+                Add("\n", false);
+                Add("\n", true);
+                Add("\r\n", false);
+                Add("\r\n", true);
+            }
         }
     }
 }
