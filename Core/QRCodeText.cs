@@ -5,8 +5,10 @@
 // https://opensource.org/licenses/MIT
 //
 
+using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
 using static Codecrete.SwissQRBill.Generator.Address;
@@ -278,27 +280,24 @@ namespace Codecrete.SwissQRBill.Generator
         private static IReadOnlyList<string> SplitLines(string text)
         {
             List<string> lines = new List<string>(32);
-            int lastPos = 0;
-            while (true)
+            using (var reader = new StringReader(text))
             {
-                int pos = text.IndexOf('\n', lastPos);
-                if (pos < 0)
+                while (true)
                 {
-                    break;
+                    string line = reader.ReadLine();
+                    if (line == null)
+                    {
+                        // StringReader.ReadLine() returns null if the last character is a NewLine character, that's why an empty string is manually added if that's the case.
+                        // See https://github.com/dotnet/runtime/issues/27715 and https://docs.microsoft.com/en-us/dotnet/api/system.io.stringreader.readline#remarks
+                        if (text.EndsWith("\n", StringComparison.OrdinalIgnoreCase) || text.EndsWith("\r", StringComparison.OrdinalIgnoreCase))
+                        {
+                            lines.Add("");
+                        }
+                        break;
+                    }
+                    lines.Add(line);
                 }
-
-                int pos2 = pos;
-                if (pos2 > lastPos && text[pos2 - 1] == '\r')
-                {
-                    pos2--;
-                }
-
-                lines.Add(text.Substring(lastPos, pos2 - lastPos));
-                lastPos = pos + 1;
             }
-
-            // add last line
-            lines.Add(text.Substring(lastPos, text.Length - lastPos));
             return lines;
         }
 

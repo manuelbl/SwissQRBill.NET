@@ -185,6 +185,8 @@ namespace Codecrete.SwissQRBill.CoreTest
                 Add("\n", true);
                 Add("\r\n", false);
                 Add("\r\n", true);
+                Add("\r", false);
+                Add("\r", true);
             }
         }
     }
