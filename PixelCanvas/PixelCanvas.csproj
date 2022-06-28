@@ -50,7 +50,7 @@ See home page https://github.com/manuelbl/SwissQRBill.NET for examples and other
   <PropertyGroup Label="Packaging">
     <DebugType>embedded</DebugType>
     <EmbedAllSources>true</EmbedAllSources>
-    <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+    <ContinuousIntegrationBuild Condition="$(Configuration) == 'Release'">true</ContinuousIntegrationBuild>
   </PropertyGroup>
 
   <ItemGroup>
