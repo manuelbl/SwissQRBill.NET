@@ -12,41 +12,43 @@ namespace Codecrete.SwissQRBill.CoreTest
 {
     public class SampleQRCodeText
     {
-        private static readonly string QRCodeText1 = "SPC\n" +
-            "0200\n" +
-            "1\n" +
-            "CH5800791123000889012\n" +
-            "S\n" +
-            "Robert Schneider AG\n" +
-            "Rue du Lac\n" +
-            "1268\n" +
-            "2501\n" +
-            "Biel\n" +
-            "CH\n" +
-            "\n" +
-            "\n" +
-            "\n" +
-            "\n" +
-            "\n" +
-            "\n" +
-            "\n" +
-            "3949.75\n" +
-            "CHF\n" +
-            "S\n" +
-            "Pia Rutschmann\n" +
-            "Marktgasse\n" +
-            "28\n" +
-            "9400\n" +
-            "Rorschach\n" +
-            "CH\n" +
-            "NON\n" +
-            "\n" +
-            "Bill no. 3139 for gardening work and disposal of waste material\n" +
-            "EPD";
+        private static readonly string[] QRCodeText1 = {
+            "SPC",
+            "0200",
+            "1",
+            "CH5800791123000889012",
+            "S",
+            "Robert Schneider AG",
+            "Rue du Lac",
+            "1268",
+            "2501",
+            "Biel",
+            "CH",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "3949.75",
+            "CHF",
+            "S",
+            "Pia Rutschmann",
+            "Marktgasse",
+            "28",
+            "9400",
+            "Rorschach",
+            "CH",
+            "NON",
+            "",
+            "Bill no. 3139 for gardening work and disposal of waste material",
+            "EPD"
+        };
 
-        public static string CreateQrCodeText1(bool withCrLf)
+        public static string CreateQrCodeText1(string newLine = "\n")
         {
-            return HandleLinefeed(QRCodeText1, withCrLf);
+            return string.Join(newLine, QRCodeText1);
         }
 
         public static Bill CreateBillData1()
@@ -82,44 +84,46 @@ namespace Codecrete.SwissQRBill.CoreTest
             return bill;
         }
 
-        private static readonly string QRCodeText2 = "SPC\n" +
-            "0200\n" +
-            "1\n" +
-            "CH4431999123000889012\n" +
-            "S\n" +
-            "Robert Schneider AG\n" +
-            "Rue du Lac\n" +
-            "1268\n" +
-            "2501\n" +
-            "Biel\n" +
-            "CH\n" +
-            "\n" +
-            "\n" +
-            "\n" +
-            "\n" +
-            "\n" +
-            "\n" +
-            "\n" +
-            "1949.75\n" +
-            "CHF\n" +
-            "S\n" +
-            "Pia-Maria Rutschmann-Schnyder\n" +
-            "Grosse Marktgasse\n" +
-            "28\n" +
-            "9400\n" +
-            "Rorschach\n" +
-            "CH\n" +
-            "QRR\n" +
-            "210000000003139471430009017\n" +
-            "Order dated 18.06.2020\n" +
-            "EPD\n" +
-            "//S1/01/20170309/11/10201409/20/14000000/22/36958/30/CH106017086/40/1020/41/3010\n" +
-            "UV;UltraPay005;12345\n" +
-            "XY;XYService;54321";
+        private static readonly string[] QRCodeText2 = {
+            "SPC",
+            "0200",
+            "1",
+            "CH4431999123000889012",
+            "S",
+            "Robert Schneider AG",
+            "Rue du Lac",
+            "1268",
+            "2501",
+            "Biel",
+            "CH",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "1949.75",
+            "CHF",
+            "S",
+            "Pia-Maria Rutschmann-Schnyder",
+            "Grosse Marktgasse",
+            "28",
+            "9400",
+            "Rorschach",
+            "CH",
+            "QRR",
+            "210000000003139471430009017",
+            "Order dated 18.06.2020",
+            "EPD",
+            "//S1/01/20170309/11/10201409/20/14000000/22/36958/30/CH106017086/40/1020/41/3010",
+            "UV;UltraPay005;12345",
+            "XY;XYService;54321"
+        };
 
-        public static string CreateQrCodeText2(bool withCrLf)
+        public static string CreateQrCodeText2(string newLine = "\n")
         {
-            return HandleLinefeed(QRCodeText2, withCrLf);
+            return string.Join(newLine, QRCodeText2);
         }
 
         public static Bill CreateBillData2()
@@ -163,41 +167,43 @@ namespace Codecrete.SwissQRBill.CoreTest
             return bill;
         }
 
-        private static readonly string QRCodeText3 = "SPC\n" +
-            "0200\n" +
-            "1\n" +
-            "CH3709000000304442225\n" +
-            "S\n" +
-            "Salvation Army Foundation Switzerland\n" +
-            "\n" +
-            "\n" +
-            "3000\n" +
-            "Bern\n" +
-            "CH\n" +
-            "\n" +
-            "\n" +
-            "\n" +
-            "\n" +
-            "\n" +
-            "\n" +
-            "\n" +
-            "\n" +
-            "CHF\n" +
-            "\n" +
-            "\n" +
-            "\n" +
-            "\n" +
-            "\n" +
-            "\n" +
-            "\n" +
-            "NON\n" +
-            "\n" +
-            "Donnation to the Winterfest campaign\n" +
-            "EPD";
+        private static readonly string[] QRCodeText3 = {
+            "SPC",
+            "0200",
+            "1",
+            "CH3709000000304442225",
+            "S",
+            "Salvation Army Foundation Switzerland",
+            "",
+            "",
+            "3000",
+            "Bern",
+            "CH",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "CHF",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "NON",
+            "",
+            "Donnation to the Winterfest campaign",
+            "EPD"
+        };
 
-        public static string CreateQrCodeText3(bool withCrLf)
+        public static string CreateQrCodeText3(string newLine = "\n")
         {
-            return HandleLinefeed(QRCodeText3, withCrLf);
+            return string.Join(newLine, QRCodeText3);
         }
 
         public static Bill CreateBillData3()
@@ -220,41 +226,44 @@ namespace Codecrete.SwissQRBill.CoreTest
             return bill;
         }
 
-        private static readonly string QRCodeText4 = "SPC\n" +
-            "0200\n" +
-            "1\n" +
-            "CH5800791123000889012\n" +
-            "S\n" +
-            "Robert Schneider AG\n" +
-            "Rue du Lac\n" +
-            "1268\n" +
-            "2501\n" +
-            "Biel\n" +
-            "CH\n" +
-            "\n" +
-            "\n" +
-            "\n" +
-            "\n" +
-            "\n" +
-            "\n" +
-            "\n" +
-            "199.95\n" +
-            "CHF\n" +
-            "K\n" +
-            "Pia-Maria Rutschmann-Schnyder\n" +
-            "Grosse Marktgasse 28\n" +
-            "9400 Rorschach\n" +
-            "\n" +
-            "\n" +
-            "CH\n" +
-            "SCOR\n" +
-            "RF18539007547034\n" +
-            "\n" +
-            "EPD";
-
-        public static string CreateQrCodeText4(bool withCrLf)
+        private static readonly string[] QRCodeText4 =
         {
-            return HandleLinefeed(QRCodeText4, withCrLf);
+            "SPC",
+            "0200",
+            "1",
+            "CH5800791123000889012",
+            "S",
+            "Robert Schneider AG",
+            "Rue du Lac",
+            "1268",
+            "2501",
+            "Biel",
+            "CH",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "199.95",
+            "CHF",
+            "K",
+            "Pia-Maria Rutschmann-Schnyder",
+            "Grosse Marktgasse 28",
+            "9400 Rorschach",
+            "",
+            "",
+            "CH",
+            "SCOR",
+            "RF18539007547034",
+            "",
+            "EPD"
+        };
+
+        public static string CreateQrCodeText4(string newLine = "\n")
+        {
+            return string.Join(newLine, QRCodeText4);
         }
 
         public static Bill CreateBillData4()
@@ -288,41 +297,44 @@ namespace Codecrete.SwissQRBill.CoreTest
             return bill;
         }
 
-        private static readonly string QRCodeText5 = "SPC\n" +
-            "0200\n" +
-            "1\n" +
-            "CH5800791123000889012\n" +
-            "S\n" +
-            "Robert Schneider AG\n" +
-            "Rue du Lac\n" +
-            "1268\n" +
-            "2501\n" +
-            "Biel\n" +
-            "CH\n" +
-            "\n" +
-            "\n" +
-            "\n" +
-            "\n" +
-            "\n" +
-            "\n" +
-            "\n" +
-            "0.50\n" +
-            "CHF\n" +
-            "K\n" +
-            "Pia-Maria Rutschmann-Schnyder\n" +
-            "Grosse Marktgasse 28\n" +
-            "9400 Rorschach\n" +
-            "\n" +
-            "\n" +
-            "CH\n" +
-            "SCOR\n" +
-            "RF18539007547034\n" +
-            "\n" +
-            "EPD";
-
-        public static string CreateQrCodeText5(bool withCrLf)
+        private static readonly string[] QRCodeText5 =
         {
-            return HandleLinefeed(QRCodeText5, withCrLf);
+            "SPC",
+            "0200",
+            "1",
+            "CH5800791123000889012",
+            "S",
+            "Robert Schneider AG",
+            "Rue du Lac",
+            "1268",
+            "2501",
+            "Biel",
+            "CH",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "0.50",
+            "CHF",
+            "K",
+            "Pia-Maria Rutschmann-Schnyder",
+            "Grosse Marktgasse 28",
+            "9400 Rorschach",
+            "",
+            "",
+            "CH",
+            "SCOR",
+            "RF18539007547034",
+            "",
+            "EPD",
+        };
+
+        public static string CreateQrCodeText5(string newLine = "\n")
+        {
+            return string.Join(newLine, QRCodeText5);
         }
 
         public static Bill CreateBillData5()
@@ -354,16 +366,6 @@ namespace Codecrete.SwissQRBill.CoreTest
                 Format = { Language = Language.EN }
             };
             return bill;
-        }
-
-        private static string HandleLinefeed(string text, bool withCrLf)
-        {
-            if (withCrLf)
-            {
-                text = text.Replace("\n", "\r\n");
-            }
-
-            return text;
         }
     }
 }

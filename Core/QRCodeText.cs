@@ -5,8 +5,10 @@
 // https://opensource.org/licenses/MIT
 //
 
+using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
 using static Codecrete.SwissQRBill.Generator.Address;
@@ -138,11 +140,11 @@ namespace Codecrete.SwissQRBill.Generator
         /// <exception cref="QRBillValidationException">The text is in an invalid format.</exception>
         public static Bill Decode(string text)
         {
-            string[] lines = SplitLines(text);
-            if (lines.Length < 31 || lines.Length > 34)
+            IReadOnlyList<string> lines = SplitLines(text);
+            if (lines.Count < 31 || lines.Count > 34)
             {
                 // A line feed at the end is illegal (cf 4.2.3) but found in practice. Don't be too strict.
-                if (!(lines.Length == 35 && lines[34].Length == 0))
+                if (!(lines.Count == 35 && lines[34].Length == 0))
                 {
                     ThrowSingleValidationError(ValidationConstants.FieldQrType, ValidationConstants.KeyDataStructureInvalid);
                 }
@@ -202,10 +204,10 @@ namespace Codecrete.SwissQRBill.Generator
                 ThrowSingleValidationError(ValidationConstants.FieldTrailer, ValidationConstants.KeyDataStructureInvalid);
             }
 
-            billData.BillInformation = lines.Length > 31 ? lines[31] : "";
+            billData.BillInformation = lines.Count > 31 ? lines[31] : "";
 
             List<AlternativeScheme> alternativeSchemes = null;
-            int numSchemes = lines.Length - 32;
+            int numSchemes = lines.Count - 32;
             // skip empty schemes at end (due to invalid trailing line feed)
             if (numSchemes > 0 && lines[32 + numSchemes - 1].Length == 0)
             {
@@ -235,7 +237,7 @@ namespace Codecrete.SwissQRBill.Generator
         /// <param name="startLine">The index of first line to process.</param>
         /// <param name="isOptional">The flag indicating if the address is optional.</param>
         /// <returns>The decoded address or <c>null</c> if the address is optional and empty.</returns>
-        private static Address DecodeAddress(string[] lines, int startLine, bool isOptional)
+        private static Address DecodeAddress(IReadOnlyList<string> lines, int startLine, bool isOptional)
         {
 
             bool isEmpty = lines[startLine].Length == 0 && lines[startLine + 1].Length == 0
@@ -275,31 +277,28 @@ namespace Codecrete.SwissQRBill.Generator
             return address;
         }
 
-        private static string[] SplitLines(string text)
+        private static IReadOnlyList<string> SplitLines(string text)
         {
             List<string> lines = new List<string>(32);
-            int lastPos = 0;
-            while (true)
+            using (var reader = new StringReader(text))
             {
-                int pos = text.IndexOf('\n', lastPos);
-                if (pos < 0)
+                while (true)
                 {
-                    break;
+                    string line = reader.ReadLine();
+                    if (line == null)
+                    {
+                        // StringReader.ReadLine() returns null if the last character is a NewLine character, that's why an empty string is manually added if that's the case.
+                        // See https://github.com/dotnet/runtime/issues/27715 and https://docs.microsoft.com/en-us/dotnet/api/system.io.stringreader.readline#remarks
+                        if (text.EndsWith("\n", StringComparison.OrdinalIgnoreCase) || text.EndsWith("\r", StringComparison.OrdinalIgnoreCase))
+                        {
+                            lines.Add("");
+                        }
+                        break;
+                    }
+                    lines.Add(line);
                 }
-
-                int pos2 = pos;
-                if (pos2 > lastPos && text[pos2 - 1] == '\r')
-                {
-                    pos2--;
-                }
-
-                lines.Add(text.Substring(lastPos, pos2 - lastPos));
-                lastPos = pos + 1;
             }
-
-            // add last line
-            lines.Add(text.Substring(lastPos, text.Length - lastPos));
-            return lines.ToArray();
+            return lines;
         }
 
         private static void ThrowSingleValidationError(string field, string messageKey)
