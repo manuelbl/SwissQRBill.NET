@@ -282,22 +282,20 @@ namespace Codecrete.SwissQRBill.Generator
             List<string> lines = new List<string>(32);
             using (var reader = new StringReader(text))
             {
-                while (true)
+                string line;
+                while ((line = reader.ReadLine()) != null)
                 {
-                    string line = reader.ReadLine();
-                    if (line == null)
-                    {
-                        // StringReader.ReadLine() returns null if the last character is a NewLine character, that's why an empty string is manually added if that's the case.
-                        // See https://github.com/dotnet/runtime/issues/27715 and https://docs.microsoft.com/en-us/dotnet/api/system.io.stringreader.readline#remarks
-                        if (text.EndsWith("\n", StringComparison.OrdinalIgnoreCase) || text.EndsWith("\r", StringComparison.OrdinalIgnoreCase))
-                        {
-                            lines.Add("");
-                        }
-                        break;
-                    }
                     lines.Add(line);
                 }
             }
+
+            // If the last line ends with a newline character, it is consumed by the last line. That's why an empty string is manually added in this case.
+            // See https://github.com/dotnet/runtime/issues/27715 and https://docs.microsoft.com/en-us/dotnet/api/system.io.stringreader.readline#remarks
+            if (text.EndsWith("\n", StringComparison.Ordinal) || text.EndsWith("\r", StringComparison.Ordinal))
+            {
+                lines.Add("");
+            }
+
             return lines;
         }
 
