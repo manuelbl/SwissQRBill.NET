@@ -59,13 +59,18 @@ namespace Codecrete.SwissQRBill.Windows
         /// <inheritdoc/>
         protected override void Dispose(bool disposing)
         {
-            base.Close();
-
+            if (!disposing)
+            {
+                return;
+            }
+            
             if (_bitmap != null)
             {
                 _bitmap.Dispose();
                 _bitmap = null;
             }
+
+            Close();
         }
     }
 }

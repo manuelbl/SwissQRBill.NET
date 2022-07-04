@@ -128,8 +128,11 @@ namespace Codecrete.SwissQRBill.Windows
         /// <inheritdoc />
         protected override void Dispose(bool disposing)
         {
-            Close();
-
+            if (!disposing)
+            {
+                return;
+            }
+            
             if (_metafile != null)
             {
                 _metafile.Dispose();
@@ -139,6 +142,8 @@ namespace Codecrete.SwissQRBill.Windows
             {
                 _stream.Dispose();
             }
+
+            Close();
         }
     }
 }

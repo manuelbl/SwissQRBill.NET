@@ -210,7 +210,12 @@ namespace Codecrete.SwissQRBill.PixelCanvas
             Close();
         }
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Closes this instance and frees resources.
+        /// <para>
+        /// After a call to this method, the canvas can no longer be used for drawing.
+        /// </para>
+        /// </summary>
         protected void Close()
         {
             if (_canvas != null)
@@ -246,7 +251,10 @@ namespace Codecrete.SwissQRBill.PixelCanvas
         /// <inheritdoc />
         protected override void Dispose(bool disposing)
         {
-            Close();
+            if (disposing)
+            {
+                Close();
+            }
         }
 
         /// <inheritdoc />

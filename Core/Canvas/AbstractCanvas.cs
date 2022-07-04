@@ -104,10 +104,12 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         public void Dispose()
         {
             Dispose(true);
-            GC.SuppressFinalize(this);
         }
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Frees and releases resources.
+        /// </summary>
+        /// <param name="disposing">indicates whether the method is called from a <c>Dispose</c> method (<c>true</c>) or from a finalizer (<c>false</c>).</param>
         protected abstract void Dispose(bool disposing);
     }
 }

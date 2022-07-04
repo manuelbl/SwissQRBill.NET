@@ -272,7 +272,12 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             Close();
         }
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Closes this instance and frees resources.
+        /// <para>
+        /// After a call to this method, the canvas can no longer be used for drawing.
+        /// </para>
+        /// </summary>
         protected void Close()
         {
             _contentStream = null;
@@ -282,7 +287,10 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         /// <inheritdoc />
         protected override void Dispose(bool disposing)
         {
-            Close();
+            if (disposing)
+            {
+                Close();
+            }
         }
     }
 }
