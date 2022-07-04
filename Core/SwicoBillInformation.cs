@@ -139,12 +139,9 @@ namespace Codecrete.SwissQRBill.Generator
                 if (InvoiceDate == null || PaymentConditions == null)
                     return null;
 
-                foreach (var tuple in PaymentConditions)
+                foreach (var tuple in PaymentConditions.Where(tuple => tuple.Item1 == 0))
                 {
-                    if (tuple.Item1 == 0)
-                    {
-                        return InvoiceDate.Value.AddDays(tuple.Item2);
-                    }
+                    return InvoiceDate.Value.AddDays(tuple.Item2);
                 }
 
                 return null;
@@ -202,7 +199,7 @@ namespace Codecrete.SwissQRBill.Generator
         /// <returns>A hash code for the current object.</returns>
         public override int GetHashCode()
         {
-            int hashCode = 1731431530;
+            var hashCode = 1731431530;
             hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(InvoiceNumber);
             hashCode = hashCode * -1521134295 + InvoiceDate.GetHashCode();
             hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(CustomerReference);
@@ -217,7 +214,7 @@ namespace Codecrete.SwissQRBill.Generator
             return hashCode;
         }
 
-        private static bool SequenceEqual<T>(List<T> list1, List<T> list2)
+        private static bool SequenceEqual<T>(IReadOnlyCollection<T> list1, IReadOnlyCollection<T> list2)
         {
             if (list1 == list2)
             {
@@ -244,8 +241,8 @@ namespace Codecrete.SwissQRBill.Generator
                 return 0;
             }
 
-            int hashCode = 1731431530;
-            foreach (T elem in list)
+            var hashCode = 1731431530;
+            foreach (var elem in list)
             {
                 hashCode = hashCode * -1521134295 + elem.GetHashCode();
             }

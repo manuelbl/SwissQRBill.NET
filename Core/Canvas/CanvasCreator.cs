@@ -33,7 +33,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         /// <param name="factory">factory to add</param>
         public static void Register(ICanvasFactory factory)
         {
-            factories.Insert(0, factory);
+            Factories.Insert(0, factory);
         }
 
         /// <summary>
@@ -45,7 +45,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         /// <returns></returns>
         public static ICanvas Create(BillFormat format, double width, double height)
         {
-            foreach (ICanvasFactory factory in factories)
+            foreach (var factory in Factories)
                 if (factory.CanCreate(format))
                     return factory.Create(format, width, height);
 
@@ -60,10 +60,10 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         /// </summary>
         public static void RegisterPixelCanvasFactory()
         {
-            if (checkedForPixelCanvas)
+            if (_checkedForPixelCanvas)
                 return;
 
-            checkedForPixelCanvas = true;
+            _checkedForPixelCanvas = true;
 
             string factoryClass = null;
             string assemblyName = null;
@@ -96,23 +96,27 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             }
 
             // Locate the PixelCanvas assembly and the PNGCanvasFactory class and register it
-            foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())
+            foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
             {
-                if (assembly.GetName().Name == assemblyName)
+                if (assembly.GetName().Name != assemblyName)
                 {
-                    Type factoryType = assembly.GetType(factoryClass);
-                    if (factoryType != null)
-                    {
-                        ICanvasFactory factory = (ICanvasFactory)Activator.CreateInstance(factoryType);
-                        Register(factory);
-                        return;
-                    }
+                    continue;
                 }
+                
+                var factoryType = assembly.GetType(factoryClass);
+                if (factoryType == null)
+                {
+                    continue;
+                }
+                
+                var factory = (ICanvasFactory)Activator.CreateInstance(factoryType);
+                Register(factory);
+                return;
             }
         }
 
-        private static readonly List<ICanvasFactory> factories = new List<ICanvasFactory>();
+        private static readonly List<ICanvasFactory> Factories = new List<ICanvasFactory>();
 
-        private static bool checkedForPixelCanvas = false;
+        private static bool _checkedForPixelCanvas;
     }
 }

@@ -111,7 +111,7 @@ namespace Codecrete.SwissQRBill.Generator
 
             _labelFontSize = rcLabelPrefFontSize;
             _textFontSize = rcTextPrefFontSize;
-            double receiptTextWidthAdapted = ReceiptTextWidth - _additionalLeftMargin;
+            var receiptTextWidthAdapted = ReceiptTextWidth - _additionalLeftMargin;
             BreakLines(receiptTextWidthAdapted);
             isTooTight = ComputeReceiptSpacing();
             if (isTooTight)
@@ -163,8 +163,8 @@ namespace Codecrete.SwissQRBill.Generator
             _graphics.SetTransformation(ReceiptWidth + Margin, 0, 0, 1, 1);
 
             // currency
-            double y = AmountSectionTop - _labelAscender;
-            string label = GetText(MultilingualText.KeyCurrency);
+            var y = AmountSectionTop - _labelAscender;
+            var label = GetText(MultilingualText.KeyCurrency);
             _graphics.PutText(label, 0, y, _labelFontSize, true);
 
             y -= (_textFontSize + 3) * PtToMm;
@@ -233,16 +233,16 @@ namespace Codecrete.SwissQRBill.Generator
             }
 
             _graphics.SetTransformation(ReceiptWidth + Margin, 0, 0, 1, 1);
-            double y = furtherInformationSectionTop - _graphics.Ascender(fontSize);
-            double maxWidth = PaymentPartWidth - 2 * Margin - _additionalRightMargin;
+            var y = furtherInformationSectionTop - _graphics.Ascender(fontSize);
+            var maxWidth = PaymentPartWidth - 2 * Margin - _additionalRightMargin;
 
-            foreach (AlternativeScheme scheme in _bill.AlternativeSchemes)
+            foreach (var scheme in _bill.AlternativeSchemes)
             {
-                string boldText = $"{scheme.Name}: ";
-                double boldTextWidth = _graphics.TextWidth(boldText, fontSize, true);
+                var boldText = $"{scheme.Name}: ";
+                var boldTextWidth = _graphics.TextWidth(boldText, fontSize, true);
                 _graphics.PutText(boldText, 0, y, fontSize, true);
 
-                string normalText = TruncateText(scheme.Instruction, maxWidth - boldTextWidth, fontSize);
+                var normalText = TruncateText(scheme.Instruction, maxWidth - boldTextWidth, fontSize);
                 _graphics.PutText(normalText, boldTextWidth, y, fontSize, false);
                 y -= lineSpacing * PtToMm;
             }
@@ -300,8 +300,8 @@ namespace Codecrete.SwissQRBill.Generator
             const double amountBoxHeightRc = 10; // mm
 
             // currency
-            double y = AmountSectionTop - _labelAscender;
-            string label = GetText(MultilingualText.KeyCurrency);
+            var y = AmountSectionTop - _labelAscender;
+            var label = GetText(MultilingualText.KeyCurrency);
             _graphics.PutText(label, 0, y, _labelFontSize, true);
 
             y -= (_textFontSize + 3) * PtToMm;
@@ -329,9 +329,9 @@ namespace Codecrete.SwissQRBill.Generator
         {
             const double acceptancePointSectionTop = 23; // mm (from bottom)
 
-            string label = GetText(MultilingualText.KeyAcceptancePoint);
-            double y = acceptancePointSectionTop - _labelAscender;
-            double w = _graphics.TextWidth(label, _labelFontSize, true);
+            var label = GetText(MultilingualText.KeyAcceptancePoint);
+            var y = acceptancePointSectionTop - _labelAscender;
+            var w = _graphics.TextWidth(label, _labelFontSize, true);
             _graphics.PutText(label, ReceiptTextWidth - _additionalLeftMargin - w, y, _labelFontSize, true);
         }
 
@@ -341,8 +341,8 @@ namespace Codecrete.SwissQRBill.Generator
             const double ppInfoSectionMaxHeight = 85; // mm
 
             // numExtraLines: the number of lines between text blocks
-            int numTextLines = 0;
-            int numExtraLines = 0;
+            var numTextLines = 0;
+            var numExtraLines = 0;
             double fixedHeight = 0;
 
             numTextLines += 1 + _accountPayableToLines.Length;
@@ -381,8 +381,8 @@ namespace Codecrete.SwissQRBill.Generator
             const double receiptMaxHeight = 56; // mm
 
             // numExtraLines: the number of lines between text blocks
-            int numTextLines = 0;
-            int numExtraLines = 0;
+            var numTextLines = 0;
+            var numExtraLines = 0;
             double fixedHeight = 0;
 
             numTextLines += 1 + _accountPayableToLines.Length;
@@ -421,17 +421,17 @@ namespace Codecrete.SwissQRBill.Generator
 
         internal void DrawBorder()
         {
-            SeparatorType separatorType = _bill.Format.SeparatorType;
-            OutputSize outputSize = _bill.Format.OutputSize;
+            var separatorType = _bill.Format.SeparatorType;
+            var outputSize = _bill.Format.OutputSize;
 
             if (separatorType == SeparatorType.None)
             {
                 return;
             }
 
-            bool hasScissors = separatorType == SeparatorType.SolidLineWithScissors
-                || separatorType == SeparatorType.DashedLineWithScissors
-                || separatorType == SeparatorType.DottedLineWithScissors;
+            var hasScissors = separatorType == SeparatorType.SolidLineWithScissors
+                              || separatorType == SeparatorType.DashedLineWithScissors
+                              || separatorType == SeparatorType.DottedLineWithScissors;
 
             LineStyle lineStyle;
             double lineWidth;
@@ -498,10 +498,10 @@ namespace Codecrete.SwissQRBill.Generator
 
         private void DrawScissorsBlade(double x, double y, double size, double angle, bool mirrored)
         {
-            double scale = size / 476.0;
-            double xOffset = 0.36 * size;
-            double yOffset = -1.05 * size;
-            TransformationMatrix matrix = new TransformationMatrix();
+            var scale = size / 476.0;
+            var xOffset = 0.36 * size;
+            var yOffset = -1.05 * size;
+            var matrix = new TransformationMatrix();
             matrix.Translate(x, y);
             matrix.Rotate(angle);
             matrix.Translate(mirrored ? xOffset : -xOffset, yOffset);
@@ -551,7 +551,7 @@ namespace Codecrete.SwissQRBill.Generator
         private void DrawLabelAndTextLines(string labelKey, string[] textLines)
         {
             DrawLabel(labelKey);
-            double leading = _lineSpacing - _graphics.LineHeight(_textFontSize);
+            var leading = _lineSpacing - _graphics.LineHeight(_textFontSize);
             _graphics.PutTextLines(textLines, 0, _yPos, _textFontSize, leading);
             _yPos -= textLines.Length * _lineSpacing + _extraSpacing;
         }
@@ -559,12 +559,12 @@ namespace Codecrete.SwissQRBill.Generator
         // Prepare the formatted text
         private void PrepareText()
         {
-            string account = Payments.FormatIban(_bill.Account);
+            var account = Payments.FormatIban(_bill.Account);
             _accountPayableTo = account + "\n" + FormatAddressForDisplay(_bill.Creditor, IsCreditorWithCountryCode());
 
             _reference = FormatReferenceNumber(_bill.Reference);
 
-            string info = _bill.UnstructuredMessage;
+            var info = _bill.UnstructuredMessage;
             if (_bill.BillInformation != null)
             {
                 if (info == null)
@@ -596,7 +596,7 @@ namespace Codecrete.SwissQRBill.Generator
         {
             if (reduceBoth)
             {
-                string account = Payments.FormatIban(_bill.Account);
+                var account = Payments.FormatIban(_bill.Account);
                 _accountPayableTo = account + "\n" + FormatAddressForDisplay(CreateReducedAddress(_bill.Creditor), IsCreditorWithCountryCode());
             }
 
@@ -608,7 +608,7 @@ namespace Codecrete.SwissQRBill.Generator
 
         private static Address CreateReducedAddress(Address address)
         {
-            Address reducedAddress = new Address
+            var reducedAddress = new Address
             {
                 Name = address.Name,
                 CountryCode = address.CountryCode
@@ -680,18 +680,18 @@ namespace Codecrete.SwissQRBill.Generator
 
         private static string FormatAddressForDisplay(Address address, bool withCountryCode)
         {
-            StringBuilder sb = new StringBuilder();
+            var sb = new StringBuilder();
             sb.Append(address.Name);
 
             if (address.Type == AddressType.Structured)
             {
-                string street = address.Street;
+                var street = address.Street;
                 if (street != null)
                 {
                     sb.Append("\n");
                     sb.Append(street);
                 }
-                string houseNo = address.HouseNo;
+                var houseNo = address.HouseNo;
                 if (houseNo != null)
                 {
                     sb.Append(street != null ? " " : "\n");
@@ -734,19 +734,13 @@ namespace Codecrete.SwissQRBill.Generator
             }
 
             refNo = refNo.Trim();
-            int len = refNo.Length;
+            var len = refNo.Length;
             if (len == 0)
             {
                 return null;
             }
 
-            if (refNo.StartsWith("RF"))
-            {
-                // same format as IBAN
-                return Payments.FormatIban(refNo);
-            }
-
-            return Payments.FormatQrReferenceNumber(refNo);
+            return refNo.StartsWith("RF") ? Payments.FormatIban(refNo) : Payments.FormatQrReferenceNumber(refNo);
         }
 
         private string TruncateText(string text, double maxWidth, int fontSize)
@@ -758,7 +752,7 @@ namespace Codecrete.SwissQRBill.Generator
                 return text;
             }
 
-            string[] lines = _graphics.SplitLines(text, maxWidth - fontSize * ellipsisWidth, fontSize);
+            var lines = _graphics.SplitLines(text, maxWidth - fontSize * ellipsisWidth, fontSize);
             return lines[0] + "…";
         }
 
@@ -771,7 +765,7 @@ namespace Codecrete.SwissQRBill.Generator
 
         private static NumberFormatInfo CreateAmountNumberInfo()
         {
-            NumberFormatInfo numberInfo = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();
+            var numberInfo = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();
             numberInfo.NumberDecimalDigits = 2;
             numberInfo.NumberDecimalSeparator = ".";
             numberInfo.NumberGroupSeparator = " ";

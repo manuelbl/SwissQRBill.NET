@@ -102,9 +102,9 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         /// <param name="stream">The stream to write to.</param>
         public void WriteTo(Stream stream)
         {
-            long length = _buffer.Length;
+            var length = _buffer.Length;
             Close();
-            byte[] data = _buffer.GetBuffer();
+            var data = _buffer.GetBuffer();
             stream.Write(data, 0, (int)length);
             stream.Flush();
         }
@@ -231,7 +231,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         }
 
         /// <inheritdoc />
-        public override void FillPath(int color, bool smoothing)
+        public override void FillPath(int color, bool smoothing = true)
         {
             _stream.Write("<path fill=\"#");
             _stream.Write(FormatColor(color));
@@ -245,7 +245,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         }
 
         /// <inheritdoc />
-        public override void StrokePath(double strokeWidth, int color, LineStyle lineStyle, bool smoothing)
+        public override void StrokePath(double strokeWidth, int color, LineStyle lineStyle = LineStyle.Solid, bool smoothing = true)
         {
             _stream.Write("<path stroke=\"#");
             _stream.Write(FormatColor(color));
@@ -349,46 +349,48 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
 
         private static string EscapeXml(string text)
         {
-            int length = text.Length;
-            int lastCopiedPosition = 0;
+            var length = text.Length;
+            var lastCopiedPosition = 0;
             StringBuilder result = null;
-            for (int i = 0; i < length; i++)
+            for (var i = 0; i < length; i++)
             {
-                char ch = text[i];
-                if (ch == '<' || ch == '>' || ch == '&' || ch == '\'' || ch == '"')
+                var ch = text[i];
+                if (ch != '<' && ch != '>' && ch != '&' && ch != '\'' && ch != '"')
                 {
-                    if (result == null)
-                    {
-                        result = new StringBuilder(length + 10);
-                    }
-
-                    if (i > lastCopiedPosition)
-                    {
-                        result.Append(text, lastCopiedPosition, i - lastCopiedPosition);
-                    }
-
-                    string entity;
-                    switch (ch)
-                    {
-                        case '<':
-                            entity = "&lt;";
-                            break;
-                        case '>':
-                            entity = "&gt;";
-                            break;
-                        case '&':
-                            entity = "&amp;";
-                            break;
-                        case '\'':
-                            entity = "&apos;";
-                            break;
-                        default:
-                            entity = "&quot;";
-                            break;
-                    }
-                    result.Append(entity);
-                    lastCopiedPosition = i + 1;
+                    continue;
                 }
+                
+                if (result == null)
+                {
+                    result = new StringBuilder(length + 10);
+                }
+
+                if (i > lastCopiedPosition)
+                {
+                    result.Append(text, lastCopiedPosition, i - lastCopiedPosition);
+                }
+
+                string entity;
+                switch (ch)
+                {
+                    case '<':
+                        entity = "&lt;";
+                        break;
+                    case '>':
+                        entity = "&gt;";
+                        break;
+                    case '&':
+                        entity = "&amp;";
+                        break;
+                    case '\'':
+                        entity = "&apos;";
+                        break;
+                    default:
+                        entity = "&quot;";
+                        break;
+                }
+                result.Append(entity);
+                lastCopiedPosition = i + 1;
             }
 
             if (result == null)

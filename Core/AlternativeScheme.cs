@@ -54,8 +54,8 @@ namespace Codecrete.SwissQRBill.Generator
         /// <returns>A hash code for the current object.</returns>
         public override int GetHashCode()
         {
-            EqualityComparer<string> stringComparer = EqualityComparer<string>.Default;
-            int hashCode = -1893642763;
+            var stringComparer = EqualityComparer<string>.Default;
+            var hashCode = -1893642763;
             hashCode = hashCode * -1521134295 + stringComparer.GetHashCode(Name);
             hashCode = hashCode * -1521134295 + stringComparer.GetHashCode(Instruction);
             return hashCode;

@@ -39,7 +39,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         /// <inheritdoc />
         public virtual void PutTextLines(string[] lines, double x, double y, int fontSize, double leading)
         {
-            foreach (string line in lines)
+            foreach (var line in lines)
             {
                 PutText(line, x, y, fontSize, false);
                 y -= FontMetrics.LineHeight(fontSize) + leading;

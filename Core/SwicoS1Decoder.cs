@@ -55,14 +55,14 @@ namespace Codecrete.SwissQRBill.Generator
             }
 
             // Split text as slashes
-            string[] parts = Split(billInfoText.Substring(5));
+            var parts = Split(billInfoText.Substring(5));
 
             // Create a list of tuples (tag, value)
             var tuples = new List<(int Tag, string Value)>();
-            int len = parts.Length;
-            for (int i = 0; i < len - 1; i += 2)
+            var len = parts.Length;
+            for (var i = 0; i < len - 1; i += 2)
             {
-                if (int.TryParse(parts[i], out int tag))
+                if (int.TryParse(parts[i], out var tag))
                 {
                     tuples.Add((tag, parts[i + 1]));
                 }
@@ -70,9 +70,9 @@ namespace Codecrete.SwissQRBill.Generator
 
             // Process the tuples and assign them to bill information
             var billInformation = new SwicoBillInformation();
-            foreach (var (Tag, Value) in tuples)
+            foreach (var (tag, value) in tuples)
             {
-                DecodeElement(billInformation, Tag, Value);
+                DecodeElement(billInformation, tag, value);
             }
 
             return billInformation;
@@ -124,25 +124,29 @@ namespace Codecrete.SwissQRBill.Generator
             if (value.Length == 6)
             {
                 // Single VAT date
-                DateTime? date = GetDateValue(value);
-                if (date != null)
+                var date = GetDateValue(value);
+                if (date == null)
                 {
-                    billInformation.VatDate = date;
-                    billInformation.VatStartDate = null;
-                    billInformation.VatEndDate = null;
+                    return;
                 }
+                
+                billInformation.VatDate = date;
+                billInformation.VatStartDate = null;
+                billInformation.VatEndDate = null;
             }
             else
             {
                 // VAT date range
-                DateTime? startDate = GetDateValue(value.Substring(0, 6));
-                DateTime? endDate = GetDateValue(value.Substring(6, 6));
-                if (startDate != null && endDate != null)
+                var startDate = GetDateValue(value.Substring(0, 6));
+                var endDate = GetDateValue(value.Substring(6, 6));
+                if (startDate == null || endDate == null)
                 {
-                    billInformation.VatStartDate = startDate;
-                    billInformation.VatEndDate = endDate;
-                    billInformation.VatDate = null;
+                    return;
                 }
+                
+                billInformation.VatStartDate = startDate;
+                billInformation.VatEndDate = endDate;
+                billInformation.VatDate = null;
             }
         }
 
@@ -176,8 +180,8 @@ namespace Codecrete.SwissQRBill.Generator
                     continue;
                 }
 
-                decimal? discount = GetDecimalValue(detail[0]);
-                int? days = GetIntValue(detail[1]);
+                var discount = GetDecimalValue(detail[0]);
+                var days = GetIntValue(detail[1]);
                 if (discount != null && days != null)
                 {
                     list.Add((discount.Value, days.Value));
@@ -205,8 +209,8 @@ namespace Codecrete.SwissQRBill.Generator
                     continue;
                 }
 
-                decimal? vatRate = GetDecimalValue(vatDetails[0]);
-                decimal? vatAmount = GetDecimalValue(vatDetails[1]);
+                var vatRate = GetDecimalValue(vatDetails[0]);
+                var vatAmount = GetDecimalValue(vatDetails[1]);
                 if (vatRate != null && vatAmount != null)
                 {
                     list.Add((vatRate.Value, vatAmount.Value));
@@ -301,7 +305,7 @@ namespace Codecrete.SwissQRBill.Generator
             var parts = text.Split('/');
 
             // Fix placeholders
-            for (int i = 0; i < parts.Length; i++)
+            for (var i = 0; i < parts.Length; i++)
             {
                 parts[i] = parts[i].Replace('★', '/').Replace('☁', '\\');
             }

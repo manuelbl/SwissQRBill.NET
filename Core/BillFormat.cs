@@ -161,7 +161,7 @@ namespace Codecrete.SwissQRBill.Generator
         /// <returns>A hash code for the current object.</returns>
         public override int GetHashCode()
         {
-            int hashCode = 43802783;
+            var hashCode = 43802783;
             hashCode = hashCode * -1521134295 + OutputSize.GetHashCode();
             hashCode = hashCode * -1521134295 + Language.GetHashCode();
             hashCode = hashCode * -1521134295 + SeparatorType.GetHashCode();

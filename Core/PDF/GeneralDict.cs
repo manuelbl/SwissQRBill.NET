@@ -30,7 +30,7 @@ namespace Codecrete.SwissQRBill.Generator.PDF
         void IWritable.Write(StreamWriter writer)
         {
             writer.Write("<<\n");
-            foreach (KeyValuePair<string, object> entry in _dict)
+            foreach (var entry in _dict)
             {
                 writer.Write($"/{entry.Key} ");
                 WriterHelper.WriteObject(writer, entry.Value);

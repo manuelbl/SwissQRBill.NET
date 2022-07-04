@@ -43,22 +43,22 @@ namespace Codecrete.SwissQRBill.Generator.PDF
             }
         }
 
-        internal static void WriteString(StreamWriter writer, string str)
+        private static void WriteString(TextWriter writer, string str)
         {
             writer.Write("(");
             writer.Write(EscapeString(str));
             writer.Write(")");
         }
 
-        internal static void WriteNumber(StreamWriter writer, float num)
+        private static void WriteNumber(TextWriter writer, float num)
         {
             writer.Write(num.ToString("0.###", CultureInfo.InvariantCulture.NumberFormat));
         }
 
-        internal static void WriteList<T>(StreamWriter writer, IEnumerable<T> list)
+        private static void WriteList<T>(StreamWriter writer, IEnumerable<T> list)
         {
             writer.Write("[ ");
-            foreach (T e in list)
+            foreach (var e in list)
             {
                 WriteObject(writer, e);
                 writer.Write(" ");
@@ -68,12 +68,12 @@ namespace Codecrete.SwissQRBill.Generator.PDF
 
         internal static string EscapeString(string text)
         {
-            int length = text.Length;
-            int lastCopiedPosition = 0;
+            var length = text.Length;
+            var lastCopiedPosition = 0;
             StringBuilder result = null;
-            for (int i = 0; i < length; i++)
+            for (var i = 0; i < length; i++)
             {
-                char ch = text[i];
+                var ch = text[i];
                 if (ch >= ' ' && ch != '(' && ch != ')' && ch != '\\')
                 {
                     continue;

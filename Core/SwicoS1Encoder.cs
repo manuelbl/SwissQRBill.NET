@@ -31,7 +31,7 @@ namespace Codecrete.SwissQRBill.Generator
         /// <returns>The encoded bill information text.</returns>
         internal static string Encode(SwicoBillInformation billInfo)
         {
-            StringBuilder sb = new StringBuilder();
+            var sb = new StringBuilder();
 
             sb.Append("//S1");
 
@@ -101,7 +101,7 @@ namespace Codecrete.SwissQRBill.Generator
 
         private static void AppendTupleList(StringBuilder sb, List<(decimal, decimal)> list)
         {
-            bool isFirst = true;
+            var isFirst = true;
             foreach (var e in list)
             {
                 if (!isFirst)
@@ -118,7 +118,7 @@ namespace Codecrete.SwissQRBill.Generator
 
         private static void AppendTupleList(StringBuilder sb, List<(decimal, int)> list)
         {
-            bool isFirst = true;
+            var isFirst = true;
             foreach (var e in list)
             {
                 if (!isFirst)

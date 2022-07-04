@@ -23,13 +23,13 @@ namespace Codecrete.SwissQRBill.Generator.PDF
 
         internal void Add(object node)
         {
-            Reference pageRef = _document.CreateReference(node);
+            var pageRef = _document.CreateReference(node);
             _pages.Add(pageRef);
         }
 
         void IWritable.Write(StreamWriter writer)
         {
-            GeneralDict dict = new GeneralDict("Pages");
+            var dict = new GeneralDict("Pages");
             dict.Add("Count", _pages.Count);
             dict.Add("Kids", _pages);
             ((IWritable)dict).Write(writer);

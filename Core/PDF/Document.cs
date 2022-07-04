@@ -34,11 +34,11 @@ namespace Codecrete.SwissQRBill.Generator.PDF
             _references = new List<Reference>();
             CreateReference(null); // dummy reference with index 0
 
-            GeneralDict catalog = new GeneralDict("Catalog");
+            var catalog = new GeneralDict("Catalog");
             catalog.Add("Version", new Name("1.4"));
             _catalogRef = CreateReference(catalog);
 
-            GeneralDict documentInfo = new GeneralDict();
+            var documentInfo = new GeneralDict();
             _documentInfoRef = CreateReference(documentInfo);
             documentInfo.Add("Title", title);
 
@@ -57,7 +57,7 @@ namespace Codecrete.SwissQRBill.Generator.PDF
         /// <returns></returns>
         public Page CreatePage(float width, float height)
         {
-            Page page = new Page(this, _pagesRef, width, height);
+            var page = new Page(this, _pagesRef, width, height);
             _pages.Add(page);
             return page;
         }
@@ -68,13 +68,13 @@ namespace Codecrete.SwissQRBill.Generator.PDF
         /// <param name="stream">The stream.</param>
         public void Save(Stream stream)
         {
-            using (StreamWriter writer = new StreamWriter(stream, GetCodepage1252()))
+            using (var writer = new StreamWriter(stream, GetCodepage1252()))
             {
                 writer.Write("%PDF-1.4\n");
                 writer.Write("%öäüß\n");
                 WriteBody(writer, stream);
                 writer.Flush();
-                long xrefOffset = stream.Length;
+                var xrefOffset = stream.Length;
                 WriteCrossReferenceTable(writer);
                 WriteTrailer(writer, xrefOffset);
                 writer.Flush();
@@ -83,8 +83,8 @@ namespace Codecrete.SwissQRBill.Generator.PDF
 
         internal Reference CreateReference(object target)
         {
-            int index = _references.Count;
-            Reference reference = new Reference(index, target);
+            var index = _references.Count;
+            var reference = new Reference(index, target);
             _references.Add(reference);
             return reference;
         }
@@ -94,14 +94,14 @@ namespace Codecrete.SwissQRBill.Generator.PDF
             if (_fontReferences.ContainsKey(font))
                 return _fontReferences[font];
 
-            Reference reference = CreateReference(font);
+            var reference = CreateReference(font);
             _fontReferences.Add(font, reference);
             return reference;
         }
 
         private void WriteBody(StreamWriter writer, Stream stream)
         {
-            foreach (Reference reference in _references)
+            foreach (var reference in _references)
             {
                 writer.Flush();
                 reference.Offset = (int)stream.Length;
@@ -113,7 +113,7 @@ namespace Codecrete.SwissQRBill.Generator.PDF
         {
             writer.Write("xref\n");
             writer.Write($"0 {_references.Count}\n");
-            foreach (Reference reference in _references)
+            foreach (var reference in _references)
             {
                 reference.WriteCrossReference(writer);
             }
@@ -121,7 +121,7 @@ namespace Codecrete.SwissQRBill.Generator.PDF
 
         private void WriteTrailer(StreamWriter writer, long xrefOffset)
         {
-            GeneralDict dict = new GeneralDict();
+            var dict = new GeneralDict();
             dict.Add("Root", _catalogRef);
             dict.Add("Info", _documentInfoRef);
             dict.Add("Size", _references.Count);

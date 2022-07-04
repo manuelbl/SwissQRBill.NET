@@ -102,7 +102,7 @@ namespace Codecrete.SwissQRBill.Generator
         /// </summary>
         public void UpdateReferenceType()
         {
-            string rf = Reference.Trimmed();
+            var rf = Reference.Trimmed();
             if (rf != null)
             {
                 if (rf.StartsWith("RF"))
@@ -140,10 +140,7 @@ namespace Codecrete.SwissQRBill.Generator
         /// <seealso cref="CreateAndSetQRReference(string)"/>
         public string Reference
         {
-            get
-            {
-                return _reference;
-            }
+            get => _reference;
             set
             {
                 _reference = value;
@@ -279,7 +276,7 @@ namespace Codecrete.SwissQRBill.Generator
         /// <returns>A hash code for the current object.</returns>
         public override int GetHashCode()
         {
-            int hashCode = -765739998;
+            var hashCode = -765739998;
             hashCode = hashCode * -1521134295 + Version.GetHashCode();
             hashCode = hashCode * -1521134295 + EqualityComparer<decimal?>.Default.GetHashCode(Amount);
             hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Currency);
@@ -295,7 +292,7 @@ namespace Codecrete.SwissQRBill.Generator
             return hashCode;
         }
 
-        private static bool SequenceEqual<T>(List<T> list1, List<T> list2)
+        private static bool SequenceEqual<T>(IReadOnlyCollection<T> list1, IReadOnlyCollection<T> list2)
         {
             if (list1 == list2)
             {

@@ -33,26 +33,17 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         /// only the first two columns are returned, i.e. 6 elements.
         /// </para>
         /// </summary>
-        public double[] Elements
-        {
-            get { return _elements; }
-        }
+        public double[] Elements => _elements;
 
         /// <summary>
         /// Gets the horizontal translation.
         /// </summary>
-        public double TranslationX
-        {
-            get { return _elements[4]; }
-        }
+        public double TranslationX => _elements[4];
 
         /// <summary>
         /// Gets the vertical translation.
         /// </summary>
-        public double TranslationY
-        {
-            get { return _elements[5]; }
-        }
+        public double TranslationY => _elements[5];
 
         /// <summary>
         /// Applies a translation to the matrix (prepend).
@@ -78,7 +69,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         /// Applies a scaling relative to the origin (prepend).
         /// </summary>
         /// <param name="sx">horizontal scaling</param>
-        /// <param name="sy">vertical sclaing</param>
+        /// <param name="sy">vertical scaling</param>
         public void Scale(double sx, double sy)
         {
             if (sx == 1 && sy == 1)
@@ -103,12 +94,12 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
                 return;
             }
 
-            double c = Math.Cos(angle);
-            double s = Math.Sin(angle);
-            double e0 = _elements[0];
-            double e1 = _elements[1];
-            double e2 = _elements[2];
-            double e3 = _elements[3];
+            var c = Math.Cos(angle);
+            var s = Math.Sin(angle);
+            var e0 = _elements[0];
+            var e1 = _elements[1];
+            var e2 = _elements[2];
+            var e3 = _elements[3];
             _elements[0] = e0 * c + e2 * s;
             _elements[1] = e1 * c + e3 * s;
             _elements[2] = -e0 * s + e2 * c;

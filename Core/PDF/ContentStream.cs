@@ -7,6 +7,7 @@
 
 using Codecrete.SwissQRBill.Generator.Canvas;
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.IO.Compression;
@@ -29,7 +30,7 @@ namespace Codecrete.SwissQRBill.Generator.PDF
             _buffer = new MemoryStream();
             _buffer.WriteByte(0x78);
             _buffer.WriteByte(0xDA);
-            DeflateStream deflateStream = new DeflateStream(_buffer, CompressionMode.Compress, true);
+            var deflateStream = new DeflateStream(_buffer, CompressionMode.Compress, true);
             _contentWriter = new StreamWriter(deflateStream, Document.GetCodepage1252());
             _dict = new GeneralDict();
         }
@@ -51,12 +52,12 @@ namespace Codecrete.SwissQRBill.Generator.PDF
         }
 
         /// <summary>
-        /// Sets the transfomation matrix.
+        /// Sets the transformation matrix.
         /// </summary>
         /// <param name="matrix">The transformation matrix.</param>
         public void Transform(TransformationMatrix matrix)
         {
-            foreach (double f in matrix.Elements)
+            foreach (var f in matrix.Elements)
             {
                 WriteOperand((float)f);
             }
@@ -169,7 +170,7 @@ namespace Codecrete.SwissQRBill.Generator.PDF
         }
 
         /// <summary>
-        /// Adds a closed rectangle to the current paht.
+        /// Adds a closed rectangle to the current path.
         /// </summary>
         /// <param name="x">x-coordinate</param>
         /// <param name="y">y-coordinate</param>
@@ -249,7 +250,7 @@ namespace Codecrete.SwissQRBill.Generator.PDF
         }
 
         /// <summary>
-        /// Closes, filles and strokes the current path using the even-odd rule.
+        /// Closes, fills and strokes the current path using the even-odd rule.
         /// </summary>
         public void CloseAndFillEvenOddAndStroke()
         {
@@ -324,10 +325,10 @@ namespace Codecrete.SwissQRBill.Generator.PDF
             }
         }
 
-        private void WriteOperand(float[] array)
+        private void WriteOperand(IEnumerable<float> array)
         {
             _contentWriter.Write("[");
-            foreach (float val in array)
+            foreach (var val in array)
             {
                 WriteOperand(val);
             }

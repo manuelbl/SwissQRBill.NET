@@ -34,7 +34,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         {
             FontFamilyList = fontFamilyList;
             FirstFontFamily = GetFirstFontFamily(fontFamilyList);
-            string family = FirstFontFamily.ToLowerInvariant();
+            var family = FirstFontFamily.ToLowerInvariant();
 
             short[] boldCharWidthx20x7F;
             short[] boldCharWidthxA0xFF;
@@ -159,21 +159,21 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         /// <returns>The resulting array of text lines.</returns>
         public string[] SplitLines(string text, double maxLength, int fontSize)
         {
-            List<string> lines = new List<string>();
-            int max = (int)(maxLength * 1000 / fontSize);
+            var lines = new List<string>();
+            var max = (int)(maxLength * 1000 / fontSize);
 
-            int len = text.Length; // length of line
-            int pos = 0; // current position (0 ..< end)
-            int lineStartPos = 0; // start position of current line
-            int lineWidth = 0; // current line width (in AFM metric)
-            bool addEmptyLine = true; // flag if an empty line should be added as the last line
+            var len = text.Length; // length of line
+            var pos = 0; // current position (0 ..< end)
+            var lineStartPos = 0; // start position of current line
+            var lineWidth = 0; // current line width (in AFM metric)
+            var addEmptyLine = true; // flag if an empty line should be added as the last line
 
             // iterate over all characters
             while (pos < len)
             {
 
                 // get current character
-                char ch = text[pos];
+                var ch = text[pos];
 
                 // skip leading white space at start of current line
                 if (ch == ' ' && pos == lineStartPos)
@@ -202,7 +202,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
                     else
                     {
                         // locate the previous space on the line
-                        int spacePos = pos - 1;
+                        var spacePos = pos - 1;
                         while (spacePos > lineStartPos)
                         {
                             if (text[spacePos] == ' ')
@@ -304,8 +304,8 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             }
 
             double width = 0;
-            int len = text.Length;
-            for (int i = 0; i < len; i++)
+            var len = text.Length;
+            for (var i = 0; i < len; i++)
             {
                 width += CharWidth(text[i]);
             }
@@ -353,19 +353,19 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
 
         private static string GetFirstFontFamily(string fontFamilyList)
         {
-            int index = fontFamilyList.IndexOf(',');
+            var index = fontFamilyList.IndexOf(',');
             if (index < 0)
             {
                 return fontFamilyList;
             }
 
-            string fontFamily = fontFamilyList.Substring(0, index).Trim();
+            var fontFamily = fontFamilyList.Substring(0, index).Trim();
             if (fontFamily.StartsWith("\""))
             {
                 fontFamily = fontFamily.Substring(1);
             }
 
-            if (fontFamily.EndsWith(("\"")))
+            if (fontFamily.EndsWith("\""))
             {
                 fontFamily = fontFamily.Substring(0, fontFamily.Length - 1);
             }

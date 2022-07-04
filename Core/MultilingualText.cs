@@ -79,10 +79,10 @@ namespace Codecrete.SwissQRBill.Generator
                     return AllResourceSets[language];
                 }
 
-                string languageName = language.ToString().ToLowerInvariant();
-                Assembly assembly = Assembly.GetExecutingAssembly();
+                var languageName = language.ToString().ToLowerInvariant();
+                var assembly = Assembly.GetExecutingAssembly();
                 // ReSharper disable once AssignNullToNotNullAttribute
-                ResourceSet resourceSet = new ResourceSet(assembly.GetManifestResourceStream(typeof(MultilingualText), $"Resources.QRBillText-{languageName}.resources"));
+                var resourceSet = new ResourceSet(assembly.GetManifestResourceStream(typeof(MultilingualText), $"Resources.QRBillText-{languageName}.resources"));
 
                 AllResourceSets[language] = resourceSet;
                 return resourceSet;

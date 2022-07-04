@@ -43,11 +43,11 @@ namespace Codecrete.SwissQRBill.Generator
         public static string WhiteSpaceRemoved(this string value)
         {
             StringBuilder sb = null;
-            int len = value.Length;
-            int lastCopied = 0;
-            for (int i = 0; i < len; i++)
+            var len = value.Length;
+            var lastCopied = 0;
+            for (var i = 0; i < len; i++)
             {
-                char ch = value[i];
+                var ch = value[i];
                 if (ch > ' ')
                 {
                     continue;

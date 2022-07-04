@@ -33,8 +33,8 @@ namespace Codecrete.SwissQRBill.Generator.PDF
                 return _fontNames[font];
             }
 
-            string fname = $"F{_fontNames.Count + 1}";
-            Name name = new Name(fname);
+            var fname = $"F{_fontNames.Count + 1}";
+            var name = new Name(fname);
             _fontNames.Add(font, name);
             _document.GetOrCreateFontReference(font);
             return name;
@@ -42,8 +42,8 @@ namespace Codecrete.SwissQRBill.Generator.PDF
 
         void IWritable.Write(StreamWriter writer)
         {
-            GeneralDict fontDict = new GeneralDict();
-            foreach (KeyValuePair<Font, Name> e in _fontNames)
+            var fontDict = new GeneralDict();
+            foreach (var e in _fontNames)
             {
                 fontDict.Add(e.Value.Value, _document.GetOrCreateFontReference(e.Key));
             }

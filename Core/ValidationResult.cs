@@ -44,20 +44,8 @@ namespace Codecrete.SwissQRBill.Generator
         {
             get
             {
-                if (_validationMessages == null)
-                {
-                    return false;
-                }
-
-                foreach (ValidationMessage message in _validationMessages)
-                {
-                    if (message.Type == ValidationMessage.MessageType.Warning)
-                    {
-                        return true;
-                    }
-                }
-
-                return false;
+                return _validationMessages != null
+                       && _validationMessages.Any(message => message.Type == ValidationMessage.MessageType.Warning);
             }
         }
 
@@ -69,7 +57,8 @@ namespace Codecrete.SwissQRBill.Generator
         {
             get
             {
-                return _validationMessages != null && _validationMessages.Any(message => message.Type == ValidationMessage.MessageType.Error);
+                return _validationMessages != null
+                       && _validationMessages.Any(message => message.Type == ValidationMessage.MessageType.Error);
             }
         }
 
@@ -92,7 +81,7 @@ namespace Codecrete.SwissQRBill.Generator
         /// <seealso cref="ValidationMessage"/>
         public void AddMessage(ValidationMessage.MessageType type, string field, string messageKey, string[] messageParameters = null)
         {
-            ValidationMessage message = new ValidationMessage(type, field, messageKey, messageParameters);
+            var message = new ValidationMessage(type, field, messageKey, messageParameters);
             if (_validationMessages == null)
             {
                 _validationMessages = new List<ValidationMessage>();
@@ -128,26 +117,24 @@ namespace Codecrete.SwissQRBill.Generator
                     return "Valid bill data";
                 }
 
-                StringBuilder sb = new StringBuilder();
+                var sb = new StringBuilder();
 
-                foreach (var message in ValidationMessages)
+                foreach (var message in ValidationMessages.Where(message => message.Type == ValidationMessage.MessageType.Error))
                 {
-                    if (message.Type != ValidationMessage.MessageType.Error)
-                        continue;
-
                     if (sb.Length > 0)
                         sb.Append("; ");
 
-                    string desc = ErrorMessages.ContainsKey(message.MessageKey) ? ErrorMessages[message.MessageKey] : "Unknown error";
-                    if (message.MessageKey == ValidationConstants.KeyFieldValueMissing
-                        || message.MessageKey == ValidationConstants.KeyReplacedUnsupportedCharacters)
+                    var desc = ErrorMessages.ContainsKey(message.MessageKey) ? ErrorMessages[message.MessageKey] : "Unknown error";
+                    switch (message.MessageKey)
                     {
-                        desc = string.Format(desc, message.Field);
-                    }
-                    else if (message.MessageKey == ValidationConstants.KeyFieldValueTooLong
-                        || message.MessageKey == ValidationConstants.KeyFieldValueClipped)
-                    {
-                        desc = string.Format(desc, message.Field, message.MessageParameters[0]);
+                        case ValidationConstants.KeyFieldValueMissing:
+                        case ValidationConstants.KeyReplacedUnsupportedCharacters:
+                            desc = string.Format(desc, message.Field);
+                            break;
+                        case ValidationConstants.KeyFieldValueTooLong:
+                        case ValidationConstants.KeyFieldValueClipped:
+                            desc = string.Format(desc, message.Field, message.MessageParameters[0]);
+                            break;
                     }
 
                     sb.Append(desc);
@@ -160,7 +147,7 @@ namespace Codecrete.SwissQRBill.Generator
             }
         }
 
-        private static readonly Dictionary<string, string> ErrorMessages = new Dictionary<string, string>()
+        private static readonly Dictionary<string, string> ErrorMessages = new Dictionary<string, string>
         {
             { ValidationConstants.KeyCurrencyNotChfOrEur, "currency should be \"CHF\" or \"EUR\"" },
             { ValidationConstants.KeyAmountOutsideValidRange, "amount should be between 0.01 and 999 999 999.99" },

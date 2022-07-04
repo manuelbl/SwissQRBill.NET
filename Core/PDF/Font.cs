@@ -104,7 +104,7 @@ namespace Codecrete.SwissQRBill.Generator.PDF
 
         void IWritable.Write(StreamWriter writer)
         {
-            GeneralDict dict = new GeneralDict("Font");
+            var dict = new GeneralDict("Font");
             dict.Add("Subtype", new Name(Subtype));
             dict.Add("BaseFont", new Name(Name));
             dict.Add("Encoding", new Name(Encoding));

@@ -113,7 +113,7 @@ namespace Codecrete.SwissQRBill.Generator
         /// <seealso cref="Draw(Bill, ICanvas)"/>
         public static byte[] Generate(Bill bill)
         {
-            using (ICanvas canvas = CreateCanvas(bill.Format))
+            using (var canvas = CreateCanvas(bill.Format))
             {
                 try
                 {
@@ -183,7 +183,7 @@ namespace Codecrete.SwissQRBill.Generator
         /// <param name="canvas">The canvas to draw to.</param>
         public static void DrawSeparators(SeparatorType separatorType, bool withHorizontalLine, ICanvas canvas)
         {
-            Bill bill = new Bill
+            var bill = new Bill
             {
                 Format = new BillFormat
                 {
@@ -192,7 +192,7 @@ namespace Codecrete.SwissQRBill.Generator
                 }
             };
 
-            BillLayout layout = new BillLayout(bill, canvas);
+            var layout = new BillLayout(bill, canvas);
 
             try
             {
@@ -206,8 +206,8 @@ namespace Codecrete.SwissQRBill.Generator
 
         private static void ValidateAndGenerate(Bill bill, ICanvas canvas)
         {
-            ValidationResult result = Validator.Validate(bill);
-            Bill cleanedBill = result.CleanedBill;
+            var result = Validator.Validate(bill);
+            var cleanedBill = result.CleanedBill;
             if (result.HasErrors)
             {
                 throw new QRBillValidationException(result);
@@ -215,12 +215,12 @@ namespace Codecrete.SwissQRBill.Generator
 
             if (bill.Format.OutputSize == OutputSize.QrCodeOnly)
             {
-                QRCode qrCode = new QRCode(cleanedBill);
+                var qrCode = new QRCode(cleanedBill);
                 qrCode.Draw(canvas, 0, 0);
             }
             else
             {
-                BillLayout layout = new BillLayout(cleanedBill, canvas);
+                var layout = new BillLayout(cleanedBill, canvas);
                 layout.Draw();
             }
         }
@@ -243,8 +243,8 @@ namespace Codecrete.SwissQRBill.Generator
         /// <exception cref="QRBillValidationException">The bill data is invalid.</exception>
         public static string EncodeQrCodeText(Bill bill)
         {
-            ValidationResult result = Validator.Validate(bill);
-            Bill cleanedBill = result.CleanedBill;
+            var result = Validator.Validate(bill);
+            var cleanedBill = result.CleanedBill;
             if (result.HasErrors)
             {
                 throw new QRBillValidationException(result);
@@ -297,23 +297,24 @@ namespace Codecrete.SwissQRBill.Generator
                     break;
             }
 
-            ICanvas canvas = CanvasCreator.Create(format, drawingWidth, drawingHeight);
-
-            if (canvas == null)
+            var canvas = CanvasCreator.Create(format, drawingWidth, drawingHeight);
+            if (canvas != null)
             {
-                if (format.GraphicsFormat == GraphicsFormat.PNG)
-                {
-                    // The PNG canvas factory is provided by a separate assembly / NuGet package.
-                    // Try to load the factory dynamically, and if it still fails, print a message with specific hint.
-                    CanvasCreator.RegisterPixelCanvasFactory();
-                    canvas = CanvasCreator.Create(format, drawingWidth, drawingHeight);
-                    if (canvas == null)
-                        throw new QRBillGenerationException("Graphics format PNG not available (are you missing the NuGet package Codecrete.SwissQRBill.Generator?)");
-                }
-                else
-                {
-                    throw new QRBillGenerationException("Invalid graphics format specified");
-                }
+                return canvas;
+            }
+            
+            if (format.GraphicsFormat == GraphicsFormat.PNG)
+            {
+                // The PNG canvas factory is provided by a separate assembly / NuGet package.
+                // Try to load the factory dynamically, and if it still fails, print a message with specific hint.
+                CanvasCreator.RegisterPixelCanvasFactory();
+                canvas = CanvasCreator.Create(format, drawingWidth, drawingHeight);
+                if (canvas == null)
+                    throw new QRBillGenerationException("Graphics format PNG not available (are you missing the NuGet package Codecrete.SwissQRBill.Generator?)");
+            }
+            else
+            {
+                throw new QRBillGenerationException("Invalid graphics format specified");
             }
 
             return canvas;
@@ -323,12 +324,6 @@ namespace Codecrete.SwissQRBill.Generator
         /// Gets the library's version number.
         /// </summary>
         /// <value>version number in semantic versioning format (major.minor.patch)</value>
-        public static string LibraryVersion
-        {
-            get
-            {
-                return FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).FileVersion;
-            }
-        }
+        public static string LibraryVersion => FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).FileVersion;
     }
 }

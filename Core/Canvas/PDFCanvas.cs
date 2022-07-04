@@ -42,7 +42,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         {
             SetupFontMetrics("Helvetica");
             _document = new Document("Swiss QR Bill");
-            Page page = _document.CreatePage((float)(width * MmToPt), (float)(height * MmToPt));
+            var page = _document.CreatePage((float)(width * MmToPt), (float)(height * MmToPt));
             _contentStream = page.Contents;
         }
 
@@ -66,7 +66,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             _contentStream.SaveGraphicsState();
             _hasSavedGraphicsState = true;
 
-            TransformationMatrix matrix = new TransformationMatrix();
+            var matrix = new TransformationMatrix();
             matrix.Translate(translateX, translateY);
             matrix.Rotate(rotate);
             matrix.Scale(scaleX, scaleY);
@@ -76,7 +76,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
 
         private void SetFont(bool isBold, int fontSize)
         {
-            Font font = isBold ? Font.HelveticaBold : Font.Helvetica;
+            var font = isBold ? Font.HelveticaBold : Font.Helvetica;
             if (font == _lastFont && fontSize == _lastFontSize)
             {
                 return;
@@ -106,14 +106,14 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         {
             x *= MmToPt;
             y *= MmToPt;
-            float lineHeight = (float)((FontMetrics.LineHeight(fontSize) + leading) * MmToPt);
+            var lineHeight = (float)((FontMetrics.LineHeight(fontSize) + leading) * MmToPt);
 
             SetFont(false, fontSize);
 
             _contentStream.BeginText();
             _contentStream.NewLineAtOffset((float)x, (float)y);
-            bool isFirstLine = true;
-            foreach (string line in lines)
+            var isFirstLine = true;
+            foreach (var line in lines)
             {
                 if (isFirstLine)
                 {
@@ -179,28 +179,28 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         }
 
         /// <inheritdoc />
-        public override void FillPath(int color, bool smoothing)
+        public override void FillPath(int color, bool smoothing = true)
         {
             if (color != _lastNonStrokingColor)
             {
                 _lastNonStrokingColor = color;
-                float r = ColorScale * ((color >> 16) & 0xff);
-                float g = ColorScale * ((color >> 8) & 0xff);
-                float b = ColorScale * ((color >> 0) & 0xff);
+                var r = ColorScale * ((color >> 16) & 0xff);
+                var g = ColorScale * ((color >> 8) & 0xff);
+                var b = ColorScale * ((color >> 0) & 0xff);
                 _contentStream.SetNonStrokingColor(r, g, b);
             }
             _contentStream.Fill();
         }
 
         /// <inheritdoc />
-        public override void StrokePath(double strokeWidth, int color, LineStyle lineStyle, bool smoothing)
+        public override void StrokePath(double strokeWidth, int color, LineStyle lineStyle = LineStyle.Solid, bool smoothing = true)
         {
             if (color != _lastStrokingColor)
             {
                 _lastStrokingColor = color;
-                float r = ColorScale * ((color >> 16) & 0xff);
-                float g = ColorScale * ((color >> 8) & 0xff);
-                float b = ColorScale * ((color >> 0) & 0xff);
+                var r = ColorScale * ((color >> 16) & 0xff);
+                var g = ColorScale * ((color >> 8) & 0xff);
+                var b = ColorScale * ((color >> 0) & 0xff);
                 _contentStream.SetStrokingColor(r, g, b);
             }
             if (lineStyle != _lastLineStyle
@@ -211,10 +211,10 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
                 switch (lineStyle)
                 {
                     case LineStyle.Dashed:
-                        pattern = new float[] { 4 * (float)strokeWidth };
+                        pattern = new[] { 4 * (float)strokeWidth };
                         break;
                     case LineStyle.Dotted:
-                        pattern = new float[] { 0, 3 * (float)strokeWidth };
+                        pattern = new[] { 0, 3 * (float)strokeWidth };
                         break;
                     default:
                         pattern = new float[] { };
@@ -226,7 +226,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             if (strokeWidth != _lastLineWidth)
             {
                 _lastLineWidth = strokeWidth;
-                _contentStream.SetLineWidth((float)(strokeWidth));
+                _contentStream.SetLineWidth((float)strokeWidth);
             }
             _contentStream.Stroke();
         }
@@ -239,7 +239,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         /// <returns>The byte array containing the PDF document</returns>
         public override byte[] ToByteArray()
         {
-            MemoryStream buffer = new MemoryStream();
+            var buffer = new MemoryStream();
             _document.Save(buffer);
             Close();
             return buffer.ToArray();
@@ -265,7 +265,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         /// <param name="path">The path (file name) to write to.</param>
         public void SaveAs(string path)
         {
-            using (FileStream fs = new FileStream(path, FileMode.Create))
+            using (var fs = new FileStream(path, FileMode.Create))
             {
                 _document.Save(fs);
             }

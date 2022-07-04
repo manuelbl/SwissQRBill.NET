@@ -28,12 +28,12 @@ namespace Codecrete.SwissQRBill.Generator.PDF
             _dict.Add("Parent", parent);
             _dict.Add("MediaBox", new List<float> { 0, 0, width, height });
 
-            ResourceDict resources = new ResourceDict(document);
-            Reference resourcesRef = document.CreateReference(resources);
+            var resources = new ResourceDict(document);
+            var resourcesRef = document.CreateReference(resources);
             _dict.Add("Resources", resourcesRef);
 
             Contents = new ContentStream(resources);
-            Reference contentsRef = document.CreateReference(Contents);
+            var contentsRef = document.CreateReference(Contents);
             _dict.Add("Contents", contentsRef);
         }
 

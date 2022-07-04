@@ -36,7 +36,7 @@ namespace Codecrete.SwissQRBill.Generator
         /// <returns>The QR code text.</returns>
         public static string Create(Bill bill)
         {
-            QRCodeText qrCodeText = new QRCodeText(bill);
+            var qrCodeText = new QRCodeText(bill);
             return qrCodeText.CreateText();
         }
 
@@ -68,7 +68,7 @@ namespace Codecrete.SwissQRBill.Generator
             // AddInf
             AppendDataField(_bill.UnstructuredMessage); // Unstrd
             AppendDataField("EPD"); // Trailer
-            bool hasAlternativeSchemes = _bill.AlternativeSchemes != null && _bill.AlternativeSchemes.Count > 0;
+            var hasAlternativeSchemes = _bill.AlternativeSchemes != null && _bill.AlternativeSchemes.Count > 0;
             if (hasAlternativeSchemes || _bill.BillInformation != null)
             {
                 AppendDataField(_bill.BillInformation); // StrdBkgInf
@@ -140,7 +140,7 @@ namespace Codecrete.SwissQRBill.Generator
         /// <exception cref="QRBillValidationException">The text is in an invalid format.</exception>
         public static Bill Decode(string text)
         {
-            IReadOnlyList<string> lines = SplitLines(text);
+            var lines = SplitLines(text);
             if (lines.Count < 31 || lines.Count > 34)
             {
                 // A line feed at the end is illegal (cf 4.2.3) but found in practice. Don't be too strict.
@@ -165,7 +165,7 @@ namespace Codecrete.SwissQRBill.Generator
                 ThrowSingleValidationError(ValidationConstants.FieldCodingType, ValidationConstants.KeyCodingTypeUnsupported);
             }
 
-            Bill billData = new Bill
+            var billData = new Bill
             {
                 Version = Bill.QrBillStandardVersion.V2_0,
 
@@ -176,7 +176,7 @@ namespace Codecrete.SwissQRBill.Generator
 
             if (lines[18].Length > 0)
             {
-                if (decimal.TryParse(lines[18], NumberStyles.Number, AmountNumberInfo, out decimal amount))
+                if (decimal.TryParse(lines[18], NumberStyles.Number, AmountNumberInfo, out var amount))
                 {
                     billData.Amount = amount;
                 }
@@ -207,7 +207,7 @@ namespace Codecrete.SwissQRBill.Generator
             billData.BillInformation = lines.Count > 31 ? lines[31] : "";
 
             List<AlternativeScheme> alternativeSchemes = null;
-            int numSchemes = lines.Count - 32;
+            var numSchemes = lines.Count - 32;
             // skip empty schemes at end (due to invalid trailing line feed)
             if (numSchemes > 0 && lines[32 + numSchemes - 1].Length == 0)
             {
@@ -216,9 +216,9 @@ namespace Codecrete.SwissQRBill.Generator
             if (numSchemes > 0)
             {
                 alternativeSchemes = new List<AlternativeScheme>();
-                for (int i = 0; i < numSchemes; i++)
+                for (var i = 0; i < numSchemes; i++)
                 {
-                    AlternativeScheme scheme = new AlternativeScheme
+                    var scheme = new AlternativeScheme
                     {
                         Instruction = lines[32 + i]
                     };
@@ -240,7 +240,7 @@ namespace Codecrete.SwissQRBill.Generator
         private static Address DecodeAddress(IReadOnlyList<string> lines, int startLine, bool isOptional)
         {
 
-            bool isEmpty = lines[startLine].Length == 0 && lines[startLine + 1].Length == 0
+            var isEmpty = lines[startLine].Length == 0 && lines[startLine + 1].Length == 0
                     && lines[startLine + 2].Length == 0 && lines[startLine + 3].Length == 0
                     && lines[startLine + 4].Length == 0 && lines[startLine + 5].Length == 0
                     && lines[startLine + 6].Length == 0;
@@ -250,8 +250,8 @@ namespace Codecrete.SwissQRBill.Generator
                 return null;
             }
 
-            Address address = new Address();
-            bool isStructuredAddress = "S" == lines[startLine];
+            var address = new Address();
+            var isStructuredAddress = "S" == lines[startLine];
             address.Name = lines[startLine + 1];
             if (isStructuredAddress)
             {
@@ -279,7 +279,7 @@ namespace Codecrete.SwissQRBill.Generator
 
         private static IReadOnlyList<string> SplitLines(string text)
         {
-            List<string> lines = new List<string>(32);
+            var lines = new List<string>(32);
             using (var reader = new StringReader(text))
             {
                 string line;
@@ -301,7 +301,7 @@ namespace Codecrete.SwissQRBill.Generator
 
         private static void ThrowSingleValidationError(string field, string messageKey)
         {
-            ValidationResult result = new ValidationResult();
+            var result = new ValidationResult();
             result.AddMessage(MessageType.Error, field, messageKey);
             throw new QRBillValidationException(result);
         }
@@ -311,7 +311,7 @@ namespace Codecrete.SwissQRBill.Generator
 
         private static NumberFormatInfo CreateAmountNumberInfo()
         {
-            NumberFormatInfo numberInfo = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();
+            var numberInfo = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();
             numberInfo.NumberDecimalSeparator = ".";
             numberInfo.NumberGroupSeparator = "";
             return numberInfo;

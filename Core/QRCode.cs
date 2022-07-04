@@ -19,7 +19,7 @@ namespace Codecrete.SwissQRBill.Generator
     /// </summary>
     internal class QRCode
     {
-        internal static readonly double Size = 46; // mm
+        private const double Size = 46; // mm
 
         private readonly string _embeddedText;
 
@@ -44,12 +44,12 @@ namespace Codecrete.SwissQRBill.Generator
         /// <param name="offsetY">The y offset.</param>
         internal void Draw(ICanvas graphics, double offsetX, double offsetY)
         {
-            QrCode qrCode = QrCode.EncodeText(_embeddedText, QrCode.Ecc.Medium);
+            var qrCode = QrCode.EncodeText(_embeddedText, QrCode.Ecc.Medium);
 
-            bool[,] modules = CopyModules(qrCode);
+            var modules = CopyModules(qrCode);
             ClearSwissCrossArea(modules);
 
-            int modulesPerSide = modules.GetLength(0);
+            var modulesPerSide = modules.GetLength(0);
             graphics.SetTransformation(offsetX, offsetY, 0, Size / modulesPerSide / 25.4 * 72, Size / modulesPerSide / 25.4 * 72);
             graphics.StartPath();
             DrawModulesPath(graphics, modules);
@@ -118,10 +118,10 @@ namespace Codecrete.SwissQRBill.Generator
         private static void DrawModulesPath(ICanvas graphics, bool[,] modules)
         {
             // Simple algorithm to reduce the number of drawn rectangles
-            int size = modules.GetLength(0);
-            for (int y = 0; y < size; y++)
+            var size = modules.GetLength(0);
+            for (var y = 0; y < size; y++)
             {
-                for (int x = 0; x < size; x++)
+                for (var x = 0; x < size; x++)
                 {
                     if (modules[y, x])
                     {
@@ -135,23 +135,23 @@ namespace Codecrete.SwissQRBill.Generator
         // and reduce SVG size
         private static void DrawLargestRectangle(ICanvas graphics, bool[,] modules, int x, int y)
         {
-            int size = modules.GetLength(0);
+            var size = modules.GetLength(0);
 
-            int bestW = 1;
-            int bestH = 1;
-            int maxArea = 1;
+            var bestW = 1;
+            var bestH = 1;
+            var maxArea = 1;
 
-            int xLimit = size;
-            int iy = y;
+            var xLimit = size;
+            var iy = y;
             while (iy < size && modules[iy, x])
             {
-                int w = 0;
+                var w = 0;
                 while (x + w < xLimit && modules[iy, x + w])
                 {
                     w++;
                 }
 
-                int area = w * (iy - y + 1);
+                var area = w * (iy - y + 1);
                 if (area > maxArea)
                 {
                     maxArea = area;
@@ -162,7 +162,7 @@ namespace Codecrete.SwissQRBill.Generator
                 iy++;
             }
 
-            double unit = 25.4 / 72;
+            const double unit = 25.4 / 72;
             graphics.AddRectangle(x * unit, (size - y - bestH) * unit, bestW * unit, bestH * unit);
             ClearRectangle(modules, x, y, bestW, bestH);
         }
@@ -172,18 +172,18 @@ namespace Codecrete.SwissQRBill.Generator
             // The Swiss cross area is supposed to be 7 by 7 mm in the center of
             // the QR code, which is 46 by 46 mm.
             // We clear sufficient modules to make room for the cross.
-            int size = modules.GetLength(0);
-            int start = (int)Math.Floor((46 - 6.8) / 2 * size / 46);
+            var size = modules.GetLength(0);
+            var start = (int)Math.Floor((46 - 6.8) / 2 * size / 46);
             ClearRectangle(modules, start, start, size - 2 * start, size - 2 * start);
         }
 
         private static bool[,] CopyModules(QrCode qrCode)
         {
-            int size = qrCode.Size;
-            bool[,] modules = new bool[size, size];
-            for (int y = 0; y < size; y++)
+            var size = qrCode.Size;
+            var modules = new bool[size, size];
+            for (var y = 0; y < size; y++)
             {
-                for (int x = 0; x < size; x++)
+                for (var x = 0; x < size; x++)
                 {
                     modules[y, x] = qrCode.GetModule(x, y);
                 }
@@ -194,9 +194,9 @@ namespace Codecrete.SwissQRBill.Generator
 
         private static void ClearRectangle(bool[,] modules, int x, int y, int width, int height)
         {
-            for (int iy = y; iy < y + height; iy++)
+            for (var iy = y; iy < y + height; iy++)
             {
-                for (int ix = x; ix < x + width; ix++)
+                for (var ix = x; ix < x + width; ix++)
                 {
                     modules[iy, ix] = false;
                 }

@@ -55,18 +55,18 @@ namespace Codecrete.SwissQRBill.Generator
                 return;
             }
 
-            int len = value.Length; // length of value
-            bool justProcessedSpace = false; // flag indicating whether we've just processed a space character
+            var len = value.Length; // length of value
+            var justProcessedSpace = false; // flag indicating whether we've just processed a space character
             StringBuilder sb = null; // String builder for result
-            int lastCopiedPos = 0; // last position (excluding) copied to the result
+            var lastCopiedPos = 0; // last position (excluding) copied to the result
 
             // String processing pattern: Iterate all characters and focus on runs of valid
             // characters that can simply be copied. If all characters are valid, no memory
             // is allocated.
-            int pos = 0;
+            var pos = 0;
             while (pos < len)
             {
-                char ch = value[pos]; // current character
+                var ch = value[pos]; // current character
 
                 if (IsValidQrBillCharacter(ch))
                 {
@@ -104,7 +104,7 @@ namespace Codecrete.SwissQRBill.Generator
                 {
                     // Proper Unicode handling to prevent surrogates and combining characters
                     // from being replaced with multiples periods.
-                    UnicodeCategory category = CharUnicodeInfo.GetUnicodeCategory(value, pos);
+                    var category = CharUnicodeInfo.GetUnicodeCategory(value, pos);
                     if (category != UnicodeCategory.SpacingCombiningMark)
                     {
                         sb.Append('.');
@@ -164,7 +164,7 @@ namespace Codecrete.SwissQRBill.Generator
         {
             iban = iban.WhiteSpaceRemoved();
 
-            int len = iban.Length;
+            var len = iban.Length;
             if (len < 5)
             {
                 return false;
@@ -187,7 +187,7 @@ namespace Codecrete.SwissQRBill.Generator
                 return false;
             }
 
-            string checkDigits = iban.Substring(2, 2);
+            var checkDigits = iban.Substring(2, 2);
             if ("00" == checkDigits || "01" == checkDigits || "99" == checkDigits)
             {
                 return false;
@@ -227,12 +227,12 @@ namespace Codecrete.SwissQRBill.Generator
         /// <returns>The formatted IBAN or creditor reference.</returns>
         public static string FormatIban(string iban)
         {
-            StringBuilder sb = new StringBuilder(25);
-            int len = iban.Length;
+            var sb = new StringBuilder(25);
+            var len = iban.Length;
 
-            for (int pos = 0; pos < len; pos += 4)
+            for (var pos = 0; pos < len; pos += 4)
             {
-                int endPos = pos + 4;
+                var endPos = pos + 4;
                 if (endPos > len)
                 {
                     endPos = len;
@@ -296,8 +296,8 @@ namespace Codecrete.SwissQRBill.Generator
         /// <exception cref="ArgumentException"><c>reference</c> contains invalid characters.</exception>
         public static string CreateIso11649Reference(string rawReference)
         {
-            string whiteSpaceRemoved = rawReference.WhiteSpaceRemoved();
-            int modulo = CalculateMod97("RF00" + whiteSpaceRemoved);
+            var whiteSpaceRemoved = rawReference.WhiteSpaceRemoved();
+            var modulo = CalculateMod97("RF00" + whiteSpaceRemoved);
             return $"RF{98 - modulo:D2}{whiteSpaceRemoved}";
         }
 
@@ -318,28 +318,28 @@ namespace Codecrete.SwissQRBill.Generator
         /// <exception cref="ArgumentException">The reference contains an invalid character.</exception>
         private static int CalculateMod97(string reference)
         {
-            int len = reference.Length;
+            var len = reference.Length;
             if (len < 5)
             {
                 throw new ArgumentException("Insufficient characters for checksum calculation");
             }
 
-            string rearranged = reference.Substring(4) + reference.Substring(0, 4);
-            int sum = 0;
-            for (int i = 0; i < len; i++)
+            var rearranged = reference.Substring(4) + reference.Substring(0, 4);
+            var sum = 0;
+            for (var i = 0; i < len; i++)
             {
-                char ch = rearranged[i];
+                var ch = rearranged[i];
                 if (ch >= '0' && ch <= '9')
                 {
                     sum = sum * 10 + (ch - '0');
                 }
                 else if (ch >= 'A' && ch <= 'Z')
                 {
-                    sum = sum * 100 + (ch - 'A' + 10);
+                    sum = sum * 100 + ch - 'A' + 10;
                 }
                 else if (ch >= 'a' && ch <= 'z')
                 {
-                    sum = sum * 100 + (ch - 'a' + 10);
+                    sum = sum * 100 + ch - 'a' + 10;
                 }
                 else
                 {
@@ -379,7 +379,7 @@ namespace Codecrete.SwissQRBill.Generator
                 return false;
             }
 
-            int len = reference.Length;
+            var len = reference.Length;
             if (len != 27)
             {
                 return false;
@@ -400,22 +400,22 @@ namespace Codecrete.SwissQRBill.Generator
         /// <exception cref="ArgumentException">The reference contains non-numeric characters or is too long</exception>
         public static string CreateQRReference(string rawReference)
         {
-            string rawRef = rawReference.WhiteSpaceRemoved();
+            var rawRef = rawReference.WhiteSpaceRemoved();
             if (!IsNumeric(rawRef))
                 throw new ArgumentException("Invalid character in reference (digits allowed only)");
             if (rawRef.Length > 26)
                 throw new ArgumentException("Reference number is too long");
-            int mod10 = CalculateMod10(rawRef);
+            var mod10 = CalculateMod10(rawRef);
             return "00000000000000000000000000".Substring(0, 26 - rawRef.Length) + rawRef + (char)('0' + mod10);
         }
 
         private static int CalculateMod10(string reference)
         {
-            int len = reference.Length;
-            int carry = 0;
-            for (int i = 0; i < len; i++)
+            var len = reference.Length;
+            var carry = 0;
+            for (var i = 0; i < len; i++)
             {
-                int digit = reference[i] - '0';
+                var digit = reference[i] - '0';
                 carry = Mod10[(carry + digit) % 10];
             }
 
@@ -433,12 +433,12 @@ namespace Codecrete.SwissQRBill.Generator
         /// <returns>the formatted reference number.</returns>
         public static string FormatQrReferenceNumber(string refNo)
         {
-            int len = refNo.Length;
-            StringBuilder sb = new StringBuilder();
-            int t = 0;
+            var len = refNo.Length;
+            var sb = new StringBuilder();
+            var t = 0;
             while (t < len)
             {
-                int n = t + (len - t - 1) % 5 + 1;
+                var n = t + (len - t - 1) % 5 + 1;
                 if (t != 0)
                 {
                     sb.Append(" ");
@@ -453,10 +453,10 @@ namespace Codecrete.SwissQRBill.Generator
 
         internal static bool IsNumeric(string value)
         {
-            int len = value.Length;
-            for (int i = 0; i < len; i++)
+            var len = value.Length;
+            for (var i = 0; i < len; i++)
             {
-                char ch = value[i];
+                var ch = value[i];
                 if (ch < '0' || ch > '9')
                 {
                     return false;
@@ -465,12 +465,12 @@ namespace Codecrete.SwissQRBill.Generator
             return true;
         }
 
-        internal static bool IsAlphaNumeric(string value)
+        private static bool IsAlphaNumeric(string value)
         {
-            int len = value.Length;
-            for (int i = 0; i < len; i++)
+            var len = value.Length;
+            for (var i = 0; i < len; i++)
             {
-                char ch = value[i];
+                var ch = value[i];
                 if (ch >= '0' && ch <= '9')
                 {
                     continue;
@@ -495,10 +495,10 @@ namespace Codecrete.SwissQRBill.Generator
 
         internal static bool IsAlpha(string value)
         {
-            int len = value.Length;
-            for (int i = 0; i < len; i++)
+            var len = value.Length;
+            for (var i = 0; i < len; i++)
             {
-                char ch = value[i];
+                var ch = value[i];
                 if (ch >= 'A' && ch <= 'Z')
                 {
                     continue;
