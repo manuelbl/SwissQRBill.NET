@@ -5,7 +5,6 @@
 // https://opensource.org/licenses/MIT
 //
 
-using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 
@@ -43,9 +42,9 @@ namespace Codecrete.SwissQRBill.Windows
         /// <returns></returns>
         public override byte[] ToByteArray()
         {
-            using (Bitmap bitmap = ToBitmap())
+            using (var bitmap = ToBitmap())
             {
-                MemoryStream stream = new MemoryStream();
+                var stream = new MemoryStream();
                 bitmap.Save(stream, ImageFormat.Png);
                 return stream.ToArray();
             }
@@ -59,7 +58,7 @@ namespace Codecrete.SwissQRBill.Windows
         /// <param name="stream">The stream to write to.</param>
         public void WriteTo(Stream stream)
         {
-            using (Bitmap bitmap = ToBitmap())
+            using (var bitmap = ToBitmap())
             {
                 bitmap.Save(stream, ImageFormat.Png);
             }
@@ -73,8 +72,8 @@ namespace Codecrete.SwissQRBill.Windows
         /// <param name="path">The path (file name) to write to.</param>
         public void SaveAs(string path)
         {
-            using (Bitmap bitmap = ToBitmap())
-            using (FileStream stream = File.OpenWrite(path))
+            using (var bitmap = ToBitmap())
+            using (var stream = File.OpenWrite(path))
             {
                 bitmap.Save(stream, ImageFormat.Png);
             }

@@ -22,7 +22,7 @@ namespace Codecrete.SwissQRBill.Windows
     /// </summary>
     public class ClipboardMetafileHelper
     {
-        enum TernaryRasterOperations : uint
+        private enum TernaryRasterOperations : uint
         {
             SRCCOPY = 0x00CC0020,
             SRCPAINT = 0x00EE0086,
@@ -43,35 +43,35 @@ namespace Codecrete.SwissQRBill.Windows
         }
 
         [DllImport("user32.dll")]
-        static extern bool CloseClipboard();
+        private static extern bool CloseClipboard();
         [DllImport("user32.dll")]
-        static extern bool EmptyClipboard();
+        private static extern bool EmptyClipboard();
         [DllImport("user32.dll")]
-        static extern bool OpenClipboard(IntPtr hWndNewOwner);
+        private static extern bool OpenClipboard(IntPtr hWndNewOwner);
         [DllImport("user32.dll")]
-        static extern bool ReleaseDC(IntPtr hWnd, IntPtr hDC);
+        private static extern bool ReleaseDC(IntPtr hWnd, IntPtr hDC);
         [DllImport("user32.dll")]
-        static extern IntPtr SetClipboardData(uint uFormat, IntPtr hMem);
+        private static extern IntPtr SetClipboardData(uint uFormat, IntPtr hMem);
         [DllImport("gdi32.dll", EntryPoint = "BitBlt", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        static extern bool BitBlt([In] IntPtr hdc, int nXDest, int nYDest, int nWidth, int nHeight, [In] IntPtr hdcSrc, int nXSrc, int nYSrc, TernaryRasterOperations dwRop);
+        private static extern bool BitBlt([In] IntPtr hdc, int nXDest, int nYDest, int nWidth, int nHeight, [In] IntPtr hdcSrc, int nXSrc, int nYSrc, TernaryRasterOperations dwRop);
         [DllImport("gdi32.dll")]
-        static extern IntPtr CopyEnhMetaFile(IntPtr hemfSrc, IntPtr hNULL);
+        private static extern IntPtr CopyEnhMetaFile(IntPtr hemfSrc, IntPtr hNULL);
         [DllImport("gdi32.dll", EntryPoint = "CreateCompatibleBitmap")]
-        static extern IntPtr CreateCompatibleBitmap([In] IntPtr hdc, int nWidth, int nHeight);
+        private static extern IntPtr CreateCompatibleBitmap([In] IntPtr hdc, int nWidth, int nHeight);
         [DllImport("gdi32.dll", EntryPoint = "CreateCompatibleDC", SetLastError = true)]
-        static extern IntPtr CreateCompatibleDC([In] IntPtr hdc);
+        private static extern IntPtr CreateCompatibleDC([In] IntPtr hdc);
         [DllImport("gdi32.dll", EntryPoint = "DeleteDC")]
-        static extern bool DeleteDC([In] IntPtr hdc);
+        private static extern bool DeleteDC([In] IntPtr hdc);
         [DllImport("gdi32.dll")]
-        static extern bool DeleteEnhMetaFile(IntPtr hemf);
+        private static extern bool DeleteEnhMetaFile(IntPtr hemf);
         [DllImport("gdi32.dll", EntryPoint = "DeleteObject")]
         [return: MarshalAs(UnmanagedType.Bool)]
-        static extern bool DeleteObject([In] IntPtr hObject);
+        private static extern bool DeleteObject([In] IntPtr hObject);
         [DllImport("user32.dll", SetLastError = true)]
-        static extern IntPtr GetDC(IntPtr hWnd);
+        private static extern IntPtr GetDC(IntPtr hWnd);
         [DllImport("gdi32.dll", EntryPoint = "SelectObject")]
-        static extern IntPtr SelectObject([In] IntPtr hdc, [In] IntPtr hgdiobj);
+        private static extern IntPtr SelectObject([In] IntPtr hdc, [In] IntPtr hgdiobj);
 
         /// <summary>
         /// Puts the specified metafile and optionally the specified bitmap on the clipboard.
@@ -83,14 +83,14 @@ namespace Codecrete.SwissQRBill.Windows
         /// <param name="metafile">The metafile.</param>
         /// <param name="bitmap">The bitmap, or <c>null</c>.</param>
         /// <returns><c>true</c> if successful, <c>false</c> otherwise</returns>
-        static public bool PutOnClipboard(IntPtr hWnd, Metafile metafile, Bitmap bitmap)
+        public static bool PutOnClipboard(IntPtr hWnd, Metafile metafile, Bitmap bitmap)
         {
-            IntPtr hEmf = IntPtr.Zero;
-            IntPtr hBitmap = IntPtr.Zero;
-            IntPtr hResEmf = IntPtr.Zero;
-            IntPtr hResBitmap = IntPtr.Zero;
+            var hEmf = IntPtr.Zero;
+            var hBitmap = IntPtr.Zero;
+            var hResEmf = IntPtr.Zero;
+            var hResBitmap = IntPtr.Zero;
 
-            IntPtr hPassedEmf = metafile.GetHenhmetafile();
+            var hPassedEmf = metafile.GetHenhmetafile();
             if (hPassedEmf.Equals(IntPtr.Zero))
                 goto CleanupAfterError;
 
@@ -135,17 +135,17 @@ namespace Codecrete.SwissQRBill.Windows
 
         private static IntPtr CopyBitmap(Bitmap bitmap)
         {
-            IntPtr hScreenDC = GetDC(IntPtr.Zero);
+            var hScreenDC = GetDC(IntPtr.Zero);
 
             // setup source CD
-            IntPtr hSourceBitmap = bitmap.GetHbitmap();
-            IntPtr hSourceDC = CreateCompatibleDC(hScreenDC);
-            IntPtr hPrevSourceGdiObj = SelectObject(hSourceDC, hSourceBitmap);
+            var hSourceBitmap = bitmap.GetHbitmap();
+            var hSourceDC = CreateCompatibleDC(hScreenDC);
+            var hPrevSourceGdiObj = SelectObject(hSourceDC, hSourceBitmap);
 
             // create bitmap and associated DC
-            IntPtr hDestBitmap = CreateCompatibleBitmap(hScreenDC, bitmap.Width, bitmap.Height);
-            IntPtr hDestDC = CreateCompatibleDC(hScreenDC);
-            IntPtr hPrevDestGdiObj = SelectObject(hDestDC, hDestBitmap);
+            var hDestBitmap = CreateCompatibleBitmap(hScreenDC, bitmap.Width, bitmap.Height);
+            var hDestDC = CreateCompatibleDC(hScreenDC);
+            var hPrevDestGdiObj = SelectObject(hDestDC, hDestBitmap);
 
             // copy image
             BitBlt(hDestDC, 0, 0, bitmap.Width, bitmap.Height, hSourceDC, 0, 0, TernaryRasterOperations.SRCCOPY);

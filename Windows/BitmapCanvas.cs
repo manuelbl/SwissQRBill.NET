@@ -29,9 +29,9 @@ namespace Codecrete.SwissQRBill.Windows
         {
             _bitmap = new Bitmap(width, height, PixelFormat.Format24bppRgb);
             _bitmap.SetResolution(dpi, dpi);
-            Graphics graphics = Graphics.FromImage(_bitmap);
+            var graphics = Graphics.FromImage(_bitmap);
             graphics.FillRectangle(Brushes.White, new Rectangle(0, 0, width, height));
-            float scale = dpi / 25.4f;
+            var scale = dpi / 25.4f;
             SetOffset(0, height);
             InitGraphics(graphics, true, scale);
         }
@@ -49,7 +49,7 @@ namespace Codecrete.SwissQRBill.Windows
         /// <returns>The bitmap.</returns>
         public Bitmap ToBitmap()
         {
-            Bitmap bitmap = _bitmap;
+            var bitmap = _bitmap;
             _bitmap = null;
             Close();
 

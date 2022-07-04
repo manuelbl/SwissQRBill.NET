@@ -78,12 +78,12 @@ namespace Codecrete.SwissQRBill.Windows
         /// <param name="fontFamilyList">A list font family names, separated by comma (same syntax as for CSS). The first font family will be used.</param>
         private FontFamily SetupFont(string fontFamilyList)
         {
-            foreach (string familyName in SplitCommaSeparated(fontFamilyList))
+            foreach (var familyName in SplitCommaSeparated(fontFamilyList))
             {
-                string trimmedFamilyName = familyName.Trim();
+                var trimmedFamilyName = familyName.Trim();
                 try
                 {
-                    FontFamily family = new FontFamily(trimmedFamilyName);
+                    var family = new FontFamily(trimmedFamilyName);
                     if (family.IsStyleAvailable(FontStyle.Regular) && family.IsStyleAvailable(FontStyle.Bold))
                     {
                         SetupFontMetrics(trimmedFamilyName);
@@ -96,12 +96,12 @@ namespace Codecrete.SwissQRBill.Windows
                 }
             }
 
-            FontFamily fallbackFamily = FontFamily.GenericSansSerif;
+            var fallbackFamily = FontFamily.GenericSansSerif;
             SetupFontMetrics("Arial");
             return fallbackFamily;
         }
 
-        private static readonly Regex quotedSplitter = new Regex("(?:^|,)(\"[^\"]*\"|[^,]*)", RegexOptions.Compiled);
+        private static readonly Regex QuotedSplitter = new Regex("(?:^|,)(\"[^\"]*\"|[^,]*)", RegexOptions.Compiled);
 
         /// <summary>
         /// Splits the comma separated list into its components.
@@ -113,9 +113,9 @@ namespace Codecrete.SwissQRBill.Windows
         /// <returns>list of components</returns>
         private static IEnumerable<string> SplitCommaSeparated(string input)
         {
-            foreach (Match match in quotedSplitter.Matches(input))
+            foreach (Match match in QuotedSplitter.Matches(input))
             {
-                string component = match.Groups[1].Value;
+                var component = match.Groups[1].Value;
                 if (component[0] == '"' && component[component.Length - 1] == '"')
                 {
                     component = component.Substring(1, component.Length - 2);
@@ -144,7 +144,7 @@ namespace Codecrete.SwissQRBill.Windows
             _graphics.TextRenderingHint = TextRenderingHint.AntiAlias;
 
             // initialize transformation
-            Matrix matrix = new Matrix();
+            var matrix = new Matrix();
             matrix.Translate(_xOffset, _yOffset);
             _graphics.Transform = matrix;
         }
@@ -176,10 +176,9 @@ namespace Codecrete.SwissQRBill.Windows
                 _graphics.Restore(_graphicsState);
                 _graphicsState = null;
             }
-            if (_fontFamily != null)
-            {
-                _fontFamily.Dispose();
-            }
+
+            _fontFamily?.Dispose();
+            
             if (_ownsGraphics && _graphics != null)
             {
                 _graphics.Dispose();
@@ -203,7 +202,7 @@ namespace Codecrete.SwissQRBill.Windows
             translateX *= _coordinateScale;
             translateY *= _coordinateScale;
 
-            Matrix matrix = new Matrix();
+            var matrix = new Matrix();
             matrix.Translate(_xOffset + (float)translateX, _yOffset - (float)translateY);
             if (rotate != 0)
             {
@@ -228,8 +227,8 @@ namespace Codecrete.SwissQRBill.Windows
         /// <inheritdoc />
         public override void CloseSubpath()
         {
-            int lastIndex = _pathTypes.Count - 1;
-            byte pathType = _pathTypes[lastIndex];
+            var lastIndex = _pathTypes.Count - 1;
+            var pathType = _pathTypes[lastIndex];
             pathType |= (byte)PathPointType.CloseSubpath;
             _pathTypes[lastIndex] = pathType;
         }
@@ -301,8 +300,8 @@ namespace Codecrete.SwissQRBill.Windows
                 _graphics.SmoothingMode = SmoothingMode.None;
             }
 
-            using (SolidBrush brush = new SolidBrush(Color.FromArgb(color - 16777216)))
-            using (GraphicsPath path = new GraphicsPath(_pathPoints.ToArray(), _pathTypes.ToArray(), FillMode.Winding))
+            using (var brush = new SolidBrush(Color.FromArgb(color - 16777216)))
+            using (var path = new GraphicsPath(_pathPoints.ToArray(), _pathTypes.ToArray(), FillMode.Winding))
             {
                 _graphics.FillPath(brush, path);
 
@@ -317,7 +316,7 @@ namespace Codecrete.SwissQRBill.Windows
         /// <inheritdoc />
         public override void StrokePath(double strokeWidth, int color, LineStyle lineStyle = LineStyle.Solid, bool smoothing = true)
         {
-            float width = (float)strokeWidth * _fontScale;
+            var width = (float)strokeWidth * _fontScale;
 
             if (!smoothing)
             {
@@ -325,7 +324,7 @@ namespace Codecrete.SwissQRBill.Windows
                 _graphics.SmoothingMode = SmoothingMode.None;
             }
 
-            using (Pen pen = new Pen(Color.FromArgb(color - 16777216), width))
+            using (var pen = new Pen(Color.FromArgb(color - 16777216), width))
             {
                 switch (lineStyle)
                 {
@@ -338,11 +337,9 @@ namespace Codecrete.SwissQRBill.Windows
                         pen.DashCap = DashCap.Round;
                         pen.DashPattern = new float[] { 0.01f, 2 };
                         break;
-                    default:
-                        break;
                 }
 
-                using (GraphicsPath path = new GraphicsPath(_pathPoints.ToArray(), _pathTypes.ToArray()))
+                using (var path = new GraphicsPath(_pathPoints.ToArray(), _pathTypes.ToArray()))
                 {
                     _graphics.DrawPath(pen, path);
                 }
@@ -358,10 +355,10 @@ namespace Codecrete.SwissQRBill.Windows
         /// <inheritdoc />
         public override void PutText(string text, double x, double y, int fontSize, bool isBold)
         {
-            FontStyle style = isBold ? FontStyle.Bold : FontStyle.Regular;
-            using (Font font = new Font(_fontFamily, fontSize * _fontScale, style, GraphicsUnit.Pixel))
+            var style = isBold ? FontStyle.Bold : FontStyle.Regular;
+            using (var font = new Font(_fontFamily, fontSize * _fontScale, style, GraphicsUnit.Pixel))
             {
-                float ascent = _fontFamily.GetCellAscent(style) / 2048.0f * fontSize * _fontScale;
+                var ascent = _fontFamily.GetCellAscent(style) / 2048.0f * fontSize * _fontScale;
                 x *= _coordinateScale;
                 y *= -_coordinateScale;
                 y -= ascent;

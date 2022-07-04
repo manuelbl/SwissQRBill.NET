@@ -264,7 +264,7 @@ namespace Codecrete.SwissQRBill.Generator.PDF
         /// <param name="fontSize">The font size.</param>
         public void SetFont(Font font, float fontSize)
         {
-            Name fontName = _resources.AddFont(font);
+            var fontName = _resources.AddFont(font);
             WriteOperand(fontName);
             WriteOperand(fontSize);
             WriteOperator("Tf");

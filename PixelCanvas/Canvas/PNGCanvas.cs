@@ -85,8 +85,8 @@ namespace Codecrete.SwissQRBill.PixelCanvas
             // create image
             _coordinateScale = (float)(resolution / 25.4);
             _fontScale = (float)(resolution / 72.0);
-            int w = (int)(width * _coordinateScale + 0.5);
-            int h = (int)(height * _coordinateScale + 0.5);
+            var w = (int)(width * _coordinateScale + 0.5);
+            var h = (int)(height * _coordinateScale + 0.5);
             _bitmap = new SKBitmap(w, h, SKColorType.Rgb888x, SKAlphaType.Opaque);
 
             // create canvas
@@ -104,10 +104,10 @@ namespace Codecrete.SwissQRBill.PixelCanvas
         /// <returns>font family name (if font is installed), or unchanged font family list (if none of the fonts is found)</returns>
         private static string FindInstalledFontFamily(string fontFamilyList)
         {
-            foreach (string fontFamily in SplitCommaSeparated(fontFamilyList))
+            foreach (var fontFamily in SplitCommaSeparated(fontFamilyList))
             {
-                string family = fontFamily.Trim();
-                using (SKTypeface typeface = SKTypeface.FromFamilyName(family, SKFontStyle.Normal))
+                var family = fontFamily.Trim();
+                using (var typeface = SKTypeface.FromFamilyName(family, SKFontStyle.Normal))
                 {
                     if (typeface.FamilyName.Equals(family, StringComparison.InvariantCultureIgnoreCase))
                     {
@@ -119,7 +119,7 @@ namespace Codecrete.SwissQRBill.PixelCanvas
             return fontFamilyList;
         }
 
-        private static readonly Regex quotedSplitter = new Regex("(?:^|,)(\"[^\"]*\"|[^,]*)", RegexOptions.Compiled);
+        private static readonly Regex QuotedSplitter = new Regex("(?:^|,)(\"[^\"]*\"|[^,]*)", RegexOptions.Compiled);
 
         /// <summary>
         /// Splits the comma separated list into its components.
@@ -131,9 +131,9 @@ namespace Codecrete.SwissQRBill.PixelCanvas
         /// <returns>list of components</returns>
         private static IEnumerable<string> SplitCommaSeparated(string input)
         {
-            foreach (Match match in quotedSplitter.Matches(input))
+            foreach (Match match in QuotedSplitter.Matches(input))
             {
-                string component = match.Groups[1].Value;
+                var component = match.Groups[1].Value;
                 if (component[0] == '"' && component[component.Length - 1] == '"')
                 {
                     component = component.Substring(1, component.Length - 2);
@@ -154,11 +154,11 @@ namespace Codecrete.SwissQRBill.PixelCanvas
             _canvas = null;
             byte[] result;
 
-            using (SKImage image = SKImage.FromBitmap(_bitmap))
-            using (SKData data = image.Encode(SKEncodedImageFormat.Png, 90))
-            using (Stream imageDataStream = data.AsStream())
+            using (var image = SKImage.FromBitmap(_bitmap))
+            using (var data = image.Encode(SKEncodedImageFormat.Png, 90))
+            using (var imageDataStream = data.AsStream())
             {
-                MemoryStream buffer = new MemoryStream();
+                var buffer = new MemoryStream();
                 PngProcessor.InsertDpi(imageDataStream, buffer, _dpi);
                 result = buffer.ToArray();
             }
@@ -178,9 +178,9 @@ namespace Codecrete.SwissQRBill.PixelCanvas
             _canvas.Dispose();
             _canvas = null;
 
-            using (SKImage image = SKImage.FromBitmap(_bitmap))
-            using (SKData data = image.Encode(SKEncodedImageFormat.Png, 90))
-            using (Stream imageDataStream = data.AsStream())
+            using (var image = SKImage.FromBitmap(_bitmap))
+            using (var data = image.Encode(SKEncodedImageFormat.Png, 90))
+            using (var imageDataStream = data.AsStream())
             {
                 PngProcessor.InsertDpi(imageDataStream, stream, _dpi);
             }
@@ -199,10 +199,10 @@ namespace Codecrete.SwissQRBill.PixelCanvas
             _canvas.Dispose();
             _canvas = null;
 
-            using (SKImage image = SKImage.FromBitmap(_bitmap))
-            using (SKData data = image.Encode(SKEncodedImageFormat.Png, 90))
-            using (Stream imageDataStream = data.AsStream())
-            using (FileStream stream = File.OpenWrite(path))
+            using (var image = SKImage.FromBitmap(_bitmap))
+            using (var data = image.Encode(SKEncodedImageFormat.Png, 90))
+            using (var imageDataStream = data.AsStream())
+            using (var stream = File.OpenWrite(path))
             {
                 PngProcessor.InsertDpi(imageDataStream, stream, _dpi);
             }
@@ -265,20 +265,19 @@ namespace Codecrete.SwissQRBill.PixelCanvas
             translateX *= _coordinateScale;
             translateY *= _coordinateScale;
 
-            TransformationMatrix matrix = new TransformationMatrix();
+            var matrix = new TransformationMatrix();
             matrix.Translate(translateX, _bitmap.Height - translateY);
             matrix.Rotate(-rotate);
             matrix.Scale(scaleX, scaleY);
-            double[] elems = matrix.Elements;
-            SKMatrix skMatrix = new SKMatrix((float)elems[0], (float)elems[2], (float)elems[4], (float)elems[1], (float)elems[3], (float)elems[5], 0, 0, 1);
+            var elems = matrix.Elements;
+            var skMatrix = new SKMatrix((float)elems[0], (float)elems[2], (float)elems[4], (float)elems[1], (float)elems[3], (float)elems[5], 0, 0, 1);
             _canvas.SetMatrix(skMatrix);
         }
 
         /// <inheritdoc />
         public override void StartPath()
         {
-            if (_path != null)
-                _path.Dispose();
+            _path?.Dispose();
             _path = new SKPath();
         }
 
@@ -331,7 +330,7 @@ namespace Codecrete.SwissQRBill.PixelCanvas
         }
 
         /// <inheritdoc />
-        public override void FillPath(int color, bool smoothing)
+        public override void FillPath(int color, bool smoothing = true)
         {
             _path.Close();
             _fillPaint.IsAntialias = smoothing;
@@ -340,9 +339,9 @@ namespace Codecrete.SwissQRBill.PixelCanvas
         }
 
         /// <inheritdoc />
-        public override void StrokePath(double strokeWidth, int color, LineStyle lineStyle, bool smoothing)
+        public override void StrokePath(double strokeWidth, int color, LineStyle lineStyle = LineStyle.Solid, bool smoothing = true)
         {
-            float width = (float)strokeWidth * _fontScale;
+            var width = (float)strokeWidth * _fontScale;
             _strokePaint.Color = new SKColor((uint)(color - 16777216));
             _strokePaint.StrokeWidth = width;
             _strokePaint.IsAntialias = smoothing || lineStyle == LineStyle.Dotted;
@@ -350,11 +349,11 @@ namespace Codecrete.SwissQRBill.PixelCanvas
             switch (lineStyle)
             {
                 case LineStyle.Dashed:
-                    _strokePaint.PathEffect = SKPathEffect.CreateDash(new float[] { 4 * width, 4 * width }, 0);
+                    _strokePaint.PathEffect = SKPathEffect.CreateDash(new[] { 4 * width, 4 * width }, 0);
                     _strokePaint.StrokeCap = SKStrokeCap.Round;
                     break;
                 case LineStyle.Dotted:
-                    _strokePaint.PathEffect = SKPathEffect.CreateDash(new float[] { 0.01f * width, 2 * width }, 0);
+                    _strokePaint.PathEffect = SKPathEffect.CreateDash(new[] { 0.01f * width, 2 * width }, 0);
                     _strokePaint.StrokeCap = SKStrokeCap.Butt;
                     break;
                 default:

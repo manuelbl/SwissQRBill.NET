@@ -229,11 +229,13 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
 
         private void AddPathNewlines(int expectedLength)
         {
-            if (_approxPathLength + expectedLength > 255)
+            if (_approxPathLength + expectedLength <= 255)
             {
-                _path.Append("\n");
-                _approxPathLength = 0;
+                return;
             }
+            
+            _path.Append("\n");
+            _approxPathLength = 0;
         }
 
         /// <inheritdoc />

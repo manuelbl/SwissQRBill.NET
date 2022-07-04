@@ -6,6 +6,7 @@
 //
 
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
@@ -24,13 +25,12 @@ namespace Codecrete.SwissQRBill.PixelCanvas
         /// <param name="dpi">resolution, in pixels per inch</param>
         public static void InsertDpi(Stream source, Stream target, int dpi)
         {
-            byte[] header = new byte[8];
-            int bytesRead;
-            byte[] buf = new byte[1024];
-            bool physChunkWritten = false;
+            var header = new byte[8];
+            var buf = new byte[1024];
+            var physChunkWritten = false;
 
             // read and write header
-            bytesRead = source.Read(header, 0, 8);
+            var bytesRead = source.Read(header, 0, 8);
             if (bytesRead != 8)
             {
                 goto InvalidPngData;
@@ -60,8 +60,8 @@ namespace Codecrete.SwissQRBill.PixelCanvas
                 }
 
                 // decode chunk header
-                uint chunkLen = LoadBigEndianUInt(header, 0);
-                string chunkType = Encoding.ASCII.GetString(header, 4, 4);
+                var chunkLen = LoadBigEndianUInt(header, 0);
+                var chunkType = Encoding.ASCII.GetString(header, 4, 4);
 
                 // "pHYs" chunk must be inserted before first "IDAT" chunk
                 if (!physChunkWritten && chunkType == "IDAT")
@@ -71,14 +71,14 @@ namespace Codecrete.SwissQRBill.PixelCanvas
                 }
 
                 // if there is already a "pHYs" chunk, it will be discarded
-                bool discardChunk = chunkType == "pHYs";
+                var discardChunk = chunkType == "pHYs";
                 if (!discardChunk)
                 {
                     target.Write(header, 0, 8);
                 }
 
                 // read chunk data and CRC
-                int len = (int)chunkLen + 4;
+                var len = (int)chunkLen + 4;
                 while (len > 0)
                 {
                     bytesRead = source.Read(buf, 0, Math.Min(buf.Length, len));
@@ -97,13 +97,13 @@ namespace Codecrete.SwissQRBill.PixelCanvas
                 }
             }
 
-        InvalidPngData:
+            InvalidPngData:
             throw new ArgumentException("Invalid PNG image data");
         }
 
         private static void WritePhysChunk(Stream target, int dpi)
         {
-            byte[] chunk = new byte[21];
+            var chunk = new byte[21];
 
             // chunk length
             StoreBigEndianUInt(9, chunk, 0);
@@ -115,7 +115,7 @@ namespace Codecrete.SwissQRBill.PixelCanvas
             chunk[7] = (byte)'s';
 
             // pixels per unit, X axis
-            int pixelsPerMeter = (int)Math.Round(dpi / 25.4 * 1000);
+            var pixelsPerMeter = (int)Math.Round(dpi / 25.4 * 1000);
             chunk[8] = (byte)(pixelsPerMeter >> 24);
             chunk[9] = (byte)(pixelsPerMeter >> 16);
             chunk[10] = (byte)(pixelsPerMeter >> 8);
@@ -131,7 +131,7 @@ namespace Codecrete.SwissQRBill.PixelCanvas
             chunk[16] = 1;
 
             // CRC
-            StoreBigEndianUInt(CalucalteCRC(chunk, 4, 13), chunk, 17);
+            StoreBigEndianUInt(CalculateCrc(chunk, 4, 13), chunk, 17);
 
             target.Write(chunk, 0, 21);
         }
@@ -139,19 +139,19 @@ namespace Codecrete.SwissQRBill.PixelCanvas
         /// <summary>
         /// Table of CRCs of all 8-bit messages
         /// </summary>
-        private static uint[] crcTable;
+        private static uint[] _crcTable;
 
         /// <summary>
         /// Make the table for a fast CRC.
         /// </summary>
         private static void CreateCrcTable()
         {
-            crcTable = new uint[256];
+            _crcTable = new uint[256];
 
-            for (int i = 0; i < 256; i++)
+            for (var i = 0; i < 256; i++)
             {
-                uint c = (uint)i;
-                for (int k = 0; k < 8; k++)
+                var c = (uint)i;
+                for (var k = 0; k < 8; k++)
                 {
                     if ((c & 1) != 0)
                     {
@@ -162,7 +162,7 @@ namespace Codecrete.SwissQRBill.PixelCanvas
                         c >>= 1;
                     }
                 }
-                crcTable[i] = c;
+                _crcTable[i] = c;
             }
         }
 
@@ -174,16 +174,16 @@ namespace Codecrete.SwissQRBill.PixelCanvas
         /// <param name="offset">offset into the buffer</param>
         /// <param name="count">number of bytes to process</param>
         /// <returns>updated CRC value</returns>
-        private static uint UpdateCrc(uint crc, byte[] buf, int offset, int count)
+        private static uint UpdateCrc(uint crc, IReadOnlyList<byte> buf, int offset, int count)
         {
-            if (crcTable == null)
+            if (_crcTable == null)
             {
                 CreateCrcTable();
             }
 
-            for (int i = offset; i < offset + count; i++)
+            for (var i = offset; i < offset + count; i++)
             {
-                crc = crcTable[(crc ^ buf[i]) & 0xff] ^ (crc >> 8);
+                crc = _crcTable[(crc ^ buf[i]) & 0xff] ^ (crc >> 8);
             }
 
             return crc;
@@ -196,21 +196,21 @@ namespace Codecrete.SwissQRBill.PixelCanvas
         /// <param name="offset">offset into the buffer</param>
         /// <param name="count">number of bytes to process</param>
         /// <returns>calculated CRC value</returns>
-        private static uint CalucalteCRC(byte[] buf, int offset, int count)
+        private static uint CalculateCrc(IReadOnlyList<byte> buf, int offset, int count)
         {
             return UpdateCrc(0xffffffff, buf, offset, count) ^ 0xffffffff;
         }
 
-        private static uint LoadBigEndianUInt(byte[] buf, int offset)
+        private static uint LoadBigEndianUInt(IReadOnlyList<byte> buf, int offset)
         {
             uint result = buf[offset++];
             result = (result << 8) | buf[offset++];
             result = (result << 8) | buf[offset++];
-            result = (result << 8) | buf[offset++];
+            result = (result << 8) | buf[offset];
             return result;
         }
 
-        private static void StoreBigEndianUInt(uint value, byte[] buf, int offset)
+        private static void StoreBigEndianUInt(uint value, IList<byte> buf, int offset)
         {
             buf[offset + 0] = (byte)(value >> 24);
             buf[offset + 1] = (byte)(value >> 16);

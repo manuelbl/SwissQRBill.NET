@@ -39,9 +39,9 @@ namespace Codecrete.SwissQRBill.Windows
             : base(fontFamilyList)
         {
             _stream = new MemoryStream();
-            using (Graphics offScreenGraphics = Graphics.FromHwndInternal(IntPtr.Zero))
+            using (var offScreenGraphics = Graphics.FromHwndInternal(IntPtr.Zero))
             {
-                float scale = offScreenGraphics.DpiX / 25.4f;
+                var scale = offScreenGraphics.DpiX / 25.4f;
                 _metafile = new Metafile(
                     _stream,
                     offScreenGraphics.GetHdc(),
@@ -80,7 +80,7 @@ namespace Codecrete.SwissQRBill.Windows
         /// <returns>The metafile.</returns>
         public Metafile ToMetafile()
         {
-            Metafile metafile = _metafile;
+            var metafile = _metafile;
             _metafile = null;
             Close();
 
@@ -105,7 +105,7 @@ namespace Codecrete.SwissQRBill.Windows
         }
 
         /// <summary>
-        /// Writes the enhanded metafile (EMF) to the specified file path.
+        /// Writes the enhanced metafile (EMF) to the specified file path.
         /// <para>
         /// The canvas can no longer be used for drawing after calling this method.</para>
         /// </summary>
@@ -117,7 +117,7 @@ namespace Codecrete.SwissQRBill.Windows
             _metafile.Dispose();
             _metafile = null;
 
-            using (FileStream stream = File.OpenWrite(path))
+            using (var stream = File.OpenWrite(path))
             {
                 _stream.CopyTo(stream);
             }
@@ -132,16 +132,10 @@ namespace Codecrete.SwissQRBill.Windows
             {
                 return;
             }
-            
-            if (_metafile != null)
-            {
-                _metafile.Dispose();
-            }
 
-            if (_stream != null)
-            {
-                _stream.Dispose();
-            }
+            _metafile?.Dispose();
+
+            _stream?.Dispose();
 
             Close();
         }

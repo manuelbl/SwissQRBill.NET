@@ -77,7 +77,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             }
             catch
             {
-                // Ignore as the next assembly is tried.
+                // Ignore and try the next assembly.
             }
 
             if (factoryClass == null)
@@ -90,8 +90,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
                 }
                 catch
                 {
-                    // Ignore if we are unable to load the assembly.
-                    // A more meaningful exception is thrown outside this code.
+                    return;
                 }
             }
 
