@@ -14,9 +14,9 @@
     <PackageProjectUrl>https://github.com/manuelbl/SwissQRBill.NET</PackageProjectUrl>
     <PackageTags>Swiss-QR-Bill, Payment, ISO-20022, QR-Code, QRCode, SIX</PackageTags>
     <PackageReleaseNotes>New light-weight version without any dependency on a raster graphics library
-New in version 3.0.4:
-- Show country code for LI and if payer is in foreign country</PackageReleaseNotes>
-    <Version>3.0.4</Version>
+New in version 3.0.5:
+- Support QR bill data using CR (in addition to NL and CR/NL)</PackageReleaseNotes>
+    <Version>3.0.5</Version>
     <Description>Generates the new QR bills for invoicing in Switzerland.
 
 The Swiss QR bill library:
@@ -38,7 +38,7 @@ See home page https://github.com/manuelbl/SwissQRBill.NET for examples and other
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>Key.snk</AssemblyOriginatorKeyFile>
     <AssemblyVersion>2.4.0.0</AssemblyVersion>
-    <FileVersion>3.0.4.0</FileVersion>
+    <FileVersion>3.0.5.0</FileVersion>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <EnablePackageValidation>true</EnablePackageValidation>
     <PackageVersion>3.0.5</PackageVersion>
