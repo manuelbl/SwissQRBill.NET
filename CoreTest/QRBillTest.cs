@@ -77,6 +77,16 @@ namespace Codecrete.SwissQRBill.CoreTest
         }
 
         [Fact]
+        public Task QrBillSentFromLI_CorrectAddress()
+        {
+            Bill bill = SampleData.CreateExample1();
+            bill.Format.GraphicsFormat = GraphicsFormat.SVG;
+            bill.Format.LocalCountryCode = "LI";
+            byte[] svg = QRBill.Generate(bill);
+            return VerifyImages.VerifySvg(svg);
+        }
+
+        [Fact]
         public void GetLibraryVersion()
         {
             string version = QRBill.LibraryVersion;

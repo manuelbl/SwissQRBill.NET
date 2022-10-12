@@ -775,17 +775,17 @@ namespace Codecrete.SwissQRBill.Generator
         private bool IsCreditorWithCountryCode()
         {
             // The creditor country code is even shown for a Swiss address if the debtor lives abroad
-            return IsForeignAddress(_bill.Creditor) || IsForeignAddress(_bill.Debtor);
+            return IsForeignAddress(_bill.Creditor, _bill.Format) || IsForeignAddress(_bill.Debtor, _bill.Format);
         }
 
         private bool IsDebtorWithCountryCode()
         {
-            return IsForeignAddress(_bill.Debtor);
+            return IsForeignAddress(_bill.Debtor, _bill.Format);
         }
 
-        private static bool IsForeignAddress(Address address)
+        private static bool IsForeignAddress(Address address, BillFormat format)
         {
-            return address != null && "CH" != address.CountryCode;
+            return address != null && format.LocalCountryCode != address.CountryCode;
         }
     }
 }

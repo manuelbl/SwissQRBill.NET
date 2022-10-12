@@ -36,6 +36,7 @@ namespace Codecrete.SwissQRBill.Generator
             GraphicsFormat = format.GraphicsFormat;
             MarginLeft = format.MarginLeft;
             MarginRight = format.MarginRight;
+            LocalCountryCode = format.LocalCountryCode;
         }
 
         /// <summary>
@@ -120,7 +121,7 @@ namespace Codecrete.SwissQRBill.Generator
         public double MarginLeft { get; set; } = DefaultMarginWidth;
 
         /// <summary>
-        /// Gets the the right margin width (from the end of the text to the edge of the paper).
+        /// Gets or sets the the right margin width (from the end of the text to the edge of the paper).
         /// <para>
         /// Valid values are between 5mm and 12mm. The default is 5mm.
         /// </para>
@@ -131,6 +132,19 @@ namespace Codecrete.SwissQRBill.Generator
         /// </summary>
         /// <value>width width, in mm</value>
         public double MarginRight { get; set; } = DefaultMarginWidth;
+
+        /// <summary>
+        /// Gets or sets the local country code.
+        /// <para>
+        /// For postal addresses of the local country, the country code is omitted. For all other
+        /// countries, the country is prepended to the postal code and town.
+        /// </para>
+        /// <para>
+        /// Defaults to "CH".
+        /// </para>
+        /// </summary>
+        /// <value>country code (ISO 3166, two uppercase letters)</value>
+        public string LocalCountryCode { get; set; } = "CH";
 
 
         /// <summary>Determines whether the specified object is equal to the current object.</summary>
@@ -154,7 +168,8 @@ namespace Codecrete.SwissQRBill.Generator
                    GraphicsFormat == other.GraphicsFormat &&
                    Resolution == other.Resolution &&
                    MarginLeft == other.MarginLeft &&
-                   MarginRight == other.MarginRight;
+                   MarginRight == other.MarginRight &&
+                   LocalCountryCode == other.LocalCountryCode;
         }
 
         /// <summary>Gets the hash code for this instance.</summary>
@@ -170,6 +185,7 @@ namespace Codecrete.SwissQRBill.Generator
             hashCode = hashCode * -1521134295 + Resolution.GetHashCode();
             hashCode = hashCode * -1521134295 + MarginLeft.GetHashCode();
             hashCode = hashCode * -1521134295 + MarginRight.GetHashCode();
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(LocalCountryCode);
             return hashCode;
         }
     }
