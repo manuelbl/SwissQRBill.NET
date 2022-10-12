@@ -37,6 +37,13 @@ namespace Codecrete.SwissQRBill.Generator
         /// optionally for the scissors.
         /// </para>
         /// </summary>
-        QrBillExtraSpace
+        QrBillExtraSpace,
+        /// <summary>
+        /// QR code only with 5mm of white space on all sides (56 by 56 mm).
+        /// <para>
+        /// This format applies a white background (as opposed to a transparent one).
+        /// </para>
+        /// </summary>
+        QrCodeWithQuietZone
     }
 }

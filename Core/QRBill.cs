@@ -76,6 +76,20 @@ namespace Codecrete.SwissQRBill.Generator
         /// <value>The height, in mm.</value>
         public const double QrCodeHeight = 46;
 
+        /// <summary>
+        /// The width of the QR code with quiet zone, in mm.
+        /// <seealso cref="OutputSize.QrCodeWithQuietZone"/>
+        /// </summary>
+        /// <value>The width, in mm.</value>
+        public const double QrCodeWithQuietZoneWidth = 56;
+
+        /// <summary>
+        /// The height of the QR code with quiet zone, in mm.
+        /// <seealso cref="OutputSize.QrCodeWithQuietZone"/>
+        /// </summary>
+        /// <value>The height, in mm.</value>
+        public const double QrCodeWithQuietZoneHeight = 56;
+
 
         /// <summary>
         /// Validates and cleans the bill data.
@@ -218,6 +232,14 @@ namespace Codecrete.SwissQRBill.Generator
                 var qrCode = new QRCode(cleanedBill);
                 qrCode.Draw(canvas, 0, 0);
             }
+            else if (bill.Format.OutputSize == OutputSize.QrCodeWithQuietZone)
+            {
+                var qrCode = new QRCode(cleanedBill);
+                canvas.StartPath();
+                canvas.AddRectangle(0, 0, QrCodeWithQuietZoneWidth, QrCodeWithQuietZoneHeight);
+                canvas.FillPath(0xffffff, false);
+                qrCode.Draw(canvas, 5, 5);
+            }
             else
             {
                 var layout = new BillLayout(cleanedBill, canvas);
@@ -290,6 +312,10 @@ namespace Codecrete.SwissQRBill.Generator
                 case OutputSize.QrCodeOnly:
                     drawingWidth = QrCodeWidth;
                     drawingHeight = QrCodeHeight;
+                    break;
+                case OutputSize.QrCodeWithQuietZone:
+                    drawingWidth = QrCodeWithQuietZoneWidth;
+                    drawingHeight = QrCodeWithQuietZoneHeight;
                     break;
                 default:
                     drawingWidth = A4PortraitWidth;
