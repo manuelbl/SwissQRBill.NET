@@ -166,6 +166,8 @@ This library comes with multiple code examples:
 
 - [WindowsPresentationFoundation](Examples/WindowsPresentationFoundation): An example for Windows Presentation Foundation (WPF) applications. It shows how to display and print QR bills.
 
+- [WinUI](Examples/WinUI): An example for WinUI applications. It shows how to display and print QR bills.
+
 - [MicrosoftWordAddIn](https://github.com/manuelbl/SwissQRBill.NET/tree/master/Examples/MicrosoftWordAddIn): Implements an add-in for Microsoft Word capable of inserting a QR bill as a resolution independent EMF graphics. As C# add-ins use the *Microsoft Word Interop* interface, this example is also relevant for other software interacting with Microsoft Word.
 
 - [iText](Examples/iText): Example showing how to generate PDFs using the [iText](https://itextpdf.com/en) library, including how to add a QR bill to an existing PDF document.

@@ -1,0 +1,24 @@
+﻿<Window
+    x:Class="Codecrete.SwissQRBill.Examples.WinUI.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:WinUI"
+    xmlns:canvas="using:Microsoft.Graphics.Canvas.UI.Xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Background="WhiteSmoke">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" Margin="20,16,0,0" FontSize="18" FontWeight="Bold">Swiss QR Bill</TextBlock>
+        <canvas:CanvasControl Grid.Row="1" Grid.Column="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="20,40,20,30" Draw="DrawBillImage" Unloaded="OnUnloaded" />
+        <Button Grid.Row="2" Grid.Column="0" Click="OnPrintClicked" HorizontalAlignment="Right" Margin="0,0,20,20" Padding="16,4">Print</Button>
+    </Grid>
+</Window>
