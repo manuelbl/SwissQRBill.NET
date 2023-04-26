@@ -23,9 +23,9 @@
       },
       "System.Drawing.Common": {
         "type": "Direct",
-        "requested": "[4.5.1, )",
-        "resolved": "4.5.1",
-        "contentHash": "GiyeGi/v4xYDz1vCNFwFvhz9k1XddOG7VD3jxRqzRBCbTHji+s3HxxbxtoymuK4OadEpgotI8zQ5+GEEH9sUEQ=="
+        "requested": "[4.7.3, )",
+        "resolved": "4.7.3",
+        "contentHash": "B3+wwhAeoUQ6KeshWSq3IRLQiMoqPEzSHzyVyxTI/EbYuqIp90lXrRISlip2AF+5tj74ycIVPpnRY4M424HahA=="
       },
       "Microsoft.Build.Tasks.Git": {
         "type": "Transitive",
