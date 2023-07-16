@@ -43,7 +43,7 @@ The Swiss QR bill library:
    Or by running a command in the Package Manager Console
 
 ```
-Install-Package Codecrete.SwissQRBill.Generator -Version 3.0.6
+Install-Package Codecrete.SwissQRBill.Generator -Version 3.1.0
 ```
 
 3. Add the code:

@@ -13,10 +13,9 @@
     <RepositoryUrl>https://github.com/manuelbl/SwissQRBill.NET</RepositoryUrl>
     <PackageProjectUrl>https://github.com/manuelbl/SwissQRBill.NET</PackageProjectUrl>
     <PackageTags>Swiss-QR-Bill, Payment, ISO-20022, QR-Code, QRCode, SIX</PackageTags>
-    <PackageReleaseNotes>New in releases 3.0.6:
-- Local country for address formatting is configurable
-- New output size: QR code with quiet zone</PackageReleaseNotes>
-    <Version>3.0.6</Version>
+    <PackageReleaseNotes>New in releases 3.1.0:
+- Separate class for formatting bill text</PackageReleaseNotes>
+    <Version>3.1.0</Version>
     <Description>Generates the new QR bills for invoicing in Switzerland.
 
 The Swiss QR bill library:
@@ -39,10 +38,10 @@ See home page https://github.com/manuelbl/SwissQRBill.NET for examples and other
     <SignAssembly>True</SignAssembly>
     <AssemblyOriginatorKeyFile>Key.snk</AssemblyOriginatorKeyFile>
     <AssemblyVersion>2.4.0.0</AssemblyVersion>
-    <FileVersion>3.0.6.0</FileVersion>
+    <FileVersion>3.1.0.0</FileVersion>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <EnablePackageValidation>true</EnablePackageValidation>
-    <PackageVersion>3.0.6</PackageVersion>
+    <PackageVersion>3.1.0</PackageVersion>
     <PackageValidationBaselineVersion>3.0.0</PackageValidationBaselineVersion>
     <Deterministic>True</Deterministic>
   </PropertyGroup>
