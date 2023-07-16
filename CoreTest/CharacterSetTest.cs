@@ -164,7 +164,7 @@ namespace Codecrete.SwissQRBill.CoreTest
             Assert.Equal("ABC.QRS", ValidatedBill.Creditor.Street);
         }
 
-        public static TheoryData<string> InvalidCharList = new TheoryData<string>
+        public static readonly TheoryData<string> InvalidCharList = new()
         {
             "^", "\u007f", "\u0080", "\u00a0", "\u00d0", "¡", "¤", "©", "±", "µ", "¼", "Å", "Æ",
             "×", "Ø", "Ý", "Þ", "å", "æ", "ø", "€", "¿", "Ą", "Ď", "ð", "õ", "ã", "Ã"

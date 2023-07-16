@@ -77,9 +77,9 @@ namespace Codecrete.SwissQRBill.CoreTest
         /// Creates an address with valid person data.
         /// </summary>
         /// <returns>the address</returns>
-        public Address CreateValidPerson()
+        public static Address CreateValidPerson()
         {
-            Address address = new Address
+            Address address = new()
             {
                 Name = "Zuppinger AG",
                 Street = "Industriestrasse",

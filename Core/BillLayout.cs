@@ -42,6 +42,7 @@ namespace Codecrete.SwissQRBill.Generator
         private readonly QRCode _qrCode;
         private readonly ICanvas _graphics;
         private readonly ResourceSet _resourceSet;
+        private readonly BillTextFormatter _formatter;
 
         private readonly double _additionalLeftMargin;
         private readonly double _additionalRightMargin;
@@ -72,6 +73,7 @@ namespace Codecrete.SwissQRBill.Generator
             _qrCode = new QRCode(bill);
             _graphics = graphics;
             _resourceSet = MultilingualText.GetResourceSet(bill.Format.Language);
+            _formatter = new BillTextFormatter(bill, true);
             _additionalLeftMargin = Math.Min(Math.Max(bill.Format.MarginLeft, 5.0), 12.0) - Margin;
             _additionalRightMargin = Math.Min(Math.Max(bill.Format.MarginRight, 5.0), 12.0) - Margin;
         }
@@ -559,73 +561,21 @@ namespace Codecrete.SwissQRBill.Generator
         // Prepare the formatted text
         private void PrepareText()
         {
-            var account = Payments.FormatIban(_bill.Account);
-            _accountPayableTo = account + "\n" + FormatAddressForDisplay(_bill.Creditor, IsCreditorWithCountryCode());
-
-            _reference = FormatReferenceNumber(_bill.Reference);
-
-            var info = _bill.UnstructuredMessage;
-            if (_bill.BillInformation != null)
-            {
-                if (info == null)
-                {
-                    info = _bill.BillInformation;
-                }
-                else
-                {
-                    info = info + "\n" + _bill.BillInformation;
-                }
-            }
-            if (info != null)
-            {
-                _additionalInfo = info;
-            }
-
-            if (_bill.Debtor != null)
-            {
-                _payableBy = FormatAddressForDisplay(_bill.Debtor, IsDebtorWithCountryCode());
-            }
-
-            if (_bill.Amount != null)
-            {
-                _amount = FormatAmountForDisplay(_bill.Amount.Value);
-            }
+            _accountPayableTo = _formatter.PayableTo;
+            _reference = _formatter.Reference;
+            _additionalInfo = _formatter.AdditionalInformation;
+            _payableBy = _formatter.PayableBy;
+            _amount = _formatter.Amount;
         }
 
         private void PrepareReducedReceiptText(bool reduceBoth)
         {
             if (reduceBoth)
             {
-                var account = Payments.FormatIban(_bill.Account);
-                _accountPayableTo = account + "\n" + FormatAddressForDisplay(CreateReducedAddress(_bill.Creditor), IsCreditorWithCountryCode());
+                _accountPayableTo = _formatter.PayableToReduced;
             }
 
-            if (_bill.Debtor != null)
-            {
-                _payableBy = FormatAddressForDisplay(CreateReducedAddress(_bill.Debtor), IsDebtorWithCountryCode());
-            }
-        }
-
-        private static Address CreateReducedAddress(Address address)
-        {
-            var reducedAddress = new Address
-            {
-                Name = address.Name,
-                CountryCode = address.CountryCode
-            };
-
-            switch (address.Type)
-            {
-                case AddressType.Structured:
-                    reducedAddress.PostalCode = address.PostalCode;
-                    reducedAddress.Town = address.Town;
-                    break;
-                case AddressType.CombinedElements:
-                    reducedAddress.AddressLine2 = address.AddressLine2;
-                    break;
-            }
-
-            return reducedAddress;
+            _payableBy = _formatter.PayableByReduced;
         }
 
         // Prepare the text (by breaking it into lines where necessary)
@@ -672,77 +622,6 @@ namespace Codecrete.SwissQRBill.Generator
             _graphics.StrokePath(CornerStrokeWidth, 0, LineStyle.Solid, false);
         }
 
-        private static string FormatAmountForDisplay(decimal amount)
-        {
-
-            return amount.ToString("N", AmountNumberInfo);
-        }
-
-        private static string FormatAddressForDisplay(Address address, bool withCountryCode)
-        {
-            var sb = new StringBuilder();
-            sb.Append(address.Name);
-
-            if (address.Type == AddressType.Structured)
-            {
-                var street = address.Street;
-                if (street != null)
-                {
-                    sb.Append("\n");
-                    sb.Append(street);
-                }
-                var houseNo = address.HouseNo;
-                if (houseNo != null)
-                {
-                    sb.Append(street != null ? " " : "\n");
-                    sb.Append(houseNo);
-                }
-                sb.Append("\n");
-                if (withCountryCode)
-                {
-                    sb.Append(address.CountryCode);
-                    sb.Append(" – ");
-                }
-                sb.Append(address.PostalCode);
-                sb.Append(" ");
-                sb.Append(address.Town);
-
-            }
-            else if (address.Type == AddressType.CombinedElements)
-            {
-                if (address.AddressLine1 != null)
-                {
-                    sb.Append("\n");
-                    sb.Append(address.AddressLine1);
-                }
-                sb.Append("\n");
-                if (withCountryCode)
-                {
-                    sb.Append(address.CountryCode);
-                    sb.Append(" – ");
-                }
-                sb.Append(address.AddressLine2);
-            }
-            return sb.ToString();
-        }
-
-        private static string FormatReferenceNumber(string refNo)
-        {
-            if (refNo == null)
-            {
-                return null;
-            }
-
-            refNo = refNo.Trim();
-            var len = refNo.Length;
-            if (len == 0)
-            {
-                return null;
-            }
-
-            return refNo.StartsWith("RF") ? Payments.FormatIban(refNo) : Payments.FormatQrReferenceNumber(refNo);
-        }
-
         private string TruncateText(string text, double maxWidth, int fontSize)
         {
             const double ellipsisWidth = 0.3528; // mm * font size
@@ -759,33 +638,6 @@ namespace Codecrete.SwissQRBill.Generator
         private string GetText(string name)
         {
             return _resourceSet.GetString(name);
-        }
-
-        private static readonly NumberFormatInfo AmountNumberInfo = CreateAmountNumberInfo();
-
-        private static NumberFormatInfo CreateAmountNumberInfo()
-        {
-            var numberInfo = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();
-            numberInfo.NumberDecimalDigits = 2;
-            numberInfo.NumberDecimalSeparator = ".";
-            numberInfo.NumberGroupSeparator = " ";
-            return numberInfo;
-        }
-
-        private bool IsCreditorWithCountryCode()
-        {
-            // The creditor country code is even shown for a Swiss address if the debtor lives abroad
-            return IsForeignAddress(_bill.Creditor, _bill.Format) || IsForeignAddress(_bill.Debtor, _bill.Format);
-        }
-
-        private bool IsDebtorWithCountryCode()
-        {
-            return IsForeignAddress(_bill.Debtor, _bill.Format);
-        }
-
-        private static bool IsForeignAddress(Address address, BillFormat format)
-        {
-            return address != null && format.LocalCountryCode != address.CountryCode;
         }
     }
 }
