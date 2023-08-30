@@ -24,7 +24,6 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         private int _lastStrokingColor;
         private int _lastNonStrokingColor;
         private double _lastLineWidth = 1;
-        private bool _hasSavedGraphicsState;
         private Font _lastFont;
         private float _lastFontSize;
         private LineStyle _lastLineStyle;
@@ -44,6 +43,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             _document = new Document("Swiss QR Bill");
             var page = _document.CreatePage((float)(width * MmToPt), (float)(height * MmToPt));
             _contentStream = page.Contents;
+            _contentStream.SaveGraphicsState();
         }
 
         /// <inheritdoc />
@@ -52,19 +52,15 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             translateX *= MmToPt;
             translateY *= MmToPt;
 
-            if (_hasSavedGraphicsState)
-            {
-                _contentStream.RestoreGraphicsState();
-                _lastStrokingColor = 0;
-                _lastNonStrokingColor = 0;
-                _lastLineWidth = 1;
-            }
+            _contentStream.RestoreGraphicsState();
+            _lastStrokingColor = 0;
+            _lastNonStrokingColor = 0;
+            _lastLineWidth = 1;
 
             _lastFont = null;
             _lastFontSize = 0;
 
             _contentStream.SaveGraphicsState();
-            _hasSavedGraphicsState = true;
 
             var matrix = new TransformationMatrix();
             matrix.Translate(translateX, translateY);

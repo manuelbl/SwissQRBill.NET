@@ -64,5 +64,15 @@ namespace Codecrete.SwissQRBill.CoreTest
             byte[] svg = QRBill.Generate(bill);
             return VerifyImages.VerifySvg(svg);
         }
+
+        [Fact]
+        public Task QrCodeWithQuiteZonePDF()
+        {
+            Bill bill = SampleData.CreateExample3();
+            bill.Format.OutputSize = OutputSize.QrCodeWithQuietZone;
+            bill.Format.GraphicsFormat = GraphicsFormat.PDF;
+            byte[] pdf = QRBill.Generate(bill);
+            return VerifyImages.VerifyPdf(pdf);
+        }
     }
 }
