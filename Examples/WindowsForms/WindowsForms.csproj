@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Codecrete.SwissQRBill.Windows" Version="3.1.0" />
+    <PackageReference Include="Codecrete.SwissQRBill.Windows" Version="3.1.1" />
   </ItemGroup>
 
 </Project>
