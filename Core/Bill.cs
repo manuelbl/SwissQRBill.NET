@@ -44,6 +44,23 @@ namespace Codecrete.SwissQRBill.Generator
         }
 
         /// <summary>
+        /// Allowed line separators for separating the data fields in the text represented by the QR code
+        /// (according to the Swiss Implementation Guidelines for the QR-bill, § 4.1.4 Separator element)
+        /// </summary>
+        public enum QrDataSeparator
+        {
+            /// <summary>
+            /// Separate lines with the line feed (␊) character, i.e. unicode U+000A.
+            /// </summary>
+            Lf,
+
+            /// <summary>
+            /// Separate lines with the carriage return (␍) character and line feed (␊) characters, i.e. unicode U+000D and U+000A.
+            /// </summary>
+            CrLf,
+        }
+
+        /// <summary>
         /// Gets or sets the version of the QR bill standard.
         /// </summary>
         /// <value>The QR bill standard version.</value>
@@ -244,6 +261,16 @@ namespace Codecrete.SwissQRBill.Generator
         /// <value>The bill formatting information.</value>
         public BillFormat Format { get; set; } = new BillFormat();
 
+        /// <summary>
+        /// Gets or sets the line separator for the QR code data fields.
+        /// <para>
+        /// The default is <see cref="QrDataSeparator.Lf"/>. There is no need to change it except
+        /// for improving compatibility with a non-compliant software processing the QR code data.
+        /// </para>
+        /// </summary>
+        /// <value>The line separator for the QR code data fields.</value>
+        public QrDataSeparator Separator { get; set; } = QrDataSeparator.Lf;
+
         /// <summary>Determines whether the specified object is equal to the current object.</summary>
         /// <param name="obj">The object to compare with the current object.</param>
         /// <returns><c>true</c> if the specified object is equal to the current object; otherwise, <c>false</c>.</returns>
@@ -269,7 +296,8 @@ namespace Codecrete.SwissQRBill.Generator
                    UnstructuredMessage == other.UnstructuredMessage &&
                    BillInformation == other.BillInformation &&
                    SequenceEqual(AlternativeSchemes, other.AlternativeSchemes) &&
-                   EqualityComparer<BillFormat>.Default.Equals(Format, other.Format);
+                   EqualityComparer<BillFormat>.Default.Equals(Format, other.Format) &&
+                   Separator == other.Separator;
         }
 
         /// <summary>Gets the hash code for this instance.</summary>
@@ -289,6 +317,7 @@ namespace Codecrete.SwissQRBill.Generator
             hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(BillInformation);
             hashCode = hashCode * -1521134295 + EqualityComparer<List<AlternativeScheme>>.Default.GetHashCode(AlternativeSchemes);
             hashCode = hashCode * -1521134295 + EqualityComparer<BillFormat>.Default.GetHashCode(Format);
+            hashCode = hashCode * -1521134295 + EqualityComparer<QrDataSeparator>.Default.GetHashCode(Separator);
             return hashCode;
         }
 

@@ -44,6 +44,7 @@ namespace Codecrete.SwissQRBill.Generator
         {
 
             _billOut.Format = _billIn.Format != null ? new BillFormat(_billIn.Format) : null;
+            _billOut.Separator = _billIn.Separator;
             _billOut.Version = _billIn.Version;
 
             ValidateAccountNumber();
