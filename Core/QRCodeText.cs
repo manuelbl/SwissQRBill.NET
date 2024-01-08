@@ -9,7 +9,6 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
-using System.Text;
 using System.Text.RegularExpressions;
 using static Codecrete.SwissQRBill.Generator.Address;
 using static Codecrete.SwissQRBill.Generator.ValidationMessage;
@@ -22,7 +21,7 @@ namespace Codecrete.SwissQRBill.Generator
     internal class QRCodeText
     {
         private readonly Bill _bill;
-        private StringBuilder _textBuilder;
+        private StringWriter _textBuilder;
 
         private QRCodeText(Bill bill)
         {
@@ -42,17 +41,17 @@ namespace Codecrete.SwissQRBill.Generator
 
         private string CreateText()
         {
-            _textBuilder = new StringBuilder();
+            _textBuilder = new StringWriter { NewLine = _bill.Separator == Bill.QrDataSeparator.Lf ? "\n" : "\r\n" };
 
             // Header
-            _textBuilder.Append("SPC\n"); // QRType
-            _textBuilder.Append("0200\n"); // Version
-            _textBuilder.Append("1"); // Coding
+            _textBuilder.WriteLine("SPC"); // QRType
+            _textBuilder.WriteLine("0200"); // Version
+            _textBuilder.Write("1"); // Coding
 
             // CdtrInf
             AppendDataField(_bill.Account); // IBAN
             AppendPerson(_bill.Creditor); // Cdtr
-            _textBuilder.Append("\n\n\n\n\n\n\n"); // UltmtCdtr
+            AppendPerson(null); // UltmtCdtr
 
             // CcyAmt
             AppendDataField(_bill.Amount == null ? "" : FormatAmountForCode(_bill.Amount.Value)); // Amt
@@ -103,18 +102,20 @@ namespace Codecrete.SwissQRBill.Generator
             }
             else
             {
-                _textBuilder.Append("\n\n\n\n\n\n\n");
+                AppendDataField(null);
+                AppendDataField(null);
+                AppendDataField(null);
+                AppendDataField(null);
+                AppendDataField(null);
+                AppendDataField(null);
+                AppendDataField(null);
             }
         }
 
         private void AppendDataField(string value)
         {
-            if (value == null)
-            {
-                value = "";
-            }
-
-            _textBuilder.Append('\n').Append(value);
+            _textBuilder.WriteLine();
+            _textBuilder.Write(value);
         }
 
 
@@ -168,6 +169,8 @@ namespace Codecrete.SwissQRBill.Generator
             var billData = new Bill
             {
                 Version = Bill.QrBillStandardVersion.V2_0,
+
+                Separator = text.Contains("\r\n") ? Bill.QrDataSeparator.CrLf : Bill.QrDataSeparator.Lf,
 
                 Account = lines[3],
 

@@ -51,7 +51,7 @@ namespace Codecrete.SwissQRBill.CoreTest
             return string.Join(newLine, QRCodeText1);
         }
 
-        public static Bill CreateBillData1()
+        public static Bill CreateBillData1(Bill.QrDataSeparator separator)
         {
             Address creditor = new Address
             {
@@ -79,7 +79,8 @@ namespace Codecrete.SwissQRBill.CoreTest
                 Currency = "CHF",
                 Debtor = debtor,
                 UnstructuredMessage = "Bill no. 3139 for gardening work and disposal of waste material",
-                Format = { Language = Language.EN }
+                Format = { Language = Language.EN },
+                Separator = separator
             };
             return bill;
         }
@@ -126,7 +127,7 @@ namespace Codecrete.SwissQRBill.CoreTest
             return string.Join(newLine, QRCodeText2);
         }
 
-        public static Bill CreateBillData2()
+        public static Bill CreateBillData2(Bill.QrDataSeparator separator)
         {
             Address creditor = new Address
             {
@@ -162,7 +163,8 @@ namespace Codecrete.SwissQRBill.CoreTest
                     new AlternativeScheme {Name = "Ultraviolet", Instruction = "UV;UltraPay005;12345"},
                     new AlternativeScheme {Name = "Xing Yong", Instruction = "XY;XYService;54321"}
                 },
-                Format = { Language = Language.EN }
+                Format = { Language = Language.EN },
+                Separator = separator
             };
             return bill;
         }
@@ -206,7 +208,7 @@ namespace Codecrete.SwissQRBill.CoreTest
             return string.Join(newLine, QRCodeText3);
         }
 
-        public static Bill CreateBillData3()
+        public static Bill CreateBillData3(Bill.QrDataSeparator separator)
         {
             Address creditor = new Address
             {
@@ -221,7 +223,8 @@ namespace Codecrete.SwissQRBill.CoreTest
                 Creditor = creditor,
                 Currency = "CHF",
                 UnstructuredMessage = "Donnation to the Winterfest campaign",
-                Format = { Language = Language.EN }
+                Format = { Language = Language.EN },
+                Separator = separator
             };
             return bill;
         }
@@ -266,7 +269,7 @@ namespace Codecrete.SwissQRBill.CoreTest
             return string.Join(newLine, QRCodeText4);
         }
 
-        public static Bill CreateBillData4()
+        public static Bill CreateBillData4(Bill.QrDataSeparator separator)
         {
             Address creditor = new Address
             {
@@ -292,7 +295,8 @@ namespace Codecrete.SwissQRBill.CoreTest
                 Currency = "CHF",
                 Debtor = debtor,
                 Reference = "RF18539007547034",
-                Format = { Language = Language.EN }
+                Format = { Language = Language.EN },
+                Separator = separator
             };
             return bill;
         }
@@ -337,7 +341,7 @@ namespace Codecrete.SwissQRBill.CoreTest
             return string.Join(newLine, QRCodeText5);
         }
 
-        public static Bill CreateBillData5()
+        public static Bill CreateBillData5(Bill.QrDataSeparator separator)
         {
             Address creditor = new Address
             {
@@ -363,7 +367,8 @@ namespace Codecrete.SwissQRBill.CoreTest
                 Currency = "CHF",
                 Debtor = debtor,
                 Reference = "RF18539007547034",
-                Format = { Language = Language.EN }
+                Format = { Language = Language.EN },
+                Separator = separator
             };
             return bill;
         }

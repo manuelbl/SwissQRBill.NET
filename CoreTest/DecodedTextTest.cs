@@ -55,9 +55,9 @@ namespace Codecrete.SwissQRBill.CoreTest
 
         [Theory]
         [ClassData(typeof(NewLineTheoryData))]
-        public void DecodeText1NewLine(string newLine, bool extraNewLine)
+        public void DecodeText1NewLine(Bill.QrDataSeparator separator, string newLine, bool extraNewLine)
         {
-            Bill bill = SampleQRCodeText.CreateBillData1();
+            Bill bill = SampleQRCodeText.CreateBillData1(separator);
             TestHelper.NormalizeSourceBill(bill);
             Bill bill2 = QRBill.DecodeQrCodeText(SampleQRCodeText.CreateQrCodeText1(newLine) + (extraNewLine ? newLine : ""));
             TestHelper.NormalizeDecodedBill(bill2);
@@ -66,9 +66,9 @@ namespace Codecrete.SwissQRBill.CoreTest
 
         [Theory]
         [ClassData(typeof(NewLineTheoryData))]
-        public void DecodeText2NewLine(string newLine, bool extraNewLine)
+        public void DecodeText2NewLine(Bill.QrDataSeparator separator, string newLine, bool extraNewLine)
         {
-            Bill bill = SampleQRCodeText.CreateBillData2();
+            Bill bill = SampleQRCodeText.CreateBillData2(separator);
             TestHelper.NormalizeSourceBill(bill);
             Bill bill2 = QRBill.DecodeQrCodeText(SampleQRCodeText.CreateQrCodeText2(newLine) + (extraNewLine ? newLine : ""));
             TestHelper.NormalizeDecodedBill(bill2);
@@ -77,9 +77,9 @@ namespace Codecrete.SwissQRBill.CoreTest
 
         [Theory]
         [ClassData(typeof(NewLineTheoryData))]
-        public void DecodeText3NewLine(string newLine, bool extraNewLine)
+        public void DecodeText3NewLine(Bill.QrDataSeparator separator, string newLine, bool extraNewLine)
         {
-            Bill bill = SampleQRCodeText.CreateBillData3();
+            Bill bill = SampleQRCodeText.CreateBillData3(separator);
             TestHelper.NormalizeSourceBill(bill);
             Bill bill2 = QRBill.DecodeQrCodeText(SampleQRCodeText.CreateQrCodeText3(newLine) + (extraNewLine ? newLine : ""));
             TestHelper.NormalizeDecodedBill(bill2);
@@ -88,9 +88,9 @@ namespace Codecrete.SwissQRBill.CoreTest
 
         [Theory]
         [ClassData(typeof(NewLineTheoryData))]
-        public void DecodeText4NewLine(string newLine, bool extraNewLine)
+        public void DecodeText4NewLine(Bill.QrDataSeparator separator, string newLine, bool extraNewLine)
         {
-            Bill bill = SampleQRCodeText.CreateBillData4();
+            Bill bill = SampleQRCodeText.CreateBillData4(separator);
             TestHelper.NormalizeSourceBill(bill);
             Bill bill2 = QRBill.DecodeQrCodeText(SampleQRCodeText.CreateQrCodeText4(newLine) + (extraNewLine ? newLine : ""));
             TestHelper.NormalizeDecodedBill(bill2);
@@ -99,9 +99,9 @@ namespace Codecrete.SwissQRBill.CoreTest
 
         [Theory]
         [ClassData(typeof(NewLineTheoryData))]
-        public void DecodeText5NewLine(string newLine, bool extraNewLine)
+        public void DecodeText5NewLine(Bill.QrDataSeparator separator, string newLine, bool extraNewLine)
         {
-            Bill bill = SampleQRCodeText.CreateBillData5();
+            Bill bill = SampleQRCodeText.CreateBillData5(separator);
             TestHelper.NormalizeSourceBill(bill);
             Bill bill2 = QRBill.DecodeQrCodeText(SampleQRCodeText.CreateQrCodeText5(newLine) + (extraNewLine ? newLine : ""));
             TestHelper.NormalizeDecodedBill(bill2);
@@ -142,7 +142,7 @@ namespace Codecrete.SwissQRBill.CoreTest
         [Fact]
         public void DecodeIgnoreMinorVersion()
         {
-            Bill bill = SampleQRCodeText.CreateBillData1();
+            Bill bill = SampleQRCodeText.CreateBillData1(Bill.QrDataSeparator.Lf);
             TestHelper.NormalizeSourceBill(bill);
             string qrCodeText = SampleQRCodeText.CreateQrCodeText1();
             qrCodeText = qrCodeText.Replace("\n0200\n", "\n0201\n");
@@ -177,16 +177,16 @@ namespace Codecrete.SwissQRBill.CoreTest
             TestHelper.AssertSingleError(err.Result, ValidationConstants.KeyDataStructureInvalid, ValidationConstants.FieldTrailer);
         }
 
-        private class NewLineTheoryData : TheoryData<string, bool>
+        private class NewLineTheoryData : TheoryData<Bill.QrDataSeparator, string, bool>
         {
             public NewLineTheoryData()
             {
-                Add("\n", false);
-                Add("\n", true);
-                Add("\r\n", false);
-                Add("\r\n", true);
-                Add("\r", false);
-                Add("\r", true);
+                Add(Bill.QrDataSeparator.Lf, "\n", false);
+                Add(Bill.QrDataSeparator.Lf, "\n", true);
+                Add(Bill.QrDataSeparator.CrLf, "\r\n", false);
+                Add(Bill.QrDataSeparator.CrLf, "\r\n", true);
+                Add(Bill.QrDataSeparator.Lf, "\r", false);
+                Add(Bill.QrDataSeparator.Lf, "\r", true);
             }
         }
     }
