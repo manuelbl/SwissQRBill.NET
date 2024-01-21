@@ -15,8 +15,8 @@
       "Net.Codecrete.QrCodeGenerator": {
         "type": "Direct",
         "requested": "[2.0.0, 2.999999.0]",
-        "resolved": "2.0.0",
-        "contentHash": "Yd3w2rOW73SwxtJuDMlHnjefxBje7AecY+lrU64+NPch0mHQiKsuPJvuX8cw/2q6+bdrzZqf5BAU2UB/5miP+w=="
+        "resolved": "2.0.4",
+        "contentHash": "EdPqUVHPJ45+iRB3u5xxX5muASLSK4j151A00h2ehWoUI2RVC7Hk6S7vtFnufLRX6doYM/2G0ERUPUFNRn/4rg=="
       },
       "NETStandard.Library": {
         "type": "Direct",
