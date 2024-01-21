@@ -23,7 +23,7 @@
       },
       "SkiaSharp": {
         "type": "Direct",
-        "requested": "[2.80.0, 2.999999.0]",
+        "requested": "[2.*, )",
         "resolved": "2.88.7",
         "contentHash": "LJHAMrbWO00J7jXWLWehyjqFo29T4VzABimfJb4nICqpEe3c/KvQGWL4ItON8ymzhxYOeFgyxeRzuNzO4GHSug==",
         "dependencies": {
@@ -49,8 +49,8 @@
       },
       "Net.Codecrete.QrCodeGenerator": {
         "type": "Transitive",
-        "resolved": "2.0.0",
-        "contentHash": "Yd3w2rOW73SwxtJuDMlHnjefxBje7AecY+lrU64+NPch0mHQiKsuPJvuX8cw/2q6+bdrzZqf5BAU2UB/5miP+w=="
+        "resolved": "2.0.4",
+        "contentHash": "EdPqUVHPJ45+iRB3u5xxX5muASLSK4j151A00h2ehWoUI2RVC7Hk6S7vtFnufLRX6doYM/2G0ERUPUFNRn/4rg=="
       },
       "SkiaSharp.NativeAssets.macOS": {
         "type": "Transitive",
@@ -90,7 +90,7 @@
       "Codecrete.SwissQRBill.Core": {
         "type": "Project",
         "dependencies": {
-          "Net.Codecrete.QrCodeGenerator": "[2.0.0, 2.999999.0]"
+          "Net.Codecrete.QrCodeGenerator": "[2.*, )"
         }
       }
     }

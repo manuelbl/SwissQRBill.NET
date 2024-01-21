@@ -60,7 +60,7 @@ See home page https://github.com/manuelbl/SwissQRBill.NET for examples and platf
 
   <ItemGroup>
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.*" PrivateAssets="all" />
-    <PackageReference Include="System.Drawing.Common" Version="4.7.3" />
+    <PackageReference Include="System.Drawing.Common" Version="4.*" />
   </ItemGroup>
 
   <ItemGroup>
