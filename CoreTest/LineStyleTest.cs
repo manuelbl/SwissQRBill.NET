@@ -12,7 +12,6 @@ using Xunit;
 
 namespace Codecrete.SwissQRBill.CoreTest
 {
-    [UsesVerify]
     public class LineStyleTest
     {
         [Fact]
@@ -43,7 +42,7 @@ namespace Codecrete.SwissQRBill.CoreTest
             return GenerateAndCompareBill(bill, GraphicsFormat.PDF, SeparatorType.DottedLine);
         }
 
-        private Task GenerateAndCompareBill(Bill bill, GraphicsFormat graphicsFormat, SeparatorType separatorType)
+        private static Task GenerateAndCompareBill(Bill bill, GraphicsFormat graphicsFormat, SeparatorType separatorType)
         {
             bill.Format.GraphicsFormat = graphicsFormat;
             bill.Format.SeparatorType = separatorType;

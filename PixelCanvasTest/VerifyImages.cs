@@ -17,16 +17,15 @@ namespace Codecrete.SwissQRBill.PixelCanvasTest
         {
             VerifyImageMagick.RegisterComparers(threshold: 0.3, ImageMagick.ErrorMetric.PerceptualHash);
 
-            PngSettings = new VerifySettings();
-            PngSettings.UseExtension("png");
-            PngSettings.UseDirectory("ReferenceFiles");
+            Settings = new VerifySettings();
+            Settings.UseDirectory("ReferenceFiles");
         }
 
-        protected static readonly VerifySettings PngSettings;
+        protected static readonly VerifySettings Settings;
 
         public static SettingsTask VerifyPng(byte[] png, [CallerFilePath] string sourceFile = "")
         {
-            return Verifier.Verify(png, PngSettings, sourceFile);
+            return Verifier.Verify(png, settings: Settings, extension: "png", sourceFile: sourceFile);
         }
     }
 }

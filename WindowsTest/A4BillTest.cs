@@ -12,7 +12,6 @@ using Xunit;
 
 namespace Codecrete.SwissQRBill.WindowsTest
 {
-    [UsesVerify]
     public class A4BillTest
     {
         [Fact]

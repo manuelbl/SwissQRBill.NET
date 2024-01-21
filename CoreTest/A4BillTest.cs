@@ -12,7 +12,6 @@ using Xunit;
 
 namespace Codecrete.SwissQRBill.CoreTest
 {
-    [UsesVerify]
     public class A4BillTest
     {
 
@@ -94,7 +93,7 @@ namespace Codecrete.SwissQRBill.CoreTest
             return GenerateAndCompareBill(SampleData.CreateExample6(), OutputSize.A4PortraitSheet, GraphicsFormat.PDF);
         }
 
-        private Task GenerateAndCompareBill(Bill bill, OutputSize outputSize, GraphicsFormat graphicsFormat)
+        private static Task GenerateAndCompareBill(Bill bill, OutputSize outputSize, GraphicsFormat graphicsFormat)
         {
             bill.Format.OutputSize = outputSize;
             bill.Format.GraphicsFormat = graphicsFormat;

@@ -13,7 +13,6 @@ using Xunit;
 
 namespace Codecrete.SwissQRBill.CoreTest
 {
-    [UsesVerify]
     public class LocaleTest
     {
         [Theory]

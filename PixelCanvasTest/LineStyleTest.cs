@@ -13,7 +13,6 @@ using Xunit;
 
 namespace Codecrete.SwissQRBill.PixelCanvasTest
 {
-    [UsesVerify]
     public class LineStyleTest
     {
         [Fact]
@@ -30,11 +29,10 @@ namespace Codecrete.SwissQRBill.PixelCanvasTest
             return GenerateAndComparePngBill(bill, SeparatorType.DottedLineWithScissors);
         }
 
-        private Task GenerateAndComparePngBill(Bill bill, SeparatorType separatorType)
+        private static Task GenerateAndComparePngBill(Bill bill, SeparatorType separatorType)
         {
             bill.Format.SeparatorType = separatorType;
-            using PNGCanvas canvas =
-                new PNGCanvas(QRBill.A4PortraitWidth, QRBill.A4PortraitHeight, 288, "Arial,Helvetica");
+            using var canvas = new PNGCanvas(QRBill.A4PortraitWidth, QRBill.A4PortraitHeight, 288, "Arial,Helvetica");
             QRBill.Draw(bill, canvas);
             return VerifyImages.VerifyPng(canvas.ToByteArray());
         }

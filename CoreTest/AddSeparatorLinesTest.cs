@@ -14,7 +14,6 @@ using Xunit;
 
 namespace Codecrete.SwissQRBill.CoreTest
 {
-    [UsesVerify]
     public class AddSeparatorLinesTest
     {
         [Fact]
@@ -22,13 +21,12 @@ namespace Codecrete.SwissQRBill.CoreTest
         {
             var bill = SampleData.CreateExample1();
             bill.Format.SeparatorType = SeparatorType.None;
-            using PDFCanvas canvas =
-                new PDFCanvas(QRBill.A4PortraitWidth, QRBill.A4PortraitHeight);
+            using var canvas = new PDFCanvas(QRBill.A4PortraitWidth, QRBill.A4PortraitHeight);
             QRBill.Draw(bill, canvas);
 
             QRBill.DrawSeparators(SeparatorType.DottedLineWithScissors, true, canvas);
 
-            MemoryStream ms = new MemoryStream();
+            var ms = new MemoryStream();
             canvas.WriteTo(ms);
 
             return VerifyImages.VerifyPdf(ms.ToArray());
@@ -39,13 +37,12 @@ namespace Codecrete.SwissQRBill.CoreTest
         {
             var bill = SampleData.CreateExample1();
             bill.Format.SeparatorType = SeparatorType.None;
-            using PDFCanvas canvas =
-                new PDFCanvas(QRBill.A4PortraitWidth, QRBill.A4PortraitHeight);
+            using var canvas = new PDFCanvas(QRBill.A4PortraitWidth, QRBill.A4PortraitHeight);
             QRBill.Draw(bill, canvas);
 
             QRBill.DrawSeparators(SeparatorType.DashedLineWithScissors, false, canvas);
 
-            MemoryStream ms = new MemoryStream();
+            var ms = new MemoryStream();
             canvas.WriteTo(ms);
 
             return VerifyImages.VerifyPdf(ms.ToArray());

@@ -14,7 +14,6 @@ using Xunit;
 
 namespace Codecrete.SwissQRBill.PixelCanvasTest
 {
-    [UsesVerify]
     public class PNGCanvasTest
     {
         [Fact]
@@ -23,7 +22,7 @@ namespace Codecrete.SwissQRBill.PixelCanvasTest
             Bill bill = SampleData.CreateExample1();
 
             byte[] png;
-            using (PNGCanvas canvas = new PNGCanvas(QRBill.QrBillWidth, QRBill.QrBillHeight, 300, "\"Liberation Sans\",Arial, Helvetica"))
+            using (var canvas = new PNGCanvas(QRBill.QrBillWidth, QRBill.QrBillHeight, 300, "\"Liberation Sans\",Arial, Helvetica"))
             {
                 bill.Format.OutputSize = OutputSize.QrBillOnly;
                 QRBill.Draw(bill, canvas);
@@ -38,7 +37,7 @@ namespace Codecrete.SwissQRBill.PixelCanvasTest
         {
             Bill bill = SampleData.CreateExample3();
             byte[] png;
-            using (PNGCanvas canvas =
+            using (var canvas =
                 new PNGCanvas(QRBill.A4PortraitWidth, QRBill.A4PortraitHeight, 144, "Arial,\"Liberation Sans\",Helvetica"))
             {
                 bill.Format.OutputSize = OutputSize.A4PortraitSheet;
@@ -53,10 +52,10 @@ namespace Codecrete.SwissQRBill.PixelCanvasTest
         public void PngWriteTo()
         {
             Bill bill = SampleData.CreateExample5();
-            using PNGCanvas canvas =
+            using var canvas =
                 new PNGCanvas(QRBill.A4PortraitWidth, QRBill.A4PortraitHeight, 144, "Helvetica, Arial, \"Liberation Sans\"");
             QRBill.Draw(bill, canvas);
-            MemoryStream ms = new MemoryStream();
+            var ms = new MemoryStream();
             canvas.WriteTo(ms);
         }
 
@@ -64,7 +63,7 @@ namespace Codecrete.SwissQRBill.PixelCanvasTest
         public void PngSaveAs()
         {
             Bill bill = SampleData.CreateExample6();
-            using PNGCanvas canvas =
+            using var canvas =
                 new PNGCanvas(QRBill.QrBillWidth, QRBill.QrBillHeight, 144, "Helvetica, Arial, \"Liberation Sans\"");
             QRBill.Draw(bill, canvas);
             canvas.SaveAs("qrbill.png");

@@ -12,7 +12,6 @@ using Xunit;
 
 namespace Codecrete.SwissQRBill.CoreTest
 {
-    [UsesVerify]
     public class MarginTest
     {
 
@@ -43,7 +42,7 @@ namespace Codecrete.SwissQRBill.CoreTest
             return GenerateAndCompareBill(bill);
         }
 
-        private Task GenerateAndCompareBill(Bill bill)
+        private static Task GenerateAndCompareBill(Bill bill)
         {
             bill.Format.OutputSize = OutputSize.A4PortraitSheet;
             bill.Format.GraphicsFormat = GraphicsFormat.SVG;

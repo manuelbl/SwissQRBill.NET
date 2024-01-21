@@ -14,7 +14,6 @@ using Xunit;
 
 namespace Codecrete.SwissQRBill.CoreTest
 {
-    [UsesVerify]
     public class SVGTest
     {
         [Fact]
@@ -32,10 +31,9 @@ namespace Codecrete.SwissQRBill.CoreTest
         public void SvgWriteTo()
         {
             Bill bill = SampleData.CreateExample1();
-            using SVGCanvas canvas =
-                new SVGCanvas(QRBill.A4PortraitWidth, QRBill.A4PortraitHeight, "Helvetica, Arial, Sans");
+            using var canvas = new SVGCanvas(QRBill.A4PortraitWidth, QRBill.A4PortraitHeight, "Helvetica, Arial, Sans");
             QRBill.Draw(bill, canvas);
-            MemoryStream ms = new MemoryStream();
+            var ms = new MemoryStream();
             canvas.WriteTo(ms);
         }
 
@@ -43,7 +41,7 @@ namespace Codecrete.SwissQRBill.CoreTest
         public void SvgSaveAs()
         {
             Bill bill = SampleData.CreateExample2();
-            using SVGCanvas canvas =
+            using var canvas =
                 new SVGCanvas(QRBill.A4PortraitWidth, QRBill.A4PortraitHeight, "Helvetica, Arial, Sans");
             QRBill.Draw(bill, canvas);
             canvas.SaveAs("qrbill.svg");

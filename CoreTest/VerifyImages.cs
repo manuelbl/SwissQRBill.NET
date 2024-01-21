@@ -26,17 +26,8 @@ namespace Codecrete.SwissQRBill.CoreTest
             VerifierSettings.RegisterFileConverter("pdf", ConvertPdfToPng);
             VerifyImageMagick.RegisterComparers(threshold: 0.1, ImageMagick.ErrorMetric.PerceptualHash);
 
-            SvgSettings = new VerifySettings();
-            SvgSettings.UseExtension("svg");
-            SvgSettings.UseDirectory("ReferenceFiles");
-
-            PngSettings = new VerifySettings();
-            PngSettings.UseExtension("png");
-            PngSettings.UseDirectory("ReferenceFiles");
-
-            PdfSettings = new VerifySettings();
-            PdfSettings.UseExtension("pdf");
-            PdfSettings.UseDirectory("ReferenceFiles");
+            Settings = new VerifySettings();
+            Settings.UseDirectory("ReferenceFiles");
         }
 
         private static ConversionResult ConvertPdfToPng(Stream stream, IReadOnlyDictionary<string, object> context)
@@ -59,35 +50,27 @@ namespace Codecrete.SwissQRBill.CoreTest
             return new ConversionResult(null, pngStreams.Select(e => new Target("png", e)));
         }
 
-        protected static readonly VerifySettings SvgSettings;
-        protected static readonly VerifySettings PngSettings;
-        protected static readonly VerifySettings PdfSettings;
+        protected static readonly VerifySettings Settings;
 
         public static SettingsTask Verify(byte[] imageData, GraphicsFormat format, [CallerFilePath] string sourceFile = "")
         {
-            VerifySettings settings = format switch
-            {
-                GraphicsFormat.SVG => SvgSettings,
-                GraphicsFormat.PNG => PngSettings,
-                _ => PdfSettings
-            };
-
-            return Verifier.Verify(imageData, settings, sourceFile);
+            var extension = format.ToString().ToLowerInvariant();
+            return Verifier.Verify(imageData, settings: Settings, extension: extension, sourceFile: sourceFile);
         }
 
         public static SettingsTask VerifySvg(byte[] svg, [CallerFilePath] string sourceFile = "")
         {
-            return Verifier.Verify(svg, SvgSettings, sourceFile);
+            return Verifier.Verify(svg, settings: Settings, extension: "svg", sourceFile: sourceFile);
         }
 
         public static SettingsTask VerifyPng(byte[] png, [CallerFilePath] string sourceFile = "")
         {
-            return Verifier.Verify(png, PngSettings, sourceFile);
+            return Verifier.Verify(png, settings: Settings, extension: "png", sourceFile: sourceFile);
         }
 
         public static SettingsTask VerifyPdf(byte[] pdf, [CallerFilePath] string sourceFile = "")
         {
-            return Verifier.Verify(pdf, PdfSettings, sourceFile);
+            return Verifier.Verify(pdf, settings: Settings, extension: "pdf", sourceFile: sourceFile);
         }
     }
 }
