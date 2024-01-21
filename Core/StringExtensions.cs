@@ -33,8 +33,6 @@ namespace Codecrete.SwissQRBill.Generator
             return value.Length == 0 ? null : value;
         }
 
-#pragma warning disable S3776
-
         /// <summary>
         /// Returns a new string without white space.
         /// </summary>
@@ -83,7 +81,39 @@ namespace Codecrete.SwissQRBill.Generator
             return sb.ToString();
         }
 
-#pragma warning restore S3776
+        /// <summary>
+        /// Returns a new string without leading and trailing spaces and with all
+        /// consecutive space characters replaced by a single space.
+        /// <para>
+        /// Whitespace other than space characters are not cleaned.
+        /// </para>
+        /// </summary>
+        /// <param name="value">The string instance that this method extends</param>
+        /// <returns>The resulting string with all whitespace removed.</returns>
+        public static string SpacesCleaned(this string value)
+        {
+            value = value.Trim();
 
+            int len = value.Length;
+            bool inWhitespace = false;
+            StringBuilder sb = null;
+
+            for (int i = 0; i < len; i += 1)
+            {
+                char ch = value[i];
+                if (ch == ' ' && inWhitespace && sb == null)
+                {
+                    sb = new StringBuilder(value.Length);
+                    sb.Append(value, 0, i);
+                }
+                else if (ch != ' ' || !inWhitespace)
+                {
+                    inWhitespace = ch == ' ';
+                    sb?.Append(ch);
+                }
+            }
+
+            return sb != null ? sb.ToString() : value;
+        }
     }
 }

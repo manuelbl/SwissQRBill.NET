@@ -15,14 +15,14 @@ namespace Codecrete.SwissQRBill.CoreTest
         [Fact]
         public void TestUndetermined()
         {
-            Address address = new Address();
+            var address = new Address();
             Assert.Equal(Address.AddressType.Undetermined, address.Type);
         }
 
         [Fact]
         public void SetName()
         {
-            Address address = new Address
+            var address = new Address
             {
                 Name = "ABC"
             };
@@ -32,7 +32,7 @@ namespace Codecrete.SwissQRBill.CoreTest
         [Fact]
         public void SetAddressLine1()
         {
-            Address address = new Address
+            var address = new Address
             {
                 AddressLine1 = "TYUI"
             };
@@ -43,7 +43,7 @@ namespace Codecrete.SwissQRBill.CoreTest
         [Fact]
         public void SetAddressLine2()
         {
-            Address address = new Address
+            var address = new Address
             {
                 AddressLine2 = "vbnm"
             };
@@ -54,7 +54,7 @@ namespace Codecrete.SwissQRBill.CoreTest
         [Fact]
         public void SetStreet()
         {
-            Address address = new Address
+            var address = new Address
             {
                 Street = "DEFGH"
             };
@@ -65,7 +65,7 @@ namespace Codecrete.SwissQRBill.CoreTest
         [Fact]
         public void SetHouseNo()
         {
-            Address address = new Address
+            var address = new Address
             {
                 HouseNo = "fiekdd"
             };
@@ -76,7 +76,7 @@ namespace Codecrete.SwissQRBill.CoreTest
         [Fact]
         public void SetPostalCode()
         {
-            Address address = new Address
+            var address = new Address
             {
                 PostalCode = "BG19283"
             };
@@ -87,7 +87,7 @@ namespace Codecrete.SwissQRBill.CoreTest
         [Fact]
         public void SetTown()
         {
-            Address address = new Address
+            var address = new Address
             {
                 Town = "IOPU-KU"
             };
@@ -98,7 +98,7 @@ namespace Codecrete.SwissQRBill.CoreTest
         [Fact]
         public void SetCountryCode()
         {
-            Address address = new Address
+            var address = new Address
             {
                 CountryCode = "XY"
             };
@@ -108,7 +108,7 @@ namespace Codecrete.SwissQRBill.CoreTest
         [Fact]
         public void ConflictTest1()
         {
-            Address address = new Address
+            var address = new Address
             {
                 Street = "XY",
                 AddressLine1 = "abc"
@@ -119,7 +119,7 @@ namespace Codecrete.SwissQRBill.CoreTest
         [Fact]
         public void ConflictTest2()
         {
-            Address address = new Address
+            var address = new Address
             {
                 HouseNo = "XY",
                 AddressLine1 = "abc"
@@ -130,7 +130,7 @@ namespace Codecrete.SwissQRBill.CoreTest
         [Fact]
         public void ConflictTest3()
         {
-            Address address = new Address
+            var address = new Address
             {
                 PostalCode = "XY",
                 AddressLine2 = "abc"
@@ -141,7 +141,7 @@ namespace Codecrete.SwissQRBill.CoreTest
         [Fact]
         public void ConflictTest4()
         {
-            Address address = new Address
+            var address = new Address
             {
                 Town = "XY",
                 AddressLine2 = "abc"
@@ -152,39 +152,39 @@ namespace Codecrete.SwissQRBill.CoreTest
         [Fact]
         public void EqualObjectsStructured()
         {
-            Address address1 = CreateStructuredAddress();
-            Address address2 = CreateStructuredAddress();
+            var address1 = CreateStructuredAddress();
+            var address2 = CreateStructuredAddress();
             Assert.Equal(address1, address2);
         }
 
         [Fact]
         public void EqualObjectsCombined()
         {
-            Address address1 = CreateCombinedElementAddress();
-            Address address2 = CreateCombinedElementAddress();
+            var address1 = CreateCombinedElementAddress();
+            var address2 = CreateCombinedElementAddress();
             Assert.Equal(address1, address2);
         }
 
         [Fact]
         public void HashObjectStructured()
         {
-            Address address1 = CreateStructuredAddress();
-            Address address2 = CreateStructuredAddress();
+            var address1 = CreateStructuredAddress();
+            var address2 = CreateStructuredAddress();
             Assert.Equal(address1.GetHashCode(), address2.GetHashCode());
         }
 
         [Fact]
         public void HashObjectCombined()
         {
-            Address address1 = CreateCombinedElementAddress();
-            Address address2 = CreateCombinedElementAddress();
+            var address1 = CreateCombinedElementAddress();
+            var address2 = CreateCombinedElementAddress();
             Assert.Equal(address1.GetHashCode(), address2.GetHashCode());
         }
 
         [Fact]
         public void ClearTestStructured()
         {
-            Address address1 = CreateStructuredAddress();
+            var address1 = CreateStructuredAddress();
             address1.Clear();
             Assert.Equal(Address.AddressType.Undetermined, address1.Type);
             Assert.Null(address1.Name);
@@ -200,7 +200,7 @@ namespace Codecrete.SwissQRBill.CoreTest
         [Fact]
         public void ClearTestCombined()
         {
-            Address address1 = CreateCombinedElementAddress();
+            var address1 = CreateCombinedElementAddress();
             address1.Clear();
             Assert.Equal(Address.AddressType.Undetermined, address1.Type);
             Assert.Null(address1.Name);
@@ -216,7 +216,7 @@ namespace Codecrete.SwissQRBill.CoreTest
         [Fact]
         public void TestEqualsTrivial()
         {
-            Address address = CreateCombinedElementAddress();
+            var address = CreateCombinedElementAddress();
             Assert.Equal(address, address);
             Address nullAddress = null;
             Assert.NotEqual(address, nullAddress);
@@ -226,8 +226,8 @@ namespace Codecrete.SwissQRBill.CoreTest
         [Fact]
         public void TestEquals()
         {
-            Address address1 = CreateCombinedElementAddress();
-            Address address2 = CreateCombinedElementAddress();
+            var address1 = CreateCombinedElementAddress();
+            var address2 = CreateCombinedElementAddress();
             Assert.Equal(address1, address2);
             Assert.Equal(address2, address1);
 
@@ -235,9 +235,9 @@ namespace Codecrete.SwissQRBill.CoreTest
             Assert.NotEqual(address1, address2);
         }
 
-        private Address CreateStructuredAddress()
+        private static Address CreateStructuredAddress()
         {
-            Address address = new Address
+            var address = new Address
             {
                 Name = "Cornelia Singer",
                 Street = "Alte Landstrasse",
@@ -249,9 +249,9 @@ namespace Codecrete.SwissQRBill.CoreTest
             return address;
         }
 
-        private Address CreateCombinedElementAddress()
+        private static Address CreateCombinedElementAddress()
         {
-            Address address = new Address
+            var address = new Address
             {
                 Name = "Cornelia Singer",
                 AddressLine1 = "Alte Landstrasse 75",

@@ -15,7 +15,7 @@ namespace Codecrete.SwissQRBill.WindowsTest
     {
         public static Bill CreateExample1()
         {
-            Address creditor = new Address
+            var creditor = new Address
             {
                 Name = "Robert Schneider AG",
                 Street = "Rue du Lac",
@@ -24,7 +24,7 @@ namespace Codecrete.SwissQRBill.WindowsTest
                 Town = "Biel",
                 CountryCode = "CH"
             };
-            Address debtor = new Address
+            var debtor = new Address
             {
                 Name = "Pia-Maria Rutschmann-Schnyder",
                 Street = "Grosse Marktgasse",
@@ -33,7 +33,7 @@ namespace Codecrete.SwissQRBill.WindowsTest
                 Town = " Rorschach",
                 CountryCode = "CH"
             };
-            Bill bill = new Bill
+            var bill = new Bill
             {
                 Account = "CH44 3199 9123 0008  89012",
                 Creditor = creditor,
@@ -46,8 +46,8 @@ namespace Codecrete.SwissQRBill.WindowsTest
                     "//S1/10/10201409/11/190512/20/1400.000-53/30/106017086/31/180508/32/7.7/40/2:10;0:30",
                 AlternativeSchemes = new List<AlternativeScheme>
                 {
-                    new AlternativeScheme {Name = "Ultraviolet", Instruction = "UV;UltraPay005;12345"},
-                    new AlternativeScheme {Name = "Xing Yong", Instruction = "XY;XYService;54321"}
+                    new() {Name = "Ultraviolet", Instruction = "UV;UltraPay005;12345"},
+                    new() {Name = "Xing Yong", Instruction = "XY;XYService;54321"}
                 },
                 Format = { Language = Language.EN }
             };
@@ -56,7 +56,7 @@ namespace Codecrete.SwissQRBill.WindowsTest
 
         public static Bill CreateExample2()
         {
-            Address creditor = new Address
+            var creditor = new Address
             {
                 Name = "Salvation Army Foundation Switzerland",
                 Street = null,
@@ -65,7 +65,7 @@ namespace Codecrete.SwissQRBill.WindowsTest
                 Town = "Berne",
                 CountryCode = "CH"
             };
-            Bill bill = new Bill
+            var bill = new Bill
             {
                 Account = "CH3709000000304442225",
                 Creditor = creditor,
@@ -81,7 +81,7 @@ namespace Codecrete.SwissQRBill.WindowsTest
 
         public static Bill CreateExample3()
         {
-            Address creditor = new Address
+            var creditor = new Address
             {
                 Name = "Robert Schneider AG",
                 Street = "Rue du Lac",
@@ -90,7 +90,7 @@ namespace Codecrete.SwissQRBill.WindowsTest
                 Town = "Biel",
                 CountryCode = "CH"
             };
-            Address debtor = new Address
+            var debtor = new Address
             {
                 Name = "Pia-Maria Rutschmann-Schnyder",
                 Street = "Grosse Marktgasse",
@@ -99,7 +99,7 @@ namespace Codecrete.SwissQRBill.WindowsTest
                 Town = "Rorschach",
                 CountryCode = "CH"
             };
-            Bill bill = new Bill
+            var bill = new Bill
             {
                 Account = "CH74 0070 0110 0061 1600 2",
                 Creditor = creditor,
@@ -115,7 +115,7 @@ namespace Codecrete.SwissQRBill.WindowsTest
 
         public static Bill CreateExample4()
         {
-            Address creditor = new Address
+            var creditor = new Address
             {
                 Name = "ABC AG",
                 Street = null,
@@ -124,7 +124,7 @@ namespace Codecrete.SwissQRBill.WindowsTest
                 Town = "Bern",
                 CountryCode = "CH"
             };
-            Bill bill = new Bill
+            var bill = new Bill
             {
                 Account = "CH3709000000304442225",
                 Creditor = creditor,
@@ -140,21 +140,21 @@ namespace Codecrete.SwissQRBill.WindowsTest
 
         public static Bill CreateExample5()
         {
-            Address creditor = new Address
+            var creditor = new Address
             {
                 Name = "Herrn und Frau Ambikaipagan & Deepshikha Thirugnanasampanthamoorthy",
                 AddressLine1 = "c/o Pereira De Carvalho, Conrad-Ferdinand-Meyer-Strasse 317 Wohnung 7B",
                 AddressLine2 = "9527 Niederhelfenschwil bei Schönholzerswilen im Kanton St. Gallen",
                 CountryCode = "CH"
             };
-            Address debtor = new Address
+            var debtor = new Address
             {
                 Name = "Annegret Karin & Hansruedi Frischknecht-Bernhardsgrütter",
                 AddressLine1 = "1503 South New Hampshire Avenue, Lower East-side Bellvue",
                 AddressLine2 = "Poughkeepsie NY 12601-1233",
                 CountryCode = "US"
             };
-            Bill bill = new Bill
+            var bill = new Bill
             {
                 Account = "CH44 3199 9123 0008  89012",
                 Creditor = creditor,
@@ -171,14 +171,14 @@ namespace Codecrete.SwissQRBill.WindowsTest
 
         public static Bill CreateExample6()
         {
-            Address creditor = new Address
+            var creditor = new Address
             {
                 Name = "Herrn und Frau Ambikaipagan & Deepshikha Thirugnanasampanthamoorthy",
                 AddressLine1 = "c/o Pereira De Carvalho, Conrad-Ferdinand-Meyer-Strasse 317 Wohnung 7B",
                 AddressLine2 = "9527 Niederhelfenschwil bei Schönholzerswilen im Kanton St. Gallen",
                 CountryCode = "CH"
             };
-            Bill bill = new Bill
+            var bill = new Bill
             {
                 Account = "CH44 3199 9123 0008  89012",
                 Creditor = creditor,

@@ -23,7 +23,7 @@ namespace Codecrete.SwissQRBill.PixelCanvasTest
             Assert.NotNull(bitmapField);
 
             PNGCanvas pngCanvas;
-            using (PNGCanvas canvas = new PNGCanvas(QRBill.QrBillWidth, QRBill.QrBillHeight, 300, "Arial, Helvatica, \"Liberation Sans\""))
+            using (var canvas = new PNGCanvas(QRBill.QrBillWidth, QRBill.QrBillHeight, 300, "Arial, Helvatica, \"Liberation Sans\""))
             {
                 pngCanvas = canvas;
                 Assert.NotNull(bitmapField.GetValue(pngCanvas));

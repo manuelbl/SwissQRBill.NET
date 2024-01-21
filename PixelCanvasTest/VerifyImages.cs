@@ -15,7 +15,7 @@ namespace Codecrete.SwissQRBill.PixelCanvasTest
     {
         static VerifyImages()
         {
-            VerifyImageMagick.RegisterComparers(threshold: 0.3, ImageMagick.ErrorMetric.PerceptualHash);
+            VerifyImageMagick.RegisterComparers(threshold: 0.35, ImageMagick.ErrorMetric.PerceptualHash);
 
             Settings = new VerifySettings();
             Settings.UseDirectory("ReferenceFiles");

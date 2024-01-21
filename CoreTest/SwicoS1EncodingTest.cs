@@ -43,7 +43,7 @@ namespace Codecrete.SwissQRBill.CoreTest
         [Fact]
         public void EncodeExample4()
         {
-            SwicoBillInformation billInfo = SwicoExamples.CreateExample3();
+            var billInfo = SwicoExamples.CreateExample3();
             string text = billInfo.EncodeAsText();
             Assert.Equal(SwicoExamples.Example3Text, text);
         }
@@ -51,7 +51,7 @@ namespace Codecrete.SwissQRBill.CoreTest
         [Fact]
         public void EncodeTextWithBackslash()
         {
-            SwicoBillInformation billInfo = new SwicoBillInformation
+            var billInfo = new SwicoBillInformation
             {
                 InvoiceNumber = "X.66711/8824",
                 InvoiceDate = new DateTime(2020, 7, 12),
@@ -70,7 +70,7 @@ namespace Codecrete.SwissQRBill.CoreTest
         [Fact]
         public void EncodeInvoiceNoOnly()
         {
-            SwicoBillInformation billInfo = new SwicoBillInformation
+            var billInfo = new SwicoBillInformation
             {
                 InvoiceNumber = "X.66711-8831"
             };
@@ -82,7 +82,7 @@ namespace Codecrete.SwissQRBill.CoreTest
         [Fact]
         public void EncodeEmptyList()
         {
-            SwicoBillInformation billInfo = new SwicoBillInformation
+            var billInfo = new SwicoBillInformation
             {
                 InvoiceNumber = "10201409",
                 InvoiceDate = new DateTime(2019, 5, 12),

@@ -142,8 +142,6 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             return fontSize * PtToMm;
         }
 
-#pragma warning disable S3776
-
         /// <summary>
         /// Splits the text into lines.
         /// <para>
@@ -266,8 +264,6 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
 
             return lines.ToArray();
         }
-
-#pragma warning restore S3776
 
         /// <summary>
         /// Adds the specified text range to the resulting line array.

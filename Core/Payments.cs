@@ -8,6 +8,7 @@
 using System;
 using System.Globalization;
 using System.Text;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Codecrete.SwissQRBill.Generator
 {
@@ -17,139 +18,261 @@ namespace Codecrete.SwissQRBill.Generator
     public static class Payments
     {
         /// <summary>
-        /// Cleans a string value to make it viable for the Swiss Payment Standards 2018.
+        /// Returns a cleaned text valid for the Swiss Payment Standards 2018.
         /// <para>
-        /// Unsupported characters(according to Swiss Payment Standards 2018, ch. 2.4.1
-        /// and appendix D) are replaced with spaces(unsupported whitespace) or dots
-        /// (all other unsupported characters). Leading and trailing whitespace is
-        /// removed.
+        /// Unsupported characters (according to Swiss Payment Standards 2018, ch. 2.4.1 and appendix D) are
+        /// replaced with supported characters, either with the same character without accent (e.g. A instead of Ă),
+        /// with characters of similar meaning (e.g. TM instead of ™, ij instead of ĳ), with a space
+        /// (for unsupported whitespace characters) or with a dot.
         /// </para>
         /// <para>
-        /// If characters beyond 0xff are detected, the string is first normalized such
-        /// that letters with umlauts or accents expressed with two code points are
-        /// merged into a single code point(if possible), some of which might become
-        /// valid.
+        /// Some valid letters can be represented either with a single Unicode code point or with two code points,
+        /// e.g. the letter A with umlaut can be represented either with the single code point U+00C4 (latin capital
+        /// letter A with diaeresis) or with the two code points U+0041 U+0308 (latin capital letter A,
+        /// combining diaeresis). This will be recognized and converted to the valid single code point form.
         /// </para>
         /// <para>
-        /// If the resulting strings is all white space, <c>null</c> is returned.
+        /// If <c>text</c> is <c>null</c> or the resulting string would be empty, <c>null</c> is returned.
         /// </para>
         /// </summary>
-        /// <param name="value">The string value to clean.</param>
-        /// <param name="result">The result to be filled with cleaned string and flag.</param>
-        public static void CleanValue(string value, out CleaningResult result)
+        /// <param name="text">string to clean</param>
+        /// <returns>valid text for Swiss payments</returns>
+        public static string CleanedText(string text)
         {
-            CleanValue(value, out result, false);
-            if (result.CleanedString != null && result.CleanedString.Length == 0)
-            {
-                result.CleanedString = null;
-            }
+            CleanText(text, false, out CleaningResult result);
+            return result.CleanedString;
         }
 
-#pragma warning disable S3776
+        /// <summary>
+        /// Returns a cleaned and trimmed text valid for the Swiss Payment Standards 2018.
+        /// <para>
+        /// Unsupported characters (according to Swiss Payment Standards 2018, ch. 2.4.1 and appendix D) are
+        /// replaced with supported characters, either with the same character without accent (e.g. A instead of Ă),
+        /// with characters of similar meaning (e.g. TM instead of ™, ij instead of ĳ), with a space
+        /// (for unsupported whitespace characters) or with a dot.
+        /// </para>
+        /// <para>
+        /// Leading and trailing whitespace is removed. Multiple consecutive spaces are replaced with a single whitespace.
+        /// </para>
+        /// <para>
+        /// Some valid letters can be represented either with a single Unicode code point or with two code points,
+        /// e.g. the letter A with umlaut can be represented either with the single code point U+00C4 (latin capital
+        /// letter A with diaeresis) or with the two code points U+0041 U+0308 (latin capital letter A,
+        /// combining diaeresis). This will be recognized and converted to the valid single code point form.
+        /// </para>
+        /// <para>
+        /// If <c>text</c> is <c>null</c> or the resulting string would be empty, <c>null</c> is returned.
+        /// </para>
+        /// </summary>
+        /// <param name="text">string to clean</param>
+        /// <returns>valid text for Swiss payments</returns>
+        public static string CleanedAndTrimmedText(string text)
+        {
+            CleanText(text, true, out CleaningResult result);
+            return result.CleanedString;
+        }
 
-        private static void CleanValue(string value, out CleaningResult result, bool isNormalized)
+        /// <summary>
+        /// Indicates if the text consists only of characters allowed in Swiss payments.
+        /// <para>
+        /// The valid character set is defined in Swiss Payment Standards 2018, ch. 2.4.1 and appendix D
+        /// </para>
+        /// <para>
+        /// This method does not attempt to deal with accents and umlauts built from two code points. It will
+        /// return <c>false</c> if the text contains such characters.
+        /// </para>
+        /// </summary>
+        /// <param name="text">text to check</param>
+        /// <returns><c>true</c> if the text is valid, <c>false</c> otherwise</returns>
+        public static bool IsValidText(string text)
+        {
+            int len = text.Length;
+            for (int i = 0; i < len; i++)
+            {
+                if (!IsValidCharacter(text[i]))
+                    return false;
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// Returns if the character is a valid for a Swiss payment.
+        /// <para>
+        /// Valid characters are defined in Swiss Payment Standards 2022,
+        /// Customer Credit Transfer Initiation (pain.001), ch. 3.1 and appendix C.
+        /// </para>
+        /// </summary>
+        /// <param name="ch">character to test</param>
+        /// <returns><c>true</c> if the character is valid, <c>false</c> otherwise</returns>
+        public static bool IsValidCharacter(char ch)
+        {
+            // Basic Latin
+            if (ch >= 0x0020 && ch <= 0x007E)
+                return true;
+
+            // Latin-1 Supplement and Latin Extended-A
+            if (ch >= 0x00A0 && ch <= 0x017F)
+                return true;
+
+            // Additional characters
+            if (ch >= 0x0218 && ch <= 0x021B)
+                return true;
+
+            if (ch == 0x20AC)
+                return true;
+
+            return false;
+        }
+
+        /// <summary>
+        /// Returns if the code point is a valid for a Swiss payment.
+        /// <para>
+        /// Valid characters are defined in Swiss Payment Standards 2022,
+        /// Customer Credit Transfer Initiation (pain.001), ch. 3.1 and appendix C.
+        /// </para>
+        /// </summary>
+        /// <param name="codePoint">code point to test</param>
+        /// <returns><c>true</c> if the code point is valid, <c>false</c> otherwise</returns>
+        public static bool IsValidCodePoint(int codePoint)
+        {
+            return codePoint <= 0xFFFF && IsValidCharacter((char)codePoint);
+        }
+
+        internal static void CleanText(string text, bool trimWhitespace, out CleaningResult result)
         {
             result = new CleaningResult();
-            if (value == null)
+            if (text == null)
             {
                 return;
             }
 
-            var len = value.Length; // length of value
-            var justProcessedSpace = false; // flag indicating whether we've just processed a space character
-            StringBuilder sb = null; // String builder for result
-            var lastCopiedPos = 0; // last position (excluding) copied to the result
+            // step 1: quick test for valid text
+            var isValidString = IsValidText(text);
 
-            // String processing pattern: Iterate all characters and focus on runs of valid
-            // characters that can simply be copied. If all characters are valid, no memory
-            // is allocated.
-            var pos = 0;
-            while (pos < len)
+            if (!isValidString)
             {
-                var ch = value[pos]; // current character
-
-                if (IsValidQrBillCharacter(ch))
+                // step 2: normalize string (to deal with accents built from two code points) and test again
+                if (!text.IsNormalized(NormalizationForm.FormC))
                 {
-                    justProcessedSpace = ch == ' ';
-                    pos++;
-                    continue;
+                    text = text.Normalize(NormalizationForm.FormC);
+                    isValidString = IsValidText(text);
                 }
 
-                // Check for normalization
-                if (ch > 0xff && !isNormalized)
+                // step 3: replace invalid characters
+                if (!isValidString)
                 {
-                    isNormalized = value.IsNormalized(NormalizationForm.FormC);
-                    if (!isNormalized)
-                    {
-                        // Normalize string and start over
-                        value = value.Normalize(NormalizationForm.FormC);
-                        CleanValue(value, out result, true);
-                        return;
-                    }
+                    text = ReplaceInvalidCharacters(text);
+                    result.ReplacedUnsupportedChars = true;
                 }
-
-                if (sb == null)
-                {
-                    sb = new StringBuilder(value.Length);
-                }
-
-                // copy processed characters to result before taking care of the invalid
-                // character
-                if (pos > lastCopiedPos)
-                {
-                    sb.Append(value, lastCopiedPos, pos - lastCopiedPos);
-                }
-
-                if (char.IsHighSurrogate(ch))
-                {
-                    // Proper Unicode handling to prevent surrogates and combining characters
-                    // from being replaced with multiples periods.
-                    var category = CharUnicodeInfo.GetUnicodeCategory(value, pos);
-                    if (category != UnicodeCategory.SpacingCombiningMark)
-                    {
-                        sb.Append('.');
-                    }
-
-                    justProcessedSpace = false;
-                    pos++;
-                }
-                else
-                {
-                    if (ch <= ' ')
-                    {
-                        if (!justProcessedSpace)
-                        {
-                            sb.Append(' ');
-                        }
-
-                        justProcessedSpace = true;
-                    }
-                    else
-                    {
-                        sb.Append('.');
-                        justProcessedSpace = false;
-                    }
-                }
-                pos++;
-                lastCopiedPos = pos;
             }
 
-            if (sb == null)
-            {
-                result.CleanedString = value.Trim();
-                return;
-            }
+            if (trimWhitespace)
+                text = text.SpacesCleaned();
+            if (text.Length == 0)
+                text = null;
 
-            if (lastCopiedPos < len)
-            {
-                sb.Append(value, lastCopiedPos, len - lastCopiedPos);
-            }
-
-            result.CleanedString = sb.ToString().Trim();
-            result.ReplacedUnsupportedChars = true;
+            result.CleanedString = text;
         }
 
-#pragma warning restore S3776
+        private static string ReplaceInvalidCharacters(string text)
+        {
+            StringBuilder sb = new StringBuilder();
+            int len = text.Length;
+            int offset = 0;
+            bool inFallback = false;
+            while (offset < len)
+            {
+                int codePoint = char.ConvertToUtf32(text, offset);
+
+                if (IsValidCodePoint(codePoint))
+                {
+                    // valid code point
+                    sb.Append((char)codePoint);
+                    inFallback = false;
+                }
+                else if (ReplaceCodePoint(codePoint, sb))
+                {
+                    // good replacement
+                    inFallback = false;
+                }
+                else if (!inFallback)
+                {
+                    // no replacement found and not consecutive fallback
+                    sb.Append('.');
+                    inFallback = true;
+                }
+
+                offset += GetUtf16SequenceLength((uint)codePoint);
+            }
+            return sb.ToString();
+        }
+
+        // sorted by code point (BMP only, no surrogates)
+        private static readonly char[] ACCENTED_CHARS =
+                "ƠơƯưǍǎǏǐǑǒǓǔǕǖǗǘǙǚǛǜǞǟǠǡǢǣǦǧǨǩǪǫǬǭǰǴǵǸǹǺǻǼǽǾǿȀȁȂȃȄȅȆȇȈȉȊȋȌȍȎȏȐȑȒȓȔȕȖȗȞȟȦȧȨȩȪȫȬȭȮȯȰȱȲȳ΅ḀḁḂḃḄḅḆḇḈḉḊḋḌḍḎḏḐḑḒḓḔḕḖḗḘḙḚḛḜḝḞḟḠḡḢḣḤḥḦḧḨḩḪḫḬḭḮḯḰḱḲḳḴḵḶḷḸḹḺḻḼḽḾḿṀṁṂṃṄṅṆṇṈṉṊṋṌṍṎṏṐṑṒṓṔṕṖṗṘṙṚṛṜṝṞṟṠṡṢṣṤṥṦṧṨṩṪṫṬṭṮṯṰṱṲṳṴṵṶṷṸṹṺṻṼṽṾṿẀẁẂẃẄẅẆẇẈẉẊẋẌẍẎẏẐẑẒẓẔẕẖẗẘẙẛẠạẢảẤấẦầẨẩẪẫẬậẮắẰằẲẳẴẵẶặẸẹẺẻẼẽẾếỀềỂểỄễỆệỈỉỊịỌọỎỏỐốỒồỔổỖỗỘộỚớỜờỞởỠỡỢợỤụỦủỨứỪừỬửỮữỰựỲỳỴỵỶỷỸỹ῁῭΅Å≠≮≯"
+                        .ToCharArray();
+
+        private static readonly char[] REPLACEMENT_CHARS =
+                "OoUuAaIiOoUuUuUuUuUuAaAaÆæGgKkOoOojGgNnAaÆæØøAaAaEeEeIiIiOoOoRrRrUuUuHhAaEeOoOoOoOoYy¨AaBbBbBbCcDdDdDdDdDdEeEeEeEeEeFfGgHhHhHhHhHhIiIiKkKkKkLlLlLlLlMmMmMmNnNnNnNnOoOoOoOoPpPpRrRrRrRrSsSsSsSsSsTtTtTtTtUuUuUuUuUuVvVvWwWwWwWwWwXxXxYyZzZzZzhtwyſAaAaAaAaAaAaAaAaAaAaAaAaEeEeEeEeEeEeEeEeIiIiOoOoOoOoOoOoOoOoOoOoOoOoUuUuUuUuUuUuUuYyYyYyYy¨¨¨A=<>"
+                        .ToCharArray();
+
+        private static bool ReplaceCodePoint(int codePoint, StringBuilder sb)
+        {
+            var codePointString = char.ConvertFromUtf32(codePoint);
+            // whitespace is replaced with a space
+            if (char.IsWhiteSpace(codePointString, 0))
+            {
+                sb.Append(' ');
+                return true;
+            }
+
+            // check if code point is a valid character without accent (precomputed case)
+            if (codePoint <= 0xFFFF)
+            {
+                int pos = Array.BinarySearch(ACCENTED_CHARS, (char)codePoint);
+                if (pos >= 0)
+                {
+                    sb.Append(REPLACEMENT_CHARS[pos]);
+                    return true;
+                }
+            }
+
+            // check if code point is a valid character with accent (using canonical decomposition)
+            var decomposed1 = codePointString.Normalize(NormalizationForm.FormD);
+            int firstCodePoint = char.ConvertToUtf32(decomposed1, 0);
+            if (decomposed1.Length > 1 && IsValidCodePoint(firstCodePoint))
+            {
+                int secondCodePoint = char.ConvertToUtf32(decomposed1, 1);
+                if (secondCodePoint >= 0x0300 && secondCodePoint <= 0x036F) // combining diacritical marks
+                {
+                    sb.Append((char)firstCodePoint);
+                    return true;
+                }
+            }
+
+            // check if compatibility decomposition results in valid substring
+            var decomposed2 = DecomposedString(codePointString);
+            if (decomposed2 != null)
+            {
+                sb.Append(decomposed2);
+                return true;
+            }
+
+            // no good replacement
+            return false;
+        }
+
+        private static string DecomposedString(string codePointString)
+        {
+            var decomposedString = codePointString.Normalize(NormalizationForm.FormKD);
+            int len = decomposedString.Length;
+            for (int i = 0; i < len; i += 1)
+            {
+                if (!IsValidCharacter(decomposedString[i]))
+                    return null;
+            }
+            return decomposedString;
+        }
 
         /// <summary>
         /// Validates if the string is a valid IBAN number
@@ -491,8 +614,6 @@ namespace Codecrete.SwissQRBill.Generator
             return true;
         }
 
-#pragma warning disable S3776
-
         internal static bool IsAlpha(string value)
         {
             var len = value.Length;
@@ -514,64 +635,6 @@ namespace Codecrete.SwissQRBill.Generator
             return true;
         }
 
-
-        private static bool IsValidQrBillCharacter(char ch)
-        {
-            if (ch < 0x20)
-            {
-                return false;
-            }
-
-            if (ch == 0x5e)
-            {
-                return false;
-            }
-
-            if (ch <= 0x7e)
-            {
-                return true;
-            }
-
-            if (ch == 0xa3 || ch == 0xb4)
-            {
-                return true;
-            }
-
-            if (ch < 0xc0 || ch > 0xfd)
-            {
-                return false;
-            }
-
-            if (ch == 0xc3 || ch == 0xc5 || ch == 0xc6)
-            {
-                return false;
-            }
-
-            if (ch == 0xd0 || ch == 0xd5 || ch == 0xd7 || ch == 0xd8)
-            {
-                return false;
-            }
-
-            if (ch == 0xdd || ch == 0xde)
-            {
-                return false;
-            }
-
-            if (ch == 0xe3 || ch == 0xe5 || ch == 0xe6)
-            {
-                return false;
-            }
-
-            if (ch == 0xf0 || ch == 0xf5 || ch == 0xf8)
-            {
-                return false;
-            }
-
-            return true;
-        }
-
-#pragma warning restore S3776
-
         /// <summary>
         /// Result of cleaning a string
         /// </summary>
@@ -590,5 +653,16 @@ namespace Codecrete.SwissQRBill.Generator
             public bool ReplacedUnsupportedChars { get; set; }
         }
 
+
+        /// <summary>
+        /// Given a Unicode scalar value, gets the number of UTF-16 code units required to represent this value.
+        /// </summary>
+        private static int GetUtf16SequenceLength(uint value)
+        {
+            value -= 0x10000;   // if value < 0x10000, high byte = 0xFF; else high byte = 0x00
+            value += (2 << 24); // if value < 0x10000, high byte = 0x01; else high byte = 0x02
+            value >>= 24;       // shift high byte down
+            return (int)value;  // and return it
+        }
     }
 }

@@ -552,7 +552,7 @@ namespace Codecrete.SwissQRBill.Generator
 
         private string CleanedValue(string value, string field)
         {
-            Payments.CleanValue(value, out var result);
+            Payments.CleanText(value, true, out var result);
             if (result.ReplacedUnsupportedChars)
             {
                 _validationResult.AddMessage(MessageType.Warning, field, ValidationConstants.KeyReplacedUnsupportedCharacters);
@@ -563,7 +563,7 @@ namespace Codecrete.SwissQRBill.Generator
 
         private string CleanedValue(string value, string fieldRoot, string subfield)
         {
-            Payments.CleanValue(value, out var result);
+            Payments.CleanText(value, true, out var result);
             if (result.ReplacedUnsupportedChars)
             {
                 _validationResult.AddMessage(MessageType.Warning, fieldRoot + subfield, ValidationConstants.KeyReplacedUnsupportedCharacters);
