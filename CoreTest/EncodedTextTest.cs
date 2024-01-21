@@ -12,39 +12,44 @@ namespace Codecrete.SwissQRBill.CoreTest
 {
     public class EncodedTextTest
     {
-        [Fact]
-        public void CreateText1()
+        [Theory]
+        [ClassData(typeof(NewLineTheoryData))]
+        public void CreateText1(Bill.QrDataSeparator separator, string newLine)
         {
-            Bill bill = SampleQRCodeText.CreateBillData1();
-            Assert.Equal(SampleQRCodeText.CreateQrCodeText1(), QRBill.EncodeQrCodeText(bill));
+            Bill bill = SampleQRCodeText.CreateBillData1(separator);
+            Assert.Equal(SampleQRCodeText.CreateQrCodeText1(newLine), QRBill.EncodeQrCodeText(bill));
         }
 
-        [Fact]
-        public void CreateText2()
+        [Theory]
+        [ClassData(typeof(NewLineTheoryData))]
+        public void CreateText2(Bill.QrDataSeparator separator, string newLine)
         {
-            Bill bill = SampleQRCodeText.CreateBillData2();
-            Assert.Equal(SampleQRCodeText.CreateQrCodeText2(), QRBill.EncodeQrCodeText(bill));
+            Bill bill = SampleQRCodeText.CreateBillData2(separator);
+            Assert.Equal(SampleQRCodeText.CreateQrCodeText2(newLine), QRBill.EncodeQrCodeText(bill));
         }
 
-        [Fact]
-        public void CreateText3()
+        [Theory]
+        [ClassData(typeof(NewLineTheoryData))]
+        public void CreateText3(Bill.QrDataSeparator separator, string newLine)
         {
-            Bill bill = SampleQRCodeText.CreateBillData3();
-            Assert.Equal(SampleQRCodeText.CreateQrCodeText3(), QRBill.EncodeQrCodeText(bill));
+            Bill bill = SampleQRCodeText.CreateBillData3(separator);
+            Assert.Equal(SampleQRCodeText.CreateQrCodeText3(newLine), QRBill.EncodeQrCodeText(bill));
         }
 
-        [Fact]
-        public void CreateText4()
+        [Theory]
+        [ClassData(typeof(NewLineTheoryData))]
+        public void CreateText4(Bill.QrDataSeparator separator, string newLine)
         {
-            Bill bill = SampleQRCodeText.CreateBillData4();
-            Assert.Equal(SampleQRCodeText.CreateQrCodeText4(), QRBill.EncodeQrCodeText(bill));
+            Bill bill = SampleQRCodeText.CreateBillData4(separator);
+            Assert.Equal(SampleQRCodeText.CreateQrCodeText4(newLine), QRBill.EncodeQrCodeText(bill));
         }
 
-        [Fact]
-        public void CreateText5()
+        [Theory]
+        [ClassData(typeof(NewLineTheoryData))]
+        public void CreateText5(Bill.QrDataSeparator separator, string newLine)
         {
-            Bill bill = SampleQRCodeText.CreateBillData5();
-            Assert.Equal(SampleQRCodeText.CreateQrCodeText5(), QRBill.EncodeQrCodeText(bill));
+            Bill bill = SampleQRCodeText.CreateBillData5(separator);
+            Assert.Equal(SampleQRCodeText.CreateQrCodeText5(newLine), QRBill.EncodeQrCodeText(bill));
         }
 
         [Fact]
@@ -58,15 +63,26 @@ namespace Codecrete.SwissQRBill.CoreTest
             });
         }
 
-        [Fact]
-        public void CreateTextEmptyReference()
+        [Theory]
+        [ClassData(typeof(NewLineTheoryData))]
+        public void CreateTextEmptyReference(Bill.QrDataSeparator separator, string newLine)
         {
-            Bill bill = SampleQRCodeText.CreateBillData3();
+            Bill bill = SampleQRCodeText.CreateBillData3(separator);
             ValidationResult result = QRBill.Validate(bill);
             Assert.False(result.HasErrors);
             bill = result.CleanedBill;
             bill.Reference = "";
-            Assert.Equal(SampleQRCodeText.CreateQrCodeText3(), QRBill.EncodeQrCodeText(bill));
+            Assert.Equal(SampleQRCodeText.CreateQrCodeText3(newLine), QRBill.EncodeQrCodeText(bill));
         }
+
+        private class NewLineTheoryData : TheoryData<Bill.QrDataSeparator, string>
+        {
+            public NewLineTheoryData()
+            {
+                Add(Bill.QrDataSeparator.Lf, "\n");
+                Add(Bill.QrDataSeparator.CrLf, "\r\n");
+            }
+        }
+
     }
 }
