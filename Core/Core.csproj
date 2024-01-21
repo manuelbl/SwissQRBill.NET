@@ -62,7 +62,7 @@ See home page https://github.com/manuelbl/SwissQRBill.NET for examples and other
 
   <ItemGroup>
     <PackageReference Include="Net.Codecrete.QrCodeGenerator" Version="2.*" />
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.*" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.*" PrivateAssets="all" />
   </ItemGroup>
 
   <ItemGroup>
