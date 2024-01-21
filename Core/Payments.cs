@@ -17,6 +17,31 @@ namespace Codecrete.SwissQRBill.Generator
     /// </summary>
     public static class Payments
     {
+        /// Cleans a string value to make it viable for the Swiss Payment Standards 2018.
+        /// <para>
+        /// Unsupported characters (according to Swiss Payment Standards 2018, ch. 2.4.1 and appendix D) are
+        /// replaced with supported characters, either with the same character without accent (e.g. A instead of Ă),
+        /// with characters of similar meaning (e.g. TM instead of ™, ij instead of ĳ), with a space
+        /// (for unsupported whitespace characters) or with a dot.
+        /// </para>
+        /// <para>
+        /// Some valid letters can be represented either with a single Unicode code point or with two code points,
+        /// e.g. the letter A with umlaut can be represented either with the single code point U+00C4 (latin capital
+        /// letter A with diaeresis) or with the two code points U+0041 U+0308 (latin capital letter A,
+        /// combining diaeresis). This will be recognized and converted to the valid single code point form.
+        /// </para>
+        /// <para>
+        /// If the resulting strings is all white space, <c>null</c> is returned. If characters other than whitespace
+        /// have been replaced or removed, this is indicated in the result.
+        /// </para>
+        /// </summary>
+        /// <param name="value">The string value to clean.</param>
+        /// <param name="result">The result to be filled with cleaned string and flag.</param>
+        public static void CleanValue(string value, out CleaningResult result)
+        {
+            CleanText(value, true, out result);
+        }
+
         /// <summary>
         /// Returns a cleaned text valid for the Swiss Payment Standards 2018.
         /// <para>
