@@ -50,7 +50,7 @@
       "Net.Codecrete.QrCodeGenerator": {
         "type": "Transitive",
         "resolved": "2.0.4",
-        "contentHash": "EdPqUVHPJ45+iRB3u5xxX5muASLSK4j151A00h2ehWoUI2RVC7Hk6S7vtFnufLRX6doYM/2G0ERUPUFNRn/4rg=="
+        "contentHash": "l9W56N41fVWKu81Im2achTdGty29PgVOYRC07iZgmWJ2rdCqpOLc/p2mjTJvtH4gQggWe3Js23+vNv9xRvqcTg=="
       },
       "SkiaSharp.NativeAssets.macOS": {
         "type": "Transitive",
