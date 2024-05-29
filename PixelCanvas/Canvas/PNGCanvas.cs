@@ -21,6 +21,7 @@ namespace Codecrete.SwissQRBill.PixelCanvas
     /// PNGs are not an optimal file format for QR bills. Vector formats such a SVG
     /// or PDF are of better quality and use far less processing power to generate
     /// </remarks>
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Minor Code Smell", "S101:Types should be named in PascalCase", Justification = "Rename would break API")]
     public class PNGCanvas : AbstractCanvas
     {
         private readonly int _dpi;

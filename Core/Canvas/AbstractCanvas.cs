@@ -5,6 +5,8 @@
 // https://opensource.org/licenses/MIT
 //
 
+using System;
+
 namespace Codecrete.SwissQRBill.Generator.Canvas
 {
     /// <summary>
@@ -102,6 +104,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         public void Dispose()
         {
             Dispose(true);
+            GC.SuppressFinalize(this);
         }
 
         /// <summary>

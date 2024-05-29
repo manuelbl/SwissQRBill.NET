@@ -91,39 +91,37 @@ namespace Codecrete.SwissQRBill.Windows
             var hResBitmap = IntPtr.Zero;
 
             var hPassedEmf = metafile.GetHenhmetafile();
-            if (hPassedEmf.Equals(IntPtr.Zero))
-                goto CleanupAfterError;
-
-            // create a copy of the meta file
-            hEmf = CopyEnhMetaFile(hPassedEmf, IntPtr.Zero);
-            if (hEmf.Equals(IntPtr.Zero))
-                goto CleanupAfterError;
-
-            // create a copy of the bitmap
-            if (bitmap != null)
+            if (!hPassedEmf.Equals(IntPtr.Zero))
             {
-                hBitmap = CopyBitmap(bitmap);
-                if (hBitmap.Equals(IntPtr.Zero))
-                    goto CleanupAfterError;
+                // create a copy of the meta file
+                hEmf = CopyEnhMetaFile(hPassedEmf, IntPtr.Zero);
+
+                // create a copy of the bitmap
+                if (bitmap != null)
+                {
+                    hBitmap = CopyBitmap(bitmap);
+                }
             }
 
-            // empty clipboard and put new data there
-            if (OpenClipboard(hWnd))
+            if (!hEmf.Equals(IntPtr.Zero) && (bitmap == null || !hBitmap.Equals(IntPtr.Zero)))
             {
-                if (EmptyClipboard())
+                // empty clipboard and put new data there
+                if (OpenClipboard(hWnd))
                 {
-                    hResEmf = SetClipboardData(14 /* CF_ENHMETAFILE */, hEmf);
-                    if (bitmap != null)
-                        hResBitmap = SetClipboardData(2 /* CF_BITMAP */, hBitmap);
+                    if (EmptyClipboard())
+                    {
+                        hResEmf = SetClipboardData(14 /* CF_ENHMETAFILE */, hEmf);
+                        if (bitmap != null)
+                            hResBitmap = SetClipboardData(2 /* CF_BITMAP */, hBitmap);
+                    }
+
+                    CloseClipboard();
                 }
 
-                CloseClipboard();
+                if (hResEmf.Equals(hEmf) && (bitmap == null || hResBitmap.Equals(hBitmap)))
+                    return true;
             }
 
-            if (hResEmf.Equals(hEmf) && (bitmap == null || hResBitmap.Equals(hBitmap)))
-                return true;
-
-            CleanupAfterError:
             if (!hResEmf.Equals(hEmf))
                 DeleteEnhMetaFile(hEmf);
             if (bitmap != null && !hResBitmap.Equals(hBitmap))

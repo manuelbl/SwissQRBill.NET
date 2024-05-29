@@ -18,16 +18,17 @@ namespace Codecrete.SwissQRBill.WindowsTest
 {
     public class VerifyImages
     {
+        protected VerifyImages() { }
+
         static VerifyImages()
         {
             VerifierSettings.RegisterFileConverter("emf", Convert);
             VerifyImageMagick.RegisterComparers(threshold: 0.35, ImageMagick.ErrorMetric.PerceptualHash);
 
-            Settings = new VerifySettings();
             Settings.UseDirectory("ReferenceFiles");
         }
 
-        protected static readonly VerifySettings Settings;
+        protected static readonly VerifySettings Settings = new();
 
         public static SettingsTask VerifyPng(byte[] png, [CallerFilePath] string sourceFile = "")
         {

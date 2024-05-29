@@ -11,7 +11,7 @@ using System.Collections.Generic;
 
 namespace Codecrete.SwissQRBill.WindowsTest
 {
-    public class SampleData
+    public static class SampleData
     {
         public static Bill CreateExample1()
         {

@@ -179,6 +179,7 @@ namespace Codecrete.SwissQRBill.CoreTest
 
         private class NewLineTheoryData : TheoryData<Bill.QrDataSeparator, string, bool>
         {
+            [System.Diagnostics.CodeAnalysis.SuppressMessage("Major Code Smell", "S1144:Unused private types or members should be removed", Justification = "false positive")]
             public NewLineTheoryData()
             {
                 Add(Bill.QrDataSeparator.Lf, "\n", false);

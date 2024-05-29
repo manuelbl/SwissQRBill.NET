@@ -18,11 +18,11 @@ jobs:
     name: Build and run tests
     steps:
       - name: Checkout git repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - name: Retrieve cached NuGet packages
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ~/.nuget/packages
           key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
@@ -48,13 +48,13 @@ jobs:
         run: dotnet test WindowsTest/WindowsTest.csproj --no-build --verbosity normal --logger:"html;LogFileName=../../TestResults-${{ runner.os }}.html"
         if: startsWith(matrix.os,'windows')
       - name: Upload received files from failing tests
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: failure()
         with:
           name: Received-${{ runner.os }}
           path: "**/*.received.*"
       - name: Upload test results
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: TestResults-${{ runner.os }}

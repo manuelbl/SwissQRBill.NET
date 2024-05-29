@@ -17,7 +17,7 @@ using Xunit;
 
 namespace Codecrete.SwissQRBill.WindowsTest
 {
-    public class EmfCanvasTest
+    public partial class EmfCanvasTest
     {
         public EmfCanvasTest()
         {
@@ -65,6 +65,7 @@ namespace Codecrete.SwissQRBill.WindowsTest
             QRBill.Draw(bill, canvas);
             var ms = new MemoryStream();
             canvas.WriteTo(ms);
+            Assert.True(true);
         }
 
         [Fact]
@@ -116,7 +117,8 @@ namespace Codecrete.SwissQRBill.WindowsTest
             return offScreenGraphics.DpiX;
         }
 
-        [System.Runtime.InteropServices.DllImport("user32.dll")]
-        private static extern bool SetProcessDPIAware();
+        [System.Runtime.InteropServices.LibraryImport("user32.dll")]
+        [return: System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.Bool)]
+        private static partial bool SetProcessDPIAware();
     }
 }

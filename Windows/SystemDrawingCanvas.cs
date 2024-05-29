@@ -5,6 +5,7 @@
 // https://opensource.org/licenses/MIT
 //
 
+using Codecrete.SwissQRBill.Generator;
 using Codecrete.SwissQRBill.Generator.Canvas;
 using System;
 using System.Collections.Generic;
@@ -204,12 +205,12 @@ namespace Codecrete.SwissQRBill.Windows
 
             var matrix = new Matrix();
             matrix.Translate(_xOffset + (float)translateX, _yOffset - (float)translateY);
-            if (rotate != 0)
+            if (!MathUtil.AreClose(rotate, 0))
             {
                 matrix.Rotate((float)(-rotate / Math.PI * 180));
             }
 
-            if (scaleX != 1 || scaleY != 1)
+            if (!MathUtil.AreClose(scaleX, 1) || !MathUtil.AreClose(scaleY, 1))
             {
                 matrix.Scale((float)scaleX, (float)scaleY);
             }

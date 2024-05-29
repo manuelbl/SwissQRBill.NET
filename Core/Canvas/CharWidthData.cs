@@ -14,6 +14,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
     /// range allowed for QR bill text is covered.
     /// </para>
     /// </summary>
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Major Code Smell", "S125:Sections of code should not be commented out", Justification = "false positive")]
     public static class CharWidthData
     {
         /// <summary>

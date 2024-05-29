@@ -15,7 +15,7 @@ namespace Codecrete.SwissQRBill.PixelCanvas
     /// <summary>
     /// Processes PNG imagate data.
     /// </summary>
-    public class PngProcessor
+    public static class PngProcessor
     {
         /// <summary>
         /// Modifies the PNG image data by inserting a "pHYs" chunk indicating the resolution.
@@ -33,7 +33,7 @@ namespace Codecrete.SwissQRBill.PixelCanvas
             var bytesRead = source.Read(header, 0, 8);
             if (bytesRead != 8)
             {
-                goto InvalidPngData;
+                ThrowInvalidPngData();
             }
 
             target.Write(header, 0, 8);
@@ -49,14 +49,14 @@ namespace Codecrete.SwissQRBill.PixelCanvas
                 {
                     if (!physChunkWritten)
                     {
-                        goto InvalidPngData;
+                        ThrowInvalidPngData();
                     }
 
                     return;
                 }
                 if (bytesRead != 8)
                 {
-                    goto InvalidPngData;
+                    ThrowInvalidPngData();
                 }
 
                 // decode chunk header
@@ -84,7 +84,7 @@ namespace Codecrete.SwissQRBill.PixelCanvas
                     bytesRead = source.Read(buf, 0, Math.Min(buf.Length, len));
                     if (bytesRead <= 0)
                     {
-                        goto InvalidPngData;
+                        ThrowInvalidPngData();
                     }
 
                     if (!discardChunk)
@@ -96,8 +96,10 @@ namespace Codecrete.SwissQRBill.PixelCanvas
                     len -= bytesRead;
                 }
             }
+        }
 
-            InvalidPngData:
+        private static void ThrowInvalidPngData()
+        {
             throw new ArgumentException("Invalid PNG image data");
         }
 

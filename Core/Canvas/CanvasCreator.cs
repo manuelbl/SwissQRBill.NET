@@ -45,9 +45,11 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         /// <returns></returns>
         public static ICanvas Create(BillFormat format, double width, double height)
         {
-            foreach (var factory in Factories)
-                if (factory.CanCreate(format))
-                    return factory.Create(format, width, height);
+            var factory = Factories.Find(f => f.CanCreate(format));
+            if (factory != null)
+            {
+                return factory.Create(format, width, height);
+            }
 
             return null;
         }
