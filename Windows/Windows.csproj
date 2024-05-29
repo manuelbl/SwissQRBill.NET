@@ -15,7 +15,7 @@
     <PackageTags>Swiss-QR-Bill, Payment, ISO-20022, QR-Code, QRCode, SIX</PackageTags>
     <PackageReleaseNotes>New in releases 3.1.0/3.1.1:
 - Upgrade dependency System.Drawing.Common due to CVE</PackageReleaseNotes>
-    <Version>3.1.1</Version>
+    <Version>3.3.0</Version>
     <Description>Generates the new QR bills for invoicing in Switzerland.
 
 The Swiss QR bill library:
@@ -37,10 +37,10 @@ See home page https://github.com/manuelbl/SwissQRBill.NET for examples and platf
     <SignAssembly>True</SignAssembly>
     <AssemblyOriginatorKeyFile>Key.snk</AssemblyOriginatorKeyFile>
     <AssemblyVersion>2.4.0.0</AssemblyVersion>
-    <FileVersion>3.1.1.0</FileVersion>
+    <FileVersion>3.3.0.0</FileVersion>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <EnablePackageValidation>true</EnablePackageValidation>
-    <PackageVersion>3.1.1</PackageVersion>
+    <PackageVersion>3.3.0</PackageVersion>
     <PackageValidationBaselineVersion>3.0.3</PackageValidationBaselineVersion>
     <Deterministic>True</Deterministic>
   </PropertyGroup>

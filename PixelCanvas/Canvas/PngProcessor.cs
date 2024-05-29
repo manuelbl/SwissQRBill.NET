@@ -15,8 +15,13 @@ namespace Codecrete.SwissQRBill.PixelCanvas
     /// <summary>
     /// Processes PNG imagate data.
     /// </summary>
-    public static class PngProcessor
+    public class PngProcessor
     {
+        /// <summary>
+        /// Do not use.
+        /// </summary>
+        protected PngProcessor() { }
+
         /// <summary>
         /// Modifies the PNG image data by inserting a "pHYs" chunk indicating the resolution.
         /// </summary>
