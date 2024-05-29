@@ -17,7 +17,7 @@ namespace Codecrete.SwissQRBill.CoreTest
         [Fact]
         public void DefaultConstructor()
         {
-            ValidationResult result = new ValidationResult();
+            var result = new ValidationResult();
             Assert.True(result.IsValid);
             Assert.False(result.HasMessages);
             Assert.False(result.HasWarnings);
@@ -29,7 +29,7 @@ namespace Codecrete.SwissQRBill.CoreTest
         [Fact]
         public void SingleWarning()
         {
-            ValidationResult result = new ValidationResult();
+            var result = new ValidationResult();
             result.AddMessage(MessageType.Warning, "tfd", "dkw");
             Assert.True(result.IsValid);
             Assert.True(result.HasMessages);
@@ -48,7 +48,7 @@ namespace Codecrete.SwissQRBill.CoreTest
         [Fact]
         public void SingleError()
         {
-            ValidationResult result = new ValidationResult();
+            var result = new ValidationResult();
             result.AddMessage(MessageType.Error, "kdef.def", "qrdv.dwek-eke");
             Assert.False(result.IsValid);
             Assert.True(result.HasMessages);
@@ -67,7 +67,7 @@ namespace Codecrete.SwissQRBill.CoreTest
         [Fact]
         public void MultipleMessages()
         {
-            ValidationResult result = new ValidationResult();
+            var result = new ValidationResult();
             result.AddMessage(MessageType.Error, "abd-fds", "asdf.asdfe.werk");
             result.AddMessage(MessageType.Warning, "ieow.se3", "iwer.asdfwerk.asdf");
             Assert.False(result.IsValid);
@@ -93,7 +93,7 @@ namespace Codecrete.SwissQRBill.CoreTest
         [Fact]
         public void MessageWithMessageParameters()
         {
-            ValidationResult result = new ValidationResult();
+            var result = new ValidationResult();
             result.AddMessage(MessageType.Warning, "jkr", "wcw.dw", new[] { ")(*$" });
             Assert.True(result.IsValid);
             Assert.True(result.HasMessages);
@@ -112,7 +112,7 @@ namespace Codecrete.SwissQRBill.CoreTest
         [Fact]
         public void SetCleanedBill()
         {
-            ValidationResult result = new ValidationResult
+            var result = new ValidationResult
             {
                 CleanedBill = SampleData.CreateExample2()
             };

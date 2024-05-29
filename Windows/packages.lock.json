@@ -44,8 +44,8 @@
       },
       "Net.Codecrete.QrCodeGenerator": {
         "type": "Transitive",
-        "resolved": "2.0.4",
-        "contentHash": "l9W56N41fVWKu81Im2achTdGty29PgVOYRC07iZgmWJ2rdCqpOLc/p2mjTJvtH4gQggWe3Js23+vNv9xRvqcTg=="
+        "resolved": "2.0.5",
+        "contentHash": "jH8i2g7liqxMVyY8WsNzJwMpwHqeWvGRl0f2GMW+C2CLT8vyIT72fdN+HfZeVFdDG0AMLxbvMPrpavXsL76LGQ=="
       },
       "Codecrete.SwissQRBill.Core": {
         "type": "Project",

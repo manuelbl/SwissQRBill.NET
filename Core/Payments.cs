@@ -6,9 +6,7 @@
 //
 
 using System;
-using System.Globalization;
 using System.Text;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace Codecrete.SwissQRBill.Generator
 {
@@ -17,6 +15,7 @@ namespace Codecrete.SwissQRBill.Generator
     /// </summary>
     public static class Payments
     {
+        /// <summary>
         /// Cleans a string value to make it viable for the Swiss Payment Standards 2018.
         /// <para>
         /// Unsupported characters (according to Swiss Payment Standards 2018, ch. 2.4.1 and appendix D) are

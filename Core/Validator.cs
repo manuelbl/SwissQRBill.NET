@@ -135,6 +135,7 @@ namespace Codecrete.SwissQRBill.Generator
             _billOut.Creditor = creditor;
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Major Code Smell", "S1066:Mergeable \"if\" statements should be combined", Justification = "Easier to read the way it is")]
         private void ValidateReference()
         {
             var account = _billOut.Account;

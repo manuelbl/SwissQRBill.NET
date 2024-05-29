@@ -4,11 +4,9 @@ Open-source .NET library to generate Swiss QR bills. Try it yourself and [create
 
 ## Introduction
 
-The Swiss QR bill is the new QR code based payment format that started on 30 June, 2020. The old payment slip will no longer be accepted after 30 September 2022.
+The Swiss QR bill is the QR code based payment format that started on 30 June, 2020. The payment slip is sent electronically in most cases. But it can still be printed at the bottom of an invoice or added to the invoice on a separate sheet. The payer scans the QR code with his/her mobile banking app to initiate the payment. The payment just needs to be confirmed.
 
-The new payment slip will be sent electronically in most cases. But it can still be printed at the bottom of an invoice or added to the invoice on a separate sheet. The payer scans the QR code with his/her mobile banking app to initiate the payment. The payment just needs to be confirmed.
-
-If the invoicing party adds structured bill information (VAT rates, payment conditions etc.) to the QR bill, posting in accounts payable can be automated. The invoicing party can also automate the accounts receivable processing as the payment includes all relevant data including a reference number. The Swiss QR bill is convenient for the payer and payee.
+If the invoicing party adds structured bill information (VAT rates, payment conditions etc.) to the QR bill, the payer can automate booking in accounts payable. The invoicing party can also automate the accounts receivable processing as the payment includes all relevant data including a reference number. The Swiss QR bill is convenient for the payer and payee.
 
 ![QR Bill](https://raw.githubusercontent.com/wiki/manuelbl/SwissQRBill/images/qr-invoice-e1.svg?sanitize=true)
 
@@ -42,7 +40,7 @@ The Swiss QR bill library:
    Or by running a command in the Package Manager Console
 
 ```
-Install-Package Codecrete.SwissQRBill.Windows -Version 3.1.1
+Install-Package Codecrete.SwissQRBill.Windows -Version 3.3.0s
 ```
 
 3. Add the code:
@@ -112,14 +110,14 @@ namespace Codecrete.SwissQRBill.Examples.Basic
 
 4. Run it
 
-## API documention
+## API documentation
 
 See DocFX [API Documentation](https://codecrete.net/SwissQRBill.NET/api/index.html)
 
 ## Further topics
 
  - [PNG generation](https://github.com/manuelbl/SwissQRBill.NET#png-generation)
- - [More PDF generation options](https://github.com/manuelbl/SwissQRBill.NET#pdf-generation)
+ - [PDF generation](https://github.com/manuelbl/SwissQRBill.NET#pdf-generation)
  - [Code examples](https://github.com/manuelbl/SwissQRBill.NET#code-examples)
  - [Wiki](https://github.com/manuelbl/SwissQRBill/wiki)
  - [Java version](https://github.com/manuelbl/SwissQRBill)

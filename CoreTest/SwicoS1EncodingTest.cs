@@ -54,7 +54,7 @@ namespace Codecrete.SwissQRBill.CoreTest
             var billInfo = new SwicoBillInformation
             {
                 InvoiceNumber = "X.66711/8824",
-                InvoiceDate = new DateTime(2020, 7, 12),
+                InvoiceDate = new DateTime(2020, 7, 12, 0, 0, 0, DateTimeKind.Local),
                 CustomerReference = @"MW-2020\04",
                 VatNumber = "107978798",
                 VatRateDetails = new List<(decimal, decimal)> { (2.5m, 117.22m) },
@@ -85,10 +85,10 @@ namespace Codecrete.SwissQRBill.CoreTest
             var billInfo = new SwicoBillInformation
             {
                 InvoiceNumber = "10201409",
-                InvoiceDate = new DateTime(2019, 5, 12),
+                InvoiceDate = new DateTime(2019, 5, 12, 0, 0, 0, DateTimeKind.Local),
                 CustomerReference = "1400.000-53",
                 VatNumber = "106017086",
-                VatDate = new DateTime(2018, 5, 8),
+                VatDate = new DateTime(2018, 5, 8, 0, 0, 0, DateTimeKind.Local),
                 VatRate = 7.7m,
                 VatImportTaxes = new List<(decimal, decimal)>(),
                 PaymentConditions = new List<(decimal, int)> { (2m, 10), (0m, 30) }
@@ -106,11 +106,11 @@ namespace Codecrete.SwissQRBill.CoreTest
             var info = new SwicoBillInformation();
             Assert.Null(info.EncodeAsText());
 
-            info.VatStartDate = new DateTime(2020, 8, 12);
+            info.VatStartDate = new DateTime(2020, 8, 12, 0, 0, 0, DateTimeKind.Local);
             Assert.Null(info.EncodeAsText());
 
             info.VatStartDate = null;
-            info.VatEndDate = new DateTime(2020, 8, 12);
+            info.VatEndDate = new DateTime(2020, 8, 12, 0, 0, 0, DateTimeKind.Local);
             Assert.Null(info.EncodeAsText());
 
             info.VatRateDetails = new List<(decimal, decimal)>();

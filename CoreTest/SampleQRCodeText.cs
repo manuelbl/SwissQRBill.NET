@@ -10,7 +10,7 @@ using System.Collections.Generic;
 
 namespace Codecrete.SwissQRBill.CoreTest
 {
-    public class SampleQRCodeText
+    public static class SampleQRCodeText
     {
         private static readonly string[] QRCodeText1 = {
             "SPC",
@@ -53,7 +53,7 @@ namespace Codecrete.SwissQRBill.CoreTest
 
         public static Bill CreateBillData1(Bill.QrDataSeparator separator)
         {
-            Address creditor = new Address
+            var creditor = new Address
             {
                 Name = "Robert Schneider AG",
                 Street = "Rue du Lac",
@@ -62,7 +62,7 @@ namespace Codecrete.SwissQRBill.CoreTest
                 Town = "Biel",
                 CountryCode = "CH"
             };
-            Address debtor = new Address
+            var debtor = new Address
             {
                 Name = "Pia Rutschmann",
                 Street = "Marktgasse",
@@ -71,7 +71,7 @@ namespace Codecrete.SwissQRBill.CoreTest
                 Town = " Rorschach",
                 CountryCode = "CH"
             };
-            Bill bill = new Bill
+            var bill = new Bill
             {
                 Account = "CH58 0079 1123 0008 8901 2",
                 Creditor = creditor,
@@ -129,7 +129,7 @@ namespace Codecrete.SwissQRBill.CoreTest
 
         public static Bill CreateBillData2(Bill.QrDataSeparator separator)
         {
-            Address creditor = new Address
+            var creditor = new Address
             {
                 Name = "Robert Schneider AG",
                 Street = "Rue du Lac",
@@ -138,7 +138,7 @@ namespace Codecrete.SwissQRBill.CoreTest
                 Town = "Biel",
                 CountryCode = "CH"
             };
-            Address debtor = new Address
+            var debtor = new Address
             {
                 Name = "Pia-Maria Rutschmann-Schnyder",
                 Street = "Grosse Marktgasse",
@@ -147,7 +147,7 @@ namespace Codecrete.SwissQRBill.CoreTest
                 Town = " Rorschach",
                 CountryCode = "CH"
             };
-            Bill bill = new Bill
+            var bill = new Bill
             {
                 Account = "CH4431999123000889012",
                 Creditor = creditor,
@@ -158,7 +158,7 @@ namespace Codecrete.SwissQRBill.CoreTest
                 UnstructuredMessage = "Order dated 18.06.2020",
                 BillInformation =
                     "//S1/01/20170309/11/10201409/20/14000000/22/36958/30/CH106017086/40/1020/41/3010",
-                AlternativeSchemes = new List<AlternativeScheme>
+                AlternativeSchemes = new()
                 {
                     new AlternativeScheme {Name = "Ultraviolet", Instruction = "UV;UltraPay005;12345"},
                     new AlternativeScheme {Name = "Xing Yong", Instruction = "XY;XYService;54321"}
@@ -210,14 +210,14 @@ namespace Codecrete.SwissQRBill.CoreTest
 
         public static Bill CreateBillData3(Bill.QrDataSeparator separator)
         {
-            Address creditor = new Address
+            var creditor = new Address
             {
                 Name = "Salvation Army Foundation Switzerland",
                 PostalCode = "3000",
                 Town = "Bern",
                 CountryCode = "CH"
             };
-            Bill bill = new Bill
+            var bill = new Bill
             {
                 Account = "CH37 0900 0000 3044 4222 5",
                 Creditor = creditor,
@@ -271,7 +271,7 @@ namespace Codecrete.SwissQRBill.CoreTest
 
         public static Bill CreateBillData4(Bill.QrDataSeparator separator)
         {
-            Address creditor = new Address
+            var creditor = new Address
             {
                 Name = "Robert Schneider AG",
                 Street = "Rue du Lac",
@@ -280,14 +280,14 @@ namespace Codecrete.SwissQRBill.CoreTest
                 Town = "Biel",
                 CountryCode = "CH"
             };
-            Address debtor = new Address
+            var debtor = new Address
             {
                 Name = "Pia-Maria Rutschmann-Schnyder",
                 AddressLine1 = "Grosse Marktgasse 28",
                 AddressLine2 = "9400 Rorschach",
                 CountryCode = "CH"
             };
-            Bill bill = new Bill
+            var bill = new Bill
             {
                 Account = "CH5800791123000889012",
                 Creditor = creditor,
@@ -343,7 +343,7 @@ namespace Codecrete.SwissQRBill.CoreTest
 
         public static Bill CreateBillData5(Bill.QrDataSeparator separator)
         {
-            Address creditor = new Address
+            var creditor = new Address
             {
                 Name = "Robert Schneider AG",
                 Street = "Rue du Lac",
@@ -352,14 +352,14 @@ namespace Codecrete.SwissQRBill.CoreTest
                 Town = "Biel",
                 CountryCode = "CH"
             };
-            Address debtor = new Address
+            var debtor = new Address
             {
                 Name = "Pia-Maria Rutschmann-Schnyder",
                 AddressLine1 = "Grosse Marktgasse 28",
                 AddressLine2 = "9400 Rorschach",
                 CountryCode = "CH"
             };
-            Bill bill = new Bill
+            var bill = new Bill
             {
                 Account = "CH5800791123000889012",
                 Creditor = creditor,

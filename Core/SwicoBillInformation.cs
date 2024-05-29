@@ -20,6 +20,7 @@ namespace Codecrete.SwissQRBill.Generator
     /// (in the field StrdBkgInf).
     /// </para>
     /// </summary>
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Major Code Smell", "S4035:Classes implementing \"IEquatable<T>\" should be sealed", Justification = "Will seal class in next major release")]
     public class SwicoBillInformation : IEquatable<SwicoBillInformation>
     {
         /// <summary>
@@ -131,6 +132,7 @@ namespace Codecrete.SwissQRBill.Generator
         /// The due date is calculated from the invoice date and the payment condition with a discount of 0.
         /// </para>
         /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Major Bug", "S1751:Loops with at most one iteration should be refactored", Justification = "Alternatives are more difficult to understand")]
         public DateTime? DueDate
         {
             get

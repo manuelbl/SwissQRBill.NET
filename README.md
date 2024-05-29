@@ -2,15 +2,16 @@
 
 Open-source .NET library to generate Swiss QR bills (jointly developed with the [Java version](https://github.com/manuelbl/SwissQRBill)).
 
-Try it yourself and [create a QR bill](https://www.codecrete.net/qrbill). The code for the demo app (Angular UI and RESTful service) can be found on [GitHub](https://github.com/manuelbl/SwissQRBillDemo) as well.
+Try it yourself and [create a QR bill](https://www.codecrete.net/qrbill). The code for the demo app (React UI and RESTful service) can be found on [GitHub](https://github.com/manuelbl/SwissQRBillDemo) as well.
+
+This library implements version 2.2 and 2.3 of the *Swiss Implementation Guidelines QR-bill* from November 20, 2023, and *Swico Syntax Definition (S1)* from November 23, 2018.
+
 
 ## Introduction
 
-The Swiss QR bill is the new QR code based payment format that started on 30 June, 2020. The old payment slip will no longer be accepted after 30 September 2022.
+The Swiss QR bill is the QR code based payment format that started on 30 June, 2020. The payment slip is sent electronically in most cases. But it can still be printed at the bottom of an invoice or added to the invoice on a separate sheet. The payer scans the QR code with his/her mobile banking app to initiate the payment. The payment just needs to be confirmed.
 
-The new payment slip will be sent electronically in most cases. But it can still be printed at the bottom of an invoice or added to the invoice on a separate sheet. The payer scans the QR code with his/her mobile banking app to initiate the payment. The payment just needs to be confirmed.
-
-If the invoicing party adds structured bill information (VAT rates, payment conditions etc.) to the QR bill, posting in accounts payable can be automated. The invoicing party can also automate the accounts receivable processing as the payment includes all relevant data including a reference number. The Swiss QR bill is convenient for the payer and payee.
+If the invoicing party adds structured bill information (VAT rates, payment conditions etc.) to the QR bill, the payer can automate booking in accounts payable. The invoicing party can also automate the accounts receivable processing as the payment includes all relevant data including a reference number. The Swiss QR bill is convenient for the payer and payee.
 
 ![QR Bill](https://raw.githubusercontent.com/wiki/manuelbl/SwissQRBill/images/qr-invoice-e1.svg?sanitize=true)
 
@@ -22,7 +23,7 @@ If the invoicing party adds structured bill information (VAT rates, payment cond
 The Swiss QR bill library:
 
 - generates QR bills as PDF, SVG,  PNG and EMF files
-- generates payment slip (105mm by 210mm), A4 sheets or QR code only
+- generates payment slips (105mm by 210mm), A4 sheets or QR codes
 - multilingual: German, French, Italian, English, Romansh
 - validates the invoice data and provides detailed validation information
 - adds or retrieves structured bill information (according to [Swico S1](https://www.swiss-qr-invoice.org/downloads/qr-bill-s1-syntax-de.pdf))
@@ -39,7 +40,7 @@ The Swiss QR bill library:
 
 ## Getting started
 
-1. Create a new Visual Studio project for .NET Core 2.x (*File > New > Project...* / *Visual C# > .NET Core > Console App (.NET Core)*)
+1. Create a new Visual Studio project for .NET Core 3.x (*File > New > Project...* / *Visual C# > .NET Core > Console App (.NET Core)*)
 
 2. Add the library via NuGet:
 
@@ -48,7 +49,7 @@ The Swiss QR bill library:
    Or by running a command in the Package Manager Console
 
 ```
-Install-Package Codecrete.SwissQRBill.Generator -Version 3.1.1
+Install-Package Codecrete.SwissQRBill.Generator -Version 3.3.0
 ```
 
 3. Add the code:
@@ -125,7 +126,7 @@ See DocFX [API Documentation](https://codecrete.net/SwissQRBill.NET/api/index.ht
 
 ## NuGet packages
 
-Swiss QR Bill generation is available as three different NuGet packages. They all include the basic QR bill generation for PDF and SVG and only differ with regards the PNG and EMF generation.
+Swiss QR Bill generation is available as three different NuGet packages. They all include the basic QR bill generation for PDF and SVG and only differ with regards to the PNG and EMF generation.
 
 | NuGet packages | PDF | SVG | PNG | EMF | Platform neutral | Recommendation |
 | -- | :--: | :--: | :--: | :--: | :--: | -- |
@@ -143,11 +144,11 @@ PNG generation requires a raster graphics library. Starting with .NET 6, the *Sy
 - If you need PNG generation, you can use the enhanced version: **Codecrete.SwissQRBill.Generator**. It uses [SkiaSharp](https://github.com/mono/SkiaSharp) as a platform independent raster graphics library. Note that on Linux, SkiaSharp depends on native libraries that might not be installed on your machine. The easiest solution is to add the NuGet package [SkiaSharp.NativeAssets.Linux.NoDependencies](https://www.nuget.org/packages/SkiaSharp.NativeAssets.Linux.NoDependencies) to your project.
 - If you creating a Windows-only software, use the **Codecrete.SwissQRBill.Windows** package. It uses the *System.Drawing* classes for PNG generation and adds EMF generation on top.
 
-**Note on strong-naming / assembly signature**: The latest version of *SkiaSharp* (version 2.80.3) has an invalid signature. Thus, the assembly cannot be loaded in an environment requiring a signature / strong-naming. To work around it, use the *NuGet Package Manager* and selectively downgrade SkiaSharp to version 2.80.2. This only works with *Codecrete.SwissQRBill.Generator* 3.0.2 and later.
-
 ## PDF generation
 
 To generate QR bills as PDF files, this library uses its own, minimal PDF generator that requires no further dependencies and comes with the same permissive license as the rest of this library.
+
+The built-in PDF generator does not support font embedding and is thus restricted to the standard 14 PDF fonts, which in turn are restricted to the WinANSI character set. This is sufficient to generate QR bills using the original character set (a subset of Latin-1). However, it is insufficient to generate QR bills using the extended Latin character set (allowed from November 21, 2025). If the extended character set is to be used, use one of the below options.
 
 If you are already using [iText](https://itextpdf.com/en) or [PDFsharp](http://www.pdfsharp.net/), then have a look at the respective examples:
 

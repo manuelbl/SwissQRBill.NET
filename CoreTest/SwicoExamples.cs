@@ -11,10 +11,10 @@ namespace Codecrete.SwissQRBill.CoreTest
             return new SwicoBillInformation
             {
                 InvoiceNumber = "10201409",
-                InvoiceDate = new DateTime(2019, 5, 12),
+                InvoiceDate = new DateTime(2019, 5, 12, 0, 0, 0, DateTimeKind.Local),
                 CustomerReference = "1400.000-53",
                 VatNumber = "106017086",
-                VatDate = new DateTime(2018, 5, 8),
+                VatDate = new DateTime(2018, 5, 8, 0, 0, 0, DateTimeKind.Local),
                 VatRate = 7.7m,
                 PaymentConditions = new List<(decimal, int)> { (2m, 10), (0m, 30) }
             };
@@ -28,10 +28,10 @@ namespace Codecrete.SwissQRBill.CoreTest
             return new SwicoBillInformation
             {
                 InvoiceNumber = "10104",
-                InvoiceDate = new DateTime(2018, 2, 28),
+                InvoiceDate = new DateTime(2018, 2, 28, 0, 0, 0, DateTimeKind.Local),
                 VatNumber = "395856455",
-                VatStartDate = new DateTime(2018, 2, 26),
-                VatEndDate = new DateTime(2018, 2, 27),
+                VatStartDate = new DateTime(2018, 2, 26, 0, 0, 0, DateTimeKind.Local),
+                VatEndDate = new DateTime(2018, 2, 27, 0, 0, 0, DateTimeKind.Local),
                 VatRateDetails = new List<(decimal, decimal)> { (3.7m, 400.19m), (7.7m, 553.39m), (0m, 14m) },
                 PaymentConditions = new List<(decimal, int)> { (0m, 30) }
             };
@@ -45,7 +45,7 @@ namespace Codecrete.SwissQRBill.CoreTest
             return new SwicoBillInformation
             {
                 InvoiceNumber = "4031202511",
-                InvoiceDate = new DateTime(2018, 1, 7),
+                InvoiceDate = new DateTime(2018, 1, 7, 0, 0, 0, DateTimeKind.Local),
                 CustomerReference = "61257233.4",
                 VatNumber = "105493567",
                 VatRateDetails = new List<(decimal, decimal)> { (8m, 49.82m) },
@@ -62,7 +62,7 @@ namespace Codecrete.SwissQRBill.CoreTest
             return new SwicoBillInformation
             {
                 InvoiceNumber = "X.66711/8824",
-                InvoiceDate = new DateTime(2020, 7, 12),
+                InvoiceDate = new DateTime(2020, 7, 12, 0, 0, 0, DateTimeKind.Local),
                 CustomerReference = "MW-2020-04",
                 VatNumber = "107978798",
                 VatRateDetails = new List<(decimal, decimal)> { (2.5m, 117.22m) },
@@ -78,7 +78,7 @@ namespace Codecrete.SwissQRBill.CoreTest
             return new SwicoBillInformation
             {
                 InvoiceNumber = "79269",
-                InvoiceDate = new DateTime(2020, 7, 14),
+                InvoiceDate = new DateTime(2020, 7, 14, 0, 0, 0, DateTimeKind.Local),
                 CustomerReference = "66359",
                 VatNumber = "109532551",
                 VatRate = 7.7m,
@@ -94,7 +94,7 @@ namespace Codecrete.SwissQRBill.CoreTest
             return new SwicoBillInformation
             {
                 InvoiceNumber = "802277",
-                InvoiceDate = new DateTime(2020, 7, 1),
+                InvoiceDate = new DateTime(2020, 7, 1, 0, 0, 0, DateTimeKind.Local),
                 CustomerReference = "55878",
                 VatNumber = "109532551",
                 VatRate = 7.7m,

@@ -16,7 +16,7 @@ namespace Codecrete.SwissQRBill.CoreTest
         [Fact]
         public void DefaultConstructorTest()
         {
-            AlternativeScheme scheme = new AlternativeScheme();
+            var scheme = new AlternativeScheme();
             Assert.Null(scheme.Name);
             Assert.Null(scheme.Instruction);
         }
@@ -24,7 +24,7 @@ namespace Codecrete.SwissQRBill.CoreTest
         [Fact]
         public void ConstructorTest()
         {
-            AlternativeScheme scheme = new AlternativeScheme { Name = "Paymit", Instruction = "PM,12341234,1241234" };
+            var scheme = new AlternativeScheme { Name = "Paymit", Instruction = "PM,12341234,1241234" };
             Assert.Equal("Paymit", scheme.Name);
             Assert.Equal("PM,12341234,1241234", scheme.Instruction);
         }
@@ -32,7 +32,7 @@ namespace Codecrete.SwissQRBill.CoreTest
         [Fact]
         public void TestEqualsTrivial()
         {
-            AlternativeScheme scheme = new AlternativeScheme { Name = "Paymit", Instruction = "PM,12341234,1241234" };
+            var scheme = new AlternativeScheme { Name = "Paymit", Instruction = "PM,12341234,1241234" };
             Assert.Equal(scheme, scheme);
             AlternativeScheme nullScheme = null;
             Assert.NotEqual(scheme, nullScheme);
@@ -42,8 +42,8 @@ namespace Codecrete.SwissQRBill.CoreTest
         [Fact]
         public void TestEquals()
         {
-            AlternativeScheme scheme1 = new AlternativeScheme { Name = "Paymit", Instruction = "PM,12341234,1241234" };
-            AlternativeScheme scheme2 = new AlternativeScheme { Name = "Paymit", Instruction = "PM,12341234,1241234" };
+            var scheme1 = new AlternativeScheme { Name = "Paymit", Instruction = "PM,12341234,1241234" };
+            var scheme2 = new AlternativeScheme { Name = "Paymit", Instruction = "PM,12341234,1241234" };
             Assert.Equal(scheme1, scheme2);
             Assert.Equal(scheme1, scheme2);
 
@@ -54,8 +54,8 @@ namespace Codecrete.SwissQRBill.CoreTest
         [Fact]
         public void TestHashCode()
         {
-            AlternativeScheme scheme1 = new AlternativeScheme { Name = "Paymit", Instruction = "PM,12341234,1241234" };
-            AlternativeScheme scheme2 = new AlternativeScheme { Name = "Paymit", Instruction = "PM,12341234,1241234" };
+            var scheme1 = new AlternativeScheme { Name = "Paymit", Instruction = "PM,12341234,1241234" };
+            var scheme2 = new AlternativeScheme { Name = "Paymit", Instruction = "PM,12341234,1241234" };
             Assert.Equal(scheme1.GetHashCode(), scheme2.GetHashCode());
         }
     }

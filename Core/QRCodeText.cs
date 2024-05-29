@@ -139,6 +139,7 @@ namespace Codecrete.SwissQRBill.Generator
         /// <param name="text">The text to decode.</param>
         /// <returns>The decoded bill data.</returns>
         /// <exception cref="QRBillValidationException">The text is in an invalid format.</exception>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Major Code Smell", "S1066:Mergeable \"if\" statements should be combined", Justification = "Easier to read the way it is")]
         public static Bill Decode(string text)
         {
             var lines = SplitLines(text);

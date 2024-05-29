@@ -45,7 +45,7 @@ namespace Codecrete.SwissQRBill.Generator
             get
             {
                 return _validationMessages != null
-                       && _validationMessages.Any(message => message.Type == ValidationMessage.MessageType.Warning);
+                    && _validationMessages.Exists(message => message.Type == ValidationMessage.MessageType.Warning);
             }
         }
 
@@ -58,7 +58,7 @@ namespace Codecrete.SwissQRBill.Generator
             get
             {
                 return _validationMessages != null
-                       && _validationMessages.Any(message => message.Type == ValidationMessage.MessageType.Error);
+                       && _validationMessages.Exists(message => message.Type == ValidationMessage.MessageType.Error);
             }
         }
 

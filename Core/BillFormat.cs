@@ -167,8 +167,8 @@ namespace Codecrete.SwissQRBill.Generator
                    FontFamily == other.FontFamily &&
                    GraphicsFormat == other.GraphicsFormat &&
                    Resolution == other.Resolution &&
-                   MarginLeft == other.MarginLeft &&
-                   MarginRight == other.MarginRight &&
+                   MathUtil.AreClose(MarginLeft, other.MarginLeft) &&
+                   MathUtil.AreClose(MarginRight, other.MarginRight) &&
                    LocalCountryCode == other.LocalCountryCode;
         }
 

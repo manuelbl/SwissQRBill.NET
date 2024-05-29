@@ -134,7 +134,7 @@ namespace Codecrete.SwissQRBill.CoreTest
             Assert.Equal(new SwicoBillInformation()
             {
                 InvoiceNumber = "X.66711",
-                InvoiceDate = new DateTime(2019, 5, 20),
+                InvoiceDate = new DateTime(2019, 5, 20, 0, 0, 0, DateTimeKind.Local),
                 VatNumber = "123456789"
             },
                 billInformation
@@ -176,7 +176,7 @@ namespace Codecrete.SwissQRBill.CoreTest
             Assert.Equal(new SwicoBillInformation()
             {
                 InvoiceNumber = "X.66711",
-                InvoiceDate = new DateTime(2019, 5, 20)
+                InvoiceDate = new DateTime(2019, 5, 20, 0, 0, 0, DateTimeKind.Local)
             },
                 billInformation
             );
@@ -243,7 +243,7 @@ namespace Codecrete.SwissQRBill.CoreTest
             Assert.Equal(new SwicoBillInformation()
             {
                 InvoiceNumber = "329348709",
-                InvoiceDate = new DateTime(2020, 6, 29),
+                InvoiceDate = new DateTime(2020, 6, 29, 0, 0, 0, DateTimeKind.Local),
                 PaymentConditions = new List<(decimal, int)> { (0m, 30) }
             },
                 billInformation
@@ -261,7 +261,7 @@ namespace Codecrete.SwissQRBill.CoreTest
             Assert.Equal(new SwicoBillInformation()
             {
                 InvoiceNumber = "10201409",
-                InvoiceDate = new DateTime(2020, 6, 29),
+                InvoiceDate = new DateTime(2020, 6, 29, 0, 0, 0, DateTimeKind.Local),
                 PaymentConditions = new List<(decimal, int)> { (0m, 30) }
             },
                 billInformation
@@ -279,7 +279,7 @@ namespace Codecrete.SwissQRBill.CoreTest
             Assert.Equal(new SwicoBillInformation()
             {
                 InvoiceNumber = "10201409",
-                InvoiceDate = new DateTime(2020, 6, 29),
+                InvoiceDate = new DateTime(2020, 6, 29, 0, 0, 0, DateTimeKind.Local),
                 VatRateDetails = new List<(decimal, decimal)> { (8m, 500m) },
                 PaymentConditions = new List<(decimal, int)> { (0m, 30) }
             },
@@ -297,7 +297,7 @@ namespace Codecrete.SwissQRBill.CoreTest
             Assert.Equal(new SwicoBillInformation()
             {
                 InvoiceNumber = "10201409",
-                InvoiceDate = new DateTime(2020, 6, 29),
+                InvoiceDate = new DateTime(2020, 6, 29, 0, 0, 0, DateTimeKind.Local),
                 PaymentConditions = new List<(decimal, int)> { (0m, 30) }
             },
                 billInformation
@@ -315,7 +315,7 @@ namespace Codecrete.SwissQRBill.CoreTest
             Assert.Equal(new SwicoBillInformation()
             {
                 InvoiceNumber = "10201409",
-                InvoiceDate = new DateTime(2020, 6, 29),
+                InvoiceDate = new DateTime(2020, 6, 29, 0, 0, 0, DateTimeKind.Local),
                 VatImportTaxes = new List<(decimal, decimal)> { (8m, 24.50m) },
                 PaymentConditions = new List<(decimal, int)> { (0m, 30) }
             },
@@ -334,7 +334,7 @@ namespace Codecrete.SwissQRBill.CoreTest
             Assert.Equal(new SwicoBillInformation()
             {
                 InvoiceNumber = "10201409",
-                InvoiceDate = new DateTime(2020, 6, 29)
+                InvoiceDate = new DateTime(2020, 6, 29, 0, 0, 0, DateTimeKind.Local)
             },
                 billInformation
             );
@@ -351,7 +351,7 @@ namespace Codecrete.SwissQRBill.CoreTest
             Assert.Equal(new SwicoBillInformation()
             {
                 InvoiceNumber = "10201409",
-                InvoiceDate = new DateTime(2020, 6, 29),
+                InvoiceDate = new DateTime(2020, 6, 29, 0, 0, 0, DateTimeKind.Local),
                 PaymentConditions = new List<(decimal, int)> { (0m, 30) }
             },
                 billInformation
