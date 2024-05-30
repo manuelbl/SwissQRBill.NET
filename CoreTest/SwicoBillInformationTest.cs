@@ -30,9 +30,9 @@ namespace Codecrete.SwissQRBill.CoreTest
         {
             var billInformation = new SwicoBillInformation
             {
-                InvoiceDate = new DateTime(2020, 6, 30)
+                InvoiceDate = new DateTime(2020, 6, 30, 0, 0, 0, DateTimeKind.Local)
             };
-            Assert.Equal(new DateTime(2020, 6, 30), billInformation.InvoiceDate);
+            Assert.Equal(new DateTime(2020, 6, 30, 0, 0, 0, DateTimeKind.Local), billInformation.InvoiceDate);
         }
 
         [Fact]
@@ -60,9 +60,9 @@ namespace Codecrete.SwissQRBill.CoreTest
         {
             var billInformation = new SwicoBillInformation
             {
-                VatDate = new DateTime(2020, 3, 1)
+                VatDate = new DateTime(2020, 3, 1, 0, 0, 0, DateTimeKind.Local)
             };
-            Assert.Equal(new DateTime(2020, 3, 1), billInformation.VatDate);
+            Assert.Equal(new DateTime(2020, 3, 1, 0, 0, 0, DateTimeKind.Local), billInformation.VatDate);
         }
 
         [Fact]
@@ -70,9 +70,9 @@ namespace Codecrete.SwissQRBill.CoreTest
         {
             var billInformation = new SwicoBillInformation
             {
-                VatStartDate = new DateTime(2019, 3, 1)
+                VatStartDate = new DateTime(2019, 3, 1, 0, 0, 0, DateTimeKind.Local)
             };
-            Assert.Equal(new DateTime(2019, 3, 1), billInformation.VatStartDate);
+            Assert.Equal(new DateTime(2019, 3, 1, 0, 0, 0, DateTimeKind.Local), billInformation.VatStartDate);
         }
 
         [Fact]
@@ -80,9 +80,9 @@ namespace Codecrete.SwissQRBill.CoreTest
         {
             var billInformation = new SwicoBillInformation
             {
-                VatEndDate = new DateTime(2020, 2, 29)
+                VatEndDate = new DateTime(2020, 2, 29, 0, 0, 0, DateTimeKind.Local)
             };
-            Assert.Equal(new DateTime(2020, 2, 29), billInformation.VatEndDate);
+            Assert.Equal(new DateTime(2020, 2, 29, 0, 0, 0, DateTimeKind.Local), billInformation.VatEndDate);
         }
 
         [Fact]
@@ -136,10 +136,10 @@ namespace Codecrete.SwissQRBill.CoreTest
         {
             var billInformation = new SwicoBillInformation
             {
-                InvoiceDate = new DateTime(2020, 6, 30),
+                InvoiceDate = new DateTime(2020, 6, 30, 0, 0, 0, DateTimeKind.Local),
                 PaymentConditions = new List<(decimal, int)> { (2m, 10), (0m, 30) }
             };
-            Assert.Equal(new DateTime(2020, 7, 30), billInformation.DueDate);
+            Assert.Equal(new DateTime(2020, 7, 30, 0, 0, 0, DateTimeKind.Local), billInformation.DueDate);
         }
 
         [Fact]
@@ -148,7 +148,7 @@ namespace Codecrete.SwissQRBill.CoreTest
             var billInformation = new SwicoBillInformation();
             Assert.Null(billInformation.DueDate);
 
-            billInformation.InvoiceDate = new DateTime(2020, 6, 30);
+            billInformation.InvoiceDate = new DateTime(2020, 6, 30, 0, 0, 0, DateTimeKind.Local);
             Assert.Null(billInformation.DueDate);
 
             billInformation.PaymentConditions = new List<(decimal, int)>();
@@ -157,7 +157,7 @@ namespace Codecrete.SwissQRBill.CoreTest
             billInformation.InvoiceDate = null;
             Assert.Null(billInformation.DueDate);
 
-            billInformation.InvoiceDate = new DateTime(2020, 6, 30);
+            billInformation.InvoiceDate = new DateTime(2020, 6, 30, 0, 0, 0, DateTimeKind.Local);
             Assert.Null(billInformation.DueDate);
 
             billInformation.PaymentConditions = new List<(decimal, int)> { (2m, 10) };
@@ -200,11 +200,11 @@ namespace Codecrete.SwissQRBill.CoreTest
             return new SwicoBillInformation
             {
                 InvoiceNumber = "R0000700312",
-                InvoiceDate = new DateTime(2020, 7, 10),
+                InvoiceDate = new DateTime(2020, 7, 10, 0, 0, 0, DateTimeKind.Local),
                 CustomerReference = "Q.30007.100002",
                 VatNumber = "105815317",
-                VatStartDate = new DateTime(2019, 11, 1),
-                VatEndDate = new DateTime(2020, 4, 30),
+                VatStartDate = new DateTime(2019, 11, 1, 0, 0, 0, DateTimeKind.Local),
+                VatEndDate = new DateTime(2020, 4, 30, 0, 0, 0, DateTimeKind.Local),
                 VatRate = 8m,
                 VatImportTaxes = new List<(decimal, decimal)> { (8m, 48.12m), (2.5m, 17.23m) },
                 PaymentConditions = new List<(decimal, int)> { (0m, 30) }

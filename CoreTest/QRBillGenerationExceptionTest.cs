@@ -40,6 +40,7 @@ namespace Codecrete.SwissQRBill.CoreTest
             Assert.Same(typeof(NullReferenceException), e.InnerException.GetType());
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Minor Code Smell", "S1481:Unused local variables should be removed", Justification = "Required to throw NullReference exception")]
         private static void ThrowNestedNullRefException()
         {
             try
