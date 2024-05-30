@@ -22,7 +22,8 @@ namespace Codecrete.SwissQRBill.Generator
         {
             if (value1 == value2)
                 return true;
-            double num1 = (Math.Abs(value1) + Math.Abs(value2) + 10.0) * 2.22044604925031E-16;
+            const double epsilon = 2.22044604925031e-16;
+            double num1 = (Math.Abs(value1) + Math.Abs(value2) + 10.0) * epsilon;
             double num2 = value1 - value2;
             if (-num1 < num2)
                 return num1 > num2;

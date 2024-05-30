@@ -7,7 +7,6 @@
 
 using Codecrete.SwissQRBill.Generator;
 using System.Threading.Tasks;
-using VerifyXunit;
 using Xunit;
 
 namespace Codecrete.SwissQRBill.CoreTest
@@ -91,6 +90,12 @@ namespace Codecrete.SwissQRBill.CoreTest
         public Task CreateA4PdfBill6()
         {
             return GenerateAndCompareBill(SampleData.CreateExample6(), OutputSize.A4PortraitSheet, GraphicsFormat.PDF);
+        }
+
+        [Fact]
+        public Task CreateA4PDFBill8a()
+        {
+            return GenerateAndCompareBill(SampleData.CreateExample8(), OutputSize.A4PortraitSheet, GraphicsFormat.PDF);
         }
 
         private static Task GenerateAndCompareBill(Bill bill, OutputSize outputSize, GraphicsFormat graphicsFormat)

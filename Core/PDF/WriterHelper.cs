@@ -68,12 +68,15 @@ namespace Codecrete.SwissQRBill.Generator.PDF
 
         internal static string EscapeString(string text)
         {
-            var length = text.Length;
+            var encoding = Document.GetCodepage1252();
+            var bytes = encoding.GetBytes(text);
+
+            var length = bytes.Length;
             var lastCopiedPosition = 0;
             StringBuilder result = null;
             for (var i = 0; i < length; i++)
             {
-                var ch = text[i];
+                var ch = bytes[i];
                 if (ch >= ' ' && ch != '(' && ch != ')' && ch != '\\')
                 {
                     continue;
@@ -92,22 +95,22 @@ namespace Codecrete.SwissQRBill.Generator.PDF
                 string replacement;
                 switch (ch)
                 {
-                    case '(':
+                    case (byte) '(':
                         replacement = "(";
                         break;
-                    case ')':
+                    case (byte) ')':
                         replacement = ")";
                         break;
-                    case '\\':
+                    case (byte) '\\':
                         replacement = "\\";
                         break;
-                    case '\n':
+                    case (byte) '\n':
                         replacement = "n";
                         break;
-                    case '\r':
+                    case (byte) '\r':
                         replacement = "r";
                         break;
-                    case '\t':
+                    case (byte) '\t':
                         replacement = "t";
                         break;
                     default:

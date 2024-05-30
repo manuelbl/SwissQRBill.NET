@@ -16,6 +16,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
     /// The PDF generator currently only supports the Helvetica font.
     /// </para>
     /// </summary>
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Minor Code Smell", "S101:Types should be named in PascalCase", Justification = "Rename would break API compatibility")]
     public class PDFCanvas : AbstractCanvas
     {
         private const float ColorScale = 1f / 255;
@@ -73,7 +74,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         private void SetFont(bool isBold, int fontSize)
         {
             var font = isBold ? Font.HelveticaBold : Font.Helvetica;
-            if (font == _lastFont && fontSize == _lastFontSize)
+            if (font == _lastFont && MathUtil.AreClose(fontSize, _lastFontSize))
             {
                 return;
             }
@@ -200,7 +201,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
                 _contentStream.SetStrokingColor(r, g, b);
             }
             if (lineStyle != _lastLineStyle
-                || (lineStyle != LineStyle.Solid && strokeWidth != _lastLineWidth))
+                || (lineStyle != LineStyle.Solid && !MathUtil.AreClose(strokeWidth, _lastLineWidth)))
             {
                 _lastLineStyle = lineStyle;
                 float[] pattern;
@@ -219,7 +220,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
                 _contentStream.SetLineCapStyle(lineStyle == LineStyle.Dotted ? 1 : 0);
                 _contentStream.SetLineDashPattern(pattern, 0);
             }
-            if (strokeWidth != _lastLineWidth)
+            if (!MathUtil.AreClose(strokeWidth, _lastLineWidth))
             {
                 _lastLineWidth = strokeWidth;
                 _contentStream.SetLineWidth((float)strokeWidth);

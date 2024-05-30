@@ -8,6 +8,7 @@
 using System;
 using System.Collections.Generic;
 using static Codecrete.SwissQRBill.Generator.Address;
+using static Codecrete.SwissQRBill.Generator.Payments;
 using static Codecrete.SwissQRBill.Generator.ValidationMessage;
 
 namespace Codecrete.SwissQRBill.Generator
@@ -46,6 +47,7 @@ namespace Codecrete.SwissQRBill.Generator
             _billOut.Format = _billIn.Format != null ? new BillFormat(_billIn.Format) : null;
             _billOut.Separator = _billIn.Separator;
             _billOut.Version = _billIn.Version;
+            _billOut.CharacterSet = _billIn.CharacterSet;
 
             ValidateAccountNumber();
             ValidateCreditor();
@@ -553,7 +555,7 @@ namespace Codecrete.SwissQRBill.Generator
 
         private string CleanedValue(string value, string field)
         {
-            Payments.CleanText(value, true, out var result);
+            StringCleanup.CleanText(value, _billOut.CharacterSet, true, out CleaningResult result);
             if (result.ReplacedUnsupportedChars)
             {
                 _validationResult.AddMessage(MessageType.Warning, field, ValidationConstants.KeyReplacedUnsupportedCharacters);
@@ -564,7 +566,7 @@ namespace Codecrete.SwissQRBill.Generator
 
         private string CleanedValue(string value, string fieldRoot, string subfield)
         {
-            Payments.CleanText(value, true, out var result);
+            StringCleanup.CleanText(value, _billOut.CharacterSet, true, out CleaningResult result);
             if (result.ReplacedUnsupportedChars)
             {
                 _validationResult.AddMessage(MessageType.Warning, fieldRoot + subfield, ValidationConstants.KeyReplacedUnsupportedCharacters);

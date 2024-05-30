@@ -35,6 +35,35 @@ namespace Codecrete.SwissQRBill.CoreTest
         }
 
         [Fact]
+        public void UnstructuredMessageReplacementLatin1Subset()
+        {
+            SourceBill = SampleData.CreateExample8();
+            Validate();
+
+            Assert.False(Result.HasErrors);
+            Assert.True(Result.HasWarnings);
+            Assert.True(Result.HasMessages);
+            Assert.Equal(3, Result.ValidationMessages.Count);
+            foreach (ValidationMessage message in Result.ValidationMessages)
+            {
+                Assert.Equal(ValidationConstants.KeyReplacedUnsupportedCharacters, message.MessageKey);
+            }
+
+            Assert.Equal("Facture 48390, E10 de réduction", ValidatedBill.UnstructuredMessage);
+            Assert.Equal("Bugra Çavdarli", ValidatedBill.Creditor.Name);
+            Assert.Equal("L'OEil de Boeuf", ValidatedBill.Debtor.Name);
+        }
+
+        [Fact]
+        public void UnstructuredMessageReplacementExtendedLatin()
+        {
+            SourceBill = SampleData.CreateExample8();
+            SourceBill.CharacterSet = SpsCharacterSet.ExtendedLatin;
+            Validate();
+            AssertNoMessages();
+        }
+
+        [Fact]
         public void BillInfoReplacement()
         {
             SourceBill = SampleData.CreateExample1();

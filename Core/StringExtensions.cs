@@ -115,5 +115,34 @@ namespace Codecrete.SwissQRBill.Generator
 
             return sb != null ? sb.ToString() : value;
         }
+
+        /// <summary>
+        /// Appends the given Unicode code point to this instance. 
+        /// </summary>
+        /// <param name="sb">this instance</param>
+        /// <param name="codePoint">the Unicode code point</param>
+        public static void AppendCodePoint(this StringBuilder sb, int codePoint)
+        {
+            int len = GetUtf16SequenceLength((uint)codePoint);
+            if (len == 1)
+            {
+                sb.Append((char)codePoint);
+            }
+            else
+            {
+                sb.Append(char.ConvertFromUtf32(codePoint));
+            }
+        }
+
+        /// <summary>
+        /// Given a Unicode scalar value, gets the number of UTF-16 code units required to represent this value.
+        /// </summary>
+        internal static int GetUtf16SequenceLength(uint value)
+        {
+            value -= 0x10000;   // if value < 0x10000, high byte = 0xFF; else high byte = 0x00
+            value += 2 << 24;   // if value < 0x10000, high byte = 0x01; else high byte = 0x02
+            value >>= 24;       // shift high byte down
+            return (int)value;  // and return it
+        }
     }
 }

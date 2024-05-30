@@ -10,7 +10,6 @@ using Codecrete.SwissQRBill.Generator.Canvas;
 using System.Globalization;
 using System.IO;
 using System.Threading.Tasks;
-using VerifyXunit;
 using Xunit;
 
 namespace Codecrete.SwissQRBill.CoreTest
@@ -62,5 +61,15 @@ namespace Codecrete.SwissQRBill.CoreTest
                 CultureInfo.CurrentUICulture = savedCurrentUiCulture;
             }
         }
+
+        [Fact]
+        public void CharactersOutsideWinANSI_RaisesException()
+        {
+            var bill = SampleData.CreateExample8();
+            bill.CharacterSet = SpsCharacterSet.ExtendedLatin;
+            using var canvas = new PDFCanvas(QRBill.A4PortraitWidth, QRBill.A4PortraitHeight);
+            Assert.Throws<QRBillGenerationException>(() => QRBill.Draw(bill, canvas));
+        }
+
     }
 }

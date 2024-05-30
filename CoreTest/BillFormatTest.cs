@@ -15,7 +15,7 @@ namespace Codecrete.SwissQRBill.CoreTest
         [Fact]
         public void DefaultValueTest()
         {
-            BillFormat format = new BillFormat();
+            var format = new BillFormat();
             Assert.Equal(Language.EN, format.Language);
             Assert.Equal(GraphicsFormat.SVG, format.GraphicsFormat);
             Assert.Equal(OutputSize.QrBillOnly, format.OutputSize);
@@ -29,15 +29,15 @@ namespace Codecrete.SwissQRBill.CoreTest
         [Fact]
         public void HashCodeTest()
         {
-            BillFormat format1 = new BillFormat();
-            BillFormat format2 = new BillFormat();
+            var format1 = new BillFormat();
+            var format2 = new BillFormat();
             Assert.Equal(format1.GetHashCode(), format2.GetHashCode());
         }
 
         [Fact]
         public void TestEqualsTrivial()
         {
-            BillFormat format = new BillFormat();
+            var format = new BillFormat();
             Assert.Equal(format, format);
             BillFormat nullFormat = null;
             Assert.NotEqual(format, nullFormat);
@@ -47,8 +47,8 @@ namespace Codecrete.SwissQRBill.CoreTest
         [Fact]
         public void TestEquals()
         {
-            BillFormat format1 = new BillFormat();
-            BillFormat format2 = new BillFormat();
+            var format1 = new BillFormat();
+            var format2 = new BillFormat();
             Assert.Equal(format1, format2);
             Assert.Equal(format1, format2);
 

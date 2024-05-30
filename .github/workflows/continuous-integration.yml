@@ -61,8 +61,10 @@ jobs:
           path: TestResults-${{ runner.os }}.html
       - name: Create and validate NuGet package for Core
         run: dotnet pack --no-build --verbosity normal Core/Core.csproj
+        if: startsWith(matrix.os,'windows')
       - name: Create and validate NuGet package for PixelCanvas
         run: dotnet pack --no-build --verbosity normal PixelCanvas/PixelCanvas.csproj
+        if: startsWith(matrix.os,'windows')
       - name: Create and validate NuGet package for Windows
         run: dotnet pack --no-build --verbosity normal WindowsTest/WindowsTest.csproj
         if: startsWith(matrix.os,'windows')

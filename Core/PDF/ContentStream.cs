@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.IO.Compression;
+using System.Text;
 
 namespace Codecrete.SwissQRBill.Generator.PDF
 {
@@ -304,8 +305,14 @@ namespace Codecrete.SwissQRBill.Generator.PDF
         /// <param name="text">The text.</param>
         public void ShowText(string text)
         {
-            WriteTextOperand(text);
-            WriteOperator("Tj");
+            try
+            {
+                WriteTextOperand(text);
+                WriteOperator("Tj");
+            } catch (EncoderFallbackException)
+            {
+                throw new QRBillGenerationException($"Unable to generate PDF with characters not part of WinANSI character set (text: \"{text}\")");
+            }
         }
 
         private void WriteOperand(int val)

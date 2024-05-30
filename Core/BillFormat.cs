@@ -146,7 +146,6 @@ namespace Codecrete.SwissQRBill.Generator
         /// <value>country code (ISO 3166, two uppercase letters)</value>
         public string LocalCountryCode { get; set; } = "CH";
 
-
         /// <summary>Determines whether the specified object is equal to the current object.</summary>
         /// <param name="obj">The object to compare with the current object.</param>
         /// <returns><c>true</c> if the specified object is equal to the current object; otherwise, <c>false</c>.</returns>

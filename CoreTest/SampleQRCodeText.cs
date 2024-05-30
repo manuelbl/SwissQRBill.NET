@@ -6,7 +6,6 @@
 //
 
 using Codecrete.SwissQRBill.Generator;
-using System.Collections.Generic;
 
 namespace Codecrete.SwissQRBill.CoreTest
 {
@@ -370,6 +369,49 @@ namespace Codecrete.SwissQRBill.CoreTest
                 Format = { Language = Language.EN },
                 Separator = separator
             };
+            return bill;
+        }
+
+        private static readonly string[][] QrCodeTexts =
+        {
+            QRCodeText1,
+            QRCodeText2,
+            QRCodeText3,
+            QRCodeText4,
+            QRCodeText5
+        };
+
+        public static string CreateQrCodeText(int sample)
+        {
+            return CreateQrCodeText(sample, "\n");
+        }
+
+        public static string CreateQrCodeText(int sample, string newLine)
+        {
+            return string.Join(newLine, QrCodeTexts[sample - 1]);
+        }
+
+        public static Bill CreateBillData(int sample, Bill.QrDataSeparator separator)
+        {
+            Bill bill = null;
+            switch (sample)
+            {
+                case 1:
+                    bill = CreateBillData1(separator);
+                    break;
+                case 2:
+                    bill = CreateBillData2(separator);
+                    break;
+                case 3:
+                    bill = CreateBillData3(separator);
+                    break;
+                case 4:
+                    bill = CreateBillData4(separator);
+                    break;
+                case 5:
+                    bill = CreateBillData5(separator);
+                    break;
+            }
             return bill;
         }
     }

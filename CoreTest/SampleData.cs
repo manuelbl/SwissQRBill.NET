@@ -7,6 +7,8 @@
 
 using Codecrete.SwissQRBill.Generator;
 using System.Collections.Generic;
+using System.Numerics;
+using System.Security.Principal;
 
 
 namespace Codecrete.SwissQRBill.CoreTest
@@ -188,6 +190,77 @@ namespace Codecrete.SwissQRBill.CoreTest
                 BillInformation = "//S1/10/102015409/11/190512/20/1400.000-53/30/106017086/31/180508/32/7.7/40/0:30",
                 Format = { Language = Language.EN }
             };
+            return bill;
+        }
+
+
+        public static Bill CreateExample7()
+        {
+            var creditor = new Address()
+            {
+                Name = "Omnia Trading AG",
+                AddressLine1 = "Allmendweg 30",
+                AddressLine2 = "4528 Zuchwil",
+                CountryCode = "CH"
+            };
+
+            var debtor = new Address()
+            {
+                Name = "Machina Futura AG",
+                AddressLine1 = "Alte Fabrik 3A",
+                AddressLine2 = "8400 Winterthur",
+                CountryCode = "CH"
+            };
+
+            var bill = new Bill()
+            {
+                Creditor = creditor,
+                Amount = 1756.05m,
+                Currency = "CHF",
+                Format = { Language = Language.DE, OutputSize = OutputSize.A4PortraitSheet },
+                Account = "CH48 0900 0000 8575 7337 2",
+                Debtor = debtor,
+                UnstructuredMessage = "Auftrag 2830188 / Rechnung 2021007834"
+            };
+
+            bill.CreateAndSetCreditorReference("2021007834");
+
+            return bill;
+        }
+
+        public static Bill CreateExample8()
+        {
+            var creditor = new Address()
+            {
+                Name = "Buğra Çavdarli",
+                Street = "Rue du Lièvre",
+                HouseNo = "13",
+                PostalCode = "1219",
+                Town = "Aïre",
+                CountryCode = "CH"
+            };
+
+            var debtor = new Address()
+            {
+                Name = "L'Œil de Bœuf",
+                Street = "Route d'Outre Vièze",
+                HouseNo = "44",
+                PostalCode = "1871",
+                Town = "Choëx",
+                CountryCode = "CH"
+            };
+
+            var bill = new Bill() {
+                Format = { Language = Language.FR },
+                Account = "CH14 8914 4587 8681 9314 7",
+                Creditor = creditor,
+                Amount = 179.00m,
+                Currency = "CHF",
+                Debtor = debtor,
+                Reference = "RF35RF23452352345",
+                UnstructuredMessage = "Facture 48390, €10 de réduction"
+            };
+
             return bill;
         }
     }

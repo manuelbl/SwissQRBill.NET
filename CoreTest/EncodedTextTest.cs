@@ -6,50 +6,24 @@
 //
 
 using Codecrete.SwissQRBill.Generator;
+using System.Collections;
+using System.Collections.Generic;
 using Xunit;
+using static Codecrete.SwissQRBill.Generator.Bill;
 
 namespace Codecrete.SwissQRBill.CoreTest
 {
     public class EncodedTextTest
     {
         [Theory]
-        [ClassData(typeof(NewLineTheoryData))]
-        public void CreateText1(Bill.QrDataSeparator separator, string newLine)
+        [ClassData(typeof(SampleAndNewlineProvider))]
+        public void CreateText(int sample, QrDataSeparator separator, string newline)
         {
-            Bill bill = SampleQRCodeText.CreateBillData1(separator);
-            Assert.Equal(SampleQRCodeText.CreateQrCodeText1(newLine), QRBill.EncodeQrCodeText(bill));
-        }
-
-        [Theory]
-        [ClassData(typeof(NewLineTheoryData))]
-        public void CreateText2(Bill.QrDataSeparator separator, string newLine)
-        {
-            Bill bill = SampleQRCodeText.CreateBillData2(separator);
-            Assert.Equal(SampleQRCodeText.CreateQrCodeText2(newLine), QRBill.EncodeQrCodeText(bill));
-        }
-
-        [Theory]
-        [ClassData(typeof(NewLineTheoryData))]
-        public void CreateText3(Bill.QrDataSeparator separator, string newLine)
-        {
-            Bill bill = SampleQRCodeText.CreateBillData3(separator);
-            Assert.Equal(SampleQRCodeText.CreateQrCodeText3(newLine), QRBill.EncodeQrCodeText(bill));
-        }
-
-        [Theory]
-        [ClassData(typeof(NewLineTheoryData))]
-        public void CreateText4(Bill.QrDataSeparator separator, string newLine)
-        {
-            Bill bill = SampleQRCodeText.CreateBillData4(separator);
-            Assert.Equal(SampleQRCodeText.CreateQrCodeText4(newLine), QRBill.EncodeQrCodeText(bill));
-        }
-
-        [Theory]
-        [ClassData(typeof(NewLineTheoryData))]
-        public void CreateText5(Bill.QrDataSeparator separator, string newLine)
-        {
-            Bill bill = SampleQRCodeText.CreateBillData5(separator);
-            Assert.Equal(SampleQRCodeText.CreateQrCodeText5(newLine), QRBill.EncodeQrCodeText(bill));
+            Bill bill = SampleQRCodeText.CreateBillData(sample, separator);
+            Assert.Equal(
+                    SampleQRCodeText.CreateQrCodeText(sample, newline),
+                    QRBill.EncodeQrCodeText(bill)
+            );
         }
 
         [Fact]
@@ -65,24 +39,38 @@ namespace Codecrete.SwissQRBill.CoreTest
 
         [Theory]
         [ClassData(typeof(NewLineTheoryData))]
-        public void CreateTextEmptyReference(Bill.QrDataSeparator separator, string newLine)
+        public void CreateTextEmptyReference(QrDataSeparator separator, string newLine)
         {
-            Bill bill = SampleQRCodeText.CreateBillData3(separator);
-            ValidationResult result = QRBill.Validate(bill);
+            var bill = SampleQRCodeText.CreateBillData3(separator);
+            var result = QRBill.Validate(bill);
             Assert.False(result.HasErrors);
             bill = result.CleanedBill;
             bill.Reference = "";
             Assert.Equal(SampleQRCodeText.CreateQrCodeText3(newLine), QRBill.EncodeQrCodeText(bill));
         }
 
-        private class NewLineTheoryData : TheoryData<Bill.QrDataSeparator, string>
+        private class NewLineTheoryData : TheoryData<QrDataSeparator, string>
         {
             [System.Diagnostics.CodeAnalysis.SuppressMessage("Major Code Smell", "S1144:Unused private types or members should be removed", Justification = "false positive")]
             public NewLineTheoryData()
             {
-                Add(Bill.QrDataSeparator.Lf, "\n");
-                Add(Bill.QrDataSeparator.CrLf, "\r\n");
+                Add(QrDataSeparator.Lf, "\n");
+                Add(QrDataSeparator.CrLf, "\r\n");
             }
+        }
+
+        public class SampleAndNewlineProvider : IEnumerable<object[]>
+        {
+            public IEnumerator<object[]> GetEnumerator()
+            {
+                for (var i = 1; i <= 5; i += 1)
+                {
+                    yield return new object[] { i, QrDataSeparator.Lf, "\n" };
+                    yield return new object[] { i, QrDataSeparator.CrLf, "\r\n" };
+                }
+            }
+
+            IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
         }
 
     }

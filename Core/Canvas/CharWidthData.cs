@@ -28,9 +28,14 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         public static readonly short HelveticaNormalNDashWidth = 556;
 
         /// <summary>
-        /// Character widths for Helvetica Normal (range 0x20 to 0x7f).
+        /// Width of euro sign for Helvetica Normal.
         /// </summary>
-        public static readonly short[] HelveticaNormal_20_7F = {
+        public static readonly short HelveticaNormalEuroWidth = 744;
+
+        /// <summary>
+        /// Character widths for Helvetica Normal (range 0x20 to 0x7e).
+        /// </summary>
+        public static readonly short[] HelveticaNormal_20_7E = {
             278, // 0x20
             278, // 0x21 !
             355, // 0x22 "
@@ -125,14 +130,13 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             334, // 0x7B {
             260, // 0x7C |
             334, // 0x7D }
-            584, // 0x7E ~
-            0 // unused
+            584  // 0x7E ~
         };
 
         /// <summary>
-        /// Character widths for Helvetica Normal (range 0xa0 to 0xff).
+        /// Character widths for Helvetica Normal (range 0xa0 to 0x17f).
         /// </summary>
-        public static readonly short[] HelveticaNormal_A0_FF = {
+        public static readonly short[] HelveticaNormal_A0_17F = {
             278, // 0xA0 non-breaking space
             333, // 0xA1 ¡
             556, // 0xA2 ¢
@@ -228,7 +232,145 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             556, // 0xFC ü
             500, // 0xFD ý
             556, // 0xFE þ
-            500 // 0xFF ÿ
+            500, // 0xFF ÿ
+            667, // 0x100 Ā
+            556, // 0x101 ā
+            667, // 0x102 Ă
+            556, // 0x103 ă
+            667, // 0x104 Ą
+            556, // 0x105 ą
+            722, // 0x106 Ć
+            500, // 0x107 ć
+            722, // 0x108 Ĉ
+            500, // 0x109 ĉ
+            722, // 0x10A Ċ
+            500, // 0x10B ċ
+            722, // 0x10C Č
+            500, // 0x10D č
+            722, // 0x10E Ď
+            660, // 0x10F ď
+            722, // 0x110 Đ
+            556, // 0x111 đ
+            667, // 0x112 Ē
+            556, // 0x113 ē
+            667, // 0x114 Ĕ
+            556, // 0x115 ĕ
+            667, // 0x116 Ė
+            556, // 0x117 ė
+            667, // 0x118 Ę
+            556, // 0x119 ę
+            667, // 0x11A Ě
+            556, // 0x11B ě
+            778, // 0x11C Ĝ
+            556, // 0x11D ĝ
+            778, // 0x11E Ğ
+            556, // 0x11F ğ
+            778, // 0x120 Ġ
+            556, // 0x121 ġ
+            778, // 0x122 Ģ
+            556, // 0x123 ģ
+            722, // 0x124 Ĥ
+            556, // 0x125 ĥ
+            722, // 0x126 Ħ
+            556, // 0x127 ħ
+            445, // 0x128 Ĩ
+            430, // 0x129 ĩ
+            400, // 0x12A Ī
+            390, // 0x12B ī
+            278, // 0x12C Ĭ
+            278, // 0x12D ĭ
+            278, // 0x12E Į
+            222, // 0x12F į
+            278, // 0x130 İ
+            278, // 0x131 ı
+            778, // 0x132 Ĳ
+            444, // 0x133 ĳ
+            500, // 0x134 Ĵ
+            222, // 0x135 ĵ
+            667, // 0x136 Ķ
+            500, // 0x137 ķ
+            500, // 0x138 ĸ
+            556, // 0x139 Ĺ
+            265, // 0x13A ĺ
+            556, // 0x13B Ļ
+            222, // 0x13C ļ
+            556, // 0x13D Ľ
+            263, // 0x13E ľ
+            556, // 0x13F Ŀ
+            310, // 0x140 ŀ
+            556, // 0x141 Ł
+            222, // 0x142 ł
+            722, // 0x143 Ń
+            556, // 0x144 ń
+            722, // 0x145 Ņ
+            556, // 0x146 ņ
+            722, // 0x147 Ň
+            556, // 0x148 ň
+            556, // 0x149 ŉ
+            722, // 0x14A Ŋ
+            556, // 0x14B ŋ
+            778, // 0x14C Ō
+            556, // 0x14D ō
+            778, // 0x14E Ŏ
+            556, // 0x14F ŏ
+            778, // 0x150 Ő
+            556, // 0x151 ő
+            1000, // 0x152 Œ
+            944, // 0x153 œ
+            722, // 0x154 Ŕ
+            333, // 0x155 ŕ
+            722, // 0x156 Ŗ
+            333, // 0x157 ŗ
+            722, // 0x158 Ř
+            333, // 0x159 ř
+            667, // 0x15A Ś
+            500, // 0x15B ś
+            667, // 0x15C Ŝ
+            500, // 0x15D ŝ
+            667, // 0x15E Ş
+            500, // 0x15F ş
+            667, // 0x160 Š
+            500, // 0x161 š
+            611, // 0x162 Ţ
+            278, // 0x163 ţ
+            611, // 0x164 Ť
+            360, // 0x165 ť
+            611, // 0x166 Ŧ
+            320, // 0x167 ŧ
+            722, // 0x168 Ũ
+            556, // 0x169 ũ
+            722, // 0x16A Ū
+            556, // 0x16B ū
+            722, // 0x16C Ŭ
+            556, // 0x16D ŭ
+            722, // 0x16E Ů
+            556, // 0x16F ů
+            722, // 0x170 Ű
+            556, // 0x171 ű
+            722, // 0x172 Ų
+            556, // 0x173 ų
+            944, // 0x174 Ŵ
+            722, // 0x175 ŵ
+            667, // 0x176 Ŷ
+            500, // 0x177 ŷ
+            667, // 0x178 Ÿ
+            611, // 0x179 Ź
+            500, // 0x17A ź
+            611, // 0x17B Ż
+            500, // 0x17C ż
+            611, // 0x17D Ž
+            500, // 0x17E ž
+            278  // 0x17F ſ
+        };
+
+        /// <summary>
+        /// Character widths for Helvetica Normal (range 0x218 to 0x21b).
+        /// </summary>
+        public static readonly short[] HelveticaNormal_218_21B = {
+            667, // 0x218 Ș
+            500, // 0x219 ș
+            611, // 0x21A Ț
+            278  // 0x21B ț
         };
 
         /// <summary>
@@ -242,9 +384,14 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         public static readonly short HelveticaBoldNDashWidth = 556;
 
         /// <summary>
-        /// Character widths for Helvetica Bold (range 0x20 to 0x7f).
+        /// Width of euro sign for Helvetica Bold.
         /// </summary>
-        public static readonly short[] HelveticaBold_20_7F = {
+        public static readonly short HelveticaBoldEuroWidth = 744;
+
+        /// <summary>
+        /// Character widths for Helvetica Bold (range 0x20 to 0x7e).
+        /// </summary>
+        public static readonly short[] HelveticaBold_20_7E = {
             278, // 0x20
             333, // 0x21 !
             474, // 0x22 "
@@ -339,14 +486,13 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             389, // 0x7B {
             280, // 0x7C |
             389, // 0x7D }
-            584, // 0x7E ~
-            0 // unused
+            584  // 0x7E ~
         };
 
         /// <summary>
-        /// Character widths for Helvetica Bold (range 0xa0 to 0xff).
+        /// Character widths for Helvetica Bold (range 0xa0 to 0x17f).
         /// </summary>
-        public static readonly short[] HelveticaBold_A0_FF = {
+        public static readonly short[] HelveticaBold_A0_17F = {
             278, // 0xA0 non-breaking space
             333, // 0xA1 ¡
             556, // 0xA2 ¢
@@ -442,7 +588,145 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             611, // 0xFC ü
             556, // 0xFD ý
             611, // 0xFE þ
-            556 // 0xFF ÿ
+            556, // 0xFF ÿ
+            722, // 0x100 Ā
+            556, // 0x101 ā
+            722, // 0x102 Ă
+            556, // 0x103 ă
+            722, // 0x104 Ą
+            556, // 0x105 ą
+            722, // 0x106 Ć
+            556, // 0x107 ć
+            722, // 0x108 Ĉ
+            556, // 0x109 ĉ
+            722, // 0x10A Ċ
+            556, // 0x10B ċ
+            722, // 0x10C Č
+            556, // 0x10D č
+            722, // 0x10E Ď
+            750, // 0x10F ď
+            722, // 0x110 Đ
+            611, // 0x111 đ
+            667, // 0x112 Ē
+            556, // 0x113 ē
+            667, // 0x114 Ĕ
+            556, // 0x115 ĕ
+            667, // 0x116 Ė
+            556, // 0x117 ė
+            667, // 0x118 Ę
+            556, // 0x119 ę
+            667, // 0x11A Ě
+            556, // 0x11B ě
+            778, // 0x11C Ĝ
+            611, // 0x11D ĝ
+            778, // 0x11E Ğ
+            611, // 0x11F ğ
+            778, // 0x120 Ġ
+            611, // 0x121 ġ
+            778, // 0x122 Ģ
+            611, // 0x123 ģ
+            722, // 0x124 Ĥ
+            611, // 0x125 ĥ
+            722, // 0x126 Ħ
+            611, // 0x127 ħ
+            420, // 0x128 Ĩ
+            430, // 0x129 ĩ
+            425, // 0x12A Ī
+            420, // 0x12B ī
+            278, // 0x12C Ĭ
+            278, // 0x12D ĭ
+            278, // 0x12E Į
+            278, // 0x12F į
+            278, // 0x130 İ
+            278, // 0x131 ı
+            834, // 0x132 Ĳ
+            556, // 0x133 ĳ
+            556, // 0x134 Ĵ
+            310, // 0x135 ĵ
+            722, // 0x136 Ķ
+            556, // 0x137 ķ
+            556, // 0x138 ĸ
+            611, // 0x139 Ĺ
+            305, // 0x13A ĺ
+            611, // 0x13B Ļ
+            278, // 0x13C ļ
+            611, // 0x13D Ľ
+            417, // 0x13E ľ
+            611, // 0x13F Ŀ
+            395, // 0x140 ŀ
+            611, // 0x141 Ł
+            278, // 0x142 ł
+            722, // 0x143 Ń
+            611, // 0x144 ń
+            722, // 0x145 Ņ
+            611, // 0x146 ņ
+            722, // 0x147 Ň
+            611, // 0x148 ň
+            611, // 0x149 ŉ
+            722, // 0x14A Ŋ
+            611, // 0x14B ŋ
+            778, // 0x14C Ō
+            611, // 0x14D ō
+            778, // 0x14E Ŏ
+            611, // 0x14F ŏ
+            778, // 0x150 Ő
+            611, // 0x151 ő
+            1000, // 0x152 Œ
+            944, // 0x153 œ
+            722, // 0x154 Ŕ
+            389, // 0x155 ŕ
+            722, // 0x156 Ŗ
+            389, // 0x157 ŗ
+            722, // 0x158 Ř
+            389, // 0x159 ř
+            667, // 0x15A Ś
+            556, // 0x15B ś
+            667, // 0x15C Ŝ
+            556, // 0x15D ŝ
+            667, // 0x15E Ş
+            556, // 0x15F ş
+            667, // 0x160 Š
+            556, // 0x161 š
+            611, // 0x162 Ţ
+            333, // 0x163 ţ
+            611, // 0x164 Ť
+            465, // 0x165 ť
+            611, // 0x166 Ŧ
+            333, // 0x167 ŧ
+            722, // 0x168 Ũ
+            611, // 0x169 ũ
+            722, // 0x16A Ū
+            611, // 0x16B ū
+            722, // 0x16C Ŭ
+            611, // 0x16D ŭ
+            722, // 0x16E Ů
+            611, // 0x16F ů
+            722, // 0x170 Ű
+            611, // 0x171 ű
+            722, // 0x172 Ų
+            611, // 0x173 ų
+            944, // 0x174 Ŵ
+            778, // 0x175 ŵ
+            667, // 0x176 Ŷ
+            556, // 0x177 ŷ
+            667, // 0x178 Ÿ
+            611, // 0x179 Ź
+            500, // 0x17A ź
+            611, // 0x17B Ż
+            500, // 0x17C ż
+            611, // 0x17D Ž
+            500, // 0x17E ž
+            333  // 0x17F ſ
+        };
+
+        /// <summary>
+        /// Character widths for Helvetica Bold (range 0x218 to 0x21b).
+        /// </summary>
+        public static readonly short[] HelveticaBold_218_21B = {
+            667, // 0x218 Ș
+            556, // 0x219 ș
+            611, // 0x21A Ț
+            333  // 0x21B ț
         };
 
         /// <summary>
@@ -456,9 +740,14 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         public static readonly short ArialNormalNDashWidth = 556;
 
         /// <summary>
-        /// Character widths for Arial Normal (range 0x20 to 0x7f).
+        /// Width of euro sign for Arial Normal.
         /// </summary>
-        public static readonly short[] ArialNormal_20_7F = {
+        public static readonly short ArialNormalEuroWidth = 556;
+
+        /// <summary>
+        /// Character widths for Arial Normal (range 0x20 to 0x7e).
+        /// </summary>
+        public static readonly short[] ArialNormal_20_7E = {
             278, // 0x20
             278, // 0x21 !
             355, // 0x22 "
@@ -553,14 +842,13 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             334, // 0x7B {
             260, // 0x7C |
             334, // 0x7D }
-            584, // 0x7E ~
-            0 // unused
+            584  // 0x7E ~
         };
 
         /// <summary>
-        /// Character widths for Arial Normal (range 0xa0 to 0xff).
+        /// Character widths for Arial Normal (range 0xa0 to 0x17f).
         /// </summary>
-        public static readonly short[] ArialNormal_A0_FF = {
+        public static readonly short[] ArialNormal_A0_17F = {
             278, // 0xA0 non-breaking space
             333, // 0xA1 ¡
             556, // 0xA2 ¢
@@ -656,7 +944,145 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             556, // 0xFC ü
             500, // 0xFD ý
             556, // 0xFE þ
-            500 // 0xFF ÿ
+            500, // 0xFF ÿ
+            667, // 0x100 Ā
+            556, // 0x101 ā
+            667, // 0x102 Ă
+            556, // 0x103 ă
+            667, // 0x104 Ą
+            556, // 0x105 ą
+            722, // 0x106 Ć
+            500, // 0x107 ć
+            722, // 0x108 Ĉ
+            500, // 0x109 ĉ
+            722, // 0x10A Ċ
+            500, // 0x10B ċ
+            722, // 0x10C Č
+            500, // 0x10D č
+            722, // 0x10E Ď
+            615, // 0x10F ď
+            722, // 0x110 Đ
+            556, // 0x111 đ
+            667, // 0x112 Ē
+            556, // 0x113 ē
+            667, // 0x114 Ĕ
+            556, // 0x115 ĕ
+            667, // 0x116 Ė
+            556, // 0x117 ė
+            667, // 0x118 Ę
+            556, // 0x119 ę
+            667, // 0x11A Ě
+            556, // 0x11B ě
+            778, // 0x11C Ĝ
+            556, // 0x11D ĝ
+            778, // 0x11E Ğ
+            556, // 0x11F ğ
+            778, // 0x120 Ġ
+            556, // 0x121 ġ
+            778, // 0x122 Ģ
+            556, // 0x123 ģ
+            722, // 0x124 Ĥ
+            556, // 0x125 ĥ
+            722, // 0x126 Ħ
+            556, // 0x127 ħ
+            278, // 0x128 Ĩ
+            278, // 0x129 ĩ
+            278, // 0x12A Ī
+            278, // 0x12B ī
+            278, // 0x12C Ĭ
+            278, // 0x12D ĭ
+            278, // 0x12E Į
+            222, // 0x12F į
+            278, // 0x130 İ
+            278, // 0x131 ı
+            735, // 0x132 Ĳ
+            444, // 0x133 ĳ
+            500, // 0x134 Ĵ
+            222, // 0x135 ĵ
+            667, // 0x136 Ķ
+            500, // 0x137 ķ
+            500, // 0x138 ĸ
+            556, // 0x139 Ĺ
+            222, // 0x13A ĺ
+            556, // 0x13B Ļ
+            222, // 0x13C ļ
+            556, // 0x13D Ľ
+            292, // 0x13E ľ
+            556, // 0x13F Ŀ
+            334, // 0x140 ŀ
+            556, // 0x141 Ł
+            222, // 0x142 ł
+            722, // 0x143 Ń
+            556, // 0x144 ń
+            722, // 0x145 Ņ
+            556, // 0x146 ņ
+            722, // 0x147 Ň
+            556, // 0x148 ň
+            604, // 0x149 ŉ
+            723, // 0x14A Ŋ
+            556, // 0x14B ŋ
+            778, // 0x14C Ō
+            556, // 0x14D ō
+            778, // 0x14E Ŏ
+            556, // 0x14F ŏ
+            778, // 0x150 Ő
+            556, // 0x151 ő
+            1000, // 0x152 Œ
+            944, // 0x153 œ
+            722, // 0x154 Ŕ
+            333, // 0x155 ŕ
+            722, // 0x156 Ŗ
+            333, // 0x157 ŗ
+            722, // 0x158 Ř
+            333, // 0x159 ř
+            667, // 0x15A Ś
+            500, // 0x15B ś
+            667, // 0x15C Ŝ
+            500, // 0x15D ŝ
+            667, // 0x15E Ş
+            500, // 0x15F ş
+            667, // 0x160 Š
+            500, // 0x161 š
+            611, // 0x162 Ţ
+            278, // 0x163 ţ
+            611, // 0x164 Ť
+            375, // 0x165 ť
+            611, // 0x166 Ŧ
+            278, // 0x167 ŧ
+            722, // 0x168 Ũ
+            556, // 0x169 ũ
+            722, // 0x16A Ū
+            556, // 0x16B ū
+            722, // 0x16C Ŭ
+            556, // 0x16D ŭ
+            722, // 0x16E Ů
+            556, // 0x16F ů
+            722, // 0x170 Ű
+            556, // 0x171 ű
+            722, // 0x172 Ų
+            556, // 0x173 ų
+            944, // 0x174 Ŵ
+            722, // 0x175 ŵ
+            667, // 0x176 Ŷ
+            500, // 0x177 ŷ
+            667, // 0x178 Ÿ
+            611, // 0x179 Ź
+            500, // 0x17A ź
+            611, // 0x17B Ż
+            500, // 0x17C ż
+            611, // 0x17D Ž
+            500, // 0x17E ž
+            222  // 0x17F ſ
+        };
+
+        /// <summary>
+        /// Character widths for Arial Normal (range 0x218 to 0x21b).
+        /// </summary>
+        public static readonly short[] ArialNormal_218_21B = {
+            667, // 0x218 Ș
+            500, // 0x219 ș
+            611, // 0x21A Ț
+            278  // 0x21B ț
         };
 
         /// <summary>
@@ -670,9 +1096,14 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         public static readonly short ArialBoldNDashWidth = 556;
 
         /// <summary>
-        /// Character widths for Arial Bold (range 0x20 to 0x7f).
+        /// Width of euro sign for Arial Bold.
         /// </summary>
-        public static readonly short[] ArialBold_20_7F = {
+        public static readonly short ArialBoldEuroWidth = 556;
+
+        /// <summary>
+        /// Character widths for Arial Bold (range 0x20 to 0x7e).
+        /// </summary>
+        public static readonly short[] ArialBold_20_7E = {
             278, // 0x20
             333, // 0x21 !
             474, // 0x22 "
@@ -767,14 +1198,13 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             389, // 0x7B {
             280, // 0x7C |
             389, // 0x7D }
-            584, // 0x7E ~
-            0 // unused
+            584  // 0x7E ~
         };
 
         /// <summary>
-        /// Character widths for Arial Bold (range 0xa0 to 0xff).
+        /// Character widths for Arial Bold (range 0xa0 to 0x17f).
         /// </summary>
-        public static readonly short[] ArialBold_A0_FF = {
+        public static readonly short[] ArialBold_A0_17F = {
             278, // 0xA0 non-breaking space
             333, // 0xA1 ¡
             556, // 0xA2 ¢
@@ -870,7 +1300,145 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             611, // 0xFC ü
             556, // 0xFD ý
             611, // 0xFE þ
-            556 // 0xFF ÿ
+            556, // 0xFF ÿ
+            722, // 0x100 Ā
+            556, // 0x101 ā
+            722, // 0x102 Ă
+            556, // 0x103 ă
+            722, // 0x104 Ą
+            556, // 0x105 ą
+            722, // 0x106 Ć
+            556, // 0x107 ć
+            722, // 0x108 Ĉ
+            556, // 0x109 ĉ
+            722, // 0x10A Ċ
+            556, // 0x10B ċ
+            722, // 0x10C Č
+            556, // 0x10D č
+            722, // 0x10E Ď
+            719, // 0x10F ď
+            722, // 0x110 Đ
+            611, // 0x111 đ
+            667, // 0x112 Ē
+            556, // 0x113 ē
+            667, // 0x114 Ĕ
+            556, // 0x115 ĕ
+            667, // 0x116 Ė
+            556, // 0x117 ė
+            667, // 0x118 Ę
+            556, // 0x119 ę
+            667, // 0x11A Ě
+            556, // 0x11B ě
+            778, // 0x11C Ĝ
+            611, // 0x11D ĝ
+            778, // 0x11E Ğ
+            611, // 0x11F ğ
+            778, // 0x120 Ġ
+            611, // 0x121 ġ
+            778, // 0x122 Ģ
+            611, // 0x123 ģ
+            722, // 0x124 Ĥ
+            611, // 0x125 ĥ
+            722, // 0x126 Ħ
+            611, // 0x127 ħ
+            278, // 0x128 Ĩ
+            278, // 0x129 ĩ
+            278, // 0x12A Ī
+            278, // 0x12B ī
+            278, // 0x12C Ĭ
+            278, // 0x12D ĭ
+            278, // 0x12E Į
+            278, // 0x12F į
+            278, // 0x130 İ
+            278, // 0x131 ı
+            785, // 0x132 Ĳ
+            556, // 0x133 ĳ
+            556, // 0x134 Ĵ
+            278, // 0x135 ĵ
+            722, // 0x136 Ķ
+            556, // 0x137 ķ
+            556, // 0x138 ĸ
+            611, // 0x139 Ĺ
+            278, // 0x13A ĺ
+            611, // 0x13B Ļ
+            278, // 0x13C ļ
+            611, // 0x13D Ľ
+            385, // 0x13E ľ
+            611, // 0x13F Ŀ
+            479, // 0x140 ŀ
+            611, // 0x141 Ł
+            278, // 0x142 ł
+            722, // 0x143 Ń
+            611, // 0x144 ń
+            722, // 0x145 Ņ
+            611, // 0x146 ņ
+            722, // 0x147 Ň
+            611, // 0x148 ň
+            708, // 0x149 ŉ
+            723, // 0x14A Ŋ
+            611, // 0x14B ŋ
+            778, // 0x14C Ō
+            611, // 0x14D ō
+            778, // 0x14E Ŏ
+            611, // 0x14F ŏ
+            778, // 0x150 Ő
+            611, // 0x151 ő
+            1000, // 0x152 Œ
+            944, // 0x153 œ
+            722, // 0x154 Ŕ
+            389, // 0x155 ŕ
+            722, // 0x156 Ŗ
+            389, // 0x157 ŗ
+            722, // 0x158 Ř
+            389, // 0x159 ř
+            667, // 0x15A Ś
+            556, // 0x15B ś
+            667, // 0x15C Ŝ
+            556, // 0x15D ŝ
+            667, // 0x15E Ş
+            556, // 0x15F ş
+            667, // 0x160 Š
+            556, // 0x161 š
+            611, // 0x162 Ţ
+            333, // 0x163 ţ
+            611, // 0x164 Ť
+            479, // 0x165 ť
+            611, // 0x166 Ŧ
+            333, // 0x167 ŧ
+            722, // 0x168 Ũ
+            611, // 0x169 ũ
+            722, // 0x16A Ū
+            611, // 0x16B ū
+            722, // 0x16C Ŭ
+            611, // 0x16D ŭ
+            722, // 0x16E Ů
+            611, // 0x16F ů
+            722, // 0x170 Ű
+            611, // 0x171 ű
+            722, // 0x172 Ų
+            611, // 0x173 ų
+            944, // 0x174 Ŵ
+            778, // 0x175 ŵ
+            667, // 0x176 Ŷ
+            556, // 0x177 ŷ
+            667, // 0x178 Ÿ
+            611, // 0x179 Ź
+            500, // 0x17A ź
+            611, // 0x17B Ż
+            500, // 0x17C ż
+            611, // 0x17D Ž
+            500, // 0x17E ž
+            278  // 0x17F ſ
+        };
+
+        /// <summary>
+        /// Character widths for Arial Bold (range 0x218 to 0x21b).
+        /// </summary>
+        public static readonly short[] ArialBold_218_21B = {
+            667, // 0x218 Ș
+            556, // 0x219 ș
+            611, // 0x21A Ț
+            333  // 0x21B ț
         };
 
         /// <summary>
@@ -884,9 +1452,14 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         public static readonly short LiberationSansNormalNDashWidth = 556;
 
         /// <summary>
-        /// Character widths for Liberation Sans Normal (range 0x20 to 0x7f).
+        /// Width of euro sign for Liberation Sans Normal.
         /// </summary>
-        public static readonly short[] LiberationSansNormal_20_7F = {
+        public static readonly short LiberationSansNormalEuroWidth = 556;
+
+        /// <summary>
+        /// Character widths for Liberation Sans Normal (range 0x20 to 0x7e).
+        /// </summary>
+        public static readonly short[] LiberationSansNormal_20_7E = {
             278, // 0x20
             278, // 0x21 !
             355, // 0x22 "
@@ -981,14 +1554,13 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             334, // 0x7B {
             260, // 0x7C |
             334, // 0x7D }
-            584, // 0x7E ~
-            0 // unused
+            584  // 0x7E ~
         };
 
         /// <summary>
-        /// Character widths for Liberation Sans Normal (range 0xa0 to 0xff).
+        /// Character widths for Liberation Sans Normal (range 0xa0 to 0x17f).
         /// </summary>
-        public static readonly short[] LiberationSansNormal_A0_FF = {
+        public static readonly short[] LiberationSansNormal_A0_17F = {
             278, // 0xA0 non-breaking space
             333, // 0xA1 ¡
             556, // 0xA2 ¢
@@ -1084,7 +1656,145 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             556, // 0xFC ü
             500, // 0xFD ý
             556, // 0xFE þ
-            500 // 0xFF ÿ
+            500, // 0xFF ÿ
+            667, // 0x100 Ā
+            556, // 0x101 ā
+            667, // 0x102 Ă
+            556, // 0x103 ă
+            667, // 0x104 Ą
+            556, // 0x105 ą
+            722, // 0x106 Ć
+            500, // 0x107 ć
+            722, // 0x108 Ĉ
+            500, // 0x109 ĉ
+            722, // 0x10A Ċ
+            500, // 0x10B ċ
+            722, // 0x10C Č
+            500, // 0x10D č
+            722, // 0x10E Ď
+            615, // 0x10F ď
+            722, // 0x110 Đ
+            556, // 0x111 đ
+            667, // 0x112 Ē
+            556, // 0x113 ē
+            667, // 0x114 Ĕ
+            556, // 0x115 ĕ
+            667, // 0x116 Ė
+            556, // 0x117 ė
+            667, // 0x118 Ę
+            556, // 0x119 ę
+            667, // 0x11A Ě
+            556, // 0x11B ě
+            778, // 0x11C Ĝ
+            556, // 0x11D ĝ
+            778, // 0x11E Ğ
+            556, // 0x11F ğ
+            778, // 0x120 Ġ
+            556, // 0x121 ġ
+            778, // 0x122 Ģ
+            556, // 0x123 ģ
+            722, // 0x124 Ĥ
+            556, // 0x125 ĥ
+            722, // 0x126 Ħ
+            556, // 0x127 ħ
+            278, // 0x128 Ĩ
+            278, // 0x129 ĩ
+            278, // 0x12A Ī
+            278, // 0x12B ī
+            278, // 0x12C Ĭ
+            278, // 0x12D ĭ
+            278, // 0x12E Į
+            222, // 0x12F į
+            278, // 0x130 İ
+            278, // 0x131 ı
+            735, // 0x132 Ĳ
+            444, // 0x133 ĳ
+            500, // 0x134 Ĵ
+            222, // 0x135 ĵ
+            667, // 0x136 Ķ
+            500, // 0x137 ķ
+            500, // 0x138 ĸ
+            556, // 0x139 Ĺ
+            222, // 0x13A ĺ
+            556, // 0x13B Ļ
+            222, // 0x13C ļ
+            556, // 0x13D Ľ
+            292, // 0x13E ľ
+            556, // 0x13F Ŀ
+            334, // 0x140 ŀ
+            556, // 0x141 Ł
+            222, // 0x142 ł
+            722, // 0x143 Ń
+            556, // 0x144 ń
+            722, // 0x145 Ņ
+            556, // 0x146 ņ
+            722, // 0x147 Ň
+            556, // 0x148 ň
+            604, // 0x149 ŉ
+            723, // 0x14A Ŋ
+            556, // 0x14B ŋ
+            778, // 0x14C Ō
+            556, // 0x14D ō
+            778, // 0x14E Ŏ
+            556, // 0x14F ŏ
+            778, // 0x150 Ő
+            556, // 0x151 ő
+            1000, // 0x152 Œ
+            944, // 0x153 œ
+            722, // 0x154 Ŕ
+            333, // 0x155 ŕ
+            722, // 0x156 Ŗ
+            333, // 0x157 ŗ
+            722, // 0x158 Ř
+            333, // 0x159 ř
+            667, // 0x15A Ś
+            500, // 0x15B ś
+            667, // 0x15C Ŝ
+            500, // 0x15D ŝ
+            667, // 0x15E Ş
+            500, // 0x15F ş
+            667, // 0x160 Š
+            500, // 0x161 š
+            611, // 0x162 Ţ
+            278, // 0x163 ţ
+            611, // 0x164 Ť
+            375, // 0x165 ť
+            611, // 0x166 Ŧ
+            278, // 0x167 ŧ
+            722, // 0x168 Ũ
+            556, // 0x169 ũ
+            722, // 0x16A Ū
+            556, // 0x16B ū
+            722, // 0x16C Ŭ
+            556, // 0x16D ŭ
+            722, // 0x16E Ů
+            556, // 0x16F ů
+            722, // 0x170 Ű
+            556, // 0x171 ű
+            722, // 0x172 Ų
+            556, // 0x173 ų
+            944, // 0x174 Ŵ
+            722, // 0x175 ŵ
+            667, // 0x176 Ŷ
+            500, // 0x177 ŷ
+            667, // 0x178 Ÿ
+            611, // 0x179 Ź
+            500, // 0x17A ź
+            611, // 0x17B Ż
+            500, // 0x17C ż
+            611, // 0x17D Ž
+            500, // 0x17E ž
+            222  // 0x17F ſ
+        };
+
+        /// <summary>
+        /// Character widths for Liberation Sans Normal (range 0x218 to 0x21b).
+        /// </summary>
+        public static readonly short[] LiberationSansNormal_218_21B = {
+            667, // 0x218 Ș
+            500, // 0x219 ș
+            611, // 0x21A Ț
+            278  // 0x21B ț
         };
 
         /// <summary>
@@ -1098,9 +1808,14 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         public static readonly short LiberationSansBoldNDashWidth = 556;
 
         /// <summary>
-        /// Character widths for Liberation Sans Bold (range 0x20 to 0x7f).
+        /// Width of euro sign for Liberation Sans Bold.
         /// </summary>
-        public static readonly short[] LiberationSansBold_20_7F = {
+        public static readonly short LiberationSansBoldEuroWidth = 556;
+
+        /// <summary>
+        /// Character widths for Liberation Sans Bold (range 0x20 to 0x7e).
+        /// </summary>
+        public static readonly short[] LiberationSansBold_20_7E = {
             278, // 0x20
             333, // 0x21 !
             474, // 0x22 "
@@ -1195,14 +1910,13 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             389, // 0x7B {
             280, // 0x7C |
             389, // 0x7D }
-            584, // 0x7E ~
-            0 // unused
+            584  // 0x7E ~
         };
 
         /// <summary>
-        /// Character widths for Liberation Sans Bold (range 0xa0 to 0xff).
+        /// Character widths for Liberation Sans Bold (range 0xa0 to 0x17f).
         /// </summary>
-        public static readonly short[] LiberationSansBold_A0_FF = {
+        public static readonly short[] LiberationSansBold_A0_17F = {
             278, // 0xA0 non-breaking space
             333, // 0xA1 ¡
             556, // 0xA2 ¢
@@ -1298,7 +2012,145 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             611, // 0xFC ü
             556, // 0xFD ý
             611, // 0xFE þ
-            556 // 0xFF ÿ
+            556, // 0xFF ÿ
+            722, // 0x100 Ā
+            556, // 0x101 ā
+            722, // 0x102 Ă
+            556, // 0x103 ă
+            722, // 0x104 Ą
+            556, // 0x105 ą
+            722, // 0x106 Ć
+            556, // 0x107 ć
+            722, // 0x108 Ĉ
+            556, // 0x109 ĉ
+            722, // 0x10A Ċ
+            556, // 0x10B ċ
+            722, // 0x10C Č
+            556, // 0x10D č
+            722, // 0x10E Ď
+            719, // 0x10F ď
+            722, // 0x110 Đ
+            611, // 0x111 đ
+            667, // 0x112 Ē
+            556, // 0x113 ē
+            667, // 0x114 Ĕ
+            556, // 0x115 ĕ
+            667, // 0x116 Ė
+            556, // 0x117 ė
+            667, // 0x118 Ę
+            556, // 0x119 ę
+            667, // 0x11A Ě
+            556, // 0x11B ě
+            778, // 0x11C Ĝ
+            611, // 0x11D ĝ
+            778, // 0x11E Ğ
+            611, // 0x11F ğ
+            778, // 0x120 Ġ
+            611, // 0x121 ġ
+            778, // 0x122 Ģ
+            611, // 0x123 ģ
+            722, // 0x124 Ĥ
+            611, // 0x125 ĥ
+            722, // 0x126 Ħ
+            611, // 0x127 ħ
+            278, // 0x128 Ĩ
+            278, // 0x129 ĩ
+            278, // 0x12A Ī
+            278, // 0x12B ī
+            278, // 0x12C Ĭ
+            278, // 0x12D ĭ
+            278, // 0x12E Į
+            278, // 0x12F į
+            278, // 0x130 İ
+            278, // 0x131 ı
+            785, // 0x132 Ĳ
+            556, // 0x133 ĳ
+            556, // 0x134 Ĵ
+            278, // 0x135 ĵ
+            722, // 0x136 Ķ
+            556, // 0x137 ķ
+            556, // 0x138 ĸ
+            611, // 0x139 Ĺ
+            278, // 0x13A ĺ
+            611, // 0x13B Ļ
+            278, // 0x13C ļ
+            611, // 0x13D Ľ
+            385, // 0x13E ľ
+            611, // 0x13F Ŀ
+            479, // 0x140 ŀ
+            611, // 0x141 Ł
+            278, // 0x142 ł
+            722, // 0x143 Ń
+            611, // 0x144 ń
+            722, // 0x145 Ņ
+            611, // 0x146 ņ
+            722, // 0x147 Ň
+            611, // 0x148 ň
+            708, // 0x149 ŉ
+            723, // 0x14A Ŋ
+            611, // 0x14B ŋ
+            778, // 0x14C Ō
+            611, // 0x14D ō
+            778, // 0x14E Ŏ
+            611, // 0x14F ŏ
+            778, // 0x150 Ő
+            611, // 0x151 ő
+            1000, // 0x152 Œ
+            944, // 0x153 œ
+            722, // 0x154 Ŕ
+            389, // 0x155 ŕ
+            722, // 0x156 Ŗ
+            389, // 0x157 ŗ
+            722, // 0x158 Ř
+            389, // 0x159 ř
+            667, // 0x15A Ś
+            556, // 0x15B ś
+            667, // 0x15C Ŝ
+            556, // 0x15D ŝ
+            667, // 0x15E Ş
+            556, // 0x15F ş
+            667, // 0x160 Š
+            556, // 0x161 š
+            611, // 0x162 Ţ
+            333, // 0x163 ţ
+            611, // 0x164 Ť
+            479, // 0x165 ť
+            611, // 0x166 Ŧ
+            333, // 0x167 ŧ
+            722, // 0x168 Ũ
+            611, // 0x169 ũ
+            722, // 0x16A Ū
+            611, // 0x16B ū
+            722, // 0x16C Ŭ
+            611, // 0x16D ŭ
+            722, // 0x16E Ů
+            611, // 0x16F ů
+            722, // 0x170 Ű
+            611, // 0x171 ű
+            722, // 0x172 Ų
+            611, // 0x173 ų
+            944, // 0x174 Ŵ
+            778, // 0x175 ŵ
+            667, // 0x176 Ŷ
+            556, // 0x177 ŷ
+            667, // 0x178 Ÿ
+            611, // 0x179 Ź
+            500, // 0x17A ź
+            611, // 0x17B Ż
+            500, // 0x17C ż
+            611, // 0x17D Ž
+            500, // 0x17E ž
+            278  // 0x17F ſ
+        };
+
+        /// <summary>
+        /// Character widths for Liberation Sans Bold (range 0x218 to 0x21b).
+        /// </summary>
+        public static readonly short[] LiberationSansBold_218_21B = {
+            667, // 0x218 Ș
+            556, // 0x219 ș
+            611, // 0x21A Ț
+            333  // 0x21B ț
         };
 
         /// <summary>
@@ -1312,9 +2164,14 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         public static readonly short FrutigerNormalNDashWidth = 500;
 
         /// <summary>
-        /// Character widths for Frutiger Normal (range 0x20 to 0x7f).
+        /// Width of euro sign for Frutiger Normal.
         /// </summary>
-        public static readonly short[] FrutigerNormal_20_7F = {
+        public static readonly short FrutigerNormalEuroWidth = 556;
+
+        /// <summary>
+        /// Character widths for Frutiger Normal (range 0x20 to 0x7e).
+        /// </summary>
+        public static readonly short[] FrutigerNormal_20_7E = {
             278, // 0x20
             389, // 0x21 !
             556, // 0x22 "
@@ -1409,14 +2266,13 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             278, // 0x7B {
             222, // 0x7C |
             278, // 0x7D }
-            600, // 0x7E ~
-            0 // unused
+            600  // 0x7E ~
         };
 
         /// <summary>
-        /// Character widths for Frutiger Normal (range 0xa0 to 0xff).
+        /// Character widths for Frutiger Normal (range 0xa0 to 0x17f).
         /// </summary>
-        public static readonly short[] FrutigerNormal_A0_FF = {
+        public static readonly short[] FrutigerNormal_A0_17F = {
             278, // 0xA0 non-breaking space
             389, // 0xA1 ¡
             556, // 0xA2 ¢
@@ -1512,7 +2368,145 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             556, // 0xFC ü
             444, // 0xFD ý
             556, // 0xFE þ
-            444 // 0xFF ÿ
+            444, // 0xFF ÿ
+            667, // 0x100 Ā
+            500, // 0x101 ā
+            667, // 0x102 Ă
+            500, // 0x103 ă
+            667, // 0x104 Ą
+            500, // 0x105 ą
+            667, // 0x106 Ć
+            444, // 0x107 ć
+            667, // 0x108 Ĉ
+            444, // 0x109 ĉ
+            667, // 0x10A Ċ
+            444, // 0x10B ċ
+            667, // 0x10C Č
+            444, // 0x10D č
+            667, // 0x10E Ď
+            604, // 0x10F ď
+            667, // 0x110 Đ
+            564, // 0x111 đ
+            500, // 0x112 Ē
+            500, // 0x113 ē
+            500, // 0x114 Ĕ
+            500, // 0x115 ĕ
+            500, // 0x116 Ė
+            500, // 0x117 ė
+            500, // 0x118 Ę
+            500, // 0x119 ę
+            500, // 0x11A Ě
+            500, // 0x11B ě
+            722, // 0x11C Ĝ
+            556, // 0x11D ĝ
+            722, // 0x11E Ğ
+            556, // 0x11F ğ
+            722, // 0x120 Ġ
+            556, // 0x121 ġ
+            722, // 0x122 Ģ
+            556, // 0x123 ģ
+            667, // 0x124 Ĥ
+            556, // 0x125 ĥ
+            667, // 0x126 Ħ
+            556, // 0x127 ħ
+            222, // 0x128 Ĩ
+            222, // 0x129 ĩ
+            222, // 0x12A Ī
+            222, // 0x12B ī
+            512, // 0x12C Ĭ
+            512, // 0x12D ĭ
+            222, // 0x12E Į
+            222, // 0x12F į
+            222, // 0x130 İ
+            222, // 0x131 ı
+            530, // 0x132 Ĳ
+            433, // 0x133 ĳ
+            333, // 0x134 Ĵ
+            222, // 0x135 ĵ
+            611, // 0x136 Ķ
+            500, // 0x137 ķ
+            512, // 0x138 ĸ
+            444, // 0x139 Ĺ
+            222, // 0x13A ĺ
+            444, // 0x13B Ļ
+            222, // 0x13C ļ
+            444, // 0x13D Ľ
+            270, // 0x13E ľ
+            444, // 0x13F Ŀ
+            342, // 0x140 ŀ
+            444, // 0x141 Ł
+            222, // 0x142 ł
+            667, // 0x143 Ń
+            556, // 0x144 ń
+            667, // 0x145 Ņ
+            556, // 0x146 ņ
+            667, // 0x147 Ň
+            556, // 0x148 ň
+            616, // 0x149 ŉ
+            512, // 0x14A Ŋ
+            512, // 0x14B ŋ
+            722, // 0x14C Ō
+            556, // 0x14D ō
+            722, // 0x14E Ŏ
+            556, // 0x14F ŏ
+            722, // 0x150 Ő
+            556, // 0x151 ő
+            889, // 0x152 Œ
+            889, // 0x153 œ
+            556, // 0x154 Ŕ
+            333, // 0x155 ŕ
+            556, // 0x156 Ŗ
+            333, // 0x157 ŗ
+            556, // 0x158 Ř
+            333, // 0x159 ř
+            500, // 0x15A Ś
+            389, // 0x15B ś
+            500, // 0x15C Ŝ
+            389, // 0x15D ŝ
+            500, // 0x15E Ş
+            389, // 0x15F ş
+            500, // 0x160 Š
+            389, // 0x161 š
+            500, // 0x162 Ţ
+            333, // 0x163 ţ
+            500, // 0x164 Ť
+            339, // 0x165 ť
+            500, // 0x166 Ŧ
+            333, // 0x167 ŧ
+            667, // 0x168 Ũ
+            556, // 0x169 ũ
+            667, // 0x16A Ū
+            556, // 0x16B ū
+            667, // 0x16C Ŭ
+            556, // 0x16D ŭ
+            667, // 0x16E Ů
+            556, // 0x16F ů
+            667, // 0x170 Ű
+            556, // 0x171 ű
+            667, // 0x172 Ų
+            556, // 0x173 ų
+            944, // 0x174 Ŵ
+            778, // 0x175 ŵ
+            611, // 0x176 Ŷ
+            444, // 0x177 ŷ
+            611, // 0x178 Ÿ
+            500, // 0x179 Ź
+            444, // 0x17A ź
+            500, // 0x17B Ż
+            444, // 0x17C ż
+            500, // 0x17D Ž
+            444, // 0x17E ž
+            512  // 0x17F ſ
+        };
+
+        /// <summary>
+        /// Character widths for Frutiger Normal (range 0x218 to 0x21b).
+        /// </summary>
+        public static readonly short[] FrutigerNormal_218_21B = {
+            500, // 0x218 Ș
+            389, // 0x219 ș
+            500, // 0x21A Ț
+            333  // 0x21B ț
         };
 
         /// <summary>
@@ -1526,9 +2520,14 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         public static readonly short FrutigerBoldNDashWidth = 500;
 
         /// <summary>
-        /// Character widths for Frutiger Bold (range 0x20 to 0x7f).
+        /// Width of euro sign for Frutiger Bold.
         /// </summary>
-        public static readonly short[] FrutigerBold_20_7F = {
+        public static readonly short FrutigerBoldEuroWidth = 556;
+
+        /// <summary>
+        /// Character widths for Frutiger Bold (range 0x20 to 0x7e).
+        /// </summary>
+        public static readonly short[] FrutigerBold_20_7E = {
             278, // 0x20
             389, // 0x21 !
             481, // 0x22 "
@@ -1623,14 +2622,13 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             333, // 0x7B {
             222, // 0x7C |
             333, // 0x7D }
-            600, // 0x7E ~
-            0 // unused
+            600  // 0x7E ~
         };
 
         /// <summary>
-        /// Character widths for Frutiger Bold (range 0xa0 to 0xff).
+        /// Character widths for Frutiger Bold (range 0xa0 to 0x17f).
         /// </summary>
-        public static readonly short[] FrutigerBold_A0_FF = {
+        public static readonly short[] FrutigerBold_A0_17F = {
             278, // 0xA0 non-breaking space
             389, // 0xA1 ¡
             556, // 0xA2 ¢
@@ -1726,7 +2724,145 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             611, // 0xFC ü
             556, // 0xFD ý
             611, // 0xFE þ
-            556 // 0xFF ÿ
+            556, // 0xFF ÿ
+            722, // 0x100 Ā
+            556, // 0x101 ā
+            722, // 0x102 Ă
+            556, // 0x103 ă
+            722, // 0x104 Ą
+            556, // 0x105 ą
+            611, // 0x106 Ć
+            444, // 0x107 ć
+            611, // 0x108 Ĉ
+            444, // 0x109 ĉ
+            611, // 0x10A Ċ
+            444, // 0x10B ċ
+            611, // 0x10C Č
+            444, // 0x10D č
+            722, // 0x10E Ď
+            688, // 0x10F ď
+            722, // 0x110 Đ
+            611, // 0x111 đ
+            556, // 0x112 Ē
+            556, // 0x113 ē
+            556, // 0x114 Ĕ
+            556, // 0x115 ĕ
+            556, // 0x116 Ė
+            556, // 0x117 ė
+            556, // 0x118 Ę
+            556, // 0x119 ę
+            556, // 0x11A Ě
+            556, // 0x11B ě
+            722, // 0x11C Ĝ
+            611, // 0x11D ĝ
+            722, // 0x11E Ğ
+            611, // 0x11F ğ
+            722, // 0x120 Ġ
+            611, // 0x121 ġ
+            722, // 0x122 Ģ
+            611, // 0x123 ģ
+            722, // 0x124 Ĥ
+            611, // 0x125 ĥ
+            722, // 0x126 Ħ
+            611, // 0x127 ħ
+            278, // 0x128 Ĩ
+            278, // 0x129 ĩ
+            278, // 0x12A Ī
+            278, // 0x12B ī
+            512, // 0x12C Ĭ
+            512, // 0x12D ĭ
+            278, // 0x12E Į
+            278, // 0x12F į
+            278, // 0x130 İ
+            278, // 0x131 ı
+            641, // 0x132 Ĳ
+            538, // 0x133 ĳ
+            389, // 0x134 Ĵ
+            278, // 0x135 ĵ
+            667, // 0x136 Ķ
+            556, // 0x137 ķ
+            512, // 0x138 ĸ
+            500, // 0x139 Ĺ
+            278, // 0x13A ĺ
+            500, // 0x13B Ļ
+            278, // 0x13C ļ
+            500, // 0x13D Ľ
+            353, // 0x13E ľ
+            500, // 0x13F Ŀ
+            434, // 0x140 ŀ
+            500, // 0x141 Ł
+            278, // 0x142 ł
+            722, // 0x143 Ń
+            611, // 0x144 ń
+            722, // 0x145 Ņ
+            611, // 0x146 ņ
+            722, // 0x147 Ň
+            611, // 0x148 ň
+            731, // 0x149 ŉ
+            512, // 0x14A Ŋ
+            512, // 0x14B ŋ
+            778, // 0x14C Ō
+            611, // 0x14D ō
+            778, // 0x14E Ŏ
+            611, // 0x14F ŏ
+            778, // 0x150 Ő
+            611, // 0x151 ő
+            944, // 0x152 Œ
+            944, // 0x153 œ
+            611, // 0x154 Ŕ
+            389, // 0x155 ŕ
+            611, // 0x156 Ŗ
+            389, // 0x157 ŗ
+            611, // 0x158 Ř
+            389, // 0x159 ř
+            556, // 0x15A Ś
+            444, // 0x15B ś
+            556, // 0x15C Ŝ
+            444, // 0x15D ŝ
+            556, // 0x15E Ş
+            444, // 0x15F ş
+            556, // 0x160 Š
+            444, // 0x161 š
+            556, // 0x162 Ţ
+            389, // 0x163 ţ
+            556, // 0x164 Ť
+            398, // 0x165 ť
+            556, // 0x166 Ŧ
+            389, // 0x167 ŧ
+            722, // 0x168 Ũ
+            611, // 0x169 ũ
+            722, // 0x16A Ū
+            611, // 0x16B ū
+            722, // 0x16C Ŭ
+            611, // 0x16D ŭ
+            722, // 0x16E Ů
+            611, // 0x16F ů
+            722, // 0x170 Ű
+            611, // 0x171 ű
+            722, // 0x172 Ų
+            611, // 0x173 ų
+            1000, // 0x174 Ŵ
+            889, // 0x175 ŵ
+            667, // 0x176 Ŷ
+            556, // 0x177 ŷ
+            667, // 0x178 Ÿ
+            556, // 0x179 Ź
+            500, // 0x17A ź
+            556, // 0x17B Ż
+            500, // 0x17C ż
+            556, // 0x17D Ž
+            500, // 0x17E ž
+            512  // 0x17F ſ
+        };
+
+        /// <summary>
+        /// Character widths for Frutiger Bold (range 0x218 to 0x21b).
+        /// </summary>
+        public static readonly short[] FrutigerBold_218_21B = {
+            556, // 0x218 Ș
+            444, // 0x219 ș
+            556, // 0x21A Ț
+            389  // 0x21B ț
         };
     }
 }

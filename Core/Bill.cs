@@ -271,6 +271,18 @@ namespace Codecrete.SwissQRBill.Generator
         /// <value>The line separator for the QR code data fields.</value>
         public QrDataSeparator Separator { get; set; } = QrDataSeparator.Lf;
 
+        /// <summary>
+        /// Gets or sets the character set used for the QR bill data.
+        /// <para>
+        /// Defaults to <see cref="SpsCharacterSet.Latin1Subset"/>.
+        /// </para>
+        /// <para>
+        /// Until November 21, 2025, <see cref="SpsCharacterSet.Latin1Subset"/>
+        /// is the only value that will generate QR bills accepted by all banks.
+        /// </para>
+        /// </summary>
+        public SpsCharacterSet CharacterSet { get; set; } = SpsCharacterSet.Latin1Subset;
+
         /// <summary>Determines whether the specified object is equal to the current object.</summary>
         /// <param name="obj">The object to compare with the current object.</param>
         /// <returns><c>true</c> if the specified object is equal to the current object; otherwise, <c>false</c>.</returns>
@@ -286,7 +298,7 @@ namespace Codecrete.SwissQRBill.Generator
         {
             return other != null &&
                    Version == other.Version &&
-                   EqualityComparer<decimal?>.Default.Equals(Amount, other.Amount) &&
+                   Amount == other.Amount &&
                    Currency == other.Currency &&
                    Account == other.Account &&
                    EqualityComparer<Address>.Default.Equals(Creditor, other.Creditor) &&
@@ -297,16 +309,17 @@ namespace Codecrete.SwissQRBill.Generator
                    BillInformation == other.BillInformation &&
                    SequenceEqual(AlternativeSchemes, other.AlternativeSchemes) &&
                    EqualityComparer<BillFormat>.Default.Equals(Format, other.Format) &&
-                   Separator == other.Separator;
+                   Separator == other.Separator &&
+                   CharacterSet == other.CharacterSet;
         }
 
         /// <summary>Gets the hash code for this instance.</summary>
         /// <returns>A hash code for the current object.</returns>
         public override int GetHashCode()
         {
-            var hashCode = -765739998;
+            int hashCode = 1343005904;
             hashCode = hashCode * -1521134295 + Version.GetHashCode();
-            hashCode = hashCode * -1521134295 + EqualityComparer<decimal?>.Default.GetHashCode(Amount);
+            hashCode = hashCode * -1521134295 + Amount.GetHashCode();
             hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Currency);
             hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Account);
             hashCode = hashCode * -1521134295 + EqualityComparer<Address>.Default.GetHashCode(Creditor);
@@ -317,7 +330,8 @@ namespace Codecrete.SwissQRBill.Generator
             hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(BillInformation);
             hashCode = hashCode * -1521134295 + EqualityComparer<List<AlternativeScheme>>.Default.GetHashCode(AlternativeSchemes);
             hashCode = hashCode * -1521134295 + EqualityComparer<BillFormat>.Default.GetHashCode(Format);
-            hashCode = hashCode * -1521134295 + EqualityComparer<QrDataSeparator>.Default.GetHashCode(Separator);
+            hashCode = hashCode * -1521134295 + Separator.GetHashCode();
+            hashCode = hashCode * -1521134295 + CharacterSet.GetHashCode();
             return hashCode;
         }
 

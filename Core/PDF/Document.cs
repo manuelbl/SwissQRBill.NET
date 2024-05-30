@@ -136,7 +136,7 @@ namespace Codecrete.SwissQRBill.Generator.PDF
         {
             try
             {
-                return Encoding.GetEncoding(1252);
+                return Encoding.GetEncoding(1252, new EncoderExceptionFallback(), new DecoderExceptionFallback());
             }
             catch (NotSupportedException)
             {
@@ -158,7 +158,7 @@ namespace Codecrete.SwissQRBill.Generator.PDF
             {
                 Encoding.RegisterProvider(instance);
             }
-            return Encoding.GetEncoding(1252);
+            return Encoding.GetEncoding(1252, new EncoderExceptionFallback(), new DecoderExceptionFallback());
         }
     }
 }

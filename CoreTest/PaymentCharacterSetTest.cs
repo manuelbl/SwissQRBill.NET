@@ -6,80 +6,16 @@
 //
 
 using Codecrete.SwissQRBill.Generator;
+using System.Collections;
+using System.Collections.Generic;
 using Xunit;
 
 namespace Codecrete.SwissQRBill.CoreTest
 {
     public class PaymentCharacterSetTest : BillDataValidationBase
     {
-        private static readonly string TEXT_WITHOUT_COMBINING_ACCENTS = "àáâäçèéêëìíîïñòóôöùúûüýßÀÁÂÄÇÈÉÊËÌÍÎÏÒÓÔÖÙÚÛÜÑ";
-        private static readonly string TEXT_WITH_COMBINING_ACCENTS = "àáâäçèéêëìíîïñòóôöùúûüýßÀÁÂÄÇÈÉÊËÌÍÎÏÒÓÔÖÙÚÛÜÑ";
-
-        [Theory]
-        [InlineData('A')]
-        [InlineData('b')]
-        [InlineData('3')]
-        [InlineData('%')]
-        [InlineData('{')]
-        [InlineData('®')]
-        [InlineData('Ò')]
-        [InlineData('æ')]
-        [InlineData('Ă')]
-        [InlineData('Ķ')]
-        [InlineData('Ŕ')]
-        [InlineData('ț')]
-        [InlineData('€')]
-        public void ValidCharacters_ReturnsTrue(char validChar)
-        {
-            Assert.True(Payments.IsValidCharacter(validChar));
-        }
-
-        [Theory]
-        [InlineData('A')]
-        [InlineData('b')]
-        [InlineData('3')]
-        [InlineData('%')]
-        [InlineData('{')]
-        [InlineData('®')]
-        [InlineData('Ò')]
-        [InlineData('æ')]
-        [InlineData('Ă')]
-        [InlineData('Ķ')]
-        [InlineData('Ŕ')]
-        [InlineData('ț')]
-        [InlineData('€' )]
-        public void ValidCodePoints_ReturnsTrue(char validChar)
-        {
-           Assert.True(Payments.IsValidCodePoint(validChar));
-        }
-
-        [Theory]
-        [InlineData('\n')]
-        [InlineData('\r')]
-        [InlineData('\u007f')]
-        [InlineData('\u0083')]
-        [InlineData('Ɖ')]
-        [InlineData('Ǒ')]
-        [InlineData('Ȑ')]
-        [InlineData('Ȟ' )]
-        public void InvalidCharacters_ReturnsFalse(char invalidChar)
-        {
-            Assert.False(Payments.IsValidCharacter(invalidChar));
-        }
-
-        [Theory]
-        [InlineData('\n')]
-        [InlineData('\r')]
-        [InlineData('\u007f')]
-        [InlineData('\u0083')]
-        [InlineData('Ɖ')]
-        [InlineData('Ǒ')]
-        [InlineData('Ȑ')]
-        [InlineData('Ȟ' )]
-        public void InvalidCodePoints_ReturnsFalse(char invalidChar)
-        {
-            Assert.False(Payments.IsValidCodePoint(invalidChar));
-        }
+        private static readonly string TextWithoutCombiningAccents = "àáâäçèéêëìíîïñòóôöùúûüýßÀÁÂÄÇÈÉÊËÌÍÎÏÒÓÔÖÙÚÛÜÑ";
+        private static readonly string TextWithCombiningAccents = "àáâäçèéêëìíîïñòóôöùúûüýßÀÁÂÄÇÈÉÊËÌÍÎÏÒÓÔÖÙÚÛÜÑ";
 
         [Theory]
         [InlineData("abc")]
@@ -91,37 +27,44 @@ namespace Codecrete.SwissQRBill.CoreTest
         [InlineData("£")]
         [InlineData("¥")]
         [InlineData(" ")]
-        [InlineData("" )]
+        [InlineData("")]
         public void ValidText_ReturnsTrue(string validText)
         {
-            Assert.True(Payments.IsValidText(validText));
+            Assert.True(Payments.IsValidText(validText, SpsCharacterSet.ExtendedLatin));
         }
 
         [Theory]
         [InlineData("a\nc")]
         [InlineData("ABǑC")]
         [InlineData("12\uD83D\uDE003")]
-        [InlineData("äöü\uD83C\uDDEE\uD83C\uDDF9ÄÖÜ" )]
+        [InlineData("äöü\uD83C\uDDEE\uD83C\uDDF9ÄÖÜ")]
         public void InvalidText_ReturnsFalse(string invalidText)
         {
-            Assert.False(Payments.IsValidText(invalidText));
+            Assert.False(Payments.IsValidText(invalidText, SpsCharacterSet.ExtendedLatin));
+        }
+
+        [Fact]
+        public void NullText_IsValid()
+        {
+            Assert.True(Payments.IsValidText(null, SpsCharacterSet.Latin1Subset));
+            Assert.True(Payments.IsValidText(null, SpsCharacterSet.ExtendedLatin));
         }
 
         [Theory]
         [InlineData("abc")]
         [InlineData(" a b c ")]
-        [InlineData("àáâäçè" )]
-        public void CleanText_IsNotChanged(string text)
+        [InlineData("àáâäçè")]
+        public void CleanedText_IsNotChanged(string text)
         {
-            Assert.Equal(text, Payments.CleanedText(text));
+            Assert.Equal(text, Payments.CleanedText(text, SpsCharacterSet.ExtendedLatin));
         }
 
         [Fact]
         public void DecomposedAccents_AreComposed()
         {
-            Assert.Equal(46, TEXT_WITHOUT_COMBINING_ACCENTS.Length);
-            Assert.Equal(59, TEXT_WITH_COMBINING_ACCENTS.Length);
-            Assert.Equal(TEXT_WITHOUT_COMBINING_ACCENTS, Payments.CleanedText(TEXT_WITH_COMBINING_ACCENTS));
+            Assert.Equal(46, TextWithoutCombiningAccents.Length);
+            Assert.Equal(59, TextWithCombiningAccents.Length);
+            Assert.Equal(TextWithoutCombiningAccents, Payments.CleanedText(TextWithCombiningAccents, SpsCharacterSet.ExtendedLatin));
         }
 
         [Theory]
@@ -136,16 +79,17 @@ namespace Codecrete.SwissQRBill.CoreTest
         [InlineData("Ⅶ", "VII")]
         [InlineData("③", "3")]
         [InlineData("xƉx", "x.x")]
-        [InlineData("x\uD83C\uDDE8\uD83C\uDDEDx", "x.x" )]
+        [InlineData("x\uD83C\uDDE8\uD83C\uDDEDx", "x.x")]
+        [InlineData("Ǆ", "DZ")]
         public void InvalidCharacters_AreReplaced(string text, string expectedResult)
         {
-            Assert.Equal(expectedResult, Payments.CleanedAndTrimmedText(text));
+            Assert.Equal(expectedResult, Payments.CleanedAndTrimmedText(text, SpsCharacterSet.ExtendedLatin));
         }
 
         [Fact]
         public void CleanedNull_ReturnsNull()
         {
-            Assert.Null(Payments.CleanedAndTrimmedText(null));
+            Assert.Null(Payments.CleanedAndTrimmedText(null, SpsCharacterSet.ExtendedLatin));
         }
 
         [Theory]
@@ -153,15 +97,15 @@ namespace Codecrete.SwissQRBill.CoreTest
         [InlineData("   ")]
         public void BlankText_ReturnsNull(string text)
         {
-            Assert.Null(Payments.CleanedAndTrimmedText(text));
+            Assert.Null(Payments.CleanedAndTrimmedText(text, SpsCharacterSet.ExtendedLatin));
         }
 
         [Theory]
         [InlineData("a   b  c", "a b c")]
         [InlineData(" a  b c", "a b c")]
-        public void MultipleSpaces_BecomeSingleSpace(string text, string expectedText)
+        public void MultipleSpaces_BecomeSingleSpace(string text, string expectedResult)
         {
-            Assert.Equal(expectedText, Payments.CleanedAndTrimmedText(text));
+            Assert.Equal(expectedResult, Payments.CleanedAndTrimmedText(text, SpsCharacterSet.ExtendedLatin));
         }
 
         [Theory]
@@ -170,157 +114,46 @@ namespace Codecrete.SwissQRBill.CoreTest
         [InlineData(" ")]
         public void Spaces_AreNotTrimmed(string text)
         {
-            Assert.Equal(text, Payments.CleanedText(text));
-        }
-
-        /*
-        [Fact]
-        public void ValidLetters()
-        {
-            SourceBill = SampleData.CreateExample1();
-            Address address = CreateValidPerson();
-            address.Name = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-            SourceBill.Creditor = address;
-            Validate();
-            AssertNoMessages();
-            Assert.Equal("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ", ValidatedBill.Creditor.Name);
-        }
-
-        [Fact]
-        public void ValidSpecialChars()
-        {
-            SourceBill = SampleData.CreateExample1();
-
-            Address address = CreateValidPerson();
-            address.Name = "!\"#%&*;<>÷=@_$£[]{}\\`´";
-            SourceBill.Creditor = address;
-            Validate();
-            AssertNoMessages();
-            Assert.Equal("!\"#%&*;<>÷=@_$£[]{}\\`´", ValidatedBill.Creditor.Name);
-        }
-
-        [Fact]
-        public void ValidAccents()
-        {
-            SourceBill = SampleData.CreateExample1();
-            Address address = CreateValidPerson();
-            address.Name = TextWithoutCombiningAccents;
-            SourceBill.Creditor = address;
-            Validate();
-            AssertNoMessages();
-            Assert.Equal(TextWithoutCombiningAccents, ValidatedBill.Creditor.Name);
-        }
-
-        [Fact]
-        public void ValidCombiningAccents()
-        {
-            SourceBill = SampleData.CreateExample1();
-            Address address = CreateValidPerson();
-            address.Name = TextWithCombiningAccents;
-            SourceBill.Creditor = address;
-            Validate();
-            AssertNoMessages(); // silently normalized
-            Assert.Equal(TextWithoutCombiningAccents, ValidatedBill.Creditor.Name);
-        }
-
-        [Fact]
-        public void NewlineReplacement()
-        {
-            SourceBill = SampleData.CreateExample1();
-            Address address = CreateValidPerson();
-            address.Name = "abc\r\ndef";
-            SourceBill.Creditor = address;
-            Validate();
-            AssertSingleWarningMessage(ValidationConstants.FieldCreditorName, ValidationConstants.KeyReplacedUnsupportedCharacters);
-            Assert.Equal("abc def", ValidatedBill.Creditor.Name);
-        }
-
-        [Fact]
-        public void InvalidCharacterReplacement()
-        {
-            SourceBill = SampleData.CreateExample1();
-            Address address = CreateValidPerson();
-            address.Street = "abc€def©ghi^";
-            SourceBill.Creditor = address;
-            Validate();
-            AssertSingleWarningMessage(ValidationConstants.FieldCreditorStreet, ValidationConstants.KeyReplacedUnsupportedCharacters);
-            Assert.Equal("abc.def.ghi.", ValidatedBill.Creditor.Street);
-        }
-
-        [Fact]
-        public void UnstructuredMessageReplacement()
-        {
-            SourceBill = SampleData.CreateExample1();
-            SourceBill.UnstructuredMessage = "Thanks 🙏 Lisa";
-            Validate();
-            AssertSingleWarningMessage(ValidationConstants.FieldUnstructuredMessage, ValidationConstants.KeyReplacedUnsupportedCharacters);
-            Assert.Equal("Thanks . Lisa", ValidatedBill.UnstructuredMessage);
-        }
-
-        [Fact]
-        public void BillInfoReplacement()
-        {
-            SourceBill = SampleData.CreateExample1();
-            SourceBill.BillInformation = "//AZ/400€/123";
-            Validate();
-            AssertSingleWarningMessage(ValidationConstants.FieldBillInformation, ValidationConstants.KeyReplacedUnsupportedCharacters);
-            Assert.Equal("//AZ/400./123", ValidatedBill.BillInformation);
-        }
-
-        [Fact]
-        public void ReplacedSurrogatePair()
-        {
-            SourceBill = SampleData.CreateExample1();
-            Address address = CreateValidPerson();
-            address.PostalCode = "\uD83D\uDC80"; // surrogate pair (1 code point but 2 UTF-16 words)
-            SourceBill.Creditor = address;
-            Validate();
-            AssertSingleWarningMessage(ValidationConstants.FieldCreditorPostalCode, ValidationConstants.KeyReplacedUnsupportedCharacters);
-            Assert.Equal(".", ValidatedBill.Creditor.PostalCode);
-        }
-
-        [Fact]
-        public void TwoReplacedConsecutiveSurrogatePairs()
-        {
-            SourceBill = SampleData.CreateExample1();
-            Address address = CreateValidPerson();
-            address.Town = "\uD83C\uDDE8\uD83C\uDDED"; // two surrogate pairs
-            SourceBill.Creditor = address;
-            Validate();
-            AssertSingleWarningMessage(ValidationConstants.FieldCreditorTown, ValidationConstants.KeyReplacedUnsupportedCharacters);
-            Assert.Equal("..", ValidatedBill.Creditor.Town);
-        }
-
-        [Fact]
-        public void TwoReplacedSurrogatePairsWithWhitespace()
-        {
-            SourceBill = SampleData.CreateExample1();
-            Address address = CreateValidPerson();
-            address.Town = "-- \uD83D\uDC68\uD83C\uDFFB --"; // two surrogate pairs
-            SourceBill.Creditor = address;
-            Validate();
-            AssertSingleWarningMessage(ValidationConstants.FieldCreditorTown, ValidationConstants.KeyReplacedUnsupportedCharacters);
-            Assert.Equal("-- .. --", ValidatedBill.Creditor.Town);
+            Assert.Equal(text, Payments.CleanedText(text, SpsCharacterSet.ExtendedLatin));
         }
 
         [Theory]
-        [MemberData(nameof(InvalidCharList))]
-        public void InvalidChars(string invalidChar)
+        [ClassData(typeof(ExtendedLatinCharsProvider))]
+        public void AllChars_HaveGoodReplacement(char ch, string unicodeName)
         {
-            SourceBill = SampleData.CreateExample1();
-            Address address = CreateValidPerson();
-            address.Street = "ABC" + invalidChar + "QRS";
-            SourceBill.Creditor = address;
-            Validate();
-            AssertSingleWarningMessage(ValidationConstants.FieldCreditorStreet, ValidationConstants.KeyReplacedUnsupportedCharacters);
-            Assert.Equal("ABC.QRS", ValidatedBill.Creditor.Street);
+            string cleaned = Payments.CleanedText(char.ToString(ch), SpsCharacterSet.Latin1Subset);
+            Assert.NotEqual(".", cleaned);
+            Assert.True(Payments.IsValidText(cleaned, SpsCharacterSet.Latin1Subset));
+
+
+            cleaned = Payments.CleanedText(char.ToString(ch), SpsCharacterSet.ExtendedLatin);
+            Assert.NotEqual(".", cleaned);
+            Assert.True(Payments.IsValidText(cleaned, SpsCharacterSet.ExtendedLatin));
         }
 
-        public static readonly TheoryData<string> InvalidCharList = new()
+        public class ExtendedLatinCharsProvider : IEnumerable<object[]>
         {
-            "^", "\u007f", "\u0080", "\u00a0", "\u00d0", "¡", "¤", "©", "±", "µ", "¼", "Å", "Æ",
-            "×", "Ø", "Ý", "Þ", "å", "æ", "ø", "€", "¿", "Ą", "Ď", "ð", "õ", "ã", "Ã"
-        };
-        */
+            public IEnumerator<object[]> GetEnumerator()
+            {
+                for (char ch = '\u0020'; ch <= '\u007e'; ch++)
+                {
+                    if (ch == '.' || ch == '^')
+                        continue;
+                    yield return new object[] { ch, string.Format("U+{0:X4}", (int)ch) };
+                }
+                for (char ch = '\u00a0'; ch <= '\u017f'; ch++)
+                {
+                    yield return new object[] { ch, string.Format("U+{0:X4}", (int)ch) };
+                }
+
+                yield return new object[] { '\u0218', "U+0218" };
+                yield return new object[] { '\u0219', "U+0219" };
+                yield return new object[] { '\u021a', "U+021A" };
+                yield return new object[] { '\u021b', "U+021B" };
+                yield return new object[] { '\u20ac', "U+20AC" };
+            }
+
+            IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+        }
     }
 }
