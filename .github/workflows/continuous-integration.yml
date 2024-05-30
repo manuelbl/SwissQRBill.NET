@@ -68,3 +68,57 @@ jobs:
       - name: Create and validate NuGet package for Windows
         run: dotnet pack --no-build --verbosity normal WindowsTest/WindowsTest.csproj
         if: startsWith(matrix.os,'windows')
+
+      - name: Set up JDK 17 (for SonarQube)
+        if: startsWith(matrix.os,'windows')
+        uses: actions/setup-java@v4
+        with:
+          java-version: 17
+          distribution: 'zulu'
+      - name: Cache SonarCloud packages
+        if: startsWith(matrix.os,'windows')
+        uses: actions/cache@v4
+        with:
+          path: ~\sonar\cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
+      - name: Cache SonarCloud scanner
+        if: startsWith(matrix.os,'windows')
+        id: cache-sonar-scanner
+        uses: actions/cache@v4
+        with:
+          path: .\.sonar\scanner
+          key: ${{ runner.os }}-sonar-scanner
+          restore-keys: ${{ runner.os }}-sonar-scanner
+      - name: Install SonarCloud scanner
+        if: startsWith(matrix.os,'windows') && steps.cache-sonar-scanner.outputs.cache-hit != 'true'
+        shell: powershell
+        run: |
+          New-Item -Path .\.sonar\scanner -ItemType Directory
+          dotnet tool update dotnet-sonarscanner --tool-path .\.sonar\scanner
+      - name: Cache dotnet-coverage
+        if: startsWith(matrix.os,'windows')
+        id: cache-dotnet-coverage
+        uses: actions/cache@v4
+        with:
+          path: .\.dotnet-coverage
+          key: ${{ runner.os }}-dotnet-coverage
+          restore-keys: ${{ runner.os }}-dotnet-coverage
+      - name: Install dotnet-coverage
+        if: startsWith(matrix.os,'windows') && steps.cache-dotnet-coverage.outputs.cache-hit != 'true'
+        shell: powershell
+        run: |
+          New-Item -Path .\.dotnet-coverage -ItemType Directory
+          dotnet tool update dotnet-coverage --tool-path .\.dotnet-coverage
+      - name: Build and analyze
+        if: startsWith(matrix.os,'windows')
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        shell: powershell
+        run: |
+          dotnet clean
+          .\.sonar\scanner\dotnet-sonarscanner begin /k:"manuelbl_SwissQRBill.NET" /o:"manuelbl-github" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
+          dotnet build --no-incremental
+          .\.dotnet-coverage\dotnet-coverage collect "dotnet test" -f xml -o "coverage.xml"
+          .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
