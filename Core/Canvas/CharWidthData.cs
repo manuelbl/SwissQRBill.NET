@@ -33,9 +33,9 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         public static readonly short HelveticaNormalEuroWidth = 744;
 
         /// <summary>
-        /// Character widths for Helvetica Normal (range 0x20 to 0x7e).
+        /// Character widths for Helvetica Normal (range 0x20 to 0x7f).
         /// </summary>
-        public static readonly short[] HelveticaNormal_20_7E = {
+        public static readonly short[] HelveticaNormal_20_7F = {
             278, // 0x20
             278, // 0x21 !
             355, // 0x22 "
@@ -130,13 +130,14 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             334, // 0x7B {
             260, // 0x7C |
             334, // 0x7D }
-            584  // 0x7E ~
+            584, // 0x7E ~
+            0 // unused
         };
 
         /// <summary>
-        /// Character widths for Helvetica Normal (range 0xa0 to 0x17f).
+        /// Character widths for Helvetica Normal (range 0xa0 to 0xff).
         /// </summary>
-        public static readonly short[] HelveticaNormal_A0_17F = {
+        public static readonly short[] HelveticaNormal_A0_FF = {
             278, // 0xA0 non-breaking space
             333, // 0xA1 ¡
             556, // 0xA2 ¢
@@ -233,6 +234,12 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             500, // 0xFD ý
             556, // 0xFE þ
             500, // 0xFF ÿ
+        };
+
+        /// <summary>
+        /// Character widths for Helvetica Normal (range 0x0100 to 0x017f).
+        /// </summary>
+        public static readonly short[] HelveticaNormal_100_17F = {
             667, // 0x100 Ā
             556, // 0x101 ā
             667, // 0x102 Ă
@@ -389,9 +396,9 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         public static readonly short HelveticaBoldEuroWidth = 744;
 
         /// <summary>
-        /// Character widths for Helvetica Bold (range 0x20 to 0x7e).
+        /// Character widths for Helvetica Bold (range 0x20 to 0x7f).
         /// </summary>
-        public static readonly short[] HelveticaBold_20_7E = {
+        public static readonly short[] HelveticaBold_20_7F = {
             278, // 0x20
             333, // 0x21 !
             474, // 0x22 "
@@ -486,13 +493,14 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             389, // 0x7B {
             280, // 0x7C |
             389, // 0x7D }
-            584  // 0x7E ~
+            584, // 0x7E ~
+            0 // unused
         };
 
         /// <summary>
-        /// Character widths for Helvetica Bold (range 0xa0 to 0x17f).
+        /// Character widths for Helvetica Bold (range 0xa0 to 0xff).
         /// </summary>
-        public static readonly short[] HelveticaBold_A0_17F = {
+        public static readonly short[] HelveticaBold_A0_FF = {
             278, // 0xA0 non-breaking space
             333, // 0xA1 ¡
             556, // 0xA2 ¢
@@ -589,6 +597,12 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             556, // 0xFD ý
             611, // 0xFE þ
             556, // 0xFF ÿ
+        };
+
+        /// <summary>
+        /// Character widths for Helvetica Bold (range 0x0100 to 0x017f).
+        /// </summary>
+        public static readonly short[] HelveticaBold_100_17F = {
             722, // 0x100 Ā
             556, // 0x101 ā
             722, // 0x102 Ă
@@ -745,9 +759,9 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         public static readonly short ArialNormalEuroWidth = 556;
 
         /// <summary>
-        /// Character widths for Arial Normal (range 0x20 to 0x7e).
+        /// Character widths for Arial Normal (range 0x20 to 0x7f).
         /// </summary>
-        public static readonly short[] ArialNormal_20_7E = {
+        public static readonly short[] ArialNormal_20_7F = {
             278, // 0x20
             278, // 0x21 !
             355, // 0x22 "
@@ -842,13 +856,14 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             334, // 0x7B {
             260, // 0x7C |
             334, // 0x7D }
-            584  // 0x7E ~
+            584, // 0x7E ~
+            0 // unused
         };
 
         /// <summary>
-        /// Character widths for Arial Normal (range 0xa0 to 0x17f).
+        /// Character widths for Arial Normal (range 0xa0 to 0xff).
         /// </summary>
-        public static readonly short[] ArialNormal_A0_17F = {
+        public static readonly short[] ArialNormal_A0_FF = {
             278, // 0xA0 non-breaking space
             333, // 0xA1 ¡
             556, // 0xA2 ¢
@@ -945,6 +960,12 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             500, // 0xFD ý
             556, // 0xFE þ
             500, // 0xFF ÿ
+        };
+
+        /// <summary>
+        /// Character widths for Arial Normal (range 0x0100 to 0x017f).
+        /// </summary>
+        public static readonly short[] ArialNormal_100_17F = {
             667, // 0x100 Ā
             556, // 0x101 ā
             667, // 0x102 Ă
@@ -1101,9 +1122,9 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         public static readonly short ArialBoldEuroWidth = 556;
 
         /// <summary>
-        /// Character widths for Arial Bold (range 0x20 to 0x7e).
+        /// Character widths for Arial Bold (range 0x20 to 0x7f).
         /// </summary>
-        public static readonly short[] ArialBold_20_7E = {
+        public static readonly short[] ArialBold_20_7F = {
             278, // 0x20
             333, // 0x21 !
             474, // 0x22 "
@@ -1198,13 +1219,14 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             389, // 0x7B {
             280, // 0x7C |
             389, // 0x7D }
-            584  // 0x7E ~
+            584, // 0x7E ~
+            0 // unused
         };
 
         /// <summary>
-        /// Character widths for Arial Bold (range 0xa0 to 0x17f).
+        /// Character widths for Arial Bold (range 0xa0 to 0xff).
         /// </summary>
-        public static readonly short[] ArialBold_A0_17F = {
+        public static readonly short[] ArialBold_A0_FF = {
             278, // 0xA0 non-breaking space
             333, // 0xA1 ¡
             556, // 0xA2 ¢
@@ -1301,6 +1323,12 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             556, // 0xFD ý
             611, // 0xFE þ
             556, // 0xFF ÿ
+        };
+
+        /// <summary>
+        /// Character widths for Arial Bold (range 0x0100 to 0x017f).
+        /// </summary>
+        public static readonly short[] ArialBold_100_17F = {
             722, // 0x100 Ā
             556, // 0x101 ā
             722, // 0x102 Ă
@@ -1457,9 +1485,9 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         public static readonly short LiberationSansNormalEuroWidth = 556;
 
         /// <summary>
-        /// Character widths for Liberation Sans Normal (range 0x20 to 0x7e).
+        /// Character widths for Liberation Sans Normal (range 0x20 to 0x7f).
         /// </summary>
-        public static readonly short[] LiberationSansNormal_20_7E = {
+        public static readonly short[] LiberationSansNormal_20_7F = {
             278, // 0x20
             278, // 0x21 !
             355, // 0x22 "
@@ -1554,13 +1582,14 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             334, // 0x7B {
             260, // 0x7C |
             334, // 0x7D }
-            584  // 0x7E ~
+            584, // 0x7E ~
+            0 // unused
         };
 
         /// <summary>
-        /// Character widths for Liberation Sans Normal (range 0xa0 to 0x17f).
+        /// Character widths for Liberation Sans Normal (range 0xa0 to 0xff).
         /// </summary>
-        public static readonly short[] LiberationSansNormal_A0_17F = {
+        public static readonly short[] LiberationSansNormal_A0_FF = {
             278, // 0xA0 non-breaking space
             333, // 0xA1 ¡
             556, // 0xA2 ¢
@@ -1657,6 +1686,13 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             500, // 0xFD ý
             556, // 0xFE þ
             500, // 0xFF ÿ
+        };
+
+        /// <summary>
+        /// Character widths for Liberation Sans Normal (range 0x0100 to 0x017f).
+        /// </summary>
+        public static readonly short[] LiberationSansNormal_100_17F = {
+
             667, // 0x100 Ā
             556, // 0x101 ā
             667, // 0x102 Ă
@@ -1813,9 +1849,9 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         public static readonly short LiberationSansBoldEuroWidth = 556;
 
         /// <summary>
-        /// Character widths for Liberation Sans Bold (range 0x20 to 0x7e).
+        /// Character widths for Liberation Sans Bold (range 0x20 to 0x7f).
         /// </summary>
-        public static readonly short[] LiberationSansBold_20_7E = {
+        public static readonly short[] LiberationSansBold_20_7F = {
             278, // 0x20
             333, // 0x21 !
             474, // 0x22 "
@@ -1910,13 +1946,14 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             389, // 0x7B {
             280, // 0x7C |
             389, // 0x7D }
-            584  // 0x7E ~
+            584, // 0x7E ~
+            0 // unused
         };
 
         /// <summary>
-        /// Character widths for Liberation Sans Bold (range 0xa0 to 0x17f).
+        /// Character widths for Liberation Sans Bold (range 0xa0 to 0xff).
         /// </summary>
-        public static readonly short[] LiberationSansBold_A0_17F = {
+        public static readonly short[] LiberationSansBold_A0_FF = {
             278, // 0xA0 non-breaking space
             333, // 0xA1 ¡
             556, // 0xA2 ¢
@@ -2013,6 +2050,13 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             556, // 0xFD ý
             611, // 0xFE þ
             556, // 0xFF ÿ
+        };
+
+
+        /// <summary>
+        /// Character widths for Liberation Sans Bold (range 0x0100 to 0x017f).
+        /// </summary>
+        public static readonly short[] LiberationSansBold_100_17F = {
             722, // 0x100 Ā
             556, // 0x101 ā
             722, // 0x102 Ă
@@ -2169,9 +2213,9 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         public static readonly short FrutigerNormalEuroWidth = 556;
 
         /// <summary>
-        /// Character widths for Frutiger Normal (range 0x20 to 0x7e).
+        /// Character widths for Frutiger Normal (range 0x20 to 0x7f).
         /// </summary>
-        public static readonly short[] FrutigerNormal_20_7E = {
+        public static readonly short[] FrutigerNormal_20_7F = {
             278, // 0x20
             389, // 0x21 !
             556, // 0x22 "
@@ -2266,13 +2310,14 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             278, // 0x7B {
             222, // 0x7C |
             278, // 0x7D }
-            600  // 0x7E ~
+            600, // 0x7E ~
+            0 // unused
         };
 
         /// <summary>
-        /// Character widths for Frutiger Normal (range 0xa0 to 0x17f).
+        /// Character widths for Frutiger Normal (range 0xa0 to 0xff).
         /// </summary>
-        public static readonly short[] FrutigerNormal_A0_17F = {
+        public static readonly short[] FrutigerNormal_A0_FF = {
             278, // 0xA0 non-breaking space
             389, // 0xA1 ¡
             556, // 0xA2 ¢
@@ -2369,6 +2414,13 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             444, // 0xFD ý
             556, // 0xFE þ
             444, // 0xFF ÿ
+        };
+
+
+        /// <summary>
+        /// Character widths for Frutiger Normal (range 0x0100 to 0x017f).
+        /// </summary>
+        public static readonly short[] FrutigerNormal_100_17F = {
             667, // 0x100 Ā
             500, // 0x101 ā
             667, // 0x102 Ă
@@ -2525,9 +2577,9 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         public static readonly short FrutigerBoldEuroWidth = 556;
 
         /// <summary>
-        /// Character widths for Frutiger Bold (range 0x20 to 0x7e).
+        /// Character widths for Frutiger Bold (range 0x20 to 0x7f).
         /// </summary>
-        public static readonly short[] FrutigerBold_20_7E = {
+        public static readonly short[] FrutigerBold_20_7F = {
             278, // 0x20
             389, // 0x21 !
             481, // 0x22 "
@@ -2622,13 +2674,14 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             333, // 0x7B {
             222, // 0x7C |
             333, // 0x7D }
-            600  // 0x7E ~
+            600, // 0x7E ~
+            0 // unused
         };
 
         /// <summary>
-        /// Character widths for Frutiger Bold (range 0xa0 to 0x17f).
+        /// Character widths for Frutiger Bold (range 0xa0 to 0xff).
         /// </summary>
-        public static readonly short[] FrutigerBold_A0_17F = {
+        public static readonly short[] FrutigerBold_A0_FF = {
             278, // 0xA0 non-breaking space
             389, // 0xA1 ¡
             556, // 0xA2 ¢
@@ -2725,6 +2778,12 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             556, // 0xFD ý
             611, // 0xFE þ
             556, // 0xFF ÿ
+        };
+
+        /// <summary>
+        /// Character widths for Frutiger Bold (range 0x0100 to 0x017f).
+        /// </summary>
+        public static readonly short[] FrutigerBold_100_17F = {
             722, // 0x100 Ā
             556, // 0x101 ā
             722, // 0x102 Ă
