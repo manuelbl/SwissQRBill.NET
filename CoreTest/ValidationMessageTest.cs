@@ -16,7 +16,7 @@ namespace Codecrete.SwissQRBill.CoreTest
         [Fact]
         public void DefaultConstructor()
         {
-            ValidationMessage msg = new ValidationMessage();
+            var msg = new ValidationMessage();
             Assert.Null(msg.Field);
             Assert.Null(msg.MessageKey);
             Assert.Null(msg.MessageParameters);
@@ -25,7 +25,7 @@ namespace Codecrete.SwissQRBill.CoreTest
         [Fact]
         public void ConstructorWithThreeParameters()
         {
-            ValidationMessage msg = new ValidationMessage(MessageType.Error, "fld", "msg3");
+            var msg = new ValidationMessage(MessageType.Error, "fld", "msg3");
             Assert.Equal(MessageType.Error, msg.Type);
             Assert.Equal("fld", msg.Field);
             Assert.Equal("msg3", msg.MessageKey);
@@ -35,7 +35,7 @@ namespace Codecrete.SwissQRBill.CoreTest
         [Fact]
         public void ConstructorWithFourParameters()
         {
-            ValidationMessage msg = new ValidationMessage(MessageType.Warning, "addInfo", "clipped", new[] { "xxx" });
+            var msg = new ValidationMessage(MessageType.Warning, "addInfo", "clipped", new[] { "xxx" });
             Assert.Equal(MessageType.Warning, msg.Type);
             Assert.Equal("addInfo", msg.Field);
             Assert.Equal("clipped", msg.MessageKey);
@@ -47,7 +47,7 @@ namespace Codecrete.SwissQRBill.CoreTest
         [Fact]
         public void SetType()
         {
-            ValidationMessage msg = new ValidationMessage
+            var msg = new ValidationMessage
             {
                 Type = MessageType.Error
             };
@@ -57,7 +57,7 @@ namespace Codecrete.SwissQRBill.CoreTest
         [Fact]
         public void SetField()
         {
-            ValidationMessage msg = new ValidationMessage
+            var msg = new ValidationMessage
             {
                 Field = "tt3"
             };
@@ -67,7 +67,7 @@ namespace Codecrete.SwissQRBill.CoreTest
         [Fact]
         public void SetMessageKey()
         {
-            ValidationMessage msg = new ValidationMessage
+            var msg = new ValidationMessage
             {
                 MessageKey = "msg.err.invalid"
             };
@@ -77,7 +77,7 @@ namespace Codecrete.SwissQRBill.CoreTest
         [Fact]
         public void SetMessageParameters()
         {
-            ValidationMessage msg = new ValidationMessage
+            var msg = new ValidationMessage
             {
                 MessageParameters = new[] { "abc", "def", "ghi" }
             };

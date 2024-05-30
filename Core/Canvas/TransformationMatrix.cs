@@ -53,7 +53,8 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         public void Translate(double dx, double dy)
         {
             // check for simpler case without scaling or rotation
-            if (_elements[0] == 1 && _elements[1] == 0 && _elements[2] == 0 && _elements[3] == 1)
+            if (MathUtil.AreClose(_elements[0], 1) && MathUtil.AreClose(_elements[1], 0)
+                && MathUtil.AreClose(_elements[2], 0) && MathUtil.AreClose(_elements[3], 1))
             {
                 _elements[4] += dx;
                 _elements[5] += dy;
@@ -72,7 +73,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         /// <param name="sy">vertical scaling</param>
         public void Scale(double sx, double sy)
         {
-            if (sx == 1 && sy == 1)
+            if (MathUtil.AreClose(sx, 1) && MathUtil.AreClose(sy, 1))
             {
                 return;
             }
@@ -89,7 +90,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         /// <param name="angle">Rotation angle (in radians)</param>
         public void Rotate(double angle)
         {
-            if (angle == 0)
+            if (MathUtil.AreClose(angle, 0))
             {
                 return;
             }

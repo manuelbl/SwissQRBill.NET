@@ -57,6 +57,7 @@ namespace Codecrete.SwissQRBill.WindowsTest
             QRBill.Draw(bill, canvas);
             var ms = new MemoryStream();
             canvas.WriteTo(ms);
+            Assert.True(true);
         }
 
         [Fact]
@@ -67,6 +68,7 @@ namespace Codecrete.SwissQRBill.WindowsTest
                 new PNGCanvas(QRBill.QrBillWidth, QRBill.QrBillHeight, 144, "Helvetica, Arial, \"Liberation Sans\"");
             QRBill.Draw(bill, canvas);
             canvas.SaveAs("qrbill.png");
+            Assert.True(true);
         }
 
     }

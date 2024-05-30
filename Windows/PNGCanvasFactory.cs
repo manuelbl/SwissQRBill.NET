@@ -13,6 +13,7 @@ namespace Codecrete.SwissQRBill.Windows
     /// <summary>
     /// Factory for creating <c>PngCanvas</c> instances
     /// </summary>
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Minor Code Smell", "S101:Types should be named in PascalCase", Justification = "Rename would break API backward compatibility")]
     public class PNGCanvasFactory : ICanvasFactory
     {
         /// <inheritdoc />

@@ -22,10 +22,10 @@ namespace Codecrete.SwissQRBill.CoreTest
             );
         }
 
-        private void GenerateWithFailingCanvas()
+        private static void GenerateWithFailingCanvas()
         {
-            Bill bill = SampleData.CreateExample1();
-            FailingCanvas canvas = new FailingCanvas();
+            var bill = SampleData.CreateExample1();
+            var canvas = new FailingCanvas();
             bill.Format.OutputSize = OutputSize.QrBillOnly;
             QRBill.Draw(bill, canvas);
         }

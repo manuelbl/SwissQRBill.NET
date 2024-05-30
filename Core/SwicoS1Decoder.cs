@@ -194,6 +194,7 @@ namespace Codecrete.SwissQRBill.Generator
             }
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Major Code Smell", "S1168:Empty arrays and collections should be returned instead of null", Justification = "Won't change")]
         private static List<(decimal, decimal)> ParseDetailList(string text)
         {
             // Split into tuples
@@ -219,6 +220,7 @@ namespace Codecrete.SwissQRBill.Generator
             return list.Count > 0 ? list : null;
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Major Code Smell", "S1066:Mergeable \"if\" statements should be combined", Justification = "it's easier to understand the way it is")]
         private static DateTime? GetDateValue(string dateText)
         {
             if (string.IsNullOrWhiteSpace(dateText))

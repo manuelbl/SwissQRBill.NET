@@ -24,7 +24,7 @@ namespace Codecrete.SwissQRBill.CoreTest
             Assert.Null(e.InnerException);
         }
 
-        private void ThrowQRBillException()
+        private static void ThrowQRBillException()
         {
             throw new QRBillGenerationException("ABC");
         }
@@ -40,7 +40,7 @@ namespace Codecrete.SwissQRBill.CoreTest
             Assert.Same(typeof(NullReferenceException), e.InnerException.GetType());
         }
 
-        private void ThrowNestedNullRefException()
+        private static void ThrowNestedNullRefException()
         {
             try
             {

@@ -12,7 +12,7 @@ using static Codecrete.SwissQRBill.Generator.ValidationMessage;
 
 namespace Codecrete.SwissQRBill.CoreTest
 {
-    public class TestHelper
+    public static class TestHelper
     {
         public static void NormalizeSourceBill(Bill bill)
         {
@@ -41,20 +41,11 @@ namespace Codecrete.SwissQRBill.CoreTest
                 bill.Debtor.Town = bill.Debtor.Town.Trim();
             }
 
-            if (bill.Reference == null)
-            {
-                bill.Reference = ""; // replace null with empty string
-            }
+            bill.Reference ??= ""; // replace null with empty string
 
-            if (bill.UnstructuredMessage == null)
-            {
-                bill.UnstructuredMessage = ""; // replace null with empty string
-            }
+            bill.UnstructuredMessage ??= ""; // replace null with empty string
 
-            if (bill.BillInformation == null)
-            {
-                bill.BillInformation = ""; // replace null with empty string
-            }
+            bill.BillInformation ??= ""; // replace null with empty string
 
             if (bill.AlternativeSchemes != null)
             {

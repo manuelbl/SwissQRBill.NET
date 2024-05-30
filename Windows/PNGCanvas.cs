@@ -15,6 +15,7 @@ namespace Codecrete.SwissQRBill.Windows
     /// <para>
     /// The resulting PNG file can be retrieved using <see cref="ToByteArray()"/>.</para>
     /// </summary>
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Minor Code Smell", "S101:Types should be named in PascalCase", Justification = "Rename would break API backward compatibility")]
     public class PNGCanvas : BitmapCanvas
     {
         /// <summary>

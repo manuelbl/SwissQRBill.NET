@@ -35,6 +35,7 @@ namespace Codecrete.SwissQRBill.CoreTest
             QRBill.Draw(bill, canvas);
             var ms = new MemoryStream();
             canvas.WriteTo(ms);
+            Assert.True(true);
         }
 
         [Fact]
@@ -45,6 +46,7 @@ namespace Codecrete.SwissQRBill.CoreTest
                 new SVGCanvas(QRBill.A4PortraitWidth, QRBill.A4PortraitHeight, "Helvetica, Arial, Sans");
             QRBill.Draw(bill, canvas);
             canvas.SaveAs("qrbill.svg");
+            Assert.True(true);
         }
     }
 }

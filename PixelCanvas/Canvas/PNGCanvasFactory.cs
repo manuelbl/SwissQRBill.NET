@@ -13,6 +13,7 @@ namespace Codecrete.SwissQRBill.PixelCanvas
     /// <summary>
     /// Factory for creating <c>SVGCanvas</c> instances
     /// </summary>
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Minor Code Smell", "S101:Types should be named in PascalCase", Justification = "Rename would break API backward compatibility")]
     public class PNGCanvasFactory : ICanvasFactory
     {
         bool ICanvasFactory.CanCreate(BillFormat format)

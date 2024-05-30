@@ -21,14 +21,17 @@ namespace Codecrete.SwissQRBill.CoreTest
 {
     public class VerifyImages
     {
+        protected static readonly VerifySettings Settings = new();
+
         static VerifyImages()
         {
             VerifierSettings.RegisterFileConverter("pdf", ConvertPdfToPng);
             VerifyImageMagick.RegisterComparers(threshold: 0.1, ImageMagick.ErrorMetric.PerceptualHash);
 
-            Settings = new VerifySettings();
             Settings.UseDirectory("ReferenceFiles");
         }
+
+        protected VerifyImages() { }
 
         private static ConversionResult ConvertPdfToPng(Stream stream, IReadOnlyDictionary<string, object> context)
         {
@@ -49,8 +52,6 @@ namespace Codecrete.SwissQRBill.CoreTest
 
             return new ConversionResult(null, pngStreams.Select(e => new Target("png", e)));
         }
-
-        protected static readonly VerifySettings Settings;
 
         public static SettingsTask Verify(byte[] imageData, GraphicsFormat format, [CallerFilePath] string sourceFile = "")
         {

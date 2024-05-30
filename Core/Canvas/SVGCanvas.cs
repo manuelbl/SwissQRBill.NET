@@ -15,6 +15,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
     /// <summary>
     /// Canvas for generating SVG files.
     /// </summary>
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Minor Code Smell", "S101:Types should be named in PascalCase", Justification = "Rename would break API backward compatibility")]
     public class SVGCanvas : AbstractCanvas
     {
         private static readonly Encoding Utf8WithoutBom = new UTF8Encoding(false);
@@ -257,7 +258,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         {
             _stream.Write("<path stroke=\"#");
             _stream.Write(FormatColor(color));
-            if (strokeWidth != 1)
+            if (!MathUtil.AreClose(strokeWidth, 1))
             {
                 _stream.Write("\" stroke-width=\"");
                 _stream.Write(FormatNumber(strokeWidth));
@@ -309,22 +310,22 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
                 _stream.Write("</g>\n");
                 _isInGroup = false;
             }
-            if (translateX != 0 || translateY != 0 || scaleX != 1 || scaleY != 1)
+            if (!MathUtil.AreClose(translateX, 0) || !MathUtil.AreClose(translateY, 0) || !MathUtil.AreClose(scaleX, 1) || !MathUtil.AreClose(scaleY, 1))
             {
                 _stream.Write("<g transform=\"translate(");
                 _stream.Write(FormatCoordinate(translateX));
                 _stream.Write(" ");
                 _stream.Write(FormatCoordinate(-translateY));
-                if (rotate != 0)
+                if (!MathUtil.AreClose(rotate, 0))
                 {
                     _stream.Write(") rotate(");
                     _stream.Write((-rotate / Math.PI * 180).ToString("#.#####", CultureInfo.InvariantCulture.NumberFormat));
                 }
-                if (scaleX != 1 || scaleY != 1)
+                if (!MathUtil.AreClose(scaleX, 1) || !MathUtil.AreClose(scaleY, 1))
                 {
                     _stream.Write(") scale(");
                     _stream.Write(FormatNumber(scaleX));
-                    if (scaleX != scaleY)
+                    if (!MathUtil.AreClose(scaleX, scaleY))
                     {
                         _stream.Write(" ");
                         _stream.Write(FormatNumber(scaleY));

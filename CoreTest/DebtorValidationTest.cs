@@ -17,7 +17,7 @@ namespace Codecrete.SwissQRBill.CoreTest
         {
             SourceBill = SampleData.CreateExample1();
 
-            Address address = CreateValidPerson();
+            var address = CreateValidPerson();
             SourceBill.Debtor = address;
             Validate();
             AssertNoMessages();
@@ -34,7 +34,7 @@ namespace Codecrete.SwissQRBill.CoreTest
         public void EmptyDebtor()
         {
             SourceBill = SampleData.CreateExample1();
-            Address emptyAddress = new Address();
+            var emptyAddress = new Address();
             SourceBill.Debtor = emptyAddress;
             Validate();
             AssertNoMessages();
@@ -45,7 +45,7 @@ namespace Codecrete.SwissQRBill.CoreTest
         public void EmptyDebtorWithSpaces()
         {
             SourceBill = SampleData.CreateExample1();
-            Address emptyAddress = new Address
+            var emptyAddress = new Address
             {
                 Name = "  "
             };

@@ -288,17 +288,17 @@ namespace Codecrete.SwissQRBill.CoreTest
         }
 
         [Theory]
-        [InlineData("//S1/10/10201409/11/200629/33/1;2/40/0:30")]
-        [InlineData("//S1/10/10201409/11/200629/33/8:B/40/0:30")]
-        [InlineData("//S1/10/10201409/11/200629/33/8:/40/0:30")]
+        [InlineData("//S1/10/10202007/11/200629/33/1;2/40/0:10")]
+        [InlineData("//S1/10/10202007/11/200629/33/8:B/40/0:10")]
+        [InlineData("//S1/10/10202007/11/200629/33/8:/40/0:10")]
         public void InvalidVatImportTaxes_AreIgnored_EmptyResult(string rawBillInformation)
         {
             SwicoBillInformation billInformation = SwicoBillInformation.DecodeText(rawBillInformation);
             Assert.Equal(new SwicoBillInformation()
             {
-                InvoiceNumber = "10201409",
+                InvoiceNumber = "10202007",
                 InvoiceDate = new DateTime(2020, 6, 29, 0, 0, 0, DateTimeKind.Local),
-                PaymentConditions = new List<(decimal, int)> { (0m, 30) }
+                PaymentConditions = new List<(decimal, int)> { (0m, 10) }
             },
                 billInformation
             );
@@ -324,35 +324,35 @@ namespace Codecrete.SwissQRBill.CoreTest
         }
 
         [Theory]
-        [InlineData("//S1/10/10201409/11/200629/40/1;60")]
-        [InlineData("//S1/10/10201409/11/200629/40/1:5.0")]
-        [InlineData("//S1/10/10201409/11/200629/40/3:B")]
-        [InlineData("//S1/10/10201409/11/200629/40/ABC")]
+        [InlineData("//S1/10/10201317/11/200321/40/1;60")]
+        [InlineData("//S1/10/10201317/11/200321/40/1:5.0")]
+        [InlineData("//S1/10/10201317/11/200321/40/3:B")]
+        [InlineData("//S1/10/10201317/11/200321/40/ABC")]
         public void InvalidPaymentConditions_AreIgnored_EmptyResult(string rawBillInformation)
         {
             SwicoBillInformation billInformation = SwicoBillInformation.DecodeText(rawBillInformation);
             Assert.Equal(new SwicoBillInformation()
             {
-                InvoiceNumber = "10201409",
-                InvoiceDate = new DateTime(2020, 6, 29, 0, 0, 0, DateTimeKind.Local)
+                InvoiceNumber = "10201317",
+                InvoiceDate = new DateTime(2020, 3, 21, 0, 0, 0, DateTimeKind.Local)
             },
                 billInformation
             );
         }
 
         [Theory]
-        [InlineData("//S1/10/10201409/11/200629/40/0:30;5")]
-        [InlineData("//S1/10/10201409/11/200629/40/;0:30")]
-        [InlineData("//S1/10/10201409/11/200629/40/0:30;")]
-        [InlineData("//S1/10/10201409/11/200629/40/x:1;2:x;0:30;x:200")]
+        [InlineData("//S1/10/10201409/11/220807/40/0:60;5")]
+        [InlineData("//S1/10/10201409/11/220807/40/;0:60")]
+        [InlineData("//S1/10/10201409/11/220807/40/0:60;")]
+        [InlineData("//S1/10/10201409/11/220807/40/x:1;2:x;0:60;x:200")]
         public void InvalidPaymentConditions_AreIgnored_PartialResult(string rawBillInformation)
         {
             SwicoBillInformation billInformation = SwicoBillInformation.DecodeText(rawBillInformation);
             Assert.Equal(new SwicoBillInformation()
             {
                 InvoiceNumber = "10201409",
-                InvoiceDate = new DateTime(2020, 6, 29, 0, 0, 0, DateTimeKind.Local),
-                PaymentConditions = new List<(decimal, int)> { (0m, 30) }
+                InvoiceDate = new DateTime(2022, 8, 7, 0, 0, 0, DateTimeKind.Local),
+                PaymentConditions = new List<(decimal, int)> { (0m, 60) }
             },
                 billInformation
             );

@@ -17,7 +17,7 @@ namespace Codecrete.SwissQRBill.CoreTest
         public void ValidCreditor()
         {
             SourceBill = SampleData.CreateExample1();
-            Address address = CreateValidPerson();
+            var address = CreateValidPerson();
             SourceBill.Creditor = address;
             Validate();
             AssertNoMessages();
@@ -43,7 +43,7 @@ namespace Codecrete.SwissQRBill.CoreTest
         public void EmptyCreditor()
         {
             SourceBill = SampleData.CreateExample1();
-            Address emptyAddress = new Address();
+            var emptyAddress = new Address();
             SourceBill.Creditor = emptyAddress;
             Validate();
             AssertMandatoryPersonMessages();
@@ -53,7 +53,7 @@ namespace Codecrete.SwissQRBill.CoreTest
         public void EmptyCreditorWithSpaces()
         {
             SourceBill = SampleData.CreateExample1();
-            Address emptyAddress = new Address
+            var emptyAddress = new Address
             {
                 Name = "  "
             };

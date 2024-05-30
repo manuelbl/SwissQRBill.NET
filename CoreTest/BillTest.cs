@@ -16,7 +16,7 @@ namespace Codecrete.SwissQRBill.CoreTest
         [Fact]
         public void SetVersion()
         {
-            Bill bill = new Bill
+            var bill = new Bill
             {
                 Version = Bill.QrBillStandardVersion.V2_0
             };
@@ -26,7 +26,7 @@ namespace Codecrete.SwissQRBill.CoreTest
         [Fact]
         public void SetAmount()
         {
-            Bill bill = new Bill
+            var bill = new Bill
             {
                 Amount = 37.45m
             };
@@ -36,7 +36,7 @@ namespace Codecrete.SwissQRBill.CoreTest
         [Fact]
         public void SetCurrency()
         {
-            Bill bill = new Bill
+            var bill = new Bill
             {
                 Currency = "EUR"
             };
@@ -46,7 +46,7 @@ namespace Codecrete.SwissQRBill.CoreTest
         [Fact]
         public void SetAccount()
         {
-            Bill bill = new Bill
+            var bill = new Bill
             {
                 Account = "BD93020293480234"
             };
@@ -56,7 +56,7 @@ namespace Codecrete.SwissQRBill.CoreTest
         [Fact]
         public void SetCreditor()
         {
-            Bill bill = new Bill();
+            var bill = new Bill();
             Address address = CreateAddress();
             bill.Creditor = address;
             Assert.Same(address, bill.Creditor);
@@ -66,7 +66,7 @@ namespace Codecrete.SwissQRBill.CoreTest
         [Fact]
         public void SetReference()
         {
-            Bill bill = new Bill
+            var bill = new Bill
             {
                 Reference = "RF839DF38202934"
             };
@@ -77,7 +77,7 @@ namespace Codecrete.SwissQRBill.CoreTest
         [Fact]
         public void CreateCreditorReference()
         {
-            Bill bill = new Bill();
+            var bill = new Bill();
             bill.CreateAndSetCreditorReference("ABCD3934803");
             Assert.Equal("RF93ABCD3934803", bill.Reference);
             Assert.Equal(Bill.ReferenceTypeCredRef, bill.ReferenceType);
@@ -86,7 +86,7 @@ namespace Codecrete.SwissQRBill.CoreTest
         [Fact]
         public void CreateQRReference()
         {
-            Bill bill = new Bill();
+            var bill = new Bill();
             bill.CreateAndSetQRReference("20187383000000000000721928");
             Assert.Equal("201873830000000000007219287", bill.Reference);
             Assert.Equal(Bill.ReferenceTypeQrRef, bill.ReferenceType);
@@ -95,7 +95,7 @@ namespace Codecrete.SwissQRBill.CoreTest
         [Fact]
         public void SetReferenceType()
         {
-            Bill bill = new Bill
+            var bill = new Bill
             {
                 ReferenceType = Bill.ReferenceTypeCredRef
             };
@@ -105,7 +105,7 @@ namespace Codecrete.SwissQRBill.CoreTest
         [Fact]
         public void SetUnstructuredMessage()
         {
-            Bill bill = new Bill
+            var bill = new Bill
             {
                 UnstructuredMessage = "Rechnung 3849-2001"
             };
@@ -115,7 +115,7 @@ namespace Codecrete.SwissQRBill.CoreTest
         [Fact]
         public void SetDebtor()
         {
-            Bill bill = new Bill();
+            var bill = new Bill();
             Address address = CreateAddress();
             bill.Debtor = address;
             Assert.Same(address, bill.Debtor);
@@ -125,7 +125,7 @@ namespace Codecrete.SwissQRBill.CoreTest
         [Fact]
         public void SetBillInformation()
         {
-            Bill bill = new Bill
+            var bill = new Bill
             {
                 BillInformation = "S1/01/20170309/11/10201409/20/14000000/22/369 58/30/CH106017086/40/1020/41/3010"
             };
@@ -136,7 +136,7 @@ namespace Codecrete.SwissQRBill.CoreTest
         [Fact]
         public void SetSwicoBillInfo()
         {
-            Bill bill = CreateBill();
+            var bill = CreateBill();
             bill.SetSwicoBillInformation(new SwicoBillInformation
             {
                 InvoiceNumber = "ABC-293234",
@@ -149,9 +149,9 @@ namespace Codecrete.SwissQRBill.CoreTest
         [Fact]
         public void RetrieveSwicoBillInfo()
         {
-            Bill bill = CreateBill();
+            var bill = CreateBill();
             bill.BillInformation = "//S1/10/ABC-293234/20/234.2343-094/32/8";
-            SwicoBillInformation billInfo = bill.RetrieveSwicoBillInformation();
+            var billInfo = bill.RetrieveSwicoBillInformation();
             Assert.Equal(new SwicoBillInformation
             {
                 InvoiceNumber = "ABC-293234",
@@ -164,7 +164,7 @@ namespace Codecrete.SwissQRBill.CoreTest
         [Fact]
         public void RetrieveInvalidSwicoBillInfo()
         {
-            Bill bill = CreateBill();
+            var bill = CreateBill();
             bill.BillInformation = "//S2/10234234234";
             Assert.Null(bill.RetrieveSwicoBillInformation());
         }
@@ -172,7 +172,7 @@ namespace Codecrete.SwissQRBill.CoreTest
         [Fact]
         public void SetAlternativeScheme()
         {
-            Bill bill = new Bill
+            var bill = new Bill
             {
                 AlternativeSchemes = CreateAlternativeSchemes()
             };
@@ -182,7 +182,7 @@ namespace Codecrete.SwissQRBill.CoreTest
         [Fact]
         public void TestEqualsTrivial()
         {
-            Bill bill = new Bill();
+            var bill = new Bill();
             Assert.Equal(bill, bill);
             Bill nullBill = null;
             Assert.NotEqual(bill, nullBill);
@@ -192,8 +192,8 @@ namespace Codecrete.SwissQRBill.CoreTest
         [Fact]
         public void TestEquals()
         {
-            Bill bill1 = CreateBill();
-            Bill bill2 = CreateBill();
+            var bill1 = CreateBill();
+            var bill2 = CreateBill();
             Assert.Equal(bill1, bill2);
             Assert.Equal(bill2, bill1);
 
@@ -209,7 +209,7 @@ namespace Codecrete.SwissQRBill.CoreTest
             Assert.Equal(bill1.GetHashCode(), bill2.GetHashCode());
         }
 
-        private Address CreateAddress()
+        private static Address CreateAddress()
         {
             return new Address
             {
@@ -222,7 +222,7 @@ namespace Codecrete.SwissQRBill.CoreTest
             };
         }
 
-        private Bill CreateBill()
+        private static Bill CreateBill()
         {
             return new Bill
             {

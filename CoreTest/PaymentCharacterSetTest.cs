@@ -119,7 +119,7 @@ namespace Codecrete.SwissQRBill.CoreTest
 
         [Theory]
         [ClassData(typeof(ExtendedLatinCharsProvider))]
-        public void AllChars_HaveGoodReplacement(char ch, string unicodeName)
+        public void AllChars_HaveGoodReplacement(char ch)
         {
             string cleaned = Payments.CleanedText(char.ToString(ch), SpsCharacterSet.Latin1Subset);
             Assert.NotEqual(".", cleaned);
@@ -139,18 +139,18 @@ namespace Codecrete.SwissQRBill.CoreTest
                 {
                     if (ch == '.' || ch == '^')
                         continue;
-                    yield return new object[] { ch, string.Format("U+{0:X4}", (int)ch) };
+                    yield return new object[] { ch };
                 }
                 for (char ch = '\u00a0'; ch <= '\u017f'; ch++)
                 {
-                    yield return new object[] { ch, string.Format("U+{0:X4}", (int)ch) };
+                    yield return new object[] { ch };
                 }
 
-                yield return new object[] { '\u0218', "U+0218" };
-                yield return new object[] { '\u0219', "U+0219" };
-                yield return new object[] { '\u021a', "U+021A" };
-                yield return new object[] { '\u021b', "U+021B" };
-                yield return new object[] { '\u20ac', "U+20AC" };
+                yield return new object[] { '\u0218' };
+                yield return new object[] { '\u0219' };
+                yield return new object[] { '\u021a' };
+                yield return new object[] { '\u021b' };
+                yield return new object[] { '\u20ac' };
             }
 
             IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
