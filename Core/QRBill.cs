@@ -178,6 +178,10 @@ namespace Codecrete.SwissQRBill.Generator
             {
                 throw;
             }
+            catch (QRBillGenerationException)
+            {
+                throw;
+            }
             catch (Exception e)
             {
                 throw new QRBillGenerationException("Failed to generate QR bill", e);

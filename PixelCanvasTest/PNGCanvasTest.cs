@@ -68,6 +68,5 @@ namespace Codecrete.SwissQRBill.PixelCanvasTest
             QRBill.Draw(bill, canvas);
             canvas.SaveAs("qrbill.png");
         }
-
     }
 }

@@ -6,6 +6,7 @@
 //
 
 using Codecrete.SwissQRBill.Generator;
+using System.Text;
 using Xunit;
 
 namespace Codecrete.SwissQRBill.CoreTest
@@ -47,6 +48,20 @@ namespace Codecrete.SwissQRBill.CoreTest
         public void ManySpaces_Cleaned()
         {
             Assert.Equal("a b c", "  a b   c ".SpacesCleaned());
+        }
+
+        [Theory]
+        [InlineData(0x00DC, "Ü")]
+        [InlineData(0x0409, "Љ")]
+        [InlineData(0x1F609, "😉")]
+        [InlineData(0x1F680, "🚀")]
+        public void AppendCodePoint_ExpectedResult(int codePoint, string expectedResult)
+        {
+            var sb = new StringBuilder();
+            sb.Append("xx");
+            StringExtensions.AppendCodePoint(sb, codePoint);
+            sb.Append("yy");
+            Assert.Equal($"xx{expectedResult}yy", sb.ToString());
         }
     }
 }

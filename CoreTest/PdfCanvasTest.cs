@@ -63,7 +63,7 @@ namespace Codecrete.SwissQRBill.CoreTest
         }
 
         [Fact]
-        public void CharactersOutsideWinANSI_RaisesException()
+        public void DrawWithCharactersOutsideWinANSI_RaisesException()
         {
             var bill = SampleData.CreateExample8();
             bill.CharacterSet = SpsCharacterSet.ExtendedLatin;
@@ -71,5 +71,14 @@ namespace Codecrete.SwissQRBill.CoreTest
             Assert.Throws<QRBillGenerationException>(() => QRBill.Draw(bill, canvas));
         }
 
+        [Fact]
+        public void GenerateWithCharactersOutsideWinANSI_RaisesException()
+        {
+            var bill = SampleData.CreateExample8();
+            bill.CharacterSet = SpsCharacterSet.ExtendedLatin;
+            bill.Format.GraphicsFormat = GraphicsFormat.PDF;
+
+            Assert.Throws<QRBillGenerationException>(() => QRBill.Generate(bill));
+        }
     }
 }
