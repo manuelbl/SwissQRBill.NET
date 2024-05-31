@@ -6,9 +6,7 @@
 //
 
 using System;
-using System.ComponentModel;
 using System.Text;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace Codecrete.SwissQRBill.Generator
 {

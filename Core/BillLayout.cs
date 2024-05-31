@@ -65,6 +65,7 @@ namespace Codecrete.SwissQRBill.Generator
         private double _textAscender;
         private double _lineSpacing;
         private double _extraSpacing;
+        private readonly double _paymentPartHoriOffset;
 
 
         internal BillLayout(Bill bill, ICanvas graphics)
@@ -76,6 +77,7 @@ namespace Codecrete.SwissQRBill.Generator
             _formatter = new BillTextFormatter(bill, true);
             _additionalLeftMargin = Math.Min(Math.Max(bill.Format.MarginLeft, 5.0), 12.0) - Margin;
             _additionalRightMargin = Math.Min(Math.Max(bill.Format.MarginRight, 5.0), 12.0) - Margin;
+            _paymentPartHoriOffset = bill.Format.OutputSize == OutputSize.PaymentPartOnly ? 0 : ReceiptWidth;
         }
 
         internal void Draw()
@@ -105,6 +107,11 @@ namespace Codecrete.SwissQRBill.Generator
                 _textFontSize--;
             }
             DrawPaymentPart();
+
+            if (_bill.Format.OutputSize == OutputSize.PaymentPartOnly)
+            {
+                return;
+            }
 
             // receipt
 
@@ -139,12 +146,12 @@ namespace Codecrete.SwissQRBill.Generator
             const double qrCodeBottom = 42; // mm
 
             // title section
-            _graphics.SetTransformation(ReceiptWidth + Margin, 0, 0, 1, 1);
+            _graphics.SetTransformation(_paymentPartHoriOffset + Margin, 0, 0, 1, 1);
             _yPos = SlipHeight - Margin - _graphics.Ascender(FontSizeTitle);
             _graphics.PutText(GetText(MultilingualText.KeyPaymentPart), 0, _yPos, FontSizeTitle, true);
 
             // Swiss QR code section
-            _qrCode.Draw(_graphics, ReceiptWidth + Margin, qrCodeBottom);
+            _qrCode.Draw(_graphics, _paymentPartHoriOffset + Margin, qrCodeBottom);
 
             // amount section
             DrawPaymentPartAmountSection();
@@ -162,7 +169,7 @@ namespace Codecrete.SwissQRBill.Generator
             const double amountBoxWidthPp = 40; // mm
             const double amountBoxHeightPp = 15; // mm
 
-            _graphics.SetTransformation(ReceiptWidth + Margin, 0, 0, 1, 1);
+            _graphics.SetTransformation(_paymentPartHoriOffset + Margin, 0, 0, 1, 1);
 
             // currency
             var y = AmountSectionTop - _labelAscender;
@@ -191,7 +198,7 @@ namespace Codecrete.SwissQRBill.Generator
 
         private void DrawPaymentPartInformationSection()
         {
-            _graphics.SetTransformation(SlipWidth - PpInfoSectionWidth - Margin, 0, 0, 1, 1);
+            _graphics.SetTransformation(_paymentPartHoriOffset + PpAmountSectionWidth + 2 * Margin, 0, 0, 1, 1);
             _yPos = SlipHeight - Margin - _labelAscender;
 
             // account and creditor
@@ -234,7 +241,7 @@ namespace Codecrete.SwissQRBill.Generator
                 return;
             }
 
-            _graphics.SetTransformation(ReceiptWidth + Margin, 0, 0, 1, 1);
+            _graphics.SetTransformation(_paymentPartHoriOffset + Margin, 0, 0, 1, 1);
             var y = furtherInformationSectionTop - _graphics.Ascender(fontSize);
             var maxWidth = PaymentPartWidth - 2 * Margin - _additionalRightMargin;
 

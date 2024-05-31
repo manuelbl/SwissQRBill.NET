@@ -7,7 +7,6 @@
 
 using Codecrete.SwissQRBill.Generator;
 using System.Threading.Tasks;
-using VerifyXunit;
 using Xunit;
 
 

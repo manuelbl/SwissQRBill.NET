@@ -90,6 +90,20 @@ namespace Codecrete.SwissQRBill.Generator
         /// <value>The height, in mm.</value>
         public const double QrCodeWithQuietZoneHeight = 56;
 
+        /// <summary>
+        /// The width of the payment part, in mm.
+        /// <seealso cref="OutputSize.PaymentPartOnly"/>
+        /// </summary>
+        /// <value>The width, in mm.</value>
+        public const double PaymentPartWidth = 148;
+
+        /// <summary>
+        /// The height of the payment part, in mm.
+        /// <seealso cref="OutputSize.PaymentPartOnly"/>
+        /// </summary>
+        /// <value>The height, in mm.</value>
+        public const double PaymentPartHeight = 105;
+
 
         /// <summary>
         /// Validates and cleans the bill data.
@@ -316,6 +330,10 @@ namespace Codecrete.SwissQRBill.Generator
                 case OutputSize.QrBillExtraSpace:
                     drawingWidth = QrBillWithHoriLineWidth;
                     drawingHeight = QrBillWithHoriLineHeight;
+                    break;
+                case OutputSize.PaymentPartOnly:
+                    drawingWidth = PaymentPartWidth;
+                    drawingHeight = PaymentPartHeight;
                     break;
                 case OutputSize.QrCodeOnly:
                     drawingWidth = QrCodeWidth;

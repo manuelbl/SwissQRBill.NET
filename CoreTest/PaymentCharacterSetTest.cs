@@ -81,9 +81,31 @@ namespace Codecrete.SwissQRBill.CoreTest
         [InlineData("xƉx", "x.x")]
         [InlineData("x\uD83C\uDDE8\uD83C\uDDEDx", "x.x")]
         [InlineData("Ǆ", "DZ")]
-        public void InvalidCharacters_AreReplaced(string text, string expectedResult)
+        public void InvalidExtendedLatinCharacters_AreReplaced(string text, string expectedResult)
         {
             Assert.Equal(expectedResult, Payments.CleanedAndTrimmedText(text, SpsCharacterSet.ExtendedLatin));
+        }
+
+        [Theory]
+        [InlineData("ab\nc", "ab c")]
+        [InlineData("ÿÝ", "yY")]
+        [InlineData("€", "E")]
+        [InlineData("¥", "Y")]
+        [InlineData("ȆȇȈȉ", "EeIi")]
+        [InlineData("Ǒ", "O")]
+        [InlineData("ǉǌﬃ", "ljnjffi")]
+        [InlineData("Ǽ", "AE")]
+        [InlineData("ʷ", "w")]
+        [InlineData("⁵", "5")]
+        [InlineData("℁", "a/s")]
+        [InlineData("Ⅶ", "VII")]
+        [InlineData("③", "3")]
+        [InlineData("xƉx", "x.x")]
+        [InlineData("x\uD83C\uDDE8\uD83C\uDDEDx", "x.x")]
+        [InlineData("Ǆ", "DZ")]
+        public void InvalidLatin1SubsetCharacters_AreReplaced(string text, string expectedResult)
+        {
+            Assert.Equal(expectedResult, Payments.CleanedAndTrimmedText(text, SpsCharacterSet.Latin1Subset));
         }
 
         [Fact]
@@ -129,6 +151,34 @@ namespace Codecrete.SwissQRBill.CoreTest
             cleaned = Payments.CleanedText(char.ToString(ch), SpsCharacterSet.ExtendedLatin);
             Assert.NotEqual(".", cleaned);
             Assert.True(Payments.IsValidText(cleaned, SpsCharacterSet.ExtendedLatin));
+        }
+
+        [Fact]
+        public void CleanValueWithValidChars_ReturnsFalse()
+        {
+            Payments.CleanValue("def", out var cleaningResult);
+            Assert.False(cleaningResult.ReplacedUnsupportedChars);
+            Assert.Equal("def", cleaningResult.CleanedString);
+        }
+
+        [Theory]
+        [InlineData("ab\nc", "ab c")]
+        [InlineData("ȆȇȈȉ", "EeIi")]
+        [InlineData("Ǒ", "O")]
+        [InlineData("Ǽ", "AE")]
+        public void CleanValueWithInvalidChars_ReturnsTrue(string text, string expectedResult)
+        {
+            Payments.CleanValue(text, out var cleaningResult);
+            Assert.True(cleaningResult.ReplacedUnsupportedChars);
+            Assert.Equal(expectedResult, cleaningResult.CleanedString);
+        }
+
+        [Fact]
+        public void CleanValuleWithEmpty_ReturnsNull()
+        {
+            Payments.CleanValue("", out var cleaningResult);
+            Assert.False(cleaningResult.ReplacedUnsupportedChars);
+            Assert.Null(cleaningResult.CleanedString);
         }
 
         public class ExtendedLatinCharsProvider : IEnumerable<object[]>
