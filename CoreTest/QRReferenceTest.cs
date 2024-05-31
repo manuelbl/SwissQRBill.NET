@@ -73,6 +73,13 @@ namespace Codecrete.SwissQRBill.CoreTest
         }
 
         [Fact]
+        public void AllZeroes_IsInvalid()
+        {
+            Assert.False(Payments.IsValidQrReference("000000000000000000000000000"));
+            Assert.False(Payments.IsValidQrReference("00 00000 00000 00000 00000 00000"));
+        }
+
+        [Fact]
         public void RawReferenceWithInvalidCharacters()
         {
             ArgumentException ex = Assert.Throws<ArgumentException>(

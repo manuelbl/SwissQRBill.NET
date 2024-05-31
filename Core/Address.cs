@@ -8,6 +8,8 @@
 
 using System;
 using System.Collections.Generic;
+using System.Net;
+using System.Xml.Linq;
 
 namespace Codecrete.SwissQRBill.Generator
 {
@@ -19,6 +21,10 @@ namespace Codecrete.SwissQRBill.Generator
     /// once any of these fields is set. Before setting the fields, the address type is <i>undetermined</i>.
     /// If fields of both types are set, the address type becomes <i>conflicting</i>.
     /// Name and country code must always be set unless all fields are empty.
+    /// </para>
+    /// <para>
+    /// Banks will no longer accept payments using the combined address elements starting November 21, 2025.
+    /// Therefore, it is recommended to use structured addresses immediately.
     /// </para>
     /// </summary>
     public sealed class Address : IEquatable<Address>
@@ -35,6 +41,9 @@ namespace Codecrete.SwissQRBill.Generator
             Undetermined,
             /// <summary>
             /// Structured address
+            /// <para>
+            /// This is a temporary type and not suitable for a valid payment.
+            /// </para>
             /// </summary>
             Structured,
             /// <summary>
@@ -43,6 +52,9 @@ namespace Codecrete.SwissQRBill.Generator
             CombinedElements,
             /// <summary>
             /// Conflicting
+            /// <para>
+            /// This a an invalid type and will prevent the generation of a QR bill.
+            /// </para>
             /// </summary>
             Conflicting
         }
@@ -87,7 +99,8 @@ namespace Codecrete.SwissQRBill.Generator
         /// <see cref="AddressType.Structured"/>, in which case it becomes <see cref="AddressType.Conflicting"/>.
         /// </para>
         /// <para>
-        /// This field is only used for combined elements addresses and is optional.
+        /// This field is only used for combined address elements and is optional.
+        /// Starting November 25, 2025, banks will no longer accept payments using combined address elements.
         /// </para>
         /// </summary>
         /// <value>The address line 1.</value>
@@ -113,7 +126,8 @@ namespace Codecrete.SwissQRBill.Generator
         /// <see cref="AddressType.Structured"/>, in which case it becomes <see cref="AddressType.Conflicting"/>.
         /// </para>
         /// <para>
-        /// This field is only used for combined elements addresses. For this type, it's mandatory.
+        /// This field is only used for combined address elements. For this type, it is mandatory.
+        /// Starting November 25, 2025, banks will no longer accept payments using combined address elements.
         /// </para>
         /// </summary>
         /// <value>The address line 2.</value>

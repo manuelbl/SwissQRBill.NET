@@ -351,6 +351,11 @@ namespace Codecrete.SwissQRBill.Generator
                 return false;
             }
 
+            if ("000000000000000000000000000" == reference)
+            {
+                return false;
+            }
+
             return CalculateMod10(reference) == 0;
         }
 
