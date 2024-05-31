@@ -120,5 +120,25 @@ namespace Codecrete.SwissQRBill.CoreTest
             Assert.Equal(0, _fontMetrics.TextWidth("\n", 10, false));
             Assert.Equal(0, _fontMetrics.TextWidth("\r", 10, false));
         }
+
+
+        [Fact]
+        public void FontFamilyWithQuotes_Eorks()
+        {
+            FontMetrics metrics = new FontMetrics("\"Liberation Sans\"");
+            Assert.Equal(5.70089, metrics.TextWidth("ďīŊ", 10, false), 0.0001);
+        }
+
+        [Fact]
+        public void LatinExtendedBChars_TextWidthWork()
+        {
+            Assert.Equal(1.76389, _fontMetrics.TextWidth("ș", 10, false), 0.0001);
+        }
+
+        [Fact]
+        public void EuroSign_textWidthWork()
+        {
+            Assert.Equal(2.62467, _fontMetrics.TextWidth("€", 10, false), 0.0001);
+        }
     }
 }

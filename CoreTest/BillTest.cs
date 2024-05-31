@@ -75,6 +75,17 @@ namespace Codecrete.SwissQRBill.CoreTest
         }
 
         [Fact]
+        public void SetReferenceToEmpty()
+        {
+            Bill bill = new Bill
+            {
+                Reference = ""
+            };
+            Assert.Equal("", bill.Reference);
+            Assert.Equal(Bill.ReferenceTypeNoRef, bill.ReferenceType);
+        }
+
+        [Fact]
         public void CreateCreditorReference()
         {
             var bill = new Bill();
