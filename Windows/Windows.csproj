@@ -13,8 +13,9 @@
     <RepositoryUrl>https://github.com/manuelbl/SwissQRBill.NET</RepositoryUrl>
     <PackageProjectUrl>https://github.com/manuelbl/SwissQRBill.NET</PackageProjectUrl>
     <PackageTags>Swiss-QR-Bill, Payment, ISO-20022, QR-Code, QRCode, SIX</PackageTags>
-    <PackageReleaseNotes>New in releases 3.1.0/3.1.1:
-- Upgrade dependency System.Drawing.Common due to CVE</PackageReleaseNotes>
+    <PackageReleaseNotes>New in release 3.3:
+- Ready for QR bill specification 2.3 (extended Latin character set, deprecated address type)
+- New output size for online channels</PackageReleaseNotes>
     <Version>3.3.0</Version>
     <Description>Generates the new QR bills for invoicing in Switzerland.
 

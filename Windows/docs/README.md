@@ -4,9 +4,9 @@ Open-source .NET library to generate Swiss QR bills. Try it yourself and [create
 
 ## Introduction
 
-The Swiss QR bill is the QR code based payment format that started on 30 June, 2020. The payment slip is sent electronically in most cases. But it can still be printed at the bottom of an invoice or added to the invoice on a separate sheet. The payer scans the QR code with his/her mobile banking app to initiate the payment. The payment just needs to be confirmed.
+The Swiss QR bill is the QR code based payment format that started on 30 June, 2020. The payment slip is sent electronically or presented online in most cases. It can still be printed at the bottom of an invoice or added to the invoice on a separate sheet. The payer scans the QR code with his/her mobile banking app to initiate the payment and then just needs to confirm it.
 
-If the invoicing party adds structured bill information (VAT rates, payment conditions etc.) to the QR bill, the payer can automate booking in accounts payable. The invoicing party can also automate the accounts receivable processing as the payment includes all relevant data including a reference number. The Swiss QR bill is convenient for the payer and payee.
+If the invoicing party adds structured bill information (VAT rates, payment conditions etc.) to the QR bill, the payer can automate the booking in accounts payable. The invoicing party can also automate the accounts receivable processing as the payment includes all relevant data including a reference number. The Swiss QR bill is convenient for the payer and payee.
 
 ![QR Bill](https://raw.githubusercontent.com/wiki/manuelbl/SwissQRBill/images/qr-invoice-e1.svg?sanitize=true)
 
@@ -17,8 +17,8 @@ If the invoicing party adds structured bill information (VAT rates, payment cond
 The Swiss QR bill library:
 
 - generates QR bills as PDF, SVG, PNG and EMF files
-- generates payment slips (105mm by 210mm), A4 sheets or QR codes
-- multilingual: German, French, Italian, English, Romansh
+- generates payment slips (210mm by 105mm), payment part (148mm by 105mm), A4 sheets or QR code only
+- is multilingual: German, French, Italian, English, Romansh
 - validates the invoice data and provides detailed validation information
 - adds or retrieves structured bill information (according to Swico S1)
 - parses the invoice data embedded in the QR code
@@ -64,8 +64,10 @@ namespace Codecrete.SwissQRBill.Examples.Basic
                 Creditor = new Address
                 {
                     Name = "Robert Schneider AG",
-                    AddressLine1 = "Rue du Lac 1268/2/22",
-                    AddressLine2 = "2501 Biel",
+                    Street = "Rue du Lac",
+                    HouseNo = "1268/2/22",
+                    PostalCode = "2501",
+                    Town = "Biel",
                     CountryCode = "CH"
                 },
 
@@ -77,15 +79,16 @@ namespace Codecrete.SwissQRBill.Examples.Basic
                 Debtor = new Address
                 {
                     Name = "Pia-Maria Rutschmann-Schnyder",
-                    AddressLine1 = "Grosse Marktgasse 28",
-                    AddressLine2 = "9400 Rorschach",
+                    Street = "Grosse Marktgasse",
+                    HouseNo = "28",
+                    PostalCode = "9400",
+                    Town = "Rorschach",
                     CountryCode = "CH"
                 },
 
                 // more payment data
                 Reference = "210000000003139471430009017",
                 UnstructuredMessage = "Abonnement für 2020",
-
 
                 // output format
                 Format = new BillFormat

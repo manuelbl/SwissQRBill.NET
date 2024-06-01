@@ -2,31 +2,30 @@
 
 Open-source .NET library to generate Swiss QR bills (jointly developed with the [Java version](https://github.com/manuelbl/SwissQRBill)).
 
-Try it yourself and [create a QR bill](https://www.codecrete.net/qrbill). The code for the demo app (React UI and RESTful service) can be found on [GitHub](https://github.com/manuelbl/SwissQRBillDemo) as well.
+Try it yourself and [create a QR bill](https://www.codecrete.net/qrbill). The code for this demonstration (React UI and RESTful service) can be found on [GitHub](https://github.com/manuelbl/SwissQRBillDemo) as well.
 
 This library implements version 2.2 and 2.3 of the *Swiss Implementation Guidelines QR-bill* from November 20, 2023, and *Swico Syntax Definition (S1)* from November 23, 2018.
 
 
 ## Introduction
 
-The Swiss QR bill is the QR code based payment format that started on 30 June, 2020. The payment slip is sent electronically in most cases. But it can still be printed at the bottom of an invoice or added to the invoice on a separate sheet. The payer scans the QR code with his/her mobile banking app to initiate the payment. The payment just needs to be confirmed.
+The Swiss QR bill is the QR code based payment format that started on 30 June, 2020. The payment slip is sent electronically or presented online in most cases. It can still be printed at the bottom of an invoice or added to the invoice on a separate sheet. The payer scans the QR code with his/her mobile banking app to initiate the payment and then just needs to confirm it.
 
-If the invoicing party adds structured bill information (VAT rates, payment conditions etc.) to the QR bill, the payer can automate booking in accounts payable. The invoicing party can also automate the accounts receivable processing as the payment includes all relevant data including a reference number. The Swiss QR bill is convenient for the payer and payee.
+If the invoicing party adds structured bill information (VAT rates, payment conditions etc.) to the QR bill, the payer can automate the booking in accounts payable. The invoicing party can also automate the accounts receivable processing as the payment includes all relevant data including a reference number. The Swiss QR bill is convenient for the payer and payee.
 
 ![QR Bill](https://raw.githubusercontent.com/wiki/manuelbl/SwissQRBill/images/qr-invoice-e1.svg?sanitize=true)
 
 *More [examples](https://github.com/manuelbl/SwissQRBill/wiki/Swiss-QR-Invoice-Examples) can be found in the [Wiki](https://github.com/manuelbl/SwissQRBill/wiki)*
 
-
 ## Features
 
 The Swiss QR bill library:
 
-- generates QR bills as PDF, SVG,  PNG and EMF files
-- generates payment slips (105mm by 210mm), A4 sheets or QR codes
-- multilingual: German, French, Italian, English, Romansh
+- generates QR bills as PDF, SVG, PNG and EMF files
+- generates payment slips (210mm by 105mm), payment part (148mm by 105mm), A4 sheets or QR code only
+- is multilingual: German, French, Italian, English, Romansh
 - validates the invoice data and provides detailed validation information
-- adds or retrieves structured bill information (according to [Swico S1](https://www.swiss-qr-invoice.org/downloads/qr-bill-s1-syntax-de.pdf))
+- adds or retrieves structured bill information (according to Swico S1)
 - parses the invoice data embedded in the QR code
 - is easy to use (see example below)
 - is small and fast
@@ -73,8 +72,10 @@ namespace Codecrete.SwissQRBill.Examples.Basic
                 Creditor = new Address
                 {
                     Name = "Robert Schneider AG",
-                    AddressLine1 = "Rue du Lac 1268/2/22",
-                    AddressLine2 = "2501 Biel",
+                    Street = "Rue du Lac",
+                    HouseNo = "1268/2/22",
+                    PostalCode = "2501",
+                    Town = "Biel",
                     CountryCode = "CH"
                 },
 
@@ -86,15 +87,16 @@ namespace Codecrete.SwissQRBill.Examples.Basic
                 Debtor = new Address
                 {
                     Name = "Pia-Maria Rutschmann-Schnyder",
-                    AddressLine1 = "Grosse Marktgasse 28",
-                    AddressLine2 = "9400 Rorschach",
+                    Street = "Grosse Marktgasse",
+                    HouseNo = "28",
+                    PostalCode = "9400",
+                    Town = "Rorschach",
                     CountryCode = "CH"
                 },
 
                 // more payment data
                 Reference = "210000000003139471430009017",
                 UnstructuredMessage = "Abonnement für 2020",
-
 
                 // output format
                 Format = new BillFormat
@@ -130,10 +132,19 @@ Swiss QR Bill generation is available as three different NuGet packages. They al
 
 | NuGet packages | PDF | SVG | PNG | EMF | Platform neutral | Recommendation |
 | -- | :--: | :--: | :--: | :--: | :--: | -- |
-| [Codecrete.SwissQRBill.Core](https://www.nuget.org/packages/Codecrete.SwissQRBill.Core/) | ✓ | ✓ | – | – | ✓ | Platform-independent core without PNG and EMF generation. |
-| [Codecrete.SwissQRBill.Generator](https://www.nuget.org/packages/Codecrete.SwissQRBill.Generator/) | ✓ | ✓ | ✓ | – | ✓ | Core plus platform-independent PNG generation (based on [SkiaSharp](https://github.com/mono/SkiaSharp)). |
-| [Codecrete.SwissQRBill.Windows](https://www.nuget.org/packages/Codecrete.SwissQRBill.Windows/) | ✓ | ✓ | ✓ | ✓ | – | Windows specific package including core plus PNG and EMF generation based on [System.Drawing.Common](https://www.nuget.org/packages/System.Drawing.Common) |
+| [Codecrete.SwissQRBill.Core](https://www.nuget.org/packages/Codecrete.SwissQRBill.Core/) | ✓ † | ✓ | – | – | ✓ | Platform-independent core without PNG and EMF generation. |
+| [Codecrete.SwissQRBill.Generator](https://www.nuget.org/packages/Codecrete.SwissQRBill.Generator/) | ✓ † | ✓ | ✓ | – | ✓ | Core plus platform-independent PNG generation (based on [SkiaSharp](https://github.com/mono/SkiaSharp)). |
+| [Codecrete.SwissQRBill.Windows](https://www.nuget.org/packages/Codecrete.SwissQRBill.Windows/) | ✓ † | ✓ | ✓ | ✓ | – | Windows specific package including core plus PNG and EMF generation based on [System.Drawing.Common](https://www.nuget.org/packages/System.Drawing.Common) |
 
+† See the note below related to PDF generation with the extended Latin character set.
+ 
+
+## Changes effective November 21, 2025
+
+On November 21, 2025, the QR bill specification 2.3 and further changes in the Swiss payment standards will become effective. The library is ready for these changes:
+
+- QR bills may use an extended character set (*Extended Latin* instead of a subset of *Latin-1*). To enable it, use `bill.CharacterSet = SpsCharacterSet.ExtendedLatin`. Do not use it before November 21, 2025. Also see the below regaring PDF generation.
+- Payments may no longer use *combined address elements* (aka unstructured addresses). In the library, the related methods have been marked as deprecated. Use structured addresses instead. Stop using unstructured addresses long before November 21, 2025 or customer will be unable to pay your bills.
 
 
 ## PNG generation
@@ -144,18 +155,20 @@ PNG generation requires a raster graphics library. Starting with .NET 6, the *Sy
 - If you need PNG generation, you can use the enhanced version: **Codecrete.SwissQRBill.Generator**. It uses [SkiaSharp](https://github.com/mono/SkiaSharp) as a platform independent raster graphics library. Note that on Linux, SkiaSharp depends on native libraries that might not be installed on your machine. The easiest solution is to add the NuGet package [SkiaSharp.NativeAssets.Linux.NoDependencies](https://www.nuget.org/packages/SkiaSharp.NativeAssets.Linux.NoDependencies) to your project.
 - If you creating a Windows-only software, use the **Codecrete.SwissQRBill.Windows** package. It uses the *System.Drawing* classes for PNG generation and adds EMF generation on top.
 
+
 ## PDF generation
 
 To generate QR bills as PDF files, this library uses its own, minimal PDF generator that requires no further dependencies and comes with the same permissive license as the rest of this library.
 
 The built-in PDF generator does not support font embedding and is thus restricted to the standard 14 PDF fonts, which in turn are restricted to the WinANSI character set. This is sufficient to generate QR bills using the original character set (a subset of Latin-1). However, it is insufficient to generate QR bills using the extended Latin character set (allowed from November 21, 2025). If the extended character set is to be used, use one of the below options.
 
-If you are already using [iText](https://itextpdf.com/en) or [PDFsharp](http://www.pdfsharp.net/), then have a look at the respective examples:
+The libary can be integrated with [iText](https://itextpdf.com/en) or [PDFsharp](http://www.pdfsharp.net/). See the example projects for more information:
 
 - iText: https://github.com/manuelbl/SwissQRBill.NET/tree/master/Examples/iText
 - PDFsharp: https://github.com/manuelbl/SwissQRBill.NET/tree/master/Examples/PDFsharp
 
 These examples also support adding a QR bill to an existing PDF document.
+
 
 ## Code examples
 
