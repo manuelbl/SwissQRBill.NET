@@ -244,6 +244,7 @@ namespace Codecrete.SwissQRBill.Generator
                 sb.Append(address.Town);
 
             }
+#pragma warning disable CS0618 // Type or member is obsolete
             else if (address.Type == AddressType.CombinedElements)
             {
                 if (address.AddressLine1 != null)
@@ -259,6 +260,7 @@ namespace Codecrete.SwissQRBill.Generator
                 }
                 sb.Append(address.AddressLine2);
             }
+#pragma warning restore CS0618 // Type or member is obsolete
             return sb.ToString();
         }
 
@@ -276,9 +278,11 @@ namespace Codecrete.SwissQRBill.Generator
                     reducedAddress.PostalCode = address.PostalCode;
                     reducedAddress.Town = address.Town;
                     break;
+#pragma warning disable CS0618 // Type or member is obsolete
                 case AddressType.CombinedElements:
                     reducedAddress.AddressLine2 = address.AddressLine2;
                     break;
+#pragma warning restore CS0618 // Type or member is obsolete
             }
 
             return reducedAddress;

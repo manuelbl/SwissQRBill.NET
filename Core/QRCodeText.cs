@@ -92,10 +92,12 @@ namespace Codecrete.SwissQRBill.Generator
             {
                 AppendDataField(address.Type == AddressType.Structured ? "S" : "K"); // AdrTp
                 AppendDataField(address.Name); // Name
+#pragma warning disable CS0618 // Type or member is obsolete
                 AppendDataField(address.Type == AddressType.Structured
                         ? address.Street : address.AddressLine1); // StrtNmOrAdrLine1
                 AppendDataField(address.Type == AddressType.Structured
                         ? address.HouseNo : address.AddressLine2); // StrtNmOrAdrLine2
+#pragma warning restore CS0618 // Type or member is obsolete
                 AppendDataField(address.PostalCode); // PstCd
                 AppendDataField(address.Town); // TwnNm
                 AppendDataField(address.CountryCode); // Ctry
@@ -264,8 +266,10 @@ namespace Codecrete.SwissQRBill.Generator
             }
             else
             {
+#pragma warning disable CS0618 // Type or member is obsolete
                 address.AddressLine1 = lines[startLine + 2];
                 address.AddressLine2 = lines[startLine + 3];
+#pragma warning restore CS0618 // Type or member is obsolete
             }
             if (lines[startLine + 4].Length > 0)
             {

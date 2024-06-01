@@ -268,6 +268,7 @@ namespace Codecrete.SwissQRBill.CoreTest
             return string.Join(newLine, QRCodeText4);
         }
 
+#pragma warning disable CS0618 // Type or member is obsolete
         public static Bill CreateBillData4(Bill.QrDataSeparator separator)
         {
             var creditor = new Address
@@ -299,6 +300,7 @@ namespace Codecrete.SwissQRBill.CoreTest
             };
             return bill;
         }
+#pragma warning restore CS0618 // Type or member is obsolete
 
         private static readonly string[] QRCodeText5 =
         {
@@ -340,6 +342,7 @@ namespace Codecrete.SwissQRBill.CoreTest
             return string.Join(newLine, QRCodeText5);
         }
 
+#pragma warning disable CS0618 // Type or member is obsolete
         public static Bill CreateBillData5(Bill.QrDataSeparator separator)
         {
             var creditor = new Address
@@ -371,6 +374,7 @@ namespace Codecrete.SwissQRBill.CoreTest
             };
             return bill;
         }
+#pragma warning restore CS0618 // Type or member is obsolete
 
         private static readonly string[][] QrCodeTexts =
         {

@@ -125,7 +125,7 @@ namespace Codecrete.SwissQRBill.CoreTest
         [Fact]
         public void FontFamilyWithQuotes_Eorks()
         {
-            FontMetrics metrics = new FontMetrics("\"Liberation Sans\"");
+            var metrics = new FontMetrics("\"Liberation Sans\"");
             Assert.Equal(5.70089, metrics.TextWidth("ďīŊ", 10, false), 0.0001);
         }
 

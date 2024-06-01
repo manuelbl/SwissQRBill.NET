@@ -77,7 +77,7 @@ namespace Codecrete.SwissQRBill.CoreTest
         [Fact]
         public void SetReferenceToEmpty()
         {
-            Bill bill = new Bill
+            var bill = new Bill
             {
                 Reference = ""
             };

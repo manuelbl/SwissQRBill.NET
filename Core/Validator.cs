@@ -351,6 +351,7 @@ namespace Codecrete.SwissQRBill.Generator
 
         private void EmitErrorsForConflictingType(Address addressOut, string fieldRoot)
         {
+#pragma warning disable CS0618 // Type or member is obsolete
             if (addressOut.AddressLine1 != null)
             {
                 _validationResult.AddMessage(MessageType.Error, fieldRoot + ValidationConstants.SubFieldAddressLine1, ValidationConstants.KeyAddressTypeConflict);
@@ -360,6 +361,7 @@ namespace Codecrete.SwissQRBill.Generator
             {
                 _validationResult.AddMessage(MessageType.Error, fieldRoot + ValidationConstants.SubFieldAddressLine2, ValidationConstants.KeyAddressTypeConflict);
             }
+#pragma warning restore CS0618 // Type or member is obsolete
 
             if (addressOut.Street != null)
             {
@@ -392,7 +394,9 @@ namespace Codecrete.SwissQRBill.Generator
             }
             if (addressOut.Type == AddressType.CombinedElements || addressOut.Type == AddressType.Undetermined)
             {
+#pragma warning disable CS0618 // Type or member is obsolete
                 ValidateMandatory(addressOut.AddressLine2, fieldRoot, ValidationConstants.SubFieldAddressLine2);
+#pragma warning restore CS0618 // Type or member is obsolete
             }
             ValidateMandatory(addressOut.CountryCode, fieldRoot, ValidationConstants.SubFieldCountryCode);
         }
@@ -408,10 +412,12 @@ namespace Codecrete.SwissQRBill.Generator
                     addressOut.PostalCode = ClippedValue(addressOut.PostalCode, 16, fieldRoot, ValidationConstants.SubFieldPostalCode);
                     addressOut.Town = ClippedValue(addressOut.Town, 35, fieldRoot, ValidationConstants.SubFieldTown);
                     break;
+#pragma warning disable CS0618 // Type or member is obsolete
                 case AddressType.CombinedElements:
                     addressOut.AddressLine1 = ClippedValue(addressOut.AddressLine1, 70, fieldRoot, ValidationConstants.SubFieldAddressLine1);
                     addressOut.AddressLine2 = ClippedValue(addressOut.AddressLine2, 70, fieldRoot, ValidationConstants.SubFieldAddressLine2);
                     break;
+#pragma warning restore CS0618 // Type or member is obsolete
                 case AddressType.Undetermined:
                 case AddressType.Conflicting:
                 default:
@@ -447,6 +453,7 @@ namespace Codecrete.SwissQRBill.Generator
             {
                 Name = CleanedValue(addressIn.Name, fieldRoot, ValidationConstants.SubFieldName)
             };
+#pragma warning disable CS0618 // Type or member is obsolete
             var value = CleanedValue(addressIn.AddressLine1, fieldRoot, ValidationConstants.SubFieldAddressLine1);
             if (value != null)
             {
@@ -458,6 +465,7 @@ namespace Codecrete.SwissQRBill.Generator
             {
                 addressOut.AddressLine2 = value;
             }
+#pragma warning restore CS0618 // Type or member is obsolete
 
             value = CleanedValue(addressIn.Street, fieldRoot, ValidationConstants.SubFieldStreet);
             if (value != null)

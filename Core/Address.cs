@@ -8,8 +8,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Net;
-using System.Xml.Linq;
 
 namespace Codecrete.SwissQRBill.Generator
 {
@@ -104,6 +102,7 @@ namespace Codecrete.SwissQRBill.Generator
         /// </para>
         /// </summary>
         /// <value>The address line 1.</value>
+        [Obsolete("Use a structured address instead. Will be removed in version 4.")]
         public string AddressLine1
         {
             get => _addressLine1;
@@ -131,6 +130,7 @@ namespace Codecrete.SwissQRBill.Generator
         /// </para>
         /// </summary>
         /// <value>The address line 2.</value>
+        [Obsolete("Use a structured address instead. Will be removed in version 4.")]
         public string AddressLine2
         {
             get => _addressLine2;
@@ -277,8 +277,10 @@ namespace Codecrete.SwissQRBill.Generator
             return other != null &&
                    Type == other.Type &&
                    Name == other.Name &&
+#pragma warning disable CS0618 // Type or member is obsolete
                    AddressLine1 == other.AddressLine1 &&
                    AddressLine2 == other.AddressLine2 &&
+#pragma warning restore CS0618 // Type or member is obsolete
                    Street == other.Street &&
                    HouseNo == other.HouseNo &&
                    PostalCode == other.PostalCode &&
@@ -294,8 +296,10 @@ namespace Codecrete.SwissQRBill.Generator
             var hashCode = 1913794654;
             hashCode = hashCode * -1521134295 + Type.GetHashCode();
             hashCode = hashCode * -1521134295 + comparer.GetHashCode(Name);
+#pragma warning disable CS0618 // Type or member is obsolete
             hashCode = hashCode * -1521134295 + comparer.GetHashCode(AddressLine1);
             hashCode = hashCode * -1521134295 + comparer.GetHashCode(AddressLine2);
+#pragma warning restore CS0618 // Type or member is obsolete
             hashCode = hashCode * -1521134295 + comparer.GetHashCode(Street);
             hashCode = hashCode * -1521134295 + comparer.GetHashCode(HouseNo);
             hashCode = hashCode * -1521134295 + comparer.GetHashCode(PostalCode);

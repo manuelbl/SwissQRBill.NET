@@ -154,7 +154,9 @@ namespace Codecrete.SwissQRBill.CoreTest
         public void CreditorWithConflictingAddress()
         {
             SourceBill = SampleData.CreateExample1();
+#pragma warning disable CS0618 // Type or member is obsolete
             SourceBill.Creditor.AddressLine1 = "Conflict";
+#pragma warning restore CS0618 // Type or member is obsolete
             Validate();
             Assert.True(Result.HasErrors);
             Assert.False(Result.HasWarnings);

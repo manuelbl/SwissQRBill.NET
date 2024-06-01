@@ -138,6 +138,7 @@ namespace Codecrete.SwissQRBill.WindowsTest
             return bill;
         }
 
+#pragma warning disable CS0618 // Type or member is obsolete
         public static Bill CreateExample5()
         {
             var creditor = new Address
@@ -191,4 +192,5 @@ namespace Codecrete.SwissQRBill.WindowsTest
             return bill;
         }
     }
+#pragma warning restore CS0618 // Type or member is obsolete
 }

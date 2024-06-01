@@ -29,6 +29,7 @@ namespace Codecrete.SwissQRBill.CoreTest
             Assert.Equal("ABC", address.Name);
         }
 
+#pragma warning disable CS0618 // Type or member is obsolete
         [Fact]
         public void SetAddressLine1()
         {
@@ -50,6 +51,7 @@ namespace Codecrete.SwissQRBill.CoreTest
             Assert.Equal("vbnm", address.AddressLine2);
             Assert.Equal(Address.AddressType.CombinedElements, address.Type);
         }
+#pragma warning restore CS0618 // Type or member is obsolete
 
         [Fact]
         public void SetStreet()
@@ -105,6 +107,7 @@ namespace Codecrete.SwissQRBill.CoreTest
             Assert.Equal("XY", address.CountryCode);
         }
 
+#pragma warning disable CS0618 // Type or member is obsolete
         [Fact]
         public void ConflictTest1()
         {
@@ -115,7 +118,9 @@ namespace Codecrete.SwissQRBill.CoreTest
             };
             Assert.Equal(Address.AddressType.Conflicting, address.Type);
         }
+#pragma warning restore CS0618 // Type or member is obsolete
 
+#pragma warning disable CS0618 // Type or member is obsolete
         [Fact]
         public void ConflictTest2()
         {
@@ -148,6 +153,7 @@ namespace Codecrete.SwissQRBill.CoreTest
             };
             Assert.Equal(Address.AddressType.Conflicting, address.Type);
         }
+#pragma warning restore CS0618 // Type or member is obsolete
 
         [Fact]
         public void EqualObjectsStructured()
@@ -181,6 +187,7 @@ namespace Codecrete.SwissQRBill.CoreTest
             Assert.Equal(address1.GetHashCode(), address2.GetHashCode());
         }
 
+#pragma warning disable CS0618 // Type or member is obsolete
         [Fact]
         public void ClearTestStructured()
         {
@@ -212,6 +219,7 @@ namespace Codecrete.SwissQRBill.CoreTest
             Assert.Null(address1.Town);
             Assert.Null(address1.CountryCode);
         }
+#pragma warning restore CS0618 // Type or member is obsolete
 
         [Fact]
         public void TestEqualsTrivial()
@@ -249,6 +257,7 @@ namespace Codecrete.SwissQRBill.CoreTest
             return address;
         }
 
+#pragma warning disable CS0618 // Type or member is obsolete
         private static Address CreateCombinedElementAddress()
         {
             var address = new Address
@@ -260,5 +269,6 @@ namespace Codecrete.SwissQRBill.CoreTest
             };
             return address;
         }
+#pragma warning restore CS0618 // Type or member is obsolete
     }
 }
