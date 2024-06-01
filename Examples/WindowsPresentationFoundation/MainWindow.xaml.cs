@@ -29,8 +29,10 @@ namespace Codecrete.SwissQRBill.Examples.Wpf
                 Creditor = new Address
                 {
                     Name = "Robert Schneider AG",
-                    AddressLine1 = "Rue du Lac 1268/2/22",
-                    AddressLine2 = "2501 Biel",
+                    Street = "Rue du Lac",
+                    HouseNo = "1268/2/22",
+                    PostalCode = "2501",
+                    Town = "Biel",
                     CountryCode = "CH"
                 },
 
@@ -42,8 +44,10 @@ namespace Codecrete.SwissQRBill.Examples.Wpf
                 Debtor = new Address
                 {
                     Name = "Pia-Maria Rutschmann-Schnyder",
-                    AddressLine1 = "Grosse Marktgasse 28",
-                    AddressLine2 = "9400 Rorschach",
+                    Street = "Grosse Marktgasse",
+                    HouseNo = "28",
+                    PostalCode = "9400",
+                    Town = "Rorschach",
                     CountryCode = "CH"
                 },
 

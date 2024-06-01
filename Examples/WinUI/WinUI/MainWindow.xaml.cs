@@ -38,8 +38,10 @@ namespace Codecrete.SwissQRBill.Examples.WinUI
                 Creditor = new Address
                 {
                     Name = "Robert Schneider AG",
-                    AddressLine1 = "Rue du Lac 1268/2/22",
-                    AddressLine2 = "2501 Biel",
+                    Street = "Rue du Lac",
+                    HouseNo = "1268/2/22",
+                    PostalCode = "2501",
+                    Town = "Biel",
                     CountryCode = "CH"
                 },
 
@@ -51,8 +53,10 @@ namespace Codecrete.SwissQRBill.Examples.WinUI
                 Debtor = new Address
                 {
                     Name = "Pia-Maria Rutschmann-Schnyder",
-                    AddressLine1 = "Grosse Marktgasse 28",
-                    AddressLine2 = "9400 Rorschach",
+                    Street = "Grosse Marktgasse",
+                    HouseNo = "28",
+                    PostalCode = "9400",
+                    Town = "Rorschach",
                     CountryCode = "CH"
                 },
 
@@ -95,14 +99,12 @@ namespace Codecrete.SwissQRBill.Examples.WinUI
             printDocument.Preview += OnPreview;
             printDocument.Print += OnPrint;
 
-            // var printManager = PrintManager.GetForCurrentView();
             var hWnd = WinRT.Interop.WindowNative.GetWindowHandle(this);
             var printManager = PrintManagerInterop.GetForWindow(hWnd);
 
             printManager.PrintTaskRequested += OnPrintTaskRequested;
             try
             {
-                // await PrintManager.ShowPrintUIAsync();
                 await PrintManagerInterop.ShowPrintUIForWindowAsync(hWnd);
             }
             finally

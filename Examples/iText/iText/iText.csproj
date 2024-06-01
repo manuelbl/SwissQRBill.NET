@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
     <AssemblyName>Codecrete.SwissQRBill.Examples.IText7</AssemblyName>
     <RootNamespace>Codecrete.SwissQRBill.Examples.IText7</RootNamespace>
     <Authors>Manuel Bleichenbacher</Authors>

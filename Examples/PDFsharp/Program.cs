@@ -83,7 +83,8 @@ namespace PDFsharp
             Creditor = new Address
             {
                 Name = "Seemannschaft Rapperswil",
-                AddressLine2 = "8640 Rapperswil",
+                PostalCode = "8640",
+                Town = "Rapperswil",
                 CountryCode = "CH"
             },
 

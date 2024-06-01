@@ -5,14 +5,6 @@
 // https://opensource.org/licenses/MIT
 //
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Xml.Linq;
-using Word = Microsoft.Office.Interop.Word;
-using Office = Microsoft.Office.Core;
-using Microsoft.Office.Tools.Word;
 using Codecrete.SwissQRBill.Generator;
 using Codecrete.SwissQRBill.Windows;
 using System.IO;
@@ -40,8 +32,10 @@ namespace Codecrete.SwissQRBill.WordAddIn
                 Creditor = new Address
                 {
                     Name = "Robert Schneider AG",
-                    AddressLine1 = "Rue du Lac 1268/2/22",
-                    AddressLine2 = "2501 Biel",
+                    Street = "Rue du Lac",
+                    HouseNo = "1268/2/22",
+                    PostalCode = "2501",
+                    Town = "Biel",
                     CountryCode = "CH"
                 },
 
@@ -53,8 +47,10 @@ namespace Codecrete.SwissQRBill.WordAddIn
                 Debtor = new Address
                 {
                     Name = "Pia-Maria Rutschmann-Schnyder",
-                    AddressLine1 = "Grosse Marktgasse 28",
-                    AddressLine2 = "9400 Rorschach",
+                    Street = "Grosse Marktgasse",
+                    HouseNo = "28",
+                    PostalCode = "9400",
+                    Town = "Rorschach",
                     CountryCode = "CH"
                 },
 
@@ -72,7 +68,7 @@ namespace Codecrete.SwissQRBill.WordAddIn
             };
 
             // create EMF file
-            var path = Path.GetTempFileName();
+            var path = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
             using (MetafileCanvas canvas = new MetafileCanvas(210, 110, "Arial"))
             {
                 QRBill.Draw(bill, canvas);

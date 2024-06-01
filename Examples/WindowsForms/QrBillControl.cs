@@ -34,8 +34,9 @@ namespace Codecrete.SwissQRBill.Examples.WindowsForms
                 Creditor = new Address
                 {
                     Name = "Croce Rossa Svizzera - Sezione del Sottoceneri",
-                    AddressLine1 = "Via alla Campagna",
-                    AddressLine2 = "6900 Lugano",
+                    Street = "Via alla Campagna",
+                    PostalCode = "6900",
+                    Town = "Lugano",
                     CountryCode = "CH"
                 },
 

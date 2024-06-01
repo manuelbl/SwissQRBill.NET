@@ -26,15 +26,17 @@ namespace Codecrete.SwissQRBill.Examples.Basic
         static void Main()
         {
             // Setup bill data
-            Bill bill = new Bill
+            var bill = new Bill
             {
                 // creditor data
                 Account = "CH4431999123000889012",
                 Creditor = new Address
                 {
                     Name = "Robert Schneider AG",
-                    AddressLine1 = "Rue du Lac 1268/2/22",
-                    AddressLine2 = "2501 Biel",
+                    Street = "Rue du Lac",
+                    HouseNo = "1268/2/22",
+                    PostalCode = "2501",
+                    Town = "Biel",
                     CountryCode = "CH"
                 },
 
@@ -46,8 +48,10 @@ namespace Codecrete.SwissQRBill.Examples.Basic
                 Debtor = new Address
                 {
                     Name = "Pia-Maria Rutschmann-Schnyder",
-                    AddressLine1 = "Grosse Marktgasse 28",
-                    AddressLine2 = "9400 Rorschach",
+                    Street = "Grosse Marktgasse",
+                    HouseNo = "28",
+                    PostalCode = "9400",
+                    Town = "Rorschach",
                     CountryCode = "CH"
                 },
 
@@ -65,19 +69,19 @@ namespace Codecrete.SwissQRBill.Examples.Basic
             };
 
             // Generate QR bill as SVG
-            byte[] svg = QRBill.Generate(bill);
+            var svg = QRBill.Generate(bill);
 
             // Save generated SVG file
-            const string path = "qrbill.svg";
+            var path = "qrbill.svg";
             File.WriteAllBytes(path, svg);
             Console.WriteLine($"SVG QR bill saved at { Path.GetFullPath(path) }");
 
             // Generate QR bill as PNG
             bill.Format.GraphicsFormat = GraphicsFormat.PNG;
-            byte[] png = QRBill.Generate(bill);
+            var png = QRBill.Generate(bill);
 
             // Save generated PNG file
-            const string pngPath = "qrbill.png";
+            var pngPath = "qrbill.png";
             File.WriteAllBytes(pngPath, png);
             Console.WriteLine($"PNG QR bill saved at { Path.GetFullPath(pngPath) }");
         }

@@ -23,12 +23,12 @@ namespace Codecrete.SwissQRBill.Examples.IText7
     {
         private static void Main(string[] args)
         {
-            Bill bill = CreateBillData();
+            var bill = CreateBillData();
 
             // Add QR bill to a copy of an existing PDF file
             string destPath = "invoice-with-qr-bill.pdf";
-            using (FileStream fs = new FileStream(destPath, FileMode.Create))
-            using (IText7Canvas canvas = new IText7Canvas(OpenPdfInvoice("invoice-without-qr-bill.pdf"), fs, IText7Canvas.LastPage))
+            using (var fs = new FileStream(destPath, FileMode.Create))
+            using (var canvas = new IText7Canvas(OpenPdfInvoice("invoice-without-qr-bill.pdf"), fs, IText7Canvas.LastPage))
             {
                 QRBill.Draw(bill, canvas);
             }
@@ -38,7 +38,7 @@ namespace Codecrete.SwissQRBill.Examples.IText7
             // Generate QR bill in new file
             string path = "qrbill.pdf";
             bill.Format.SeparatorType = SeparatorType.DottedLineWithScissors;
-            using (IText7Canvas canvas = new IText7Canvas(path, 210, 297))
+            using (var canvas = new IText7Canvas(path, 210, 297))
             {
                 QRBill.Draw(bill, canvas);
             }
@@ -48,7 +48,7 @@ namespace Codecrete.SwissQRBill.Examples.IText7
 
         private static Bill CreateBillData()
         {
-            Bill bill = new Bill
+            var bill = new Bill
             {
                 Format = new BillFormat
                 {
@@ -59,8 +59,10 @@ namespace Codecrete.SwissQRBill.Examples.IText7
                 Creditor = new Address
                 {
                     Name = "Omnia Trading AG",
-                    AddressLine1 = "Allmendweg 30",
-                    AddressLine2 = "4528 Zuchwil",
+                    Street = "Allmendweg",
+                    HouseNo = "30",
+                    PostalCode = "4528",
+                    Town = "Zuchwil",
                     CountryCode = "CH"
                 },
                 Amount = 1756.05m,
@@ -68,8 +70,10 @@ namespace Codecrete.SwissQRBill.Examples.IText7
                 Debtor = new Address
                 {
                     Name = "Machina Futura AG",
-                    AddressLine1 = "Alte Fabrik 3A",
-                    AddressLine2 = "8400 Winterthur",
+                    Street = "Alte Fabrik",
+                    HouseNo = "3A",
+                    PostalCode = "8400",
+                    Town = "Winterthur",
                     CountryCode = "CH"
                 },
                 UnstructuredMessage = "Auftrag 2830188 / Rechnung 2021007834"
@@ -81,8 +85,8 @@ namespace Codecrete.SwissQRBill.Examples.IText7
 
         private static Stream OpenPdfInvoice(string filename)
         {
-            Assembly assembly = Assembly.GetExecutingAssembly();
-            Stream resourceStream = assembly.GetManifestResourceStream(typeof(Program), $"PdfFile.{filename}");
+            var assembly = Assembly.GetExecutingAssembly();
+            var resourceStream = assembly.GetManifestResourceStream(typeof(Program), $"PdfFile.{filename}");
             if (resourceStream == null)
             {
                 throw new FileNotFoundException($"Resource not found: PdfFile.{filename}");
