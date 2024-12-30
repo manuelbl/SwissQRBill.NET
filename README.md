@@ -156,6 +156,15 @@ PNG generation requires a raster graphics library. Starting with .NET 6, the *Sy
 - If you creating a Windows-only software, use the **Codecrete.SwissQRBill.Windows** package. It uses the *System.Drawing* classes for PNG generation and adds EMF generation on top.
 
 
+**Note:** If you receive the error message *"Graphics format PNG not available (are you missing the NuGet package Codecrete.SwissQRBill.Generator?)"* and you are already using **Codecrete.SwissQRBill.Generator** or **Codecrete.SwissQRBill.Windows**, add this code to your project:
+
+```
+CanvasCreator.Register(new PNGCanvasFactory());
+```
+
+It prevents Visual Studio from removing the **Codecrete.SwissQRBill.Generator** or **Codecrete.SwissQRBill.Windows** library from the final application (and only including the **Codecrete.SwissQRBill.Core** library). Visual Studio likely behaves like this because the PNG generation code is not statically referenced, but discovered and loaded at run-time. So it might think the library is not needed. This problem has only been observed with .NET Framework 4.x and only if the application does not reference **Codecrete.SwissQRBill.Generator** or **Codecrete.SwissQRBill.Windows** directly but indirectly through a class library project.
+
+
 ## PDF generation
 
 To generate QR bills as PDF files, this library uses its own, minimal PDF generator that requires no further dependencies and comes with the same permissive license as the rest of this library.
