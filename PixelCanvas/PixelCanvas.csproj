@@ -61,7 +61,7 @@ See home page https://github.com/manuelbl/SwissQRBill.NET for examples and other
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="SkiaSharp" Version="2.*" />
+    <PackageReference Include="SkiaSharp" Version="3.*" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.*" PrivateAssets="all" />
   </ItemGroup>
 

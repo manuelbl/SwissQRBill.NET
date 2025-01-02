@@ -78,9 +78,7 @@ namespace Codecrete.SwissQRBill.PixelCanvas
             {
                 Style = SKPaintStyle.Fill,
                 Color = SKColors.Black,
-                IsAntialias = true,
-                SubpixelText = true,
-                Typeface = _regularTypeface
+                IsAntialias = true
             };
 
             // create image
@@ -354,8 +352,8 @@ namespace Codecrete.SwissQRBill.PixelCanvas
                     _strokePaint.StrokeCap = SKStrokeCap.Round;
                     break;
                 case LineStyle.Dotted:
-                    _strokePaint.PathEffect = SKPathEffect.CreateDash(new[] { 0.01f * width, 2 * width }, 0);
-                    _strokePaint.StrokeCap = SKStrokeCap.Butt;
+                    _strokePaint.PathEffect = SKPathEffect.CreateDash(new[] { 0.01f * width, 3 * width }, 0);
+                    _strokePaint.StrokeCap = SKStrokeCap.Round;
                     break;
                 default:
                     _strokePaint.PathEffect = null;
@@ -369,11 +367,14 @@ namespace Codecrete.SwissQRBill.PixelCanvas
         /// <inheritdoc />
         public override void PutText(string text, double x, double y, int fontSize, bool isBold)
         {
-            _textPaint.Typeface = isBold ? _boldTypeface : _regularTypeface;
-            _textPaint.TextSize = fontSize * _fontScale;
+            var typeFace = isBold ? _boldTypeface : _regularTypeface;
+            var font = new SKFont(typeFace, fontSize * _fontScale)
+            {
+                Subpixel = true
+            };
             x *= _coordinateScale;
             y *= -_coordinateScale;
-            _canvas.DrawText(text, (float)x, (float)y, _textPaint);
+            _canvas.DrawText(text, (float)x, (float)y, font, _textPaint);
         }
     }
 }
