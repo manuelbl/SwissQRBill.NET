@@ -34,6 +34,10 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ matrix.dotnet-version }}
+        if: matrix.dotnet-version != '481'
 
       - name: Restore NuGet packages for CoreTest
         run: dotnet restore --no-dependencies -p:TargetFramework=net${{ matrix.dotnet-version }} --verbosity normal CoreTest
