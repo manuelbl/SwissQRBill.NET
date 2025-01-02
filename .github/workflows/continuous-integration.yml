@@ -13,6 +13,19 @@ jobs:
     strategy:
       matrix:
         os: [ macos-latest, ubuntu-latest, windows-latest ]
+        dotnet-version: ['5.0',  '6.0', '7.0', '8.0']
+        framework-version: ['netstandard2.0', 'net6.0']
+        exclude:
+          - os: macos-latest
+            dotnet-version: 5.0
+          - dotnet-version: 5.0
+            framework-version: net6.0
+          - dotnet-version: 6.0
+            framework-version: netstandard2.0
+          - dotnet-version: 7.0
+            framework-version: netstandard2.0
+          - dotnet-version: 8.0
+            framework-version: netstandard2.0
       fail-fast: false
     runs-on: ${{ matrix.os }}
     name: Build and run tests
@@ -21,44 +34,58 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: Retrieve cached NuGet packages
-        uses: actions/cache@v4
-        with:
-          path: ~/.nuget/packages
-          key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
-      - name: Restore NuGet packages for Core
-        run: dotnet restore CoreTest/CoreTest.csproj --verbosity normal
-      - name: Build solution for Core
-        run: dotnet build CoreTest/CoreTest.csproj --verbosity normal
-      - name: Run tests for Core
-        run: dotnet test CoreTest/CoreTest.csproj --no-build --verbosity normal --logger:"html;LogFileName=../../TestResults-${{ runner.os }}.html"
-      - name: Restore NuGet packages for PixelCanvas
-        run: dotnet restore PixelCanvasTest/PixelCanvasTest.csproj --verbosity normal
-      - name: Build solution for PixelCanvas
-        run: dotnet build PixelCanvasTest/PixelCanvasTest.csproj --verbosity normal
-      - name: Run tests for PixelCanvas
-        run: dotnet test PixelCanvasTest/PixelCanvasTest.csproj --no-build --verbosity normal --logger:"html;LogFileName=../../TestResults-${{ runner.os }}.html"
-      - name: Restore NuGet packages for Windows
-        run: dotnet restore WindowsTest/WindowsTest.csproj --verbosity normal
+
+      - name: Restore NuGet packages for CoreTest
+        run: dotnet restore --no-dependencies -p:TargetFramework=net${{ matrix.dotnet-version }} --verbosity normal CoreTest
+      - name: Restore library Core
+        run: dotnet restore --verbosity normal Core
+      - name: Build library Core
+        run: dotnet build --configuration Release --no-restore --verbosity normal Core
+      - name: Build test project CoreTest
+        run: dotnet build --configuration Release --no-restore -p:TargetFramework=net${{ matrix.dotnet-version }} --verbosity normal CoreTest
+      - name: Run tests CoreTest
+        run: dotnet test --configuration Release --no-build -P:TargetFramework=net${{ matrix.dotnet-version }} --logger:"html;LogFileName=../../TestResults-CoreTest-${{ matrix.os }}-dotnet_${{ matrix.dotnet-version }}.html" --verbosity normal CoreTest
+
+      - name: Restore NuGet packages for PixelCanvasTest
+        run: dotnet restore --no-dependencies -p:TargetFramework=net${{ matrix.dotnet-version }} --verbosity normal PixelCanvasTest
+      - name: Restore library PixelCanvas
+        run: dotnet restore --verbosity normal PixelCanvas
+      - name: Build library PixelCanvas
+        run: dotnet build --configuration Release --no-restore --verbosity normal PixelCanvas
+      - name: Build test project PixelCanvasTest
+        run: dotnet build --configuration Release --no-restore -p:TargetFramework=net${{ matrix.dotnet-version }} --verbosity normal PixelCanvasTest
+      - name: Run tests PixelCanvasTest
+        run: dotnet test --configuration Release --no-build -P:TargetFramework=net${{ matrix.dotnet-version }} --logger:"html;LogFileName=../../TestResults-PixelCanvasTest-${{ matrix.os }}-dotnet_${{ matrix.dotnet-version }}.html" --verbosity normal PixelCanvasTest
+
+      - name: Restore NuGet packages for WindowsTest
+        run: dotnet restore --no-dependencies -p:TargetFramework=net${{ matrix.dotnet-version }} --verbosity normal WindowsTest
         if: startsWith(matrix.os,'windows')
-      - name: Build solution for Windows
-        run: dotnet build WindowsTest/WindowsTest.csproj --verbosity normal
+      - name: Restore library Windows
+        run: dotnet restore --verbosity normal Windows
         if: startsWith(matrix.os,'windows')
-      - name: Run tests for Windows
-        run: dotnet test WindowsTest/WindowsTest.csproj --no-build --verbosity normal --logger:"html;LogFileName=../../TestResults-${{ runner.os }}.html"
+      - name: Build library Windows
+        run: dotnet build --configuration Release --no-restore --verbosity normal Windows
         if: startsWith(matrix.os,'windows')
+      - name: Build test project WindowsTest
+        run: dotnet build --configuration Release --no-restore -p:TargetFramework=net${{ matrix.dotnet-version }} --verbosity normal WindowsTest
+        if: startsWith(matrix.os,'windows')
+      - name: Run tests WindowsTest
+        run: dotnet test --configuration Release --no-build -P:TargetFramework=net${{ matrix.dotnet-version }} --logger:"html;LogFileName=../../TestResults-WindowsTest-${{ matrix.os }}-dotnet_${{ matrix.dotnet-version }}.html" --verbosity normal WindowsTest
+        if: startsWith(matrix.os,'windows')
+
       - name: Upload received files from failing tests
         uses: actions/upload-artifact@v4
         if: failure()
         with:
-          name: Received-${{ runner.os }}
+          name: Received-${{ runner.os }}-${{ matrix.dotnet-version }}
           path: "**/*.received.*"
       - name: Upload test results
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: TestResults-${{ runner.os }}
-          path: TestResults-${{ runner.os }}.html
+          name: TestResults-${{ runner.os }}-${{ matrix.dotnet-version }}
+          path: TestResults-*.html
+
       - name: Create and validate NuGet package for Core
         run: dotnet pack --no-build --verbosity normal Core/Core.csproj
         if: startsWith(matrix.os,'windows')
@@ -70,20 +97,20 @@ jobs:
         if: startsWith(matrix.os,'windows')
 
       - name: Set up JDK 17 (for SonarQube)
-        if: startsWith(matrix.os,'windows')
+        if: startsWith(matrix.os,'windows') && matrix.dotnet-version == '8.0'
         uses: actions/setup-java@v4
         with:
           java-version: 17
           distribution: 'zulu'
       - name: Cache SonarCloud packages
-        if: startsWith(matrix.os,'windows')
+        if: startsWith(matrix.os,'windows') && matrix.dotnet-version == '8.0'
         uses: actions/cache@v4
         with:
-          path: ~\sonar\cache
+          path: ~\.sonar\cache
           key: ${{ runner.os }}-sonar
           restore-keys: ${{ runner.os }}-sonar
       - name: Cache SonarCloud scanner
-        if: startsWith(matrix.os,'windows')
+        if: startsWith(matrix.os,'windows') && matrix.dotnet-version == '8.0'
         id: cache-sonar-scanner
         uses: actions/cache@v4
         with:
@@ -91,13 +118,13 @@ jobs:
           key: ${{ runner.os }}-sonar-scanner
           restore-keys: ${{ runner.os }}-sonar-scanner
       - name: Install SonarCloud scanner
-        if: startsWith(matrix.os,'windows') && steps.cache-sonar-scanner.outputs.cache-hit != 'true'
+        if: startsWith(matrix.os,'windows') && matrix.dotnet-version == '8.0' && steps.cache-sonar-scanner.outputs.cache-hit != 'true'
         shell: powershell
         run: |
           New-Item -Path .\.sonar\scanner -ItemType Directory
           dotnet tool update dotnet-sonarscanner --tool-path .\.sonar\scanner
       - name: Cache dotnet-coverage
-        if: startsWith(matrix.os,'windows')
+        if: startsWith(matrix.os,'windows') && matrix.dotnet-version == '8.0'
         id: cache-dotnet-coverage
         uses: actions/cache@v4
         with:
@@ -105,13 +132,13 @@ jobs:
           key: ${{ runner.os }}-dotnet-coverage
           restore-keys: ${{ runner.os }}-dotnet-coverage
       - name: Install dotnet-coverage
-        if: startsWith(matrix.os,'windows') && steps.cache-dotnet-coverage.outputs.cache-hit != 'true'
+        if: startsWith(matrix.os,'windows') && matrix.dotnet-version == '8.0' && steps.cache-dotnet-coverage.outputs.cache-hit != 'true'
         shell: powershell
         run: |
           New-Item -Path .\.dotnet-coverage -ItemType Directory
           dotnet tool update dotnet-coverage --tool-path .\.dotnet-coverage
       - name: Build and analyze
-        if: startsWith(matrix.os,'windows')
+        if: startsWith(matrix.os,'windows') && matrix.dotnet-version == '8.0'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
