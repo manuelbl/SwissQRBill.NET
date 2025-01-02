@@ -52,11 +52,14 @@ namespace Codecrete.SwissQRBill.PixelCanvasTest
         public void PngWriteTo()
         {
             Bill bill = SampleData.CreateExample5();
-            using var canvas =
-                new PNGCanvas(QRBill.A4PortraitWidth, QRBill.A4PortraitHeight, 144, "Helvetica, Arial, \"Liberation Sans\"");
-            QRBill.Draw(bill, canvas);
-            var ms = new MemoryStream();
-            canvas.WriteTo(ms);
+            using (var canvas =
+                new PNGCanvas(QRBill.A4PortraitWidth, QRBill.A4PortraitHeight, 144, "Helvetica, Arial, \"Liberation Sans\""))
+            {
+                QRBill.Draw(bill, canvas);
+                var ms = new MemoryStream();
+                canvas.WriteTo(ms);
+            }
+
             Assert.True(true);
         }
 
@@ -64,10 +67,13 @@ namespace Codecrete.SwissQRBill.PixelCanvasTest
         public void PngSaveAs()
         {
             Bill bill = SampleData.CreateExample6();
-            using var canvas =
-                new PNGCanvas(QRBill.QrBillWidth, QRBill.QrBillHeight, 144, "Helvetica, Arial, \"Liberation Sans\"");
-            QRBill.Draw(bill, canvas);
-            canvas.SaveAs("qrbill.png");
+            using (var canvas =
+                new PNGCanvas(QRBill.QrBillWidth, QRBill.QrBillHeight, 144, "Helvetica, Arial, \"Liberation Sans\""))
+            {
+                QRBill.Draw(bill, canvas);
+                canvas.SaveAs("qrbill.png");
+            }
+
             Assert.True(true);
         }
     }

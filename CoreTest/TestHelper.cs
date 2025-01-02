@@ -41,11 +41,14 @@ namespace Codecrete.SwissQRBill.CoreTest
                 bill.Debtor.Town = bill.Debtor.Town.Trim();
             }
 
-            bill.Reference ??= ""; // replace null with empty string
+            if (bill.Reference == null)
+                bill.Reference = ""; // replace null with empty string
 
-            bill.UnstructuredMessage ??= ""; // replace null with empty string
+            if (bill.UnstructuredMessage == null)
+                bill.UnstructuredMessage = ""; // replace null with empty string
 
-            bill.BillInformation ??= ""; // replace null with empty string
+            if (bill.BillInformation == null)
+                bill.BillInformation = ""; // replace null with empty string
 
             if (bill.AlternativeSchemes != null)
             {

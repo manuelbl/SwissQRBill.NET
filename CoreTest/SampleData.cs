@@ -46,7 +46,7 @@ namespace Codecrete.SwissQRBill.CoreTest
                 UnstructuredMessage = "Instruction of 15.09.2019",
                 BillInformation =
                     "//S1/10/10201409/11/190512/20/1400.000-53/30/106017086/31/180508/32/7.7/40/2:10;0:30",
-                AlternativeSchemes = new()
+                AlternativeSchemes = new List<AlternativeScheme>
                 {
                     new AlternativeScheme {Name = "Ultraviolet", Instruction = "UV;UltraPay005;12345"},
                     new AlternativeScheme {Name = "Xing Yong", Instruction = "XY;XYService;54321"}

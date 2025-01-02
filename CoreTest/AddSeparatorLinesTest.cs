@@ -21,13 +21,17 @@ namespace Codecrete.SwissQRBill.CoreTest
         {
             var bill = SampleData.CreateExample1();
             bill.Format.SeparatorType = SeparatorType.None;
-            using var canvas = new PDFCanvas(QRBill.A4PortraitWidth, QRBill.A4PortraitHeight);
-            QRBill.Draw(bill, canvas);
 
-            QRBill.DrawSeparators(SeparatorType.DottedLineWithScissors, true, canvas);
+            MemoryStream ms;
+            using (var canvas = new PDFCanvas(QRBill.A4PortraitWidth, QRBill.A4PortraitHeight))
+            {
+                QRBill.Draw(bill, canvas);
 
-            var ms = new MemoryStream();
-            canvas.WriteTo(ms);
+                QRBill.DrawSeparators(SeparatorType.DottedLineWithScissors, true, canvas);
+
+                ms = new MemoryStream();
+                canvas.WriteTo(ms);
+            }
 
             return VerifyImages.VerifyPdf(ms.ToArray());
         }
@@ -37,13 +41,17 @@ namespace Codecrete.SwissQRBill.CoreTest
         {
             var bill = SampleData.CreateExample1();
             bill.Format.SeparatorType = SeparatorType.None;
-            using var canvas = new PDFCanvas(QRBill.A4PortraitWidth, QRBill.A4PortraitHeight);
-            QRBill.Draw(bill, canvas);
 
-            QRBill.DrawSeparators(SeparatorType.DashedLineWithScissors, false, canvas);
+            MemoryStream ms;
+            using (var canvas = new PDFCanvas(QRBill.A4PortraitWidth, QRBill.A4PortraitHeight))
+            {
+                QRBill.Draw(bill, canvas);
 
-            var ms = new MemoryStream();
-            canvas.WriteTo(ms);
+                QRBill.DrawSeparators(SeparatorType.DashedLineWithScissors, false, canvas);
+
+                ms = new MemoryStream();
+                canvas.WriteTo(ms);
+            }
 
             return VerifyImages.VerifyPdf(ms.ToArray());
         }

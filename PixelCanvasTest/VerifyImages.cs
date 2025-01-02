@@ -22,7 +22,7 @@ namespace Codecrete.SwissQRBill.PixelCanvasTest
             Settings.UseDirectory("ReferenceFiles");
         }
 
-        protected static readonly VerifySettings Settings = new();
+        protected static readonly VerifySettings Settings = new VerifySettings();
 
         public static SettingsTask VerifyPng(byte[] png, [CallerFilePath] string sourceFile = "")
         {

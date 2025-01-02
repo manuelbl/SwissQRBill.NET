@@ -32,10 +32,12 @@ namespace Codecrete.SwissQRBill.WindowsTest
         private static Task GenerateAndComparePngBill(Bill bill, SeparatorType separatorType)
         {
             bill.Format.SeparatorType = separatorType;
-            using var canvas =
-                new PNGCanvas(QRBill.A4PortraitWidth, QRBill.A4PortraitHeight, 288, "Arial,Helvetica");
-            QRBill.Draw(bill, canvas);
-            return VerifyImages.VerifyPng(canvas.ToByteArray());
+            using (var canvas =
+                new PNGCanvas(QRBill.A4PortraitWidth, QRBill.A4PortraitHeight, 288, "Arial,Helvetica"))
+            {
+                QRBill.Draw(bill, canvas);
+                return VerifyImages.VerifyPng(canvas.ToByteArray());
+            }
         }
     }
 }

@@ -13,16 +13,16 @@ jobs:
     strategy:
       matrix:
         os: [ macos-latest, ubuntu-latest, windows-latest ]
-        dotnet-version: ['5.0',  '6.0', '7.0', '8.0']
+        dotnet-version: ['481', '6.0', '8.0']
         framework-version: ['netstandard2.0', 'net6.0']
         exclude:
           - os: macos-latest
-            dotnet-version: 5.0
-          - dotnet-version: 5.0
+            dotnet-version: 481
+          - os: ubuntu-latest
+            dotnet-version: 481
+          - dotnet-version: 481
             framework-version: net6.0
           - dotnet-version: 6.0
-            framework-version: netstandard2.0
-          - dotnet-version: 7.0
             framework-version: netstandard2.0
           - dotnet-version: 8.0
             framework-version: netstandard2.0

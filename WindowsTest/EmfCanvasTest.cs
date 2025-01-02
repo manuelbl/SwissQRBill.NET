@@ -11,8 +11,8 @@ using System;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
-using VerifyXunit;
 using Xunit;
 
 namespace Codecrete.SwissQRBill.WindowsTest
@@ -61,10 +61,13 @@ namespace Codecrete.SwissQRBill.WindowsTest
         {
             Bill bill = SampleData.CreateExample5();
             bill.Format.OutputSize = OutputSize.A4PortraitSheet;
-            using var canvas = new MetafileCanvas(QRBill.A4PortraitWidth, QRBill.A4PortraitHeight, "Helvetica, Arial, \"Liberation Sans\"");
-            QRBill.Draw(bill, canvas);
-            var ms = new MemoryStream();
-            canvas.WriteTo(ms);
+            using (var canvas = new MetafileCanvas(QRBill.A4PortraitWidth, QRBill.A4PortraitHeight, "Helvetica, Arial, \"Liberation Sans\""))
+            {
+                QRBill.Draw(bill, canvas);
+                var ms = new MemoryStream();
+                canvas.WriteTo(ms);
+            }
+
             Assert.True(true);
         }
 
@@ -73,10 +76,14 @@ namespace Codecrete.SwissQRBill.WindowsTest
         {
             Bill bill = SampleData.CreateExample4();
             bill.Format.OutputSize = OutputSize.A4PortraitSheet;
-            using var canvas = new MetafileCanvas(QRBill.A4PortraitWidth, QRBill.A4PortraitHeight, "Helvetica, Arial, \"Liberation Sans\"");
-            QRBill.Draw(bill, canvas);
+            EmfMetaInfo metaInfo;
+            using (var canvas = new MetafileCanvas(QRBill.A4PortraitWidth, QRBill.A4PortraitHeight, "Helvetica, Arial, \"Liberation Sans\""))
+            {
+                QRBill.Draw(bill, canvas);
 
-            var metaInfo = new EmfMetaInfo(canvas.ToByteArray());
+                metaInfo = new EmfMetaInfo(canvas.ToByteArray());
+            }
+
             Assert.Equal(257, metaInfo.NumRecords);
 
             var scale = metaInfo.Dpi / 25.4f;
@@ -95,12 +102,19 @@ namespace Codecrete.SwissQRBill.WindowsTest
         {
             Bill bill = SampleData.CreateExample6();
             bill.Format.OutputSize = OutputSize.A4PortraitSheet;
-            using var canvas = new MetafileCanvas(QRBill.A4PortraitWidth, QRBill.A4PortraitHeight, "Helvetica, Arial, \"Liberation Sans\"");
-            QRBill.Draw(bill, canvas);
-            using Metafile metafile = canvas.ToMetafile();
-            var graphicsUnit = GraphicsUnit.Millimeter;
-            // GetBounds() returns the metafile frame in pixels
-            var bounds = metafile.GetBounds(ref graphicsUnit);
+            GraphicsUnit graphicsUnit;
+            RectangleF bounds;
+            using (var canvas = new MetafileCanvas(QRBill.A4PortraitWidth, QRBill.A4PortraitHeight, "Helvetica, Arial, \"Liberation Sans\""))
+            {
+                QRBill.Draw(bill, canvas);
+                using (Metafile metafile = canvas.ToMetafile())
+                {
+                    graphicsUnit = GraphicsUnit.Millimeter;
+                    // GetBounds() returns the metafile frame in pixels
+                    bounds = metafile.GetBounds(ref graphicsUnit);
+                }
+            }
+
             Assert.Equal(GraphicsUnit.Pixel, graphicsUnit);
 
             // Since we've just created the metafile, pixel units will use the current dpi
@@ -113,12 +127,13 @@ namespace Codecrete.SwissQRBill.WindowsTest
 
         private static float GetScreenDpi()
         {
-            using Graphics offScreenGraphics = Graphics.FromHwndInternal(IntPtr.Zero);
-            return offScreenGraphics.DpiX;
+            using (var offScreenGraphics = Graphics.FromHwndInternal(IntPtr.Zero))
+            {
+                return offScreenGraphics.DpiX;
+            }
         }
 
-        [System.Runtime.InteropServices.LibraryImport("user32.dll")]
-        [return: System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.Bool)]
-        private static partial bool SetProcessDPIAware();
+        [DllImport("User32.dll")]
+        static extern bool SetProcessDPIAware();
     }
 }

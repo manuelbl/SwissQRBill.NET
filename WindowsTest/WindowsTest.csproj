@@ -5,12 +5,12 @@
     <IsPackable>false</IsPackable>
     <RootNamespace>Codecrete.SwissQRBill.WindowsTest</RootNamespace>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <LangVersion>7.3</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Docnet.Core" Version="2.*" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.*" />
-    <PackageReference Include="SixLabors.ImageSharp" Version="3.*" />
     <PackageReference Include="Verify.ImageMagick" Version="3.*" />
     <PackageReference Include="Verify.Xunit" Version="28.7.0" />
     <PackageReference Include="xunit" Version="2.*" />

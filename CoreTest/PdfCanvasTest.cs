@@ -20,10 +20,13 @@ namespace Codecrete.SwissQRBill.CoreTest
         public void PdfWriteTo()
         {
             Bill bill = SampleData.CreateExample3();
-            using var canvas = new PDFCanvas(QRBill.A4PortraitWidth, QRBill.A4PortraitHeight);
-            QRBill.Draw(bill, canvas);
-            var ms = new MemoryStream();
-            canvas.WriteTo(ms);
+            using (var canvas = new PDFCanvas(QRBill.A4PortraitWidth, QRBill.A4PortraitHeight))
+            {
+                QRBill.Draw(bill, canvas);
+                var ms = new MemoryStream();
+                canvas.WriteTo(ms);
+            }
+
             Assert.True(true);
         }
 
@@ -31,9 +34,12 @@ namespace Codecrete.SwissQRBill.CoreTest
         public void PdfSaveAs()
         {
             Bill bill = SampleData.CreateExample4();
-            using var canvas = new PDFCanvas(QRBill.A4PortraitWidth, QRBill.A4PortraitHeight);
-            QRBill.Draw(bill, canvas);
-            canvas.SaveAs("qrbill.pdf");
+            using (var canvas = new PDFCanvas(QRBill.A4PortraitWidth, QRBill.A4PortraitHeight))
+            {
+                QRBill.Draw(bill, canvas);
+                canvas.SaveAs("qrbill.pdf");
+            }
+
             Assert.True(true);
         }
 
@@ -46,19 +52,21 @@ namespace Codecrete.SwissQRBill.CoreTest
             CultureInfo culture = CultureInfo.CreateSpecificCulture("de-DE");
 
             Bill bill = SampleData.CreateExample4();
-            using var canvas = new PDFCanvas(QRBill.A4PortraitWidth, QRBill.A4PortraitHeight);
-            try
+            using (var canvas = new PDFCanvas(QRBill.A4PortraitWidth, QRBill.A4PortraitHeight))
             {
-                CultureInfo.CurrentCulture = culture;
-                CultureInfo.CurrentUICulture = culture;
+                try
+                {
+                    CultureInfo.CurrentCulture = culture;
+                    CultureInfo.CurrentUICulture = culture;
 
-                QRBill.Draw(bill, canvas);
-                return VerifyImages.VerifyPdf(canvas.ToByteArray());
-            }
-            finally
-            {
-                CultureInfo.CurrentCulture = savedCurrentCulture;
-                CultureInfo.CurrentUICulture = savedCurrentUiCulture;
+                    QRBill.Draw(bill, canvas);
+                    return VerifyImages.VerifyPdf(canvas.ToByteArray());
+                }
+                finally
+                {
+                    CultureInfo.CurrentCulture = savedCurrentCulture;
+                    CultureInfo.CurrentUICulture = savedCurrentUiCulture;
+                }
             }
         }
 
@@ -67,8 +75,10 @@ namespace Codecrete.SwissQRBill.CoreTest
         {
             var bill = SampleData.CreateExample8();
             bill.CharacterSet = SpsCharacterSet.ExtendedLatin;
-            using var canvas = new PDFCanvas(QRBill.A4PortraitWidth, QRBill.A4PortraitHeight);
-            Assert.Throws<QRBillGenerationException>(() => QRBill.Draw(bill, canvas));
+            using (var canvas = new PDFCanvas(QRBill.A4PortraitWidth, QRBill.A4PortraitHeight))
+            {
+                Assert.Throws<QRBillGenerationException>(() => QRBill.Draw(bill, canvas));
+            }
         }
 
         [Fact]

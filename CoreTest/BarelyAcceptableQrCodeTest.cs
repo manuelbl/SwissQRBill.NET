@@ -74,7 +74,7 @@ namespace Codecrete.SwissQRBill.CoreTest
             bill.UnstructuredMessage = null;
             TestHelper.NormalizeSourceBill(bill);
             string qrText = QRBill.EncodeQrCodeText(bill);
-            qrText = qrText[0..^5];
+            qrText = qrText.Substring(0, qrText.Length - 5);
             QRBillValidationException err = Assert.Throws<QRBillValidationException>(
                         () => QRBill.DecodeQrCodeText(qrText));
             TestHelper.AssertSingleError(err.Result, ValidationConstants.KeyDataStructureInvalid, ValidationConstants.FieldQrType);

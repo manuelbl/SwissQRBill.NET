@@ -22,6 +22,8 @@
     <Version>3.3.0</Version>
 
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
+
+    <LangVersion>7.3</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -41,7 +43,8 @@
     <PackageReference Include="DiffEngine" Version="15.*" />
     <PackageReference Include="Docnet.Core" Version="2.*" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.*" />
-    <PackageReference Include="SixLabors.ImageSharp" Version="3.*" />
+    <PackageReference Include="SkiaSharp" Version="3.116.1" />
+    <PackageReference Include="SkiaSharp.NativeAssets.Linux" Version="3.116.1" />
     <PackageReference Include="Verify.ImageMagick" Version="3.*" />
     <PackageReference Include="Verify.Xunit" Version="28.7.0" />
     <PackageReference Include="xunit" Version="2.*" />

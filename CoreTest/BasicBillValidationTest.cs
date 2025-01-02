@@ -234,9 +234,9 @@ namespace Codecrete.SwissQRBill.CoreTest
         {
             SourceBill = SampleData.CreateExample1();
             SourceBill.AlternativeSchemes = new List<AlternativeScheme> {
-                new() { Name = "Ultraviolet", Instruction = "UV;UltraPay005;12345" },
-                new() { Name = "Xing Yong", Instruction = "XY;XYService;54321" },
-                new() { Name = "Too Much", Instruction = "TM/asdfa/asdfa/" }
+                new AlternativeScheme { Name = "Ultraviolet", Instruction = "UV;UltraPay005;12345" },
+                new AlternativeScheme { Name = "Xing Yong", Instruction = "XY;XYService;54321" },
+                new AlternativeScheme { Name = "Too Much", Instruction = "TM/asdfa/asdfa/" }
             };
             Validate();
             AssertSingleErrorMessage(ValidationConstants.FieldAlternativeSchemes, ValidationConstants.KeyAltSchemeMaxExceeded);
@@ -247,9 +247,9 @@ namespace Codecrete.SwissQRBill.CoreTest
         {
             SourceBill = SampleData.CreateExample1();
             SourceBill.AlternativeSchemes = new List<AlternativeScheme> {
-                new() { Name = "Ultraviolet", Instruction =
+                new AlternativeScheme { Name = "Ultraviolet", Instruction =
                         "UV;UltraPay005;12345;xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" },
-                new() { Name = "Xing Yong", Instruction = "XY;XYService;54321" }
+                new AlternativeScheme { Name = "Xing Yong", Instruction = "XY;XYService;54321" }
             };
             Validate();
             AssertSingleErrorMessage(ValidationConstants.FieldAlternativeSchemes, ValidationConstants.KeyFieldValueTooLong);

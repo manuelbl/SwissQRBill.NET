@@ -8,12 +8,12 @@
 using Codecrete.SwissQRBill.Generator;
 using Docnet.Core;
 using Docnet.Core.Models;
-using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.PixelFormats;
+using SkiaSharp;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using VerifyTests;
 using VerifyXunit;
 
@@ -21,7 +21,7 @@ namespace Codecrete.SwissQRBill.CoreTest
 {
     public class VerifyImages
     {
-        protected static readonly VerifySettings Settings = new();
+        protected static readonly VerifySettings Settings = new VerifySettings();
 
         static VerifyImages()
         {
@@ -37,17 +37,29 @@ namespace Codecrete.SwissQRBill.CoreTest
         {
             var pngStreams = new List<Stream>();
 
-            using var docReader = DocLib.Instance.GetDocReader(stream.ToArray(), new PageDimensions(scalingFactor: 2));
-            for (var pageIndex = 0; pageIndex < docReader.GetPageCount(); pageIndex++)
+            using (var docReader = DocLib.Instance.GetDocReader(stream.ToArray(), new PageDimensions(scalingFactor: 2)))
             {
-                using var pageReader = docReader.GetPageReader(pageIndex);
-                var width = pageReader.GetPageWidth();
-                var height = pageReader.GetPageHeight();
-                var pixelData = pageReader.GetImage();
-                var image = Image.LoadPixelData<Bgra32>(pixelData, width, height);
-                var pngStream = new MemoryStream();
-                image.SaveAsPng(pngStream);
-                pngStreams.Add(pngStream);
+                for (var pageIndex = 0; pageIndex < docReader.GetPageCount(); pageIndex++)
+                {
+                    SKBitmap bitmap;
+                    using (var pageReader = docReader.GetPageReader(pageIndex))
+                    {
+                        var width = pageReader.GetPageWidth();
+                        var height = pageReader.GetPageHeight();
+                        var pixelData = pageReader.GetImage();
+
+                        bitmap = new SKBitmap();
+                        var gcHandle = GCHandle.Alloc(pixelData, GCHandleType.Pinned);
+                        var info = new SKImageInfo(width, height, SKImageInfo.PlatformColorType, SKAlphaType.Unpremul);
+                        bitmap.InstallPixels(info, gcHandle.AddrOfPinnedObject(), width * 4, delegate { gcHandle.Free(); });
+                    }
+
+                    using (var skiaImage = SKImage.FromBitmap(bitmap))
+                    using (var data = skiaImage.Encode(SKEncodedImageFormat.Png, 90))
+                    {
+                        pngStreams.Add(new MemoryStream(data.ToArray()));
+                    }
+                }
             }
 
             return new ConversionResult(null, pngStreams.Select(e => new Target("png", e)));

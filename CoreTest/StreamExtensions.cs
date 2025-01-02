@@ -18,9 +18,11 @@ namespace Codecrete.SwissQRBill.CoreTest
                 return memoryStream.ToArray();
             }
 
-            using var tempStream = new MemoryStream();
-            stream.CopyTo(tempStream);
-            return tempStream.ToArray();
+            using (var tempStream = new MemoryStream())
+            {
+                stream.CopyTo(tempStream);
+                return tempStream.ToArray();
+            }
         }
     }
 }

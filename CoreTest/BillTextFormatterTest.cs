@@ -5,7 +5,7 @@ namespace Codecrete.SwissQRBill.CoreTest
 {
     public class BillTextFormatterTest
     {
-        private BillTextFormatter textFormatter = new(SampleData.CreateExample1());
+        private BillTextFormatter textFormatter = new BillTextFormatter(SampleData.CreateExample1());
 
         [Fact]
         public void PayableTo_IsCorrect()

@@ -28,7 +28,7 @@ namespace Codecrete.SwissQRBill.WindowsTest
             Settings.UseDirectory("ReferenceFiles");
         }
 
-        protected static readonly VerifySettings Settings = new();
+        protected static readonly VerifySettings Settings = new VerifySettings();
 
         public static SettingsTask VerifyPng(byte[] png, [CallerFilePath] string sourceFile = "")
         {
@@ -42,36 +42,46 @@ namespace Codecrete.SwissQRBill.WindowsTest
 
         private static ConversionResult Convert(Stream stream, IReadOnlyDictionary<string, object> context)
         {
+            MemoryStream result;
+
             // copy metafile to buffer
-            using var buffer = new MemoryStream();
-            stream.CopyTo(buffer);
+            using (var buffer = new MemoryStream())
+            {
+                stream.CopyTo(buffer);
 
-            // retrieve DPI from metafile
-            var metaInfo = new EmfMetaInfo(buffer.ToArray());
-            int sourceDpi = metaInfo.Dpi;
+                // retrieve DPI from metafile
+                var metaInfo = new EmfMetaInfo(buffer.ToArray());
+                int sourceDpi = metaInfo.Dpi;
 
-            // read metafile
-            buffer.Position = 0;
-            using Metafile metafile = (Metafile)Image.FromStream(buffer);
+                // read metafile
+                buffer.Position = 0;
+                using (Metafile metafile = (Metafile)Image.FromStream(buffer))
+                {
 
-            // compute bitmap size (300 dpi, independent of source DPI)
-            var pageUnit = GraphicsUnit.Pixel;
-            var metafileBounds = metafile.GetBounds(ref pageUnit);
-            float scale = 300f / sourceDpi;
-            var bitmapRect = new Rectangle(0, 0, (int)Math.Round(metafileBounds.Width * scale), (int)Math.Round(metafileBounds.Height * scale));
+                    // compute bitmap size (300 dpi, independent of source DPI)
+                    var pageUnit = GraphicsUnit.Pixel;
+                    var metafileBounds = metafile.GetBounds(ref pageUnit);
+                    float scale = 300f / sourceDpi;
+                    var bitmapRect = new Rectangle(0, 0, (int)Math.Round(metafileBounds.Width * scale), (int)Math.Round(metafileBounds.Height * scale));
 
-            // create bitmap and fill with white background
-            using var bitmap = new Bitmap(bitmapRect.Width, bitmapRect.Height, PixelFormat.Format24bppRgb);
-            bitmap.SetResolution(300, 300);
-            using var graphics = Graphics.FromImage(bitmap);
-            graphics.FillRectangle(Brushes.White, bitmapRect);
+                    // create bitmap and fill with white background
+                    using (var bitmap = new Bitmap(bitmapRect.Width, bitmapRect.Height, PixelFormat.Format24bppRgb))
+                    {
+                        bitmap.SetResolution(300, 300);
+                        using (var graphics = Graphics.FromImage(bitmap))
+                        {
+                            graphics.FillRectangle(Brushes.White, bitmapRect);
 
-            // draw metafile to bitmap
-            graphics.DrawImage(metafile, bitmapRect, metafileBounds, pageUnit);
+                            // draw metafile to bitmap
+                            graphics.DrawImage(metafile, bitmapRect, metafileBounds, pageUnit);
 
-            // save bitmap as PNG
-            var result = new MemoryStream();
-            bitmap.Save(result, ImageFormat.Png);
+                            // save bitmap as PNG
+                            result = new MemoryStream();
+                            bitmap.Save(result, ImageFormat.Png);
+                        }
+                    }
+                }
+            }
 
             // return PNG
             return new ConversionResult(null, "png", result);

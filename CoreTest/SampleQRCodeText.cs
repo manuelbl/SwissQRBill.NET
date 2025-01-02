@@ -6,6 +6,7 @@
 //
 
 using Codecrete.SwissQRBill.Generator;
+using System.Collections.Generic;
 
 namespace Codecrete.SwissQRBill.CoreTest
 {
@@ -157,7 +158,7 @@ namespace Codecrete.SwissQRBill.CoreTest
                 UnstructuredMessage = "Order dated 18.06.2020",
                 BillInformation =
                     "//S1/01/20170309/11/10201409/20/14000000/22/36958/30/CH106017086/40/1020/41/3010",
-                AlternativeSchemes = new()
+                AlternativeSchemes = new List<AlternativeScheme>
                 {
                     new AlternativeScheme {Name = "Ultraviolet", Instruction = "UV;UltraPay005;12345"},
                     new AlternativeScheme {Name = "Xing Yong", Instruction = "XY;XYService;54321"}
