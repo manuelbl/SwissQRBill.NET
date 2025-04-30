@@ -50,7 +50,9 @@ jobs:
           path: TestResults-*.html
 
       - name: Create and validate NuGet packages
-        run: dotnet pack --no-build --verbosity normal
+        run: |
+          dotnet tool restore
+          dotnet pack --no-build --verbosity normal
         if: startsWith(matrix.os,'windows')
 
       - name: Set up JDK 17 (for SonarQube)
