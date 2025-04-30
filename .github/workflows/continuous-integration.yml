@@ -99,10 +99,10 @@ jobs:
           New-Item -Path .\.dotnet-coverage -ItemType Directory
           dotnet tool update dotnet-coverage --tool-path .\.dotnet-coverage
       - name: Build and analyze
-        if: startsWith(matrix.os,'windows')
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        if: startsWith(matrix.os,'windows') && env.SONAR_TOKEN != ''
         shell: powershell
         run: |
           dotnet clean
