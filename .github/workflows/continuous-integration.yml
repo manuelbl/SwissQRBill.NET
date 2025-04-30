@@ -7,6 +7,8 @@ env:
   ContinuousIntegrationBuild: true
   DOTNET_CLI_TELEMETRY_OPTOUT: true
   DOTNET_NOLOGO: true
+  DOTNET_SYSTEM_CONSOLE_ALLOW_ANSI_COLOR_REDIRECTION: true
+  TERM: xterm-256color
 
 jobs:
   package:
