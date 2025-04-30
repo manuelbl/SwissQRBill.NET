@@ -40,7 +40,7 @@ See home page https://github.com/manuelbl/SwissQRBill.NET for examples and other
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <EnablePackageValidation>true</EnablePackageValidation>
     <PackageVersion>3.3.0</PackageVersion>
-    <PackageValidationBaselineVersion>3.0.0</PackageValidationBaselineVersion>
+    <PackageValidationBaselineVersion>3.3.0</PackageValidationBaselineVersion>
     <Deterministic>True</Deterministic>
   </PropertyGroup>
 
