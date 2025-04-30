@@ -1,8 +1,19 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFrameworks>net6.0;net8.0</TargetFrameworks>
+    <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('Windows'))">net481;$(TargetFrameworks)</TargetFrameworks>
     <RootNamespace>Codecrete.SwissQRBill.PixelCanvasTest</RootNamespace>
+    <SuppressTfmSupportBuildWarnings>true</SuppressTfmSupportBuildWarnings>
+    <TestResultsFile>$([System.IO.Path]::Combine($(MSBuildThisFileDirectory),'..','TestResults-$(MSBuildProjectName)-$(TargetFramework).html'))</TestResultsFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <VSTestLogger Include="html%3BLogFileName=$([System.IO.Path]::GetFullPath($(TestResultsFile)))" Visible="false" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <VSTestLogger>@(VSTestLogger)</VSTestLogger>
   </PropertyGroup>
 
   <ItemGroup>

@@ -14,7 +14,7 @@ namespace Codecrete.SwissQRBill.WindowsTest
 {
     public class A4BillTest
     {
-        [Fact]
+        [WindowsFact]
         public Task CreateA4PngBill1()
         {
             return GenerateAndCompareBill(SampleData.CreateExample1(), OutputSize.A4PortraitSheet, GraphicsFormat.PNG);

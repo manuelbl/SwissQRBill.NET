@@ -43,6 +43,9 @@ bld/
 *.VisualState.xml
 TestResult.xml
 
+# xUnit.net
+TestResults-*
+
 # Build Results of an ATL Project
 [Dd]ebugPS/
 [Rr]eleasePS/

@@ -15,14 +15,14 @@ namespace Codecrete.SwissQRBill.WindowsTest
 {
     public class LineStyleTest
     {
-        [Fact]
+        [WindowsFact]
         public Task PngWithDashedLines()
         {
             Bill bill = SampleData.CreateExample1();
             return GenerateAndComparePngBill(bill, SeparatorType.DashedLine);
         }
 
-        [Fact]
+        [WindowsFact]
         public Task PngWithDottedLines()
         {
             Bill bill = SampleData.CreateExample2();
