@@ -22,7 +22,7 @@ namespace Codecrete.SwissQRBill.WindowsTest
 
         static VerifyImages()
         {
-            VerifierSettings.RegisterFileConverter("emf", Convert);
+            VerifierSettings.RegisterStreamConverter("emf", Convert);
             VerifyImageMagick.RegisterComparers(threshold: 0.35, ImageMagick.ErrorMetric.PerceptualHash);
 
             Settings.UseDirectory("ReferenceFiles");
@@ -40,7 +40,7 @@ namespace Codecrete.SwissQRBill.WindowsTest
             return Verifier.Verify(emf, settings: Settings, extension: "emf", sourceFile: sourceFile);
         }
 
-        private static ConversionResult Convert(Stream stream, IReadOnlyDictionary<string, object> context)
+        private static ConversionResult Convert(string name, Stream stream, IReadOnlyDictionary<string, object> context)
         {
             MemoryStream result;
 

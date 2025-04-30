@@ -25,7 +25,7 @@ namespace Codecrete.SwissQRBill.CoreTest
 
         static VerifyImages()
         {
-            VerifierSettings.RegisterFileConverter("pdf", ConvertPdfToPng);
+            VerifierSettings.RegisterStreamConverter("pdf", ConvertPdfToPng);
             VerifyImageMagick.RegisterComparers(threshold: 0.1, ImageMagick.ErrorMetric.PerceptualHash);
 
             Settings.UseDirectory("ReferenceFiles");
@@ -33,7 +33,7 @@ namespace Codecrete.SwissQRBill.CoreTest
 
         protected VerifyImages() { }
 
-        private static ConversionResult ConvertPdfToPng(Stream stream, IReadOnlyDictionary<string, object> context)
+        private static ConversionResult ConvertPdfToPng(string name, Stream stream, IReadOnlyDictionary<string, object> context)
         {
             var pngStreams = new List<Stream>();
 
@@ -74,11 +74,6 @@ namespace Codecrete.SwissQRBill.CoreTest
         public static SettingsTask VerifySvg(byte[] svg, [CallerFilePath] string sourceFile = "")
         {
             return Verifier.Verify(svg, settings: Settings, extension: "svg", sourceFile: sourceFile);
-        }
-
-        public static SettingsTask VerifyPng(byte[] png, [CallerFilePath] string sourceFile = "")
-        {
-            return Verifier.Verify(png, settings: Settings, extension: "png", sourceFile: sourceFile);
         }
 
         public static SettingsTask VerifyPdf(byte[] pdf, [CallerFilePath] string sourceFile = "")
