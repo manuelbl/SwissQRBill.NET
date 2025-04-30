@@ -55,7 +55,6 @@ See home page https://github.com/manuelbl/SwissQRBill.NET for examples and platf
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.*" PrivateAssets="all" />
     <PackageReference Include="System.Drawing.Common" Version="4.*" />
   </ItemGroup>
 
