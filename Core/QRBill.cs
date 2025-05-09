@@ -312,7 +312,26 @@ namespace Codecrete.SwissQRBill.Generator
         /// <exception cref="QRBillValidationException">If he text could not be decoded or the decoded bill data is invalid.</exception>
         public static Bill DecodeQrCodeText(string text)
         {
-            return QRCodeText.Decode(text);
+            return QRCodeText.Decode(text, false);
+        }
+
+        /// <summary>
+        /// Decodes the text from a QR code and fills it into a <see cref="Bill"/> data structure
+        /// <para>
+        /// A subset of the validations related to embedded QR code text is run. It the
+        /// validation fails, a <see cref="QRBillValidationException"/> is thrown containing
+        /// the validation result. See the error messages marked with a dagger in
+        /// <a href="https://github.com/manuelbl/SwissQRBill/wiki/Bill-data-validation">Bill data
+        /// validation</a>.
+        /// </para>
+        /// </summary>
+        /// <param name="text">The text to decode.</param>
+        /// <param name="allowInvalidAmount">If <c>true</c> is passed for this parameter, invalid values for the amount are also accepted (currently only "NULL" / "null"). In this case, the amount is set to <c>null</c>.</param>
+        /// <returns>The decoded bill data.</returns>
+        /// <exception cref="QRBillValidationException">If he text could not be decoded or the decoded bill data is invalid.</exception>
+        public static Bill DecodeQrCodeText(string text, bool allowInvalidAmount)
+        {
+            return QRCodeText.Decode(text, allowInvalidAmount);
         }
 
         private static ICanvas CreateCanvas(BillFormat format)

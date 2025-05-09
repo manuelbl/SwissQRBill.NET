@@ -176,6 +176,68 @@ namespace Codecrete.SwissQRBill.CoreTest
                         () => QRBill.DecodeQrCodeText(invalidText));
             TestHelper.AssertSingleError(err.Result, ValidationConstants.KeyDataStructureInvalid, ValidationConstants.FieldTrailer);
         }
+        
+         [Fact]
+        public void DecodeMethodShouldReturnValidBillWhenQrCodeTextIsValid()
+        {
+            var bill = QRBill.DecodeQrCodeText(SampleData.CreateQrCode1());
+            Assert.NotNull(bill);
+            Assert.Equal(Bill.QrBillStandardVersion.V2_0, bill.Version);
+            Assert.Equal(2500.00m, bill.Amount);
+            Assert.Equal("CHF", bill.Currency);
+            Assert.Equal("CH1234567890123456789", bill.Account);
+            Assert.Equal("Steuerverwaltung der Stadt Bern", bill.Creditor.Name);
+            Assert.Equal("Bundesgasse", bill.Creditor.Street);
+            Assert.Equal("33", bill.Creditor.HouseNo);
+            Assert.Equal("3011", bill.Creditor.PostalCode);
+            Assert.Equal("Bern", bill.Creditor.Town);
+            Assert.Equal("CH", bill.Creditor.CountryCode);
+            Assert.Equal("Martina Muster", bill.Debtor.Name);
+            Assert.Equal("Bubenbergplatz", bill.Debtor.Street);
+            Assert.Equal("1", bill.Debtor.HouseNo);
+            Assert.Equal("3011", bill.Debtor.PostalCode);
+            Assert.Equal("Bern", bill.Debtor.Town);
+            Assert.Equal("CH", bill.Debtor.CountryCode);
+            Assert.Equal("QRR", bill.ReferenceType);
+            Assert.Equal("123456789012345678901234567", bill.Reference);
+            Assert.Equal("1. Steuerrate 2020", bill.UnstructuredMessage);
+            Assert.Equal("//S1/11/200627/30/115140892/31/200627/32/7.7/40/0:30", bill.BillInformation);
+        }
+
+        [Fact]
+        public void DecodeMethodShouldHandleInvalidAmountIfParameterIsSupplied()
+        {
+            var bill = QRBill.DecodeQrCodeText(SampleData.CreateInvalidQrCode1(), true);
+            Assert.NotNull(bill);
+            Assert.Equal(Bill.QrBillStandardVersion.V2_0, bill.Version);
+            Assert.Null(bill.Amount);
+            Assert.Equal("CHF", bill.Currency);
+            Assert.Equal("CH8430000001800003797", bill.Account);
+            Assert.Equal("AXA Versicherungen AG", bill.Creditor.Name);
+            Assert.Equal("General-Guisan-Str.", bill.Creditor.Street);
+            Assert.Equal("40", bill.Creditor.HouseNo);
+            Assert.Equal("8401", bill.Creditor.PostalCode);
+            Assert.Equal("Winterthur", bill.Creditor.Town);
+            Assert.Equal("CH", bill.Creditor.CountryCode);
+            Assert.Equal("Testfirma AG", bill.Debtor.Name);
+            Assert.Equal("Hauptstrasse", bill.Debtor.Street);
+            Assert.Equal("61", bill.Debtor.HouseNo);
+            Assert.Equal("6210", bill.Debtor.PostalCode);
+            Assert.Equal("Sursee", bill.Debtor.Town);
+            Assert.Equal("CH", bill.Debtor.CountryCode);
+            Assert.Equal("QRR", bill.ReferenceType);
+            Assert.Equal("000000001000285497220812814", bill.Reference);
+            Assert.Equal("", bill.UnstructuredMessage);
+            Assert.Equal("", bill.BillInformation);
+        }
+
+        [Fact]
+        public void DecodeMethodShouldFailIfAmountIsInvalidValue()
+        {
+            QRBillValidationException err = Assert.Throws<QRBillValidationException>(
+                () => QRBill.DecodeQrCodeText(SampleData.CreateInvalidQrCode1()));
+            TestHelper.AssertSingleError(err.Result, ValidationConstants.KeyNumberInvalid, ValidationConstants.FieldAmount);
+        }
 
         private class NewLineTheoryData : TheoryData<Bill.QrDataSeparator, string, bool>
         {

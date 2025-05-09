@@ -9,6 +9,7 @@ using Codecrete.SwissQRBill.Generator;
 using System.Collections.Generic;
 using System.Numerics;
 using System.Security.Principal;
+using System.Text;
 
 
 namespace Codecrete.SwissQRBill.CoreTest
@@ -264,6 +265,81 @@ namespace Codecrete.SwissQRBill.CoreTest
             };
 
             return bill;
+        }
+
+        public static string CreateQrCode1()
+        {
+            var qrCodeText = new StringBuilder();
+            qrCodeText.AppendLine("SPC");
+            qrCodeText.AppendLine("0200");
+            qrCodeText.AppendLine("1");
+            qrCodeText.AppendLine("CH1234567890123456789");
+            qrCodeText.AppendLine("S");
+            qrCodeText.AppendLine("Steuerverwaltung der Stadt Bern");
+            qrCodeText.AppendLine("Bundesgasse");
+            qrCodeText.AppendLine("33");
+            qrCodeText.AppendLine("3011");
+            qrCodeText.AppendLine("Bern");
+            qrCodeText.AppendLine("CH");
+            qrCodeText.AppendLine("");
+            qrCodeText.AppendLine("");
+            qrCodeText.AppendLine("");
+            qrCodeText.AppendLine("");
+            qrCodeText.AppendLine("");
+            qrCodeText.AppendLine("");
+            qrCodeText.AppendLine("");
+            qrCodeText.AppendLine("2500.00");
+            qrCodeText.AppendLine("CHF");
+            qrCodeText.AppendLine("S");
+            qrCodeText.AppendLine("Martina Muster");
+            qrCodeText.AppendLine("Bubenbergplatz");
+            qrCodeText.AppendLine("1");
+            qrCodeText.AppendLine("3011");
+            qrCodeText.AppendLine("Bern");
+            qrCodeText.AppendLine("CH");
+            qrCodeText.AppendLine("QRR");
+            qrCodeText.AppendLine("123456789012345678901234567");
+            qrCodeText.AppendLine("1. Steuerrate 2020");
+            qrCodeText.AppendLine("EPD");
+            qrCodeText.AppendLine("//S1/11/200627/30/115140892/31/200627/32/7.7/40/0:30");
+            return qrCodeText.ToString();
+        }
+
+        public static string CreateInvalidQrCode1()
+        {
+            var qrCodeText = new StringBuilder();
+            qrCodeText.AppendLine("SPC");
+            qrCodeText.AppendLine("0200");
+            qrCodeText.AppendLine("1");
+            qrCodeText.AppendLine("CH8430000001800003797");
+            qrCodeText.AppendLine("S");
+            qrCodeText.AppendLine("AXA Versicherungen AG");
+            qrCodeText.AppendLine("General-Guisan-Str.");
+            qrCodeText.AppendLine("40");
+            qrCodeText.AppendLine("8401");
+            qrCodeText.AppendLine("Winterthur");
+            qrCodeText.AppendLine("CH");
+            qrCodeText.AppendLine("");
+            qrCodeText.AppendLine("");
+            qrCodeText.AppendLine("");
+            qrCodeText.AppendLine("");
+            qrCodeText.AppendLine("");
+            qrCodeText.AppendLine("");
+            qrCodeText.AppendLine("");
+            qrCodeText.AppendLine("null");
+            qrCodeText.AppendLine("CHF");
+            qrCodeText.AppendLine("S");
+            qrCodeText.AppendLine("Testfirma AG");
+            qrCodeText.AppendLine("Hauptstrasse");
+            qrCodeText.AppendLine("61");
+            qrCodeText.AppendLine("6210");
+            qrCodeText.AppendLine("Sursee");
+            qrCodeText.AppendLine("CH");
+            qrCodeText.AppendLine("QRR");
+            qrCodeText.AppendLine("000000001000285497220812814");
+            qrCodeText.AppendLine("");
+            qrCodeText.AppendLine("EPD");
+            return qrCodeText.ToString();
         }
     }
 }

@@ -127,7 +127,7 @@ namespace Codecrete.SwissQRBill.Generator
         }
 
         private static readonly Regex ValidVersion = new Regex(@"^02\d\d$", RegexOptions.Compiled);
-
+        
         /// <summary>
         /// Decodes the specified text and returns the bill data.
         /// <para>
@@ -139,10 +139,11 @@ namespace Codecrete.SwissQRBill.Generator
         /// </para>
         /// </summary>
         /// <param name="text">The text to decode.</param>
+        /// <param name="allowInvalidAmount">If <c>true</c> is passed for this parameter, invalid values for the amount are also accepted (currently only "NULL" / "null"). In this case, the amount is set to <c>null</c>.</param>
         /// <returns>The decoded bill data.</returns>
         /// <exception cref="QRBillValidationException">The text is in an invalid format.</exception>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Major Code Smell", "S1066:Mergeable \"if\" statements should be combined", Justification = "Easier to read the way it is")]
-        public static Bill Decode(string text)
+        public static Bill Decode(string text, bool allowInvalidAmount)
         {
             var lines = SplitLines(text);
             if (lines.Count < 31 || lines.Count > 34)
@@ -185,6 +186,10 @@ namespace Codecrete.SwissQRBill.Generator
                 if (decimal.TryParse(lines[18], NumberStyles.Number, AmountNumberInfo, out var amount))
                 {
                     billData.Amount = amount;
+                }
+                else if (allowInvalidAmount && lines[18].Equals("NULL", StringComparison.OrdinalIgnoreCase))
+                {
+                    billData.Amount = null;
                 }
                 else
                 {

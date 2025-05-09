@@ -40,7 +40,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="DiffEngine" Version="15.*" />
+    <PackageReference Include="DiffEngine" Version="16.*" />
     <PackageReference Include="Docnet.Core" Version="2.*" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.*" />
     <PackageReference Include="SkiaSharp" Version="3.116.1" />
@@ -52,7 +52,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Core\Core.csproj" />
-  </ItemGroup>
+    <ProjectReference Include="..\Core\Core.csproj" />  </ItemGroup>
 
 </Project>
