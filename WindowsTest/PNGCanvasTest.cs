@@ -9,12 +9,11 @@ using Codecrete.SwissQRBill.Generator;
 using Codecrete.SwissQRBill.Windows;
 using System.IO;
 using System.Threading.Tasks;
-using VerifyXunit;
 using Xunit;
 
 namespace Codecrete.SwissQRBill.WindowsTest
 {
-    public class PNGCanvasTest
+    public class PNGCanvasTest : TestBase
     {
         [WindowsFact]
         public Task PngBillQrBill()

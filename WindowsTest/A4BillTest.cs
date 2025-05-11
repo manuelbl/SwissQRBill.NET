@@ -7,12 +7,10 @@
 
 using Codecrete.SwissQRBill.Generator;
 using System.Threading.Tasks;
-using VerifyXunit;
-using Xunit;
 
 namespace Codecrete.SwissQRBill.WindowsTest
 {
-    public class A4BillTest
+    public class A4BillTest : TestBase
     {
         [WindowsFact]
         public Task CreateA4PngBill1()

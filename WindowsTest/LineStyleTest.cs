@@ -8,12 +8,10 @@
 using Codecrete.SwissQRBill.Generator;
 using Codecrete.SwissQRBill.Windows;
 using System.Threading.Tasks;
-using VerifyXunit;
-using Xunit;
 
 namespace Codecrete.SwissQRBill.WindowsTest
 {
-    public class LineStyleTest
+    public class LineStyleTest : TestBase
     {
         [WindowsFact]
         public Task PngWithDashedLines()

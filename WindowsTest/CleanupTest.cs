@@ -13,7 +13,7 @@ using Xunit;
 
 namespace Codecrete.SwissQRBill.WindowsTest
 {
-    public class CleanupTest
+    public class CleanupTest : TestBase
     {
         [WindowsFact]
         public void ClosePngFreesResources()
