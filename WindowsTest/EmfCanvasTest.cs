@@ -7,9 +7,11 @@
 
 using Codecrete.SwissQRBill.Generator;
 using Codecrete.SwissQRBill.Windows;
+using System;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -110,10 +112,23 @@ namespace Codecrete.SwissQRBill.WindowsTest
 
             Assert.Equal(GraphicsUnit.Pixel, graphicsUnit);
 
-            float expectedWidth = (float)QRBill.A4PortraitWidth / 25.4f * 192;
+            // Since we've just created the metafile, pixel units will use the current dpi
+            float dpi = GetScreenDpi();
+            float expectedWidth = (float)QRBill.A4PortraitWidth / 25.4f * dpi;
             Assert.InRange(bounds.Width, expectedWidth - 2, expectedWidth + 2);
-            float expectedHeight = (float)QRBill.A4PortraitHeight / 25.4f * 192;
+            float expectedHeight = (float)QRBill.A4PortraitHeight / 25.4f * dpi;
             Assert.InRange(bounds.Height, expectedHeight - 2, expectedHeight + 2);
         }
+
+        private static float GetScreenDpi()
+        {
+            using (var offScreenGraphics = Graphics.FromHwndInternal(IntPtr.Zero))
+            {
+                return offScreenGraphics.DpiX;
+            }
+        }
+
+        [DllImport("User32.dll")]
+        static extern bool SetProcessDPIAware();
     }
 }

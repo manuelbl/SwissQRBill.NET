@@ -9,7 +9,6 @@ using System;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
-using System.Runtime.InteropServices;
 
 namespace Codecrete.SwissQRBill.Windows
 {
@@ -39,29 +38,23 @@ namespace Codecrete.SwissQRBill.Windows
         public MetafileCanvas(double width, double height, string fontFamilyList)
             : base(fontFamilyList)
         {
-            // use dummy bitmap to control DPI settings
-            using (var bitmap = new Bitmap(64, 64))
+            _stream = new MemoryStream();
+            using (var offScreenGraphics = Graphics.FromHwndInternal(IntPtr.Zero))
             {
-                bitmap.SetResolution(192, 192);
+                var scale = offScreenGraphics.DpiX / 25.4f;
+                _metafile = new Metafile(
+                    _stream,
+                    offScreenGraphics.GetHdc(),
+                    new RectangleF(0, 0, (float)width * scale, (float)height * scale),
+                    MetafileFrameUnit.Pixel,
+                    EmfType.EmfPlusDual
+                );
+                offScreenGraphics.ReleaseHdc();
 
-                _stream = new MemoryStream();
-                using (var offScreenGraphics = Graphics.FromImage(bitmap))
-                {
-                    var scale = offScreenGraphics.DpiX / 25.4f;
-                    _metafile = new Metafile(
-                        _stream,
-                        offScreenGraphics.GetHdc(),
-                        new RectangleF(0, 0, (float)width * scale, (float)height * scale),
-                        MetafileFrameUnit.Pixel,
-                        EmfType.EmfPlusDual
-                    );
-                    offScreenGraphics.ReleaseHdc();
-
-                    var graphics = Graphics.FromImage(_metafile);
-                    graphics.PageUnit = GraphicsUnit.Pixel;
-                    SetOffset(0, (float)height * scale);
-                    InitGraphics(graphics, true, scale);
-                }
+                var graphics = Graphics.FromImage(_metafile);
+                graphics.PageUnit = GraphicsUnit.Pixel;
+                SetOffset(0, (float)height * scale);
+                InitGraphics(graphics, true, scale);
             }
         }
 
