@@ -14,7 +14,7 @@
     <PackageReleaseNotes>New in release 3.3:
 - Ready for QR bill specification 2.3 (extended Latin character set, deprecated address type)
 - New output size for online channels</PackageReleaseNotes>
-    <Version>3.4.0</Version>
+    <Version>3.3.1</Version>
     <Description>Generates the new QR bills for invoicing in Switzerland.
 
 The Swiss QR bill library:
@@ -36,10 +36,10 @@ See home page https://github.com/manuelbl/SwissQRBill.NET for examples and other
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>Key.snk</AssemblyOriginatorKeyFile>
     <AssemblyVersion>2.4.0.0</AssemblyVersion>
-    <FileVersion>3.4.0.0</FileVersion>
+    <FileVersion>3.3.1.0</FileVersion>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <EnablePackageValidation>true</EnablePackageValidation>
-    <PackageVersion>3.4.0</PackageVersion>
+    <PackageVersion>3.3.1</PackageVersion>
     <PackageValidationBaselineVersion>3.3.0</PackageValidationBaselineVersion>
     <Deterministic>True</Deterministic>
   </PropertyGroup>
