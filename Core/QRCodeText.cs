@@ -127,11 +127,11 @@ namespace Codecrete.SwissQRBill.Generator
         }
 
         private static readonly Regex ValidVersion = new Regex(@"^02\d\d$", RegexOptions.Compiled);
-        
+
         /// <summary>
         /// Decodes the specified text and returns the bill data.
         /// <para>
-        /// The text is assumed to be in the data structured for the QR code defined by SIX.
+        /// The text is assumed to be in the data structure for the QR code defined by SIX.
         /// </para>
         /// <para>
         /// The returned data is only minimally validated. The format and the header are
@@ -139,7 +139,25 @@ namespace Codecrete.SwissQRBill.Generator
         /// </para>
         /// </summary>
         /// <param name="text">The text to decode.</param>
-        /// <param name="allowInvalidAmount">If <c>true</c> is passed for this parameter, invalid values for the amount are also accepted (currently only "NULL" / "null"). In this case, the amount is set to <c>null</c>.</param>
+        /// <returns>The decoded bill data.</returns>
+        /// <exception cref="QRBillValidationException">The text is in an invalid format.</exception>
+        public static Bill Decode(string text)
+        {
+            return Decode(text, false);
+        }
+
+        /// <summary>
+        /// Decodes the specified text and returns the bill data.
+        /// <para>
+        /// The text is assumed to be in the data structure for the QR code defined by SIX.
+        /// </para>
+        /// <para>
+        /// The returned data is only minimally validated. The format and the header are
+        /// checked. Amount and date must be parsable.
+        /// </para>
+        /// </summary>
+        /// <param name="text">The text to decode.</param>
+        /// <param name="allowInvalidAmount">If <c>true</c>, invalid values for the amount are accepted (currently "NULL" / "null"). In this case, the amount is set to <c>null</c>.</param>
         /// <returns>The decoded bill data.</returns>
         /// <exception cref="QRBillValidationException">The text is in an invalid format.</exception>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Major Code Smell", "S1066:Mergeable \"if\" statements should be combined", Justification = "Easier to read the way it is")]
