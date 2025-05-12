@@ -8,21 +8,19 @@
 using Codecrete.SwissQRBill.Generator;
 using Codecrete.SwissQRBill.Windows;
 using System.Threading.Tasks;
-using VerifyXunit;
-using Xunit;
 
 namespace Codecrete.SwissQRBill.WindowsTest
 {
-    public class LineStyleTest
+    public class LineStyleTest : TestBase
     {
-        [Fact]
+        [WindowsFact]
         public Task PngWithDashedLines()
         {
             Bill bill = SampleData.CreateExample1();
             return GenerateAndComparePngBill(bill, SeparatorType.DashedLine);
         }
 
-        [Fact]
+        [WindowsFact]
         public Task PngWithDottedLines()
         {
             Bill bill = SampleData.CreateExample2();

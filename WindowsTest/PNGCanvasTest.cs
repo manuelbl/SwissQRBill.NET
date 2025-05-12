@@ -9,14 +9,13 @@ using Codecrete.SwissQRBill.Generator;
 using Codecrete.SwissQRBill.Windows;
 using System.IO;
 using System.Threading.Tasks;
-using VerifyXunit;
 using Xunit;
 
 namespace Codecrete.SwissQRBill.WindowsTest
 {
-    public class PNGCanvasTest
+    public class PNGCanvasTest : TestBase
     {
-        [Fact]
+        [WindowsFact]
         public Task PngBillQrBill()
         {
             Bill bill = SampleData.CreateExample1();
@@ -32,7 +31,7 @@ namespace Codecrete.SwissQRBill.WindowsTest
             return VerifyImages.VerifyPng(png);
         }
 
-        [Fact]
+        [WindowsFact]
         public Task PngBillA4()
         {
             Bill bill = SampleData.CreateExample3();
@@ -48,7 +47,7 @@ namespace Codecrete.SwissQRBill.WindowsTest
             return VerifyImages.VerifyPng(png);
         }
 
-        [Fact]
+        [WindowsFact]
         public void PngWriteTo()
         {
             Bill bill = SampleData.CreateExample5();
@@ -63,7 +62,7 @@ namespace Codecrete.SwissQRBill.WindowsTest
             Assert.True(true);
         }
 
-        [Fact]
+        [WindowsFact]
         public void PngSaveAs()
         {
             Bill bill = SampleData.CreateExample6();

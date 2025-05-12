@@ -13,9 +13,9 @@ using Xunit;
 
 namespace Codecrete.SwissQRBill.WindowsTest
 {
-    public class CleanupTest
+    public class CleanupTest : TestBase
     {
-        [Fact]
+        [WindowsFact]
         public void ClosePngFreesResources()
         {
             Type type = typeof(BitmapCanvas);

@@ -17,14 +17,9 @@ using Xunit;
 
 namespace Codecrete.SwissQRBill.WindowsTest
 {
-    public partial class EmfCanvasTest
+    public partial class EmfCanvasTest : TestBase
     {
-        public EmfCanvasTest()
-        {
-            SetProcessDPIAware();
-        }
-
-        [Fact]
+        [WindowsFact]
         public Task QrBillExtraSpace_ComparePng()
         {
             Bill bill = SampleData.CreateExample5();
@@ -40,7 +35,7 @@ namespace Codecrete.SwissQRBill.WindowsTest
             return VerifyImages.VerifyEmf(emf);
         }
 
-        [Fact]
+        [WindowsFact]
         public Task QrBillA4_ComparePng()
         {
             Bill bill = SampleData.CreateExample3();
@@ -56,7 +51,7 @@ namespace Codecrete.SwissQRBill.WindowsTest
             return VerifyImages.VerifyEmf(png);
         }
 
-        [Fact]
+        [WindowsFact]
         public void ToStream_RunsSuccessfully()
         {
             Bill bill = SampleData.CreateExample5();
@@ -71,7 +66,7 @@ namespace Codecrete.SwissQRBill.WindowsTest
             Assert.True(true);
         }
 
-        [Fact]
+        [WindowsFact]
         public void ToByteArray_CorrectFrame()
         {
             Bill bill = SampleData.CreateExample4();
@@ -97,7 +92,7 @@ namespace Codecrete.SwissQRBill.WindowsTest
             Assert.InRange(frame.Bottom, expectedHeight - 2, expectedHeight + 2);
         }
 
-        [Fact]
+        [WindowsFact]
         public void ToMetafile_CorrectFrame()
         {
             Bill bill = SampleData.CreateExample6();
