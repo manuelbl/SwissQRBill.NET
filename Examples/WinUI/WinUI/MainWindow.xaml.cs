@@ -24,7 +24,7 @@ namespace Codecrete.SwissQRBill.Examples.WinUI
     public sealed partial class MainWindow : Window
     {
         private readonly Bill bill;
-        private CanvasPrintDocument printDocument;
+        private CanvasPrintDocument? printDocument;
 
         public MainWindow()
         {
@@ -89,10 +89,7 @@ namespace Codecrete.SwissQRBill.Examples.WinUI
         private async void OnPrintClicked(object sender, RoutedEventArgs e)
         {
             // Dispose of all print document
-            if (printDocument != null)
-            {
-                printDocument.Dispose();
-            }
+            printDocument?.Dispose();
 
             // Create new print document
             printDocument = new CanvasPrintDocument();

@@ -24,14 +24,14 @@ namespace Codecrete.SwissQRBill.Examples.WinUI
     /// Draws a Swiss QR bill into a <see cref="CanvasDrawingSession"/>.
     /// </para>
     /// </summary>
-    internal class QrBillImage : AbstractCanvas
+    internal partial class QrBillImage : AbstractCanvas
     {
         private const double ptToMm = 25.4 / 72.0;
         private const string fontFamilyName = "Arial";
 
-        private CanvasDrawingSession _session;
+        private CanvasDrawingSession? _session;
         private Matrix3x2 _baseTransform;
-        private CanvasPathBuilder _pathBuilder;
+        private CanvasPathBuilder? _pathBuilder;
         private bool _isInFigure = false;
 
         /// <summary>
@@ -146,46 +146,46 @@ namespace Codecrete.SwissQRBill.Examples.WinUI
                 matrix = Matrix3x2.Multiply(Matrix3x2.CreateScale((float)scaleX, (float)scaleY), matrix);
             }
 
-            _session.Transform = matrix;
+            _session!.Transform = matrix;
         }
 
         public override void StartPath()
         {
-            _pathBuilder = new CanvasPathBuilder(_session.Device);
+            _pathBuilder = new CanvasPathBuilder(_session!.Device);
             _isInFigure = false;
         }
 
         public override void CloseSubpath()
         {
-            _pathBuilder.EndFigure(CanvasFigureLoop.Closed);
+            _pathBuilder!.EndFigure(CanvasFigureLoop.Closed);
             _isInFigure = false;
         }
 
         public override void MoveTo(double x, double y)
         {
             if (_isInFigure)
-                _pathBuilder.EndFigure(CanvasFigureLoop.Open);
-            _pathBuilder.BeginFigure((float)x, (float)-y);
+                _pathBuilder!.EndFigure(CanvasFigureLoop.Open);
+            _pathBuilder!.BeginFigure((float)x, (float)-y);
             _isInFigure = true;
         }
 
         public override void LineTo(double x, double y)
         {
-            _pathBuilder.AddLine((float)x, (float)-y);
+            _pathBuilder!.AddLine((float)x, (float)-y);
             _isInFigure = true;
         }
 
         public override void CubicCurveTo(double x1, double y1, double x2, double y2, double x, double y)
         {
-            _pathBuilder.AddCubicBezier(new Vector2((float)x1, (float)-y1), new Vector2((float)x2, (float)-y2), new Vector2((float)x, (float)-y));
+            _pathBuilder!.AddCubicBezier(new Vector2((float)x1, (float)-y1), new Vector2((float)x2, (float)-y2), new Vector2((float)x, (float)-y));
             _isInFigure = true;
         }
 
         public override void AddRectangle(double x, double y, double width, double height)
         {
             if (_isInFigure)
-                _pathBuilder.EndFigure(CanvasFigureLoop.Open);
-            _pathBuilder.BeginFigure((float)x, (float)-y);
+                _pathBuilder!.EndFigure(CanvasFigureLoop.Open);
+            _pathBuilder!.BeginFigure((float)x, (float)-y);
             _pathBuilder.AddLine((float)(x + width), (float)-y);
             _pathBuilder.AddLine((float)(x + width), (float)(-y - height));
             _pathBuilder.AddLine((float)x, (float)(-y - height));
@@ -196,18 +196,18 @@ namespace Codecrete.SwissQRBill.Examples.WinUI
         public override void StrokePath(double strokeWidth, int color, LineStyle lineStyle = LineStyle.Solid, bool smoothing = true)
         {
             if (_isInFigure)
-                _pathBuilder.EndFigure(CanvasFigureLoop.Open);
+                _pathBuilder!.EndFigure(CanvasFigureLoop.Open);
 
             using var strokeStyle = new CanvasStrokeStyle();
 
             switch (lineStyle)
             {
                 case LineStyle.Dashed:
-                    strokeStyle.CustomDashStyle = new float[] { 4 };
+                    strokeStyle.CustomDashStyle = [4];
                     break;
 
                 case LineStyle.Dotted:
-                    strokeStyle.CustomDashStyle = new float[] { 0, 3 };
+                    strokeStyle.CustomDashStyle = [0, 3];
                     strokeStyle.DashCap = CanvasCapStyle.Round;
                     break;
 
@@ -216,17 +216,17 @@ namespace Codecrete.SwissQRBill.Examples.WinUI
                     break;
             }
 
-            _session.DrawGeometry(CanvasGeometry.CreatePath(_pathBuilder), ColorFromRgb(color), (float)(strokeWidth * ptToMm), strokeStyle);
-            _pathBuilder.Dispose();
+            _session!.DrawGeometry(CanvasGeometry.CreatePath(_pathBuilder), ColorFromRgb(color), (float)(strokeWidth * ptToMm), strokeStyle);
+            _pathBuilder!.Dispose();
             _pathBuilder = null;
         }
 
         public override void FillPath(int color, bool smoothing = true)
         {
             if (_isInFigure)
-                _pathBuilder.EndFigure(CanvasFigureLoop.Closed);
-            _session.FillGeometry(CanvasGeometry.CreatePath(_pathBuilder), ColorFromRgb(color));
-            _pathBuilder.Dispose();
+                _pathBuilder!.EndFigure(CanvasFigureLoop.Closed);
+            _session!.FillGeometry(CanvasGeometry.CreatePath(_pathBuilder), ColorFromRgb(color));
+            _pathBuilder!.Dispose();
             _pathBuilder = null;
         }
 
@@ -240,7 +240,7 @@ namespace Codecrete.SwissQRBill.Examples.WinUI
             };
 
             double ascent = 0.921630859375 * fontSize * ptToMm;
-            _session.DrawText(text, (float)x, (float)(-y - ascent), Colors.Black, textFormat);
+            _session!.DrawText(text, (float)x, (float)(-y - ascent), Colors.Black, textFormat);
         }
 
         private static Color ColorFromRgb(int color)
