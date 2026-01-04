@@ -98,6 +98,14 @@ namespace Codecrete.SwissQRBill.CoreTest
             return GenerateAndCompareBill(SampleData.CreateExample8(), OutputSize.A4PortraitSheet, GraphicsFormat.PDF);
         }
 
+        [Fact]
+        public Task CreateA4PDFBill8b()
+        {
+            Bill bill = SampleData.CreateExample8();
+            bill.CharacterSet = SpsCharacterSet.ExtendedLatin;
+            return GenerateAndCompareBill(bill, OutputSize.A4PortraitSheet, GraphicsFormat.PDF);
+        }
+
         private static Task GenerateAndCompareBill(Bill bill, OutputSize outputSize, GraphicsFormat graphicsFormat)
         {
             bill.Format.OutputSize = outputSize;

@@ -45,10 +45,32 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         /// <returns></returns>
         public static ICanvas Create(BillFormat format, double width, double height)
         {
+            return Create(format, SpsCharacterSet.Latin1Subset, width, height);
+        }
+
+        /// <summary>
+        /// Creates a new <c>ICanvas</c> instance for the specified bill format and character set.
+        /// </summary>
+        /// <param name="format">bill format</param>
+        /// <param name="characterSet">character set</param>
+        /// <param name="width">canvas width, in mm</param>
+        /// <param name="height">canvas height, in mm</param>
+        /// <returns></returns>
+        public static ICanvas Create(BillFormat format, SpsCharacterSet characterSet, double width, double height)
+        {
             var factory = Factories.Find(f => f.CanCreate(format));
             if (factory != null)
             {
-                return factory.Create(format, width, height);
+                if (factory is ICanvasFactory2)
+                {
+                    var factory2 = (ICanvasFactory2)factory;
+                    return factory2.Create(format, characterSet, width, height);
+
+                }
+                else
+                {
+                    return factory.Create(format, width, height);
+                }
             }
 
             return null;

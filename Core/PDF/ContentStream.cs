@@ -24,6 +24,7 @@ namespace Codecrete.SwissQRBill.Generator.PDF
         private StreamWriter _contentWriter;
         private readonly GeneralDict _dict;
         private readonly ResourceDict _resources;
+        private Font _currentFont;
 
         internal ContentStream(ResourceDict resources)
         {
@@ -269,6 +270,7 @@ namespace Codecrete.SwissQRBill.Generator.PDF
             WriteOperand(fontName);
             WriteOperand(fontSize);
             WriteOperator("Tf");
+            _currentFont = font;
         }
 
         /// <summary>
@@ -349,8 +351,16 @@ namespace Codecrete.SwissQRBill.Generator.PDF
 
         private void WriteTextOperand(string text)
         {
-            text = WriterHelper.EscapeString(text);
-            _contentWriter.Write($"({text}) ");
+            var encodedText = _currentFont.EncodeText(text);
+            if (_currentFont.Encoding == "WinAnsiEncoding")
+            {
+                WriterHelper.WriteLiteralString(_contentWriter, text);
+            }
+            else
+            {
+                WriterHelper.WriteString(_contentWriter, encodedText);
+            }
+            _contentWriter.Write(' ');
         }
 
         private void WriteOperator(string oper)

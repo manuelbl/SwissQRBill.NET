@@ -22,6 +22,8 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         private const float ColorScale = 1f / 255;
         private Document _document;
         private ContentStream _contentStream;
+        private Font _regularFont;
+        private Font _boldFont;
         private int _lastStrokingColor;
         private int _lastNonStrokingColor;
         private double _lastLineWidth = 1;
@@ -42,9 +44,50 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         {
             SetupFontMetrics("Helvetica");
             _document = new Document("Swiss QR Bill");
+            _regularFont = Font.Helvetica;
+            _boldFont = Font.HelveticaBold;
             var page = _document.CreatePage((float)(width * MmToPt), (float)(height * MmToPt));
             _contentStream = page.Contents;
             _contentStream.SaveGraphicsState();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the PDF canvas with the specified page size.
+        /// <para>
+        /// A PDF with a single page of the specified size will be created. The QR bill
+        /// will be drawn in the bottom left corner of the page.
+        /// </para>
+        /// <para>
+        /// Font settings specify what font to use and whether to embed the font in the PDF file.
+        /// </para>
+        /// </summary>
+        /// <param name="width">The page width, in mm.</param>
+        /// <param name="height">The page height, in mm.</param>
+        /// <param name="fontSettings">The font settings.</param>
+        public PDFCanvas(double width, double height, PDFFontSettings fontSettings)
+        {
+            _document = new Document("Swiss QR Bill");
+            ConfigureFonts(_document, fontSettings);
+            var page = _document.CreatePage((float)(width * MmToPt), (float)(height * MmToPt));
+            _contentStream = page.Contents;
+            _contentStream.SaveGraphicsState();
+        }
+
+        private void ConfigureFonts(Document document, PDFFontSettings fontSettings)
+        {
+            SetupFontMetrics(fontSettings.FontFamily);
+
+            switch (fontSettings.FontEmbedding)
+            {
+                case FontEmbedding.STANDARD_HELVETICA:
+                    _regularFont = Font.Helvetica;
+                    _boldFont = Font.HelveticaBold;
+                    break;
+                case FontEmbedding.EMBEDDED_LIBERATION_SANS:
+                    _regularFont = Font.CreateEmbeddedFont(false, document);
+                    _boldFont = Font.CreateEmbeddedFont(true, document);
+                    break;
+            }
         }
 
         /// <inheritdoc />
@@ -73,7 +116,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
 
         private void SetFont(bool isBold, int fontSize)
         {
-            var font = isBold ? Font.HelveticaBold : Font.Helvetica;
+            var font = isBold ? _boldFont : _regularFont;
             if (font == _lastFont && MathUtil.AreClose(fontSize, _lastFontSize))
             {
                 return;

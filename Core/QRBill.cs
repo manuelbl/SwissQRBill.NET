@@ -141,7 +141,7 @@ namespace Codecrete.SwissQRBill.Generator
         /// <seealso cref="Draw(Bill, ICanvas)"/>
         public static byte[] Generate(Bill bill)
         {
-            using (var canvas = CreateCanvas(bill.Format))
+            using (var canvas = CreateCanvas(bill))
             {
                 try
                 {
@@ -334,10 +334,11 @@ namespace Codecrete.SwissQRBill.Generator
             return QRCodeText.Decode(text, allowInvalidAmount);
         }
 
-        private static ICanvas CreateCanvas(BillFormat format)
+        private static ICanvas CreateCanvas(Bill bill)
         {
             double drawingWidth;
             double drawingHeight;
+            var format = bill.Format;
 
             // define page size
             switch (format.OutputSize)
@@ -368,7 +369,7 @@ namespace Codecrete.SwissQRBill.Generator
                     break;
             }
 
-            var canvas = CanvasCreator.Create(format, drawingWidth, drawingHeight);
+            var canvas = CanvasCreator.Create(format, bill.CharacterSet, drawingWidth, drawingHeight);
             if (canvas != null)
             {
                 return canvas;

@@ -31,4 +31,23 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         /// <returns>new <c>ICanvas</c> instance</returns>
         ICanvas Create(BillFormat format, double width, double height);
     }
+
+    /// <summary>
+    /// Factory for creating <c>ICanvas</c> instances.
+    /// <para>
+    /// This interface is an extension of <c>ICanvasFactory</c> that allows specifying the character set.
+    /// </para>
+    /// </summary>
+    public interface ICanvasFactory2 : ICanvasFactory
+    {
+        /// <summary>
+        /// Creates a canvas for the specified bill format and character set.
+        /// </summary>
+        /// <param name="format">bill format</param>
+        /// <param name="characterSet">character set</param>
+        /// <param name="width">canvas width, in mm</param>
+        /// <param name="height">canvas height, in mm</param>
+        /// <returns>new <c>ICanvas</c> instance</returns>
+        ICanvas Create(BillFormat format, SpsCharacterSet characterSet, double width, double height);
+    }
 }

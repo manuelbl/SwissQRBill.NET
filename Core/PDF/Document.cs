@@ -35,7 +35,7 @@ namespace Codecrete.SwissQRBill.Generator.PDF
             CreateReference(null); // dummy reference with index 0
 
             var catalog = new GeneralDict("Catalog");
-            catalog.Add("Version", new Name("1.4"));
+            catalog.Add("Version", new Name("1.6"));
             _catalogRef = CreateReference(catalog);
 
             var documentInfo = new GeneralDict();
@@ -70,7 +70,7 @@ namespace Codecrete.SwissQRBill.Generator.PDF
         {
             using (var writer = new StreamWriter(stream, GetCodepage1252()))
             {
-                writer.Write("%PDF-1.4\n");
+                writer.Write("%PDF-1.6\n");
                 writer.Write("%öäüß\n");
                 WriteBody(writer, stream);
                 writer.Flush();

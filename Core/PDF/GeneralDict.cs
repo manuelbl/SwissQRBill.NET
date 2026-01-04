@@ -27,6 +27,11 @@ namespace Codecrete.SwissQRBill.Generator.PDF
             };
         }
 
+        internal GeneralDict(Dictionary<string, object> dict)
+        {
+            _dict = dict;
+        }
+
         void IWritable.Write(StreamWriter writer)
         {
             writer.Write("<<\n");

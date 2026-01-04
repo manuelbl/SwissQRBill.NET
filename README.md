@@ -197,6 +197,11 @@ This library comes with multiple code examples:
 
 - [PDFsharp](Examples/PDFsharp): Example showing how to generate PDFs using the [PDFsharp](http://www.pdfsharp.net) library, including how to add a QR bill to an existing PDF document.
 
+
+## Font license
+
+The library includes a subset of the Liberation Sans font (regular and bold face). It is made available free of charge by Goolge and Red Hat under the SIL Open Font License, Version 1.1. You will likely need to add their copyright and license information to your product. See the license for details.
+
 ## More information
 
 This library is the .NET version of Swiss QR Bill. There is also a [Java version](https://github.com/manuelbl/SwissQRBill) with the same features. More information about both libraries can be found in the [Wiki](https://github.com/manuelbl/SwissQRBill/wiki).

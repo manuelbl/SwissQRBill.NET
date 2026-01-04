@@ -84,6 +84,11 @@ namespace Codecrete.SwissQRBill.Generator.PDF
         /// </summary>
         public string Encoding { get; internal set; }
 
+        private GeneralDict _dictionary;
+
+        private delegate byte[] TextEncoder(string text);
+        private TextEncoder _encodeText;
+
         /// <summary>
         /// Creates a base font for the specified font name.
         /// <para>
@@ -94,21 +99,70 @@ namespace Codecrete.SwissQRBill.Generator.PDF
         /// <returns>Font instance.</returns>
         private static Font CreateBaseFont(string fontname)
         {
-            return new Font
+            var dict = new GeneralDict("Font");
+            var font = new Font
             {
                 Subtype = "Type1",
                 Name = fontname,
-                Encoding = "WinAnsiEncoding"
+                Encoding = "WinAnsiEncoding",
+                _dictionary = dict,
+                _encodeText = EncodeWinAnsi
             };
+            dict.Add("Subtype", new Name(font.Subtype));
+            dict.Add("BaseFont", new Name(font.Name));
+            dict.Add("Encoding", new Name(font.Encoding));
+
+            return font;
+        }
+
+        /// <summary>
+        /// Creates a new font that will be embedded in the PDF document.
+        /// <para>
+        /// Depending on the <paramref name="isBold"/> parameter, either the Liberation Sans Regular
+        /// or Liberation Sans Bold font is created. The regular font includes the glyphs valid
+        /// in Swiss payments (Basic Latin, Latin-1 Supplement, Latin Extended-A and a few additional
+        /// characters. The bold font includes the glyphs A-Z, a-z and some French and German accented
+        /// characters.
+        /// </para>
+        /// </summary>
+        /// <param name="isBold">Indictes if the bold font should be created.</param>
+        /// <param name="document">The PDF document to add the font to.</param>
+        /// <returns></returns>
+        public static Font CreateEmbeddedFont(bool isBold, Document document)
+        {
+            var dict = isBold ? EmbeddedFonts.CreateLiberationSansBold(document)
+                : EmbeddedFonts.CreateLiberationSansRegular(document);
+            var font = new Font
+            {
+                Subtype = "Type0",
+                Name = isBold ? "LiberationSans-Bold" : "LiberationSans",
+                _dictionary = dict,
+                _encodeText = isBold ? (TextEncoder)EmbeddedFonts.EncodeTextLiberationSansBold
+                    : EmbeddedFonts.EncodeTextLiberationSansRegular
+
+            };
+            return font;
+        }
+
+        /// <summary>
+        /// Encodes the specified text for use with this font.
+        /// </summary>
+        /// <param name="text">The text to encode.</param>
+        /// <returns>The encoded text.</returns>
+        public byte[] EncodeText(string text)
+        {
+            return _encodeText(text);
         }
 
         void IWritable.Write(StreamWriter writer)
         {
-            var dict = new GeneralDict("Font");
-            dict.Add("Subtype", new Name(Subtype));
-            dict.Add("BaseFont", new Name(Name));
-            dict.Add("Encoding", new Name(Encoding));
-            ((IWritable)dict).Write(writer);
+            ((IWritable)_dictionary).Write(writer);
+        }
+
+        private static byte[] EncodeWinAnsi(string text)
+        {
+            var encoding = Document.GetCodepage1252();
+            return encoding.GetBytes(text);
         }
     }
 }

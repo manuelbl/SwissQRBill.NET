@@ -31,6 +31,9 @@ namespace Codecrete.SwissQRBill.Generator.PDF
                 case IEnumerable<float> floatList:
                     WriteList(writer, floatList);
                     break;
+                case IEnumerable<int> intList:
+                    WriteList(writer, intList);
+                    break;
                 case string str:
                     WriteString(writer, str);
                     break;
@@ -45,9 +48,9 @@ namespace Codecrete.SwissQRBill.Generator.PDF
 
         private static void WriteString(TextWriter writer, string str)
         {
-            writer.Write("(");
-            writer.Write(EscapeString(str));
-            writer.Write(")");
+            // ensure it is suitable for WinAnsi encoding
+            Document.GetCodepage1252().GetBytes(str);
+            WriteLiteralString(writer, str);
         }
 
         private static void WriteNumber(TextWriter writer, float num)
@@ -66,51 +69,66 @@ namespace Codecrete.SwissQRBill.Generator.PDF
             writer.Write("]");
         }
 
-        internal static string EscapeString(string text)
+        internal static void WriteString(TextWriter writer, byte[] text)
         {
-            var encoding = Document.GetCodepage1252();
-            var bytes = encoding.GetBytes(text);
+            var useHexadecimalString = false;
+            foreach (var b in text)
+            {
+                if (b < 32 || b > 126)
+                {
+                    useHexadecimalString = true;
+                    break;
+                }
+            }
 
-            var length = bytes.Length;
+            if (useHexadecimalString)
+            {
+                WriteHexadecimalString(writer, text);
+            }
+            else
+            {
+                WriteLiteralString(writer, Encoding.ASCII.GetString(text));
+            }
+        }
+
+        internal static void WriteLiteralString(TextWriter writer, string text)
+        {
+            writer.Write("(");
+
+            var length = text.Length;
             var lastCopiedPosition = 0;
-            StringBuilder result = null;
             for (var i = 0; i < length; i++)
             {
-                var ch = bytes[i];
+                var ch = text[i];
                 if (ch >= ' ' && ch != '(' && ch != ')' && ch != '\\')
                 {
                     continue;
                 }
 
-                if (result == null)
-                {
-                    result = new StringBuilder(length + 10);
-                }
-
                 if (i > lastCopiedPosition)
                 {
-                    result.Append(text, lastCopiedPosition, i - lastCopiedPosition);
+                    writer.Write(text.Substring(lastCopiedPosition, i - lastCopiedPosition));
                 }
 
                 string replacement;
                 switch (ch)
                 {
-                    case (byte) '(':
+                    case '(':
                         replacement = "(";
                         break;
-                    case (byte) ')':
+                    case ')':
                         replacement = ")";
                         break;
-                    case (byte) '\\':
+                    case '\\':
                         replacement = "\\";
                         break;
-                    case (byte) '\n':
+                    case '\n':
                         replacement = "n";
                         break;
-                    case (byte) '\r':
+                    case '\r':
                         replacement = "r";
                         break;
-                    case (byte) '\t':
+                    case '\t':
                         replacement = "t";
                         break;
                     default:
@@ -118,22 +136,39 @@ namespace Codecrete.SwissQRBill.Generator.PDF
                         replacement = replacement.Substring(replacement.Length - 3);
                         break;
                 }
-                result.Append('\\');
-                result.Append(replacement);
+                writer.Write('\\');
+                writer.Write(replacement);
                 lastCopiedPosition = i + 1;
-            }
-
-            if (result == null)
-            {
-                return text;
             }
 
             if (length > lastCopiedPosition)
             {
-                result.Append(text, lastCopiedPosition, length - lastCopiedPosition);
+                writer.Write(text.Substring(lastCopiedPosition, length - lastCopiedPosition));
             }
 
-            return result.ToString();
+            writer.Write(")");
+        }
+
+        internal static void WriteHexadecimalString(TextWriter writer, byte[] bytes)
+        {
+            writer.Write("<");
+            var chars = new char[bytes.Length * 2];
+            for (int i = 0; i < bytes.Length; i += 1)
+            {
+                var b = bytes[i];
+                chars[i * 2] = GetHexChar(b >> 4);
+                chars[i * 2 + 1] = GetHexChar(b & 0x0F);
+            }
+            writer.Write(chars);
+            writer.Write(">");
+        }
+
+        private static char GetHexChar(int value)
+        {
+            if (value < 10)
+                return (char)('0' + value);
+            else
+                return (char)('A' + (value - 10));
         }
     }
 }

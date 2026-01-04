@@ -74,4 +74,12 @@ See home page https://github.com/manuelbl/SwissQRBill.NET for examples and other
     </AssemblyAttribute>
   </ItemGroup>
 
+  <ItemGroup>
+    <EmbeddedResource Include="Fonts\LiberationSansBold-FontFile2.bin" />
+    <EmbeddedResource Include="Fonts\LiberationSansBold-ToUnicode.bin" />
+    <EmbeddedResource Include="Fonts\LiberationSansRegular-CIDToGIDMap.bin" />
+    <EmbeddedResource Include="Fonts\LiberationSansRegular-FontFile2.bin" />
+    <EmbeddedResource Include="Fonts\LiberationSansRegular-ToUnicode.bin" />
+  </ItemGroup>
+
 </Project>
