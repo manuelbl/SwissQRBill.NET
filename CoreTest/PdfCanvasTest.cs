@@ -112,7 +112,8 @@ namespace Codecrete.SwissQRBill.CoreTest
 
                 DrawTextLine(canvas, 140, true, 'A', 'Z');
                 DrawTextLine(canvas, 130, true, 'a', 'z');
-                DrawTextLine(canvas, 120, true, "äöüàçéèô /");
+                DrawTextLine(canvas, 120, true, '0', '9');
+                DrawTextLine(canvas, 110, true, "äöüàçéèô /");
 
                 canvas.SaveAs("fonts.pdf");
             }

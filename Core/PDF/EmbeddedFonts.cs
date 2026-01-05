@@ -198,9 +198,9 @@ namespace Codecrete.SwissQRBill.Generator.PDF
 
             var fontFile2 = new StreamData(new Dictionary<string, object>
             {
-                { "Length", 10937 },
+                { "Length", 12224 },
                 { "Filter", new Name("FlateDecode") },
-                { "Length1", 16652 },
+                { "Length1", 18444 },
             }, "LiberationSansBold-FontFile2.bin");
 
 
@@ -214,7 +214,7 @@ namespace Codecrete.SwissQRBill.Generator.PDF
             var fontDescriptor = new GeneralDict(new Dictionary<string, object>
             {
                 { "Type", new Name("FontDescriptor") },
-                { "FontName", new Name("AAAXDL+LiberationSans-Bold") },
+                { "FontName", new Name("AAAPVL+LiberationSans-Bold") },
                 { "Flags", 4 },
                 { "FontWeight", 700.000000f },
                 { "ItalicAngle", 0.000000f },
@@ -235,16 +235,16 @@ namespace Codecrete.SwissQRBill.Generator.PDF
 
             var cIDToGIDMap = new StreamData(new Dictionary<string, object>
             {
-                { "Length", 145 },
+                { "Length", 165 },
                 { "Filter", new Name("FlateDecode") },
-            }, new byte[] { 0x78, 0x9C, 0xED, 0x8F, 0xC7, 0x0E, 0x82, 0x50, 0x10, 0x45, 0x8F, 0xBD, 0x37, 0xEC, 0x58, 0xB0, 0x62, 0x17, 0xEC, 0xBD, 0xFF, 0xFF, 0x3F, 0x49, 0x90, 0x05, 0x0B, 0x21, 0x1A, 0x5D, 0xBE, 0x93, 0xCC, 0xDC, 0x4C, 0x4B, 0xEE, 0x80, 0x89, 0x07, 0x37, 0xBC, 0xAE, 0xD3, 0x17, 0x3E, 0xFC, 0x04, 0x08, 0x12, 0x22, 0x4C, 0x84, 0x28, 0x31, 0xE2, 0x24, 0x48, 0x92, 0x22, 0x4D, 0x06, 0x89, 0x2C, 0x39, 0xF2, 0x14, 0x28, 0x52, 0xA2, 0x8C, 0x4C, 0x85, 0xAA, 0xED, 0xBA, 0x46, 0x1D, 0x85, 0x06, 0x4D, 0x5A, 0xB4, 0xE9, 0xD0, 0x45, 0xA5, 0x47, 0x9F, 0x01, 0x43, 0x46, 0x8C, 0x99, 0x30, 0x45, 0x43, 0x67, 0xC6, 0x9C, 0x05, 0x4B, 0x56, 0xAC, 0xD9, 0x38, 0x7A, 0xD9, 0x3A, 0xF4, 0x77, 0x96, 0xEE, 0x3F, 0xF8, 0xE7, 0x1B, 0x0E, 0x96, 0x1E, 0xCD, 0x7C, 0xE2, 0xCC, 0xE5, 0xED, 0xDE, 0xD5, 0x88, 0x9B, 0xAD, 0xBE, 0xFF, 0xD9, 0x87, 0x40, 0x20, 0xF8, 0x8D, 0xC7, 0x13, 0x0F, 0x35, 0x08, 0xE7, });
+            }, new byte[] { 0x78, 0x9C, 0xED, 0xCF, 0xD7, 0x4E, 0x82, 0x01, 0x10, 0x84, 0xD1, 0x43, 0x47, 0x6C, 0x88, 0x62, 0x43, 0x05, 0x41, 0xC5, 0x86, 0x05, 0x51, 0xB0, 0x51, 0x2C, 0xA8, 0xA8, 0xEF, 0xFF, 0x3A, 0x1A, 0xC2, 0x05, 0x31, 0x42, 0x42, 0xF4, 0xF2, 0xFF, 0x92, 0xDD, 0xC9, 0x6E, 0x66, 0x93, 0x59, 0xFA, 0x84, 0x8C, 0x23, 0x2C, 0x22, 0x2A, 0x26, 0x2E, 0x21, 0x69, 0x4A, 0xCA, 0xB4, 0x99, 0x1F, 0x9E, 0x59, 0x73, 0xE6, 0xA5, 0x2D, 0xC8, 0x58, 0xB4, 0x24, 0x6B, 0xD9, 0x8A, 0x55, 0x6B, 0xD6, 0xE5, 0x6C, 0xD8, 0xB4, 0x25, 0xAF, 0x60, 0x5B, 0x51, 0xC9, 0x8E, 0x5D, 0x7B, 0x43, 0xD7, 0x65, 0xFB, 0x0E, 0x1C, 0x3A, 0x72, 0xAC, 0xE2, 0xC4, 0xA9, 0x33, 0xE7, 0xAA, 0x2E, 0xD4, 0x5C, 0xBA, 0x52, 0xD7, 0x70, 0xED, 0xC6, 0xAD, 0x3B, 0xF7, 0x9A, 0x5A, 0xDA, 0x3A, 0x23, 0xF3, 0x3E, 0x8C, 0xD8, 0x3F, 0x0E, 0xF4, 0x69, 0xEC, 0xB7, 0x93, 0xF3, 0x3C, 0xD0, 0x6E, 0xBF, 0xBF, 0x78, 0xF5, 0xF6, 0xAB, 0xAF, 0xF7, 0x5D, 0xEF, 0x43, 0xF3, 0xC7, 0x3F, 0xE7, 0x08, 0x08, 0x08, 0xF8, 0x1B, 0x9F, 0x5F, 0x94, 0xD0, 0x0B, 0xBC, });
 
 
             var descendantFonts = new GeneralDict(new Dictionary<string, object>
             {
                 { "Type", new Name("Font") },
                 { "Subtype", new Name("CIDFontType2") },
-                { "BaseFont", new Name("AAAXDL+LiberationSans-Bold") },
+                { "BaseFont", new Name("AAAPVL+LiberationSans-Bold") },
                 { "CIDSystemInfo", document.CreateReference(cIDSystemInfo) },
                 { "FontDescriptor", document.CreateReference(fontDescriptor) },
                 { "W", new object[] {
@@ -253,7 +253,7 @@ namespace Codecrete.SwissQRBill.Generator.PDF
                     3,
                     new int[] { 278, },
                     18,
-                    new int[] { 278, },
+                    new int[] { 278, 556, 556, 556, 556, 556, 556, 556, 556, 556, 556, },
                     36,
                     new int[] { 722, 722, 722, 722, 667, 611, 778, 722, 278, 556, 722, 611, 833, 722, 778, 667, 778, 722, 667, 611, 722, 667, 944, 667, 667, 611, },
                     67,
@@ -284,7 +284,7 @@ namespace Codecrete.SwissQRBill.Generator.PDF
 
             var toUnicode = new StreamData(new Dictionary<string, object>
             {
-                { "Length", 322 },
+                { "Length", 323 },
                 { "Filter", new Name("FlateDecode") },
             }, "LiberationSansBold-ToUnicode.bin");
 
@@ -292,7 +292,7 @@ namespace Codecrete.SwissQRBill.Generator.PDF
             var font = new GeneralDict(new Dictionary<string, object>
             {
                 { "Type", new Name("Font") },
-                { "BaseFont", new Name("AAAXDL+LiberationSans-Bold") },
+                { "BaseFont", new Name("AAAPVL+LiberationSans-Bold") },
                 { "Subtype", new Name("Type0") },
                 { "Encoding", new Name("Identity-H") },
                 { "DescendantFonts", new object[] {
@@ -307,6 +307,7 @@ namespace Codecrete.SwissQRBill.Generator.PDF
         // Generated code. Do not modify. See the associated PDFFonts projects.
         internal static readonly char[] GlyphIndexesLiberationSansBold_0041_005a = new char[] { '\x0024', '\x0025', '\x0026', '\x0027', '\x0028', '\x0029', '\x002A', '\x002B', '\x002C', '\x002D', '\x002E', '\x002F', '\x0030', '\x0031', '\x0032', '\x0033', '\x0034', '\x0035', '\x0036', '\x0037', '\x0038', '\x0039', '\x003A', '\x003B', '\x003C', '\x003D', };
         internal static readonly char[] GlyphIndexesLiberationSansBold_0061_007a = new char[] { '\x0044', '\x0045', '\x0046', '\x0047', '\x0048', '\x0049', '\x004A', '\x004B', '\x004C', '\x004D', '\x004E', '\x004F', '\x0050', '\x0051', '\x0052', '\x0053', '\x0054', '\x0055', '\x0056', '\x0057', '\x0058', '\x0059', '\x005A', '\x005B', '\x005C', '\x005D', };
+        internal static readonly char[] GlyphIndexesLiberationSansBold_0030_0039 = new char[] { '\x0013', '\x0014', '\x0015', '\x0016', '\x0017', '\x0018', '\x0019', '\x001A', '\x001B', '\x001C', };
         internal static readonly char[] GlyphIndexesLiberationSansBold_0020_0020 = new char[] { '\x0003', };
         internal static readonly char[] GlyphIndexesLiberationSansBold_002f_002f = new char[] { '\x0012', };
         internal static readonly char[] GlyphIndexesLiberationSansBold_00e0_00e0 = new char[] { '\x00A2', };
@@ -335,6 +336,11 @@ namespace Codecrete.SwissQRBill.Generator.PDF
                 {
                     glyphIndexArray = GlyphIndexesLiberationSansBold_0061_007a;
                     glyphIndex = ch - 0x0061;
+                }
+                else if (ch >= 0x0030 && ch <= 0x0039)
+                {
+                    glyphIndexArray = GlyphIndexesLiberationSansBold_0030_0039;
+                    glyphIndex = ch - 0x0030;
                 }
                 else if (ch >= 0x0020 && ch <= 0x0020)
                 {

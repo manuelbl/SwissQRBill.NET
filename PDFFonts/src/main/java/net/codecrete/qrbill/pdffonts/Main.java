@@ -48,6 +48,7 @@ public class Main {
             var bold = new Subsetter(fonts[1]);
             bold.addCharacters('A', 'Z');
             bold.addCharacters('a', 'z');
+            bold.addCharacters('0', '9');
             bold.addCharacters(0x0020, 0x0020); // space
             bold.addCharacters(0x002F, 0x002F); // slash
             bold.addCharacters(0x00E0, 0x00E0); // à
@@ -109,6 +110,7 @@ public class Main {
                 contentStream.newLineAtOffset(60, 400);
                 drawTextLine(contentStream, 'A', 'Z');
                 drawTextLine(contentStream, 'a', 'z');
+                drawTextLine(contentStream, '0', '9');
                 contentStream.newLineAtOffset(0, -24f);
                 contentStream.showText("äöüàçéèô");
                 contentStream.endText();
