@@ -380,7 +380,7 @@ namespace Codecrete.SwissQRBill.Generator
                 // The PNG canvas factory is provided by a separate assembly / NuGet package.
                 // Try to load the factory dynamically, and if it still fails, print a message with specific hint.
                 CanvasCreator.RegisterPixelCanvasFactory();
-                canvas = CanvasCreator.Create(format, drawingWidth, drawingHeight);
+                canvas = CanvasCreator.Create(format, bill.CharacterSet, drawingWidth, drawingHeight);
                 if (canvas == null)
                     throw new QRBillGenerationException("Graphics format PNG not available (are you missing the NuGet package Codecrete.SwissQRBill.Generator?)");
             }

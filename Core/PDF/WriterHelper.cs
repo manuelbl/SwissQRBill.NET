@@ -69,28 +69,6 @@ namespace Codecrete.SwissQRBill.Generator.PDF
             writer.Write("]");
         }
 
-        internal static void WriteString(TextWriter writer, byte[] text)
-        {
-            var useHexadecimalString = false;
-            foreach (var b in text)
-            {
-                if (b < 32 || b > 126)
-                {
-                    useHexadecimalString = true;
-                    break;
-                }
-            }
-
-            if (useHexadecimalString)
-            {
-                WriteHexadecimalString(writer, text);
-            }
-            else
-            {
-                WriteLiteralString(writer, Encoding.ASCII.GetString(text));
-            }
-        }
-
         internal static void WriteLiteralString(TextWriter writer, string text)
         {
             writer.Write("(");

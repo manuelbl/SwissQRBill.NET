@@ -79,11 +79,11 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
 
             switch (fontSettings.FontEmbedding)
             {
-                case FontEmbedding.STANDARD_HELVETICA:
+                case FontEmbedding.StandardHelvetica:
                     _regularFont = Font.Helvetica;
                     _boldFont = Font.HelveticaBold;
                     break;
-                case FontEmbedding.EMBEDDED_LIBERATION_SANS:
+                case FontEmbedding.EmbeddedLiberationSans:
                     _regularFont = Font.CreateEmbeddedFont(false, document);
                     _boldFont = Font.CreateEmbeddedFont(true, document);
                     break;

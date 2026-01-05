@@ -41,7 +41,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         {
             return new PDFFontSettings()
             {
-                FontEmbedding = FontEmbedding.STANDARD_HELVETICA,
+                FontEmbedding = FontEmbedding.StandardHelvetica,
                 FontFamily = "Helvetica"
             };
         }
@@ -54,7 +54,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         {
             return new PDFFontSettings()
             {
-                FontEmbedding = FontEmbedding.EMBEDDED_LIBERATION_SANS,
+                FontEmbedding = FontEmbedding.EmbeddedLiberationSans,
                 FontFamily = "Liberation Sans"
             };
         }
@@ -85,10 +85,10 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         /// <summary>
         /// Standard Helvetica font, without embedding.
         /// </summary>
-        STANDARD_HELVETICA,
+        StandardHelvetica,
         /// <summary>
-        /// Liberation Sans font included in this library, with embedding
+        /// Liberation Sans font included in this library, with embedding into the PDF document.
         /// </summary>
-        EMBEDDED_LIBERATION_SANS,
+        EmbeddedLiberationSans,
     }
 }

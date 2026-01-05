@@ -57,12 +57,6 @@ jobs:
           dotnet pack --no-build --verbosity normal
         if: startsWith(matrix.os,'windows')
 
-      - name: Set up JDK 17 (for SonarQube)
-        if: startsWith(matrix.os,'windows')
-        uses: actions/setup-java@v5
-        with:
-          java-version: 17
-          distribution: 'zulu'
       - name: Cache SonarCloud packages
         if: startsWith(matrix.os,'windows')
         uses: actions/cache@v5
@@ -106,7 +100,7 @@ jobs:
         shell: powershell
         run: |
           dotnet clean
-          .\.sonar\scanner\dotnet-sonarscanner begin /k:"manuelbl_SwissQRBill.NET" /o:"manuelbl-github" /d:sonar.cs.vscoveragexml.reportsPaths=coverage.xml
+          .\.sonar\scanner\dotnet-sonarscanner begin /k:"manuelbl_SwissQRBill.NET" /o:"manuelbl-github" /d:sonar.cs.vscoveragexml.reportsPaths=coverage.xml /d:sonar.cpd.exclusions=**/EmbeddeEmbeddedFonts.*
           dotnet build --no-incremental
           .\.dotnet-coverage\dotnet-coverage collect "dotnet test" -f xml -o "coverage.xml"
           .\.sonar\scanner\dotnet-sonarscanner end

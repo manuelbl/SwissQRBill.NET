@@ -358,7 +358,7 @@ namespace Codecrete.SwissQRBill.Generator.PDF
             }
             else
             {
-                WriterHelper.WriteString(_contentWriter, encodedText);
+                WriterHelper.WriteHexadecimalString(_contentWriter, encodedText);
             }
             _contentWriter.Write(' ');
         }

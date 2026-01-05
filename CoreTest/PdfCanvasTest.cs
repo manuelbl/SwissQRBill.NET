@@ -7,6 +7,7 @@
 
 using Codecrete.SwissQRBill.Generator;
 using Codecrete.SwissQRBill.Generator.Canvas;
+using System;
 using System.Globalization;
 using System.IO;
 using System.Threading.Tasks;
@@ -82,6 +83,16 @@ namespace Codecrete.SwissQRBill.CoreTest
         }
 
         [Fact]
+        public void PDFCanvasForUnicode_RaisesException()
+        {
+            var bill = SampleData.CreateExample8();
+            bill.Format.GraphicsFormat = GraphicsFormat.PDF;
+            bill.CharacterSet = SpsCharacterSet.FullUnicode;
+            var exception = Assert.Throws<QRBillGenerationException>(() => QRBill.Generate(bill));
+            Assert.Contains("Unicode", exception.Message);
+        }
+
+        [Fact]
         public void PDFWithEmbeddedFonts()
         {
             using (var canvas = new PDFCanvas(210, 297, PDFFontSettings.EmbeddedLiberationSans()))
@@ -101,11 +112,23 @@ namespace Codecrete.SwissQRBill.CoreTest
 
                 DrawTextLine(canvas, 140, true, 'A', 'Z');
                 DrawTextLine(canvas, 130, true, 'a', 'z');
-                DrawTextLine(canvas, 120, true, "äöüàçéèô");
+                DrawTextLine(canvas, 120, true, "äöüàçéèô /");
 
                 canvas.SaveAs("fonts.pdf");
             }
             Assert.True(true);
+        }
+
+        [Theory]
+        [InlineData("Ɛ", false)]
+        [InlineData("Ɛ", true)]
+        public void UnsupportedCharacter_RaisesException(string text, bool isBold)
+        {
+            using (var canvas = new PDFCanvas(QRBill.A4PortraitWidth, QRBill.A4PortraitHeight, PDFFontSettings.EmbeddedLiberationSans()))
+            {
+                var exception = Assert.Throws<ArgumentException>(() => DrawTextLine(canvas, 200, isBold, text));
+                Assert.Contains($"Character U+{(int)text[0]:X4} is not part of ", exception.Message);
+            }
         }
 
         private void DrawTextLine(PDFCanvas canvas, float yOffset, bool isBold, int firstCodePoint, int lastCodePoint)
@@ -123,5 +146,6 @@ namespace Codecrete.SwissQRBill.CoreTest
         {
             canvas.PutText(text, 20, yOffset, 12, isBold);
         }
+
     }
 }

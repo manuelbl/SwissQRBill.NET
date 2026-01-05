@@ -29,7 +29,7 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
         {
             if (characterSet == SpsCharacterSet.FullUnicode)
             {
-                throw new NotSupportedException("The built-in PDF generator does not support the full Unicode character range.");
+                throw new QRBillGenerationException("The built-in PDF generator does not support the full Unicode character range.");
             }
 
             var fontSettings = characterSet == SpsCharacterSet.Latin1Subset ? PDFFontSettings.StandardHelvetica()
