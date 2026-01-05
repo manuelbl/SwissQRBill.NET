@@ -31,7 +31,9 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
     /// </item>
     /// </list>
     /// </summary>
+#pragma warning disable S101 // Types should be named in PascalCase
     public class PDFFontSettings
+#pragma warning restore S101 // Types should be named in PascalCase
     {
         /// <summary>
         /// Creates a font settings instance for the standard Helvetica font.

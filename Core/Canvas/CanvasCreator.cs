@@ -61,9 +61,8 @@ namespace Codecrete.SwissQRBill.Generator.Canvas
             var factory = Factories.Find(f => f.CanCreate(format));
             if (factory != null)
             {
-                if (factory is ICanvasFactory2)
+                if (factory is ICanvasFactory2 factory2)
                 {
-                    var factory2 = (ICanvasFactory2)factory;
                     return factory2.Create(format, characterSet, width, height);
 
                 }

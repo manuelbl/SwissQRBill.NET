@@ -131,7 +131,7 @@ namespace Codecrete.SwissQRBill.CoreTest
             }
         }
 
-        private void DrawTextLine(PDFCanvas canvas, float yOffset, bool isBold, int firstCodePoint, int lastCodePoint)
+        private static void DrawTextLine(PDFCanvas canvas, float yOffset, bool isBold, int firstCodePoint, int lastCodePoint)
         {
             var chars = new char[lastCodePoint - firstCodePoint + 1];
             for (var codePoint = firstCodePoint; codePoint <= lastCodePoint; codePoint += 1)
@@ -142,7 +142,7 @@ namespace Codecrete.SwissQRBill.CoreTest
             DrawTextLine(canvas, yOffset, isBold, text);
         }
 
-        private void DrawTextLine(PDFCanvas canvas, float yOffset, bool isBold, string text)
+        private static void DrawTextLine(PDFCanvas canvas, float yOffset, bool isBold, string text)
         {
             canvas.PutText(text, 20, yOffset, 12, isBold);
         }

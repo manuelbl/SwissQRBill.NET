@@ -32,10 +32,12 @@ namespace Codecrete.SwissQRBill.CoreTest
             Assert.Null(msg.MessageParameters);
         }
 
+        static readonly string[] messageParams = { "xxx" };
+
         [Fact]
         public void ConstructorWithFourParameters()
         {
-            var msg = new ValidationMessage(MessageType.Warning, "addInfo", "clipped", new[] { "xxx" });
+            var msg = new ValidationMessage(MessageType.Warning, "addInfo", "clipped", messageParams);
             Assert.Equal(MessageType.Warning, msg.Type);
             Assert.Equal("addInfo", msg.Field);
             Assert.Equal("clipped", msg.MessageKey);

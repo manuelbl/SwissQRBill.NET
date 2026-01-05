@@ -317,6 +317,7 @@ namespace Codecrete.SwissQRBill.Generator.PDF
         internal static readonly char[] GlyphIndexesLiberationSansBold_00fc_00fc = new char[] { '\x00BE', };
 
         // Generated code. Do not modify. See the associated PDFFonts projects.
+#pragma warning disable S3776
         internal static byte[] EncodeTextLiberationSansBold(string text)
         {
             var bytes = new byte[text.Length * 2];
@@ -384,6 +385,7 @@ namespace Codecrete.SwissQRBill.Generator.PDF
             }
             return bytes;
         }
+#pragma warning restore S3776
 
     }
 
