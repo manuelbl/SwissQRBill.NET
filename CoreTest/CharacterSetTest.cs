@@ -38,6 +38,7 @@ namespace Codecrete.SwissQRBill.CoreTest
         public void UnstructuredMessageReplacementLatin1Subset()
         {
             SourceBill = SampleData.CreateExample8();
+            SourceBill.CharacterSet = SpsCharacterSet.Latin1Subset;
             Validate();
 
             Assert.False(Result.HasErrors);

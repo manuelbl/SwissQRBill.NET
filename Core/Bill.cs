@@ -281,7 +281,7 @@ namespace Codecrete.SwissQRBill.Generator
         /// is the only value that will generate QR bills accepted by all banks.
         /// </para>
         /// </summary>
-        public SpsCharacterSet CharacterSet { get; set; } = SpsCharacterSet.Latin1Subset;
+        public SpsCharacterSet CharacterSet { get; set; } = SpsCharacterSet.ExtendedLatin;
 
         /// <summary>Determines whether the specified object is equal to the current object.</summary>
         /// <param name="obj">The object to compare with the current object.</param>

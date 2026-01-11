@@ -42,6 +42,7 @@ public class Main {
             regular.addCharacters(0x0100, 0x017F);
             regular.addCharacters(0x0218, 0x021C);
             regular.addCharacters(0x20AC, 0x20AC);
+            regular.addCharacters(0x2013, 0x2013); // en dash
             regular.subset(writer, "LiberationSansRegular");
             regular.printCode(writer, "LiberationSansRegular");
 
@@ -50,7 +51,9 @@ public class Main {
             bold.addCharacters('a', 'z');
             bold.addCharacters('0', '9');
             bold.addCharacters(0x0020, 0x0020); // space
+            bold.addCharacters(0x0028, 0x0029); // opening and closing parentheses
             bold.addCharacters(0x002F, 0x002F); // slash
+            bold.addCharacters(0x003A, 0x003A); // colon
             bold.addCharacters(0x00E0, 0x00E0); // à
             bold.addCharacters(0x00E4, 0x00E4); // ä
             bold.addCharacters(0x00E7, 0x00E9); // çèé
@@ -112,7 +115,7 @@ public class Main {
                 drawTextLine(contentStream, 'a', 'z');
                 drawTextLine(contentStream, '0', '9');
                 contentStream.newLineAtOffset(0, -24f);
-                contentStream.showText("äöüàçéèô");
+                contentStream.showText("äöüàçéèô (/):");
                 contentStream.endText();
             }
 

@@ -7,10 +7,7 @@
 
 using Codecrete.SwissQRBill.Generator.Canvas;
 using System;
-using System.Globalization;
 using System.Resources;
-using System.Text;
-using static Codecrete.SwissQRBill.Generator.Address;
 
 namespace Codecrete.SwissQRBill.Generator
 {

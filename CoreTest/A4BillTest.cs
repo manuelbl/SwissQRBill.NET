@@ -51,6 +51,7 @@ namespace Codecrete.SwissQRBill.CoreTest
         {
             Bill bill = SampleData.CreateExample3();
             bill.Format.FontFamily = "Arial";
+            bill.CharacterSet = SpsCharacterSet.Latin1Subset;
             return GenerateAndCompareBill(bill, OutputSize.A4PortraitSheet, GraphicsFormat.PDF);
         }
 
@@ -95,7 +96,9 @@ namespace Codecrete.SwissQRBill.CoreTest
         [Fact]
         public Task CreateA4PDFBill8a()
         {
-            return GenerateAndCompareBill(SampleData.CreateExample8(), OutputSize.A4PortraitSheet, GraphicsFormat.PDF);
+            Bill bill = SampleData.CreateExample8();
+            bill.CharacterSet = SpsCharacterSet.Latin1Subset;
+            return GenerateAndCompareBill(bill, OutputSize.A4PortraitSheet, GraphicsFormat.PDF);
         }
 
         [Fact]
