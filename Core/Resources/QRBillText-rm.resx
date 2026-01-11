@@ -126,7 +126,7 @@
     <comment>Konto / Zahlbar an</comment>
   </data>
   <data name="AdditionalInfo" xml:space="preserve">
-    <value>Infuormaziuns supplementaras</value>
+    <value>Infurmaziuns supplementaras</value>
     <comment>Zusätzliche Informationen</comment>
   </data>
   <data name="Amount" xml:space="preserve">
@@ -138,7 +138,7 @@
     <comment>Währung</comment>
   </data>
   <data name="DoNotUseForPayment" xml:space="preserve">
-    <value>NA APPLITGAR PEL PAJAMAINT</value>
+    <value>BETG DUVRAR PER IL PAJAMENT</value>
     <comment>NICHT ZUR ZAHLUNG VERWENDEN</comment>
   </data>
   <data name="PayableBy" xml:space="preserve">
@@ -146,11 +146,11 @@
     <comment>Zahlbar durch</comment>
   </data>
   <data name="PayableByNameAddr" xml:space="preserve">
-    <value>Da pajar da (nom/adressa)</value>
+    <value>Da pajar da (num/adressa)</value>
     <comment>Zahlbar durch (Name/Adresse)</comment>
   </data>
   <data name="PaymentPart" xml:space="preserve">
-    <value>Part da pajamaint</value>
+    <value>Part da pajament</value>
     <comment>Zahlteil</comment>
   </data>
   <data name="Receipt" xml:space="preserve">
