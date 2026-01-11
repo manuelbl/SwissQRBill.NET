@@ -21,8 +21,8 @@ namespace Codecrete.SwissQRBill.Generator
     /// Name and country code must always be set unless all fields are empty.
     /// </para>
     /// <para>
-    /// Banks will no longer accept payments using the combined address elements starting November 21, 2025.
-    /// Therefore, it is recommended to use structured addresses immediately.
+    /// Since November 21, 2025, banks no longer accept payments using the combined address elements.
+    /// Use structured addresses instead. Version 4 of this library will remove support for combined address elements.
     /// </para>
     /// </summary>
     public sealed class Address : IEquatable<Address>
@@ -98,7 +98,7 @@ namespace Codecrete.SwissQRBill.Generator
         /// </para>
         /// <para>
         /// This field is only used for combined address elements and is optional.
-        /// Starting November 25, 2025, banks will no longer accept payments using combined address elements.
+        /// Since November 25, 2025, banks no longer accept payments using combined address elements.
         /// </para>
         /// </summary>
         /// <value>The address line 1.</value>
@@ -126,7 +126,7 @@ namespace Codecrete.SwissQRBill.Generator
         /// </para>
         /// <para>
         /// This field is only used for combined address elements. For this type, it is mandatory.
-        /// Starting November 25, 2025, banks will no longer accept payments using combined address elements.
+        /// Since November 25, 2025, banks no longer accept payments using combined address elements.
         /// </para>
         /// </summary>
         /// <value>The address line 2.</value>

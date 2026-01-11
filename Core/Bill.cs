@@ -274,11 +274,7 @@ namespace Codecrete.SwissQRBill.Generator
         /// <summary>
         /// Gets or sets the character set used for the QR bill data.
         /// <para>
-        /// Defaults to <see cref="SpsCharacterSet.Latin1Subset"/>.
-        /// </para>
-        /// <para>
-        /// Until November 21, 2025, <see cref="SpsCharacterSet.Latin1Subset"/>
-        /// is the only value that will generate QR bills accepted by all banks.
+        /// Defaults to <see cref="SpsCharacterSet.ExtendedLatin"/>.
         /// </para>
         /// </summary>
         public SpsCharacterSet CharacterSet { get; set; } = SpsCharacterSet.ExtendedLatin;
