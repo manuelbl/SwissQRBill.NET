@@ -6,6 +6,9 @@ Try it yourself and [create a QR bill](https://www.codecrete.net/qrbill). The co
 
 This library implements version 2.2 and 2.3 of the *Swiss Implementation Guidelines QR-bill* from November 20, 2023, and *Swico Syntax Definition (S1)* from November 23, 2018.
 
+> Release 3.4 of ths library changes the default character set from *Latin-1 Subset* to *Extended Latin*.
+> See the section [Swiss Payment Standards 2025](#swiss-payment-standards-2025) for details.
+
 
 ## Introduction
 
