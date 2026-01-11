@@ -53,7 +53,7 @@ namespace PDFsharp
 
         public override void PutText(string text, double x, double y, int fontSize, bool isBold)
         {
-            var font = new XFont(FontFamily, XUnit.FromPoint(fontSize).Millimeter, isBold ? XFontStyle.Bold : XFontStyle.Regular);
+            var font = new XFont(FontFamily, XUnit.FromPoint(fontSize).Millimeter, isBold ? XFontStyleEx.Bold : XFontStyleEx.Regular);
 
             // With our transformation to mirror the y axis, text printed using DrawString also gets mirrored.
             // As a workaround we move our current transformation to the x/y position and then mirror the y axis again, and then restore the previous transformation.

@@ -2,13 +2,13 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net7.0-windows7.0</TargetFramework>
+    <TargetFramework>net8.0-windows10.0.17763.0</TargetFramework>
     <UseWindowsForms>true</UseWindowsForms>
     <RootNamespace>Codecrete.SwissQRBill.Examples.WindowsForms</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Codecrete.SwissQRBill.Windows" Version="3.3.1" />
+    <PackageReference Include="Codecrete.SwissQRBill.Windows" Version="3.4.0" />
   </ItemGroup>
 
 </Project>

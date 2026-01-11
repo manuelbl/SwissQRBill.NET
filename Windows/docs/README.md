@@ -40,7 +40,7 @@ The Swiss QR bill library:
    Or by running a command in the Package Manager Console
 
 ```
-Install-Package Codecrete.SwissQRBill.Windows -Version 3.3.1
+Install-Package Codecrete.SwissQRBill.Windows -Version 3.4.0
 ```
 
 3. Add the code:

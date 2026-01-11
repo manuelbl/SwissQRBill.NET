@@ -2,14 +2,14 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net8.0-windows</TargetFramework>
+    <TargetFramework>net8.0-windows10.0.17763.0</TargetFramework>
     <UseWPF>true</UseWPF>
     <RootNamespace>Codecrete.SwissQRBill.Examples.Wpf</RootNamespace>
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Codecrete.SwissQRBill.Core" Version="3.3.1" />
+    <PackageReference Include="Codecrete.SwissQRBill.Core" Version="3.4.0" />
   </ItemGroup>
 
 </Project>

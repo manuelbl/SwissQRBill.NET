@@ -48,7 +48,7 @@ The Swiss QR bill library:
    Or by running a command in the Package Manager Console
 
 ```
-Install-Package Codecrete.SwissQRBill.Generator -Version 3.3.1
+Install-Package Codecrete.SwissQRBill.Generator -Version 3.4.0
 ```
 
 3. Add the code:
@@ -132,19 +132,29 @@ Swiss QR Bill generation is available as three different NuGet packages. They al
 
 | NuGet packages | PDF | SVG | PNG | EMF | Platform neutral | Recommendation |
 | -- | :--: | :--: | :--: | :--: | :--: | -- |
-| [Codecrete.SwissQRBill.Core](https://www.nuget.org/packages/Codecrete.SwissQRBill.Core/) | ✓ † | ✓ | – | – | ✓ | Platform-independent core without PNG and EMF generation. |
-| [Codecrete.SwissQRBill.Generator](https://www.nuget.org/packages/Codecrete.SwissQRBill.Generator/) | ✓ † | ✓ | ✓ | – | ✓ | Core plus platform-independent PNG generation (based on [SkiaSharp](https://github.com/mono/SkiaSharp)). |
-| [Codecrete.SwissQRBill.Windows](https://www.nuget.org/packages/Codecrete.SwissQRBill.Windows/) | ✓ † | ✓ | ✓ | ✓ | – | Windows specific package including core plus PNG and EMF generation based on [System.Drawing.Common](https://www.nuget.org/packages/System.Drawing.Common) |
+| [Codecrete.SwissQRBill.Core](https://www.nuget.org/packages/Codecrete.SwissQRBill.Core/) | ✓ | ✓ | – | – | ✓ | Platform-independent core without PNG and EMF generation. |
+| [Codecrete.SwissQRBill.Generator](https://www.nuget.org/packages/Codecrete.SwissQRBill.Generator/) | ✓ | ✓ | ✓ | – | ✓ | Core plus platform-independent PNG generation (based on [SkiaSharp](https://github.com/mono/SkiaSharp)). |
+| [Codecrete.SwissQRBill.Windows](https://www.nuget.org/packages/Codecrete.SwissQRBill.Windows/) | ✓ | ✓ | ✓ | ✓ | – | Windows specific package including core plus PNG and EMF generation based on [System.Drawing.Common](https://www.nuget.org/packages/System.Drawing.Common) |
 
-† See the note below related to PDF generation with the extended Latin character set.
  
 
-## Changes effective November 21, 2025
+## Swiss Payment Standards 2025
 
-On November 21, 2025, the QR bill specification 2.3 and further changes in the Swiss payment standards will become effective. The library is ready for these changes:
+On November 21, 2025, the Swiss Payment Standards 2025 and the associated QR bill specification
+introduced two changes relevant for QR bills:
 
-- QR bills may use an extended character set (*Extended Latin* instead of a subset of *Latin-1*). To enable it, use `bill.CharacterSet = SpsCharacterSet.ExtendedLatin`. Do not use it before November 21, 2025. Also see the below regaring PDF generation.
-- Payments may no longer use *combined address elements* (aka unstructured addresses). In the library, the related methods have been marked as deprecated. Use structured addresses instead. Stop using unstructured addresses long before November 21, 2025 or customer will be unable to pay your bills.
+- Payments may no longer use *combined address elements* (aka unstructured addresses). Banks will
+only accept bill with structured addresses. In the library, the related methods have been marked as
+deprecated but still work. They will be removed in release 4.0.
+
+- QR bills now support an extended character set (*Extended Latin* instead of a subset of *Latin-1*).
+As of version 3.4 of the library, this is the default. To switch back to the more limited
+character set, use `bill.setCharacterSet(SPSCharacterSet.LATIN_1_SUBSET)`.
+
+If the extended character set is used, it is no longer possible to use the PDF standard font *Helvectica* for the text
+as it is restricted to the smaller *WinANSI* character set. This library will automatically switch to the *Liberation Sans*
+font and embed a subset of the font (also see section [PDF generation](#pdf-generation) below).
+SVG and PNG ouput can continue to use other fonts.
 
 
 ## PNG generation
@@ -169,7 +179,16 @@ It prevents Visual Studio from removing the **Codecrete.SwissQRBill.Generator** 
 
 To generate QR bills as PDF files, this library uses its own, minimal PDF generator that requires no further dependencies and comes with the same permissive license as the rest of this library.
 
-The built-in PDF generator does not support font embedding and is thus restricted to the standard 14 PDF fonts, which in turn are restricted to the WinANSI character set. This is sufficient to generate QR bills using the original character set (a subset of Latin-1). However, it is insufficient to generate QR bills using the extended Latin character set (allowed from November 21, 2025). If the extended character set is to be used, use one of the below options.
+The built-in PDF generator can either create PDF files with the standard 14 PDF fonts without embedding the font itself, or
+it can generate PDFs with the *Liberation Sans* font, which will be embedded in the file. The font embedding uses a simplified
+approach: it will embed a fixed subset of characters sufficient for QR bills. It cannot embed additional characters, and it
+will not omit unused characters from the subset.
+
+With the library's default values, the extended Latin character set of the Swiss Payment Standards 2025 is used, and the PDF canvas
+will embed the *Liberation Sans* font subset. If the limited Latin-1 subset is used instead (see `bill.setCharacterSet(SPSCharacterSet.LATIN_1_SUBSET`),
+the library will use the standard PDF font *Helvetica* without embedding the font.
+
+If this font embedding approach is not sufficient, use one of the below options.
 
 The libary can be integrated with [iText](https://itextpdf.com/en) or [PDFsharp](http://www.pdfsharp.net/). See the example projects for more information:
 

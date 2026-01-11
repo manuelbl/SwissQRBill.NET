@@ -9,6 +9,7 @@
 using Codecrete.SwissQRBill.Generator;
 using PdfSharp;
 using PdfSharp.Drawing;
+using PdfSharp.Fonts;
 using PdfSharp.Pdf;
 using PdfSharp.Pdf.IO;
 using System.IO;
@@ -34,6 +35,9 @@ namespace PDFsharp
         /// </summary>
         static void Main()
         {
+
+            GlobalFontSettings.UseWindowsFontsUnderWindows = true;
+
             // create new PDF file with QR bill
             using (var doc = new PdfDocument())
             {
