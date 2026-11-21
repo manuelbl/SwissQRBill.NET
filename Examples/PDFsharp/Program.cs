@@ -37,6 +37,7 @@ namespace PDFsharp
         {
 
             GlobalFontSettings.UseWindowsFontsUnderWindows = true;
+            PdfSharpLicense.SetAgplLicense();
 
             // create new PDF file with QR bill
             using (var doc = new PdfDocument())
